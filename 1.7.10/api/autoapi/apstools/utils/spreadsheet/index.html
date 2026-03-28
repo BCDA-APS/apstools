@@ -1,0 +1,981 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>spreadsheet &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/utils/spreadsheet/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="statistics" href="../statistics/index.html" />
+    <link rel="prev" title="slit_core" href="../slit_core/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../devices/index.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">utils</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">spreadsheet</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.utils.spreadsheet">
+<span id="spreadsheet"></span><h1>spreadsheet<a class="headerlink" href="#module-apstools.utils.spreadsheet" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.spreadsheet</span></code></p>
+<section id="spreadsheet-support">
+<h2>Spreadsheet Support<a class="headerlink" href="#spreadsheet-support" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase" title="apstools.utils.spreadsheet.ExcelDatabaseFileBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase</span></code></a>([ignore_extra])</p></td>
+<td><p>base class: read-only support for Excel files, treat them like databases</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric" title="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric</span></code></a>(filename[, ...])</p></td>
+<td><p>Generic (read-only) handling of Excel spreadsheet-as-database</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.spreadsheet.ExcelReadError" title="apstools.utils.spreadsheet.ExcelReadError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExcelReadError</span></code></a></p></td>
+<td><p>Exception when reading Excel spreadsheet.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.utils.spreadsheet.</span></span><span class="sig-name descname"><span class="pre">ExcelDatabaseFileBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.spreadsheet.ExcelDatabaseFileBase</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>base class: read-only support for Excel files, treat them like databases</p>
+<p id="index-0">Use this class when creating new, specific spreadsheet support.</p>
+<p>EXAMPLE</p>
+<p>Show how to read an Excel file where one of the columns
+contains a unique key.  This allows for random access to
+each row of data by use of the <em>key</em>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExhibitorsDB</span><span class="p">(</span><span class="n">ExcelDatabaseFileBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    content for exhibitors from the Excel file</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">EXCEL_FILE</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;resources&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;exhibitors.xlsx&quot;</span>
+    <span class="n">LABELS_ROW</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_single_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;any special handling for a row from the Excel file&#39;&#39;&#39;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handleExcelRowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;identify unique key (row of the Excel file)&#39;&#39;&#39;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.EXCEL_FILE">
+<span class="sig-name descname"><span class="pre">EXCEL_FILE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.EXCEL_FILE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.LABELS_ROW">
+<span class="sig-name descname"><span class="pre">LABELS_ROW</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.LABELS_ROW" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.data_labels">
+<span class="sig-name descname"><span class="pre">data_labels</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.data_labels" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.db">
+<span class="sig-name descname"><span class="pre">db</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.db" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.fname">
+<span class="sig-name descname"><span class="pre">fname</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.fname" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.handleExcelRowEntry">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">handleExcelRowEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileBase.handleExcelRowEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.handleExcelRowEntry" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.handle_single_entry">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">handle_single_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileBase.handle_single_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.handle_single_entry" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_row_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_start_row_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileBase.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.parse" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileBase.sheet_name">
+<span class="sig-name descname"><span class="pre">sheet_name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.sheet_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.utils.spreadsheet.</span></span><span class="sig-name descname"><span class="pre">ExcelDatabaseFileGeneric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileGeneric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.spreadsheet.ExcelDatabaseFileGeneric</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase" title="apstools.utils.spreadsheet.ExcelDatabaseFileBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase</span></code></a></p>
+<p>Generic (read-only) handling of Excel spreadsheet-as-database</p>
+<div class="admonition note" id="index-2">
+<span id="index-1"></span><p class="admonition-title">Note</p>
+<p>This is the class to use when reading Excel spreadsheets.</p>
+</div>
+<p>In the spreadsheet, the first sheet should contain the table to be
+used. By default (see keyword parameter <code class="docutils literal notranslate"><span class="pre">labels_row</span></code>), the table
+should start in cell A4.  The column labels are given in row 4.  A
+blank column should appear to the right of the table (see keyword
+parameter <code class="docutils literal notranslate"><span class="pre">ignore_extra</span></code>). The column labels will describe the
+action and its parameters.  Additional columns may be added for
+metadata or other purposes.</p>
+<p>The rows below the column labels should contain actions and
+parameters for those actions, one action per row.</p>
+<p>To make a comment, place a <code class="docutils literal notranslate"><span class="pre">#</span></code> in the action column.  A comment
+should be ignored by the bluesky plan that reads this table. The
+table will end with a row of empty cells.</p>
+<p>While it’s a good idea to put the <code class="docutils literal notranslate"><span class="pre">action</span></code> column first, that is
+not necessary. It is not even necessary to name the column
+<code class="docutils literal notranslate"><span class="pre">action</span></code>. You can re-arrange the order of the columns and change
+their names <strong>as long as</strong> the column names match what text strings
+your Python code expects to find.</p>
+<p>A future upgrade <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> will allow the table boundaries to be named by
+Excel when using Excel’s <code class="docutils literal notranslate"><span class="pre">Format</span> <span class="pre">as</span> <span class="pre">Table</span></code> <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> feature. For now,
+leave a blank row and column at the bottom and right edges of the
+table.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="github reference external" href="https://github.com/BCDA-APS/apstools/issues/122">BCDA-APS/apstools#122</a></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Excel’s <code class="docutils literal notranslate"><span class="pre">Format</span> <span class="pre">as</span> <span class="pre">Table</span></code>:
+<a class="reference external" href="https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370">https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370</a></p>
+</aside>
+</aside>
+<p>PARAMETERS</p>
+<dl>
+<dt>filename</dt><dd><p><em>str</em> :
+name (absolute or relative) of Excel spreadsheet file</p>
+</dd>
+<dt>labels_row</dt><dd><p><em>int</em> :
+Row (zero-based numbering) of Excel file with column labels,
+default: <code class="docutils literal notranslate"><span class="pre">3</span></code> (Excel row 4)</p>
+</dd>
+<dt>ignore_extra</dt><dd><p><em>bool</em> :
+When <code class="docutils literal notranslate"><span class="pre">True</span></code>, ignore any cells outside of the table, default:
+<code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>Note that when <code class="docutils literal notranslate"><span class="pre">True</span></code>, a row of cells <em>within</em> the table will
+be recognized as the end of the table, even if there are
+actions in following rows.  To force an empty row, use
+a comment symbol <code class="docutils literal notranslate"><span class="pre">#</span></code> (actually, any non-empty content will work).</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">False</span></code>, cells with other information (in Sheet 1) will
+be made available, sometimes with unpredictable results.</p>
+</dd>
+</dl>
+<p>EXAMPLE</p>
+<p>See section <a class="reference internal" href="../../../../../examples/pl_run_command_list.html#example-run-command-file"><span class="std std-ref">The run_command_file() plan – batch scans using a text file</span></a> for more examples.</p>
+<p>(See also <a class="reference internal" href="../../../../../examples/pl_run_command_list.html#excel-plan-spreadsheet-screen"><span class="std std-ref">example screen shot</span></a>.) Table (on Sheet 1) begins on row
+4 in first column:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>  <span class="o">|</span>  <span class="n">some</span> <span class="n">text</span> <span class="n">here</span><span class="p">,</span> <span class="n">maybe</span> <span class="n">a</span> <span class="n">title</span>
+<span class="mi">2</span>  <span class="o">|</span>  <span class="p">(</span><span class="n">could</span> <span class="n">have</span> <span class="n">content</span> <span class="n">here</span><span class="p">)</span>
+<span class="mi">3</span>  <span class="o">|</span>  <span class="p">(</span><span class="ow">or</span> <span class="n">even</span> <span class="n">more</span> <span class="n">content</span> <span class="n">here</span><span class="p">)</span>
+<span class="mi">4</span>  <span class="o">|</span>  <span class="n">action</span>  <span class="o">|</span> <span class="n">sx</span>   <span class="o">|</span> <span class="n">sy</span>   <span class="o">|</span> <span class="n">sample</span>     <span class="o">|</span> <span class="n">comments</span>          <span class="o">|</span>  <span class="o">|</span> <span class="o">&lt;--</span> <span class="n">leave</span> <span class="n">empty</span> <span class="n">column</span>
+<span class="mi">5</span>  <span class="o">|</span>  <span class="n">close</span>   <span class="o">|</span>      <span class="o">|</span>                   <span class="o">|</span> <span class="n">close</span> <span class="n">the</span> <span class="n">shutter</span> <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">6</span>  <span class="o">|</span>  <span class="n">image</span>   <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="n">dark</span>       <span class="o">|</span> <span class="n">dark</span> <span class="n">image</span>        <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">7</span>  <span class="o">|</span>  <span class="nb">open</span>    <span class="o">|</span>      <span class="o">|</span>      <span class="o">|</span>            <span class="o">|</span> <span class="nb">open</span> <span class="n">the</span> <span class="n">shutter</span>  <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">8</span>  <span class="o">|</span>  <span class="n">image</span>   <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="n">flat</span>       <span class="o">|</span> <span class="n">flat</span> <span class="n">field</span> <span class="n">image</span>  <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">9</span>  <span class="o">|</span>  <span class="n">image</span>   <span class="o">|</span> <span class="mf">5.1</span>  <span class="o">|</span> <span class="o">-</span><span class="mf">3.2</span> <span class="o">|</span> <span class="mi">4140</span> <span class="n">steel</span> <span class="o">|</span> <span class="n">heat</span> <span class="mi">9172634</span>      <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">10</span> <span class="o">|</span>  <span class="n">scan</span>    <span class="o">|</span> <span class="mf">5.1</span>  <span class="o">|</span> <span class="o">-</span><span class="mf">3.2</span> <span class="o">|</span> <span class="mi">4140</span> <span class="n">steel</span> <span class="o">|</span> <span class="n">heat</span> <span class="mi">9172634</span>      <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">11</span> <span class="o">|</span>  <span class="n">scan</span>    <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="mi">0</span>    <span class="o">|</span> <span class="n">blank</span>      <span class="o">|</span>                   <span class="o">|</span>  <span class="o">|</span>
+<span class="mi">12</span> <span class="o">|</span>
+<span class="mi">13</span> <span class="o">|</span>  <span class="o">^^^</span> <span class="n">leave</span> <span class="n">empty</span> <span class="n">row</span> <span class="o">^^^</span>
+<span class="mi">14</span> <span class="o">|</span> <span class="p">(</span><span class="n">could</span> <span class="n">have</span> <span class="n">content</span> <span class="n">here</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example python code to read this spreadsheet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExcelDatabaseFileGeneric</span><span class="p">,</span> <span class="n">cleanupText</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">myExcelPlan</span><span class="p">(</span><span class="n">xl_file</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="n">excel_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">xl_file</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+    <span class="n">xl</span> <span class="o">=</span> <span class="n">ExcelDatabaseFileGeneric</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">xl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="c1"># prepare the metadata</span>
+        <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span><span class="n">cleanupText</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;xl_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xl_file</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;excel_row_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="c1"># overlay with user-supplied metadata</span>
+
+        <span class="c1"># determine what action to take</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;close&quot;</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+            <span class="c1"># your code to take an image, given **row as parameters</span>
+            <span class="k">yield from</span> <span class="n">my_image</span><span class="p">(</span><span class="o">**</span><span class="n">row</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;scan&quot;</span><span class="p">:</span>
+            <span class="c1"># your code to make a scan, given **row as parameters</span>
+            <span class="k">yield from</span> <span class="n">my_scan</span><span class="p">(</span><span class="o">**</span><span class="n">row</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: action=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># execute this plan through the RunEngine</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">myExcelPlan</span><span class="p">(</span><span class="s2">&quot;spreadsheet.xlsx&quot;</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;apstools demo&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.EXCEL_FILE">
+<span class="sig-name descname"><span class="pre">EXCEL_FILE</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.EXCEL_FILE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.LABELS_ROW">
+<span class="sig-name descname"><span class="pre">LABELS_ROW</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.LABELS_ROW" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handleExcelRowEntry">
+<span class="sig-name descname"><span class="pre">handleExcelRowEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileGeneric.handleExcelRowEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handleExcelRowEntry" title="Link to this definition">#</a></dt>
+<dd><p>use row number as the unique key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handle_single_entry">
+<span class="sig-name descname"><span class="pre">handle_single_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelDatabaseFileGeneric.handle_single_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handle_single_entry" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="apstools.utils.spreadsheet.ExcelReadError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.utils.spreadsheet.</span></span><span class="sig-name descname"><span class="pre">ExcelReadError</span></span><a class="reference internal" href="../../../../../_modules/apstools/utils/spreadsheet.html#ExcelReadError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.spreadsheet.ExcelReadError" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.spreadsheet.ExcelReadError</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">openpyxl.utils.exceptions.InvalidFileException</span></code></p>
+<p>Exception when reading Excel spreadsheet.</p>
+<span class="target" id="index-3"></span></dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../slit_core/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">slit_core</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../statistics/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">statistics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spreadsheet-support">Spreadsheet Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.EXCEL_FILE"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.EXCEL_FILE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.LABELS_ROW"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.LABELS_ROW</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.data_labels"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.data_labels</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.db"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.db</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.fname"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.fname</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.handleExcelRowEntry"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.handleExcelRowEntry()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.handle_single_entry"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.handle_single_entry()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.parse"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.parse()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileBase.sheet_name"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase.sheet_name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.EXCEL_FILE"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric.EXCEL_FILE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.LABELS_ROW"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric.LABELS_ROW</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handleExcelRowEntry"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric.handleExcelRowEntry()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handle_single_entry"><code class="docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric.handle_single_entry()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.spreadsheet.ExcelReadError"><code class="docutils literal notranslate"><span class="pre">ExcelReadError</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/utils/spreadsheet/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

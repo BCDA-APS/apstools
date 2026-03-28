@@ -1,0 +1,169 @@
+scan_signal_statistics
+======================
+
+.. py:module:: apstools.callbacks.scan_signal_statistics
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.callbacks.scan_signal_statistics``
+
+   Collect statistics on the first detector used in 1-D scans.
+   ===========================================================
+
+   .. autosummary::
+
+       ~SignalStatsCallback
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: SignalStatsCallback
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.scan_signal_statistics.SignalStatsCallback``
+
+
+   Callback: Collect peak (& other) statistics during a scan.
+
+   Subscribe the ``receiver()`` method. Use with step scan plans such as
+   ``bp.scan()`` and ``bp.rel_scan()``.
+
+   .. caution:: It is recommended to subscribe this callback to specific plans.  It
+       should not be run with just any plan (it could easily raise exceptions).
+
+   .. rubric:: Basic example
+   .. code-block::
+       :linenos:
+
+       from bluesky import plans as bp
+       from bluesky import preprocessors as bpp
+       from apstools.callbacks import SignalStatsCallback
+
+       signal_stats = SignalStatsCallback()
+
+       def my_plan(detectors, mover, rel_start, rel_stop, points, md={}):
+
+           @bpp.subs_decorator(signal_stats.receiver)  # collect the data
+           def _inner():
+               yield from bp.rel_scan(detectors, mover, rel_start, rel_end, points, md)
+
+           yield from _inner()  # run the scan
+           signal_stats.report()  # print the statistics
+
+   .. rubric:: Public API
+   .. autosummary::
+
+       ~receiver
+       ~report
+       ~data_stream
+       ~reporting
+
+   .. rubric:: Internal API
+   .. autosummary::
+
+       ~clear
+       ~descriptor
+       ~event
+       ~start
+       ~stop
+       ~analysis
+       ~_data
+       ~_scanning
+       ~_registers
+
+
+   .. py:attribute:: analysis
+      :type:  object
+      :value: None
+
+
+      Dictionary of statistical array analyses.
+
+
+
+   .. py:method:: clear()
+
+      Clear the internal memory for the next run.
+
+
+
+   .. py:method:: compute()
+
+      Compute XY statistics from accumulated data.
+
+      Can be called mid-run (before the stop document) to populate
+      ``self.analysis`` with the current statistics.  This is used by
+      ``lineup2()`` to write the statistics as a bluesky stream before
+      the run closes.
+
+      (new in release 1.7.10)
+
+
+
+   .. py:attribute:: data_stream
+      :type:  str
+      :value: 'primary'
+
+
+      RunEngine document with signals to to watch.
+
+
+
+   .. py:method:: descriptor(doc)
+
+      Receives 'descriptor' documents from the RunEngine.
+
+
+
+   .. py:method:: event(doc)
+
+      Receives 'event' documents from the RunEngine.
+
+
+
+   .. py:attribute:: feature
+      :type:  str
+      :value: None
+
+
+      Name of the peak feature used for alignment (e.g. ``"centroid"``).  Set by the caller.
+
+
+
+   .. py:method:: receiver(key, document)
+
+      Client method used to subscribe to the RunEngine.
+
+
+
+   .. py:method:: report()
+
+      Print a table with the collected statistics for each signal.
+
+
+
+   .. py:attribute:: reporting
+      :type:  bool
+      :value: True
+
+
+      If ``True`` (default), call the ``report()`` method when a ``stop`` document is received.
+
+
+
+   .. py:method:: start(doc)
+
+      Receives 'start' documents from the RunEngine.
+
+
+
+   .. py:method:: stop(doc)
+
+      Receives 'stop' documents from the RunEngine.
+
+
+

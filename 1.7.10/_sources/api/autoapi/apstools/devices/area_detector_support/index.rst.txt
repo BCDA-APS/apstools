@@ -1,0 +1,763 @@
+area_detector_support
+=====================
+
+.. py:module:: apstools.devices.area_detector_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.area_detector_support``
+
+   Area Detector Support
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~AD_EpicsFileNameHDF5Plugin
+      ~AD_EpicsFileNameJPEGPlugin
+      ~AD_EpicsFileNameMixin
+      ~AD_EpicsFileNameTIFFPlugin
+      ~AD_EpicsHdf5FileName
+      ~AD_EpicsHDF5IterativeWriter
+      ~AD_EpicsJPEGFileName
+      ~AD_EpicsJPEGIterativeWriter
+      ~AD_EpicsTIFFFileName
+      ~AD_EpicsTIFFIterativeWriter
+      ~AD_FrameType_schemes
+      ~AD_full_file_name_local
+      ~AD_plugin_primed
+      ~AD_prime_plugin
+      ~AD_prime_plugin2
+      ~AD_setup_FrameType
+      ~BadPixelPlugin
+      ~CamMixin_V3_1_1
+      ~CamMixin_V34
+      ~HDF5FileWriterPlugin
+      ~SingleTrigger_V34
+      ~ensure_AD_plugin_primed
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AD_EpicsFileNameHDF5Plugin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.plugins.HDF5Plugin_V34`, :py:obj:`AD_EpicsHDF5IterativeWriter`
+
+
+   Alternative to HDF5Plugin: EPICS area detector PV sets file name.
+
+   .. index:: Ophyd Device Support; AD_EpicsFileNameHDF5Plugin
+
+   .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
+   Uses ``AD_EpicsHdf5FileName``.
+
+   EXAMPLE::
+
+       from apstools.devices import CamMixin_V34
+       from apstools.devices import SimDetectorCam_V34
+       from apstools.devices import SingleTrigger_V34
+       from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin
+       from ophyd import EpicsSignalWithRBV
+       from ophyd.areadetector import ADComponent
+       from ophyd.areadetector import DetectorBase
+       from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+       from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+       import datetime
+       import pathlib
+
+
+       IOC = "ad:"
+       IMAGE_DIR = "adsimdet/%Y/%m/%d"
+       AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+       BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+       # MUST end with a `/`, pathlib will NOT provide it
+       WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+       READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+       class SimDetector_V34(SingleTrigger_V34, DetectorBase):
+           '''ADSimDetector'''
+
+           cam = ADComponent(SimDetectorCam_V34, "cam1:")
+           image = ADComponent(ImagePlugin, "image1:")
+           hdf1 = ADComponent(
+               AD_EpicsFileNameHDF5Plugin,
+               "HDF1:",
+               write_path_template=WRITE_PATH_TEMPLATE,
+               read_path_template=READ_PATH_TEMPLATE,
+           )
+           pva = ADComponent(PvaPlugin, "Pva1:")
+
+
+.. py:class:: AD_EpicsFileNameJPEGPlugin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.plugins.JPEGPlugin_V34`, :py:obj:`AD_EpicsJPEGIterativeWriter`
+
+
+   Alternative to JPEGPlugin: EPICS area detector PV sets file name.
+
+   .. index:: Ophyd Device Support; AD_EpicsFileNameJPEGPlugin
+
+   .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
+   Uses ``AD_EpicsJpegFileName``.
+
+   EXAMPLE::
+
+       from apstools.devices import CamMixin_V34
+       from apstools.devices import SimDetectorCam_V34
+       from apstools.devices import SingleTrigger_V34
+       from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin
+       from ophyd import EpicsSignalWithRBV
+       from ophyd.areadetector import ADComponent
+       from ophyd.areadetector import DetectorBase
+       from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+       from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+       import datetime
+       import pathlib
+
+
+       IOC = "ad:"
+       IMAGE_DIR = "adsimdet/%Y/%m/%d"
+       AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+       BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+       # MUST end with a `/`, pathlib will NOT provide it
+       WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+       READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+       class SimDetector_V34(SingleTrigger_V34, DetectorBase):
+           '''ADSimDetector'''
+
+           cam = ADComponent(SimDetectorCam_V34, "cam1:")
+           image = ADComponent(ImagePlugin, "image1:")
+           jpeg1 = ADComponent(
+               AD_EpicsFileNameHDF5Plugin,
+               "JPEG1:",
+               write_path_template=WRITE_PATH_TEMPLATE,
+               read_path_template=READ_PATH_TEMPLATE,
+           )
+           pva = ADComponent(PvaPlugin, "Pva1:")
+
+
+.. py:class:: AD_EpicsFileNameMixin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsFileNameMixin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.filestore_mixins.FileStorePluginBase`
+
+
+   Custom class to define image file name from EPICS.
+
+   Used as part of AD_EpicsFileNameHDF5Plugin.
+
+   .. index:: Ophyd Device Support; AD_EpicsHdf5FileName
+
+   .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
+   Replace standard ophyd file naming algorithm (where file names
+   are defined as UUID strings, virtually guaranteeing that
+   no existing images files will ever be overwritten).
+
+   Caller is responsible for setting values of these Components:
+
+   * array_counter
+   * auto_increment
+   * auto_save
+   * compression (only HDF)
+   * create_directory
+   * file_name
+   * file_number
+   * file_path
+   * file_template
+   * num_capture
+
+   .. autosummary::
+
+       ~make_filename
+       ~get_frames_per_point
+       ~stage
+
+   To allow users to control the file **name**,
+   we override the ``make_filename()`` method here
+   and we need to override some intervening classes.
+
+   To allow users to control the file **number**,
+   we override the ``stage()`` method here
+   and triple-comment out that line, and bring in
+   sections from the methods we are replacing here.
+
+   It is allowed to set the ``file_template="%s%s.h5"``
+   so the file name does not include the file number.
+
+   The image file name is set in ``FileStoreBase.make_filename()``
+   from ``ophyd.areadetector.filestore_mixins``.  This is called
+   (during device staging) from ``FileStoreBase.stage()``
+
+
+   .. py:method:: get_frames_per_point()
+
+      overrides default behavior
+
+
+
+   .. py:method:: make_filename()
+
+      overrides default behavior: Get info from EPICS file writer plugin.
+
+
+
+   .. py:method:: stage()
+
+      Overrides default behavior of parent class.
+
+      Parent class items overridden here:
+
+      * Sets file_name based on a UUID.
+      * Sets file_path from write_path_template.
+      * Sets file_number to 0.
+
+      Set EPICS items before device is staged, then copy EPICS
+      naming template (and other items) to ophyd after staging.
+
+
+
+.. py:class:: AD_EpicsFileNameTIFFPlugin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.plugins.TIFFPlugin_V34`, :py:obj:`AD_EpicsTIFFIterativeWriter`
+
+
+   Alternative to TIFFPlugin: EPICS area detector PV sets file name.
+
+   .. index:: Ophyd Device Support; AD_EpicsFileNameTIFFPlugin
+
+   .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
+   Uses ``AD_EpicsTIFFFileName``.
+
+   EXAMPLE::
+
+       from apstools.devices import CamMixin_V34
+       from apstools.devices import SimDetectorCam_V34
+       from apstools.devices import SingleTrigger_V34
+       from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin
+       from ophyd import EpicsSignalWithRBV
+       from ophyd.areadetector import ADComponent
+       from ophyd.areadetector import DetectorBase
+       from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+       from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+       from ophyd.areadetector import SimDetectorCam
+       import datetime
+       import pathlib
+
+
+       IOC = "ad:"
+       IMAGE_DIR = "adsimdet/%Y/%m/%d"
+       AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+       BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+       # MUST end with a `/`, pathlib will NOT provide it
+       WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+       READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+       class SimDetector_V34(SingleTrigger_V34, DetectorBase):
+           '''ADSimDetector'''
+
+           cam = ADComponent(SimDetectorCam_V34, "cam1:")
+           image = ADComponent(ImagePlugin, "image1:")
+           tiff1 = ADComponent(
+               AD_EpicsFileNameTIFFPlugin,
+               "TIFF1:",
+               write_path_template=WRITE_PATH_TEMPLATE,
+               read_path_template=READ_PATH_TEMPLATE,
+           )
+           pva = ADComponent(PvaPlugin, "Pva1:")
+
+
+.. py:class:: AD_EpicsHDF5IterativeWriter(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter``
+
+
+   Bases: :py:obj:`AD_EpicsHdf5FileName`, :py:obj:`ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite`
+
+
+   intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin
+
+
+.. py:class:: AD_EpicsHdf5FileName(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsHdf5FileName``
+
+
+   Bases: :py:obj:`AD_EpicsFileNameMixin`
+
+
+   Custom class to define HDF5 image file name from EPICS PVs.
+
+   Used as part of AD_EpicsFileNameHDF5Plugin.
+
+
+   .. py:attribute:: filestore_spec
+      :value: 'AD_HDF5'
+
+
+
+.. py:class:: AD_EpicsJPEGFileName(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsJPEGFileName``
+
+
+   Bases: :py:obj:`AD_EpicsFileNameMixin`
+
+
+   Custom class to define JPEG image file name from EPICS PVs.
+
+   Used as part of AD_EpicsFileNameJPEGPlugin.
+
+
+   .. py:attribute:: filestore_spec
+      :value: 'AD_JPEG'
+
+
+
+.. py:class:: AD_EpicsJPEGIterativeWriter(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter``
+
+
+   Bases: :py:obj:`AD_EpicsJPEGFileName`, :py:obj:`ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite`
+
+
+   intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin
+
+
+.. py:class:: AD_EpicsTIFFFileName(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsTIFFFileName``
+
+
+   Bases: :py:obj:`AD_EpicsFileNameMixin`
+
+
+   Custom class to define TIFF image file name from EPICS PVs.
+
+   Used as part of AD_EpicsFileNameTIFFPlugin.
+
+
+   .. py:attribute:: filestore_spec
+      :value: 'AD_TIFF'
+
+
+
+.. py:class:: AD_EpicsTIFFIterativeWriter(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter``
+
+
+   Bases: :py:obj:`AD_EpicsTIFFFileName`, :py:obj:`ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite`
+
+
+   intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin
+
+
+.. py:data:: AD_FrameType_schemes
+
+   Naming schemes for area detector frame types.
+
+
+.. py:function:: AD_full_file_name_local(plugin)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_full_file_name_local``
+
+
+   Return AD plugin's *Last filename* using local filesystem path.
+
+   Get the full name, in terms of the bluesky filesystem, for the image file
+   recently-acquired by the area detector plugin.
+
+   Return the name as a pathlib object.
+
+   PARAMETERS
+
+   plugin *obj* :
+       Instance of ophyd area detector file writing plugin.
+
+
+.. py:function:: AD_plugin_primed(plugin)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_plugin_primed``
+
+
+   Has area detector pushed an NDarray to the file writer plugin?  True or False
+
+   Returns ``True`` immediately (without connecting to the IOC) when the
+   plugin's ``stage_sigs`` will disable the plugin on stage, because the
+   priming check is irrelevant for a disabled plugin.
+
+   PARAMETERS
+
+   plugin
+       *obj* :
+       area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+   EXAMPLE::
+
+       AD_plugin_primed(detector.hdf1)
+
+   Works around an observed issue: #598
+   https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372
+
+   If detector IOC has just been started and has not yet taken an image
+   with the file writer plugin, then a TimeoutError will occur as the
+   file writer plugin "Capture" is set to 1 (Start).  In such case,
+   first acquire at least one image with the file writer plugin enabled.
+
+   Also issue in apstools (needs a robust method to detect if primed):
+   https://github.com/BCDA-APS/apstools/issues/464
+
+   Since Area Detector release 2.1 (2014-10-14).
+
+   The *prime* process is not needed if you select the
+   *LazyOpen* feature with *Stream* mode for the file plugin.
+   *LazyOpen* defers file creation until the first frame arrives
+   in the plugin. This removes the need to initialize the plugin
+   with a dummy frame before starting capture.
+
+
+.. py:function:: AD_prime_plugin(detector, plugin)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_prime_plugin``
+
+
+   Prime this area detector's file writer plugin.
+
+   PARAMETERS
+
+   detector
+       *obj* :
+       area detector (such as ``detector``)
+   plugin
+       *obj* :
+       area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+   EXAMPLE::
+
+       AD_prime_plugin(detector, detector.hdf1)
+
+
+.. py:function:: AD_prime_plugin2(plugin)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_prime_plugin2``
+
+
+   Prime this area detector's file writer plugin.
+
+   Collect and push an NDarray to the file writer plugin.
+   Works with all file writer plugins.
+
+   Based on ``ophyd.areadetector.plugins.HDF5Plugin.warmup()``.
+
+   PARAMETERS
+
+   plugin
+       *obj* :
+       area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+   EXAMPLE::
+
+       AD_prime_plugin2(detector.hdf1)
+
+
+
+.. py:function:: AD_setup_FrameType(prefix, scheme='NeXus')
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.AD_setup_FrameType``
+
+
+   configure so frames are identified & handled by type (dark, white, or image)
+
+   PARAMETERS
+
+       prefix
+           *str* :
+           EPICS PV prefix of area detector, such as ``13SIM1:``
+       scheme
+           *str* :
+           any key in the ``AD_FrameType_schemes`` dictionary
+
+   This routine prepares the EPICS Area Detector to identify frames
+   by image type for handling by clients, such as the HDF5 file writing plugin.
+   With the HDF5 plugin, the ``FrameType`` PV is added to the NDattributes
+   and then used in the layout file to direct the acquired frame to
+   the chosen dataset.  The ``FrameType`` PV value provides the HDF5 address
+   to be used.
+
+   To use a different scheme than the defaults, add a new key to
+   the ``AD_FrameType_schemes`` dictionary, defining storage values for the
+   fields of the EPICS ``mbbo`` record that you will be using.
+
+   see: https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb
+
+   EXAMPLE::
+
+       AD_setup_FrameType("2bmbPG3:", scheme="DataExchange")
+
+   * Call this function *before* creating the ophyd area detector object
+   * use lower-level PyEpics interface
+
+
+.. py:class:: BadPixelPlugin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.BadPixelPlugin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.plugins.PluginBase`
+
+
+   ADCore NDBadPixel, new in AD 3.13.
+
+
+   .. py:attribute:: file_name
+
+
+.. py:class:: CamMixin_V34(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.CamMixin_V34``
+
+
+   Bases: :py:obj:`CamMixin_V3_1_1`
+
+
+   Update cam support to AD release 3.1.1.
+
+
+.. py:class:: CamMixin_V3_1_1(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.CamMixin_V3_1_1``
+
+
+   Bases: :py:obj:`ophyd.CamBase`
+
+
+   Update cam support to AD release 3.1.1.
+
+
+   .. py:attribute:: acquire_busy
+
+
+   .. py:property:: is_busy
+
+
+   .. py:attribute:: offset
+
+
+   .. py:attribute:: pool_max_buffers
+      :value: None
+
+
+
+   .. py:attribute:: wait_for_plugins
+
+
+.. py:class:: HDF5FileWriterPlugin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.HDF5FileWriterPlugin``
+
+
+   Bases: :py:obj:`ophyd.areadetector.filestore_mixins.FileStoreHDF5IterativeWrite`, :py:obj:`ophyd.areadetector.plugins.HDF5Plugin_V34`
+
+
+   Add data acquisition methods to HDF5Plugin.  Ophyd default file names.
+
+   File names are based on uuid.uuid4() strings.
+
+   * ``stage()`` - prepare device PVs befor data acquisition
+   * ``unstage()`` - restore device PVs after data acquisition
+   * ``generate_datum()`` - coordinate image storage metadata
+
+
+   .. py:method:: stage()
+
+      Stage the device for data collection.
+
+      This method is expected to put the device into a state where
+      repeated calls to :meth:`~BlueskyInterface.trigger` and
+      :meth:`~BlueskyInterface.read` will 'do the right thing'.
+
+      Staging not idempotent and should raise
+      :obj:`RedundantStaging` if staged twice without an
+      intermediate :meth:`~BlueskyInterface.unstage`.
+
+      This method should be as fast as is feasible as it does not return
+      a status object.
+
+      The return value of this is a list of all of the (sub) devices
+      stage, including it's self.  This is used to ensure devices
+      are not staged twice by the :obj:`~bluesky.run_engine.RunEngine`.
+
+      This is an optional method, if the device does not need
+      staging behavior it should not implement `stage` (or
+      `unstage`).
+
+      Returns
+      -------
+      devices : list
+          list including self and all child devices staged
+
+
+
+
+.. py:class:: SimDetectorCam_V34(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.SimDetectorCam_V34``
+
+
+   Bases: :py:obj:`CamMixin_V34`, :py:obj:`ophyd.SimDetectorCam`
+
+
+   Adds triggering configuration and AcquireBusy support.
+
+
+   .. py:attribute:: nd_attr_status
+
+
+.. py:class:: SingleTrigger_V34(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.SingleTrigger_V34``
+
+
+   Bases: :py:obj:`ophyd.SingleTrigger`
+
+
+   Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.
+
+
+   .. py:method:: stage()
+
+      Prepare device settings before data acquisition.
+
+
+
+   .. py:method:: unstage()
+
+      Restore device settings after data acquisition.
+
+
+
+.. py:function:: ensure_AD_plugin_primed(plugin, allow=False)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_support.ensure_AD_plugin_primed``
+
+
+   Ensure the AD file writing plugin is *primed* (warmed up), if allowed.
+
+   This function primes the plugin only if it is deemed necessary (for the use
+   by ophyd).
+
+   PARAMETERS
+
+   plugin
+       *obj* :
+       area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+   allow
+       *bool* :
+       (default: ``False``)
+       Should the detector be primed?  This keyword argument might be provided
+       by a local configuration setting, controlled externally, such as
+       from configuration file or other ophyd Signal.
+
+   EXAMPLE::
+
+       from apstools.devices import ensure_AD_plugin_primed
+       ensure_AD_plugin_primed(det.hdf1, True)
+
+       # or from a boolean python object
+
+       from local_configuration_settings import ok_to_prime
+       ensure_AD_plugin_primed(det.hdf1, allow=ok_to_prime)
+
+   An area detector file writing plugin is *primed* (as considered by ophyd) if
+   the plugin's image array parameters (size, number of bits, & color mode)
+   match those configured in the cam.  This agreement is required by the
+   bluesky RunEngine (via ``area_detector_handlers``) to generate a descriptor
+   document for any ensuing image events.
+
+   Use with these area detector file writing plugins (maybe others):
+
+   - HDF5Plugin
+   - JPEGPlugin
+   - NetCDFPlugin
+   - TIFFPlugin
+
+   Even with ``lazy_open=1``, ophyd (via ``area_detector_handlers``) checks
+   if the area detector file writing plugin has been *primed*.
+
+   .. seealso:: ``ophyd.areadetector.plugins.UnprimedPlugin``:
+      https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
+
+

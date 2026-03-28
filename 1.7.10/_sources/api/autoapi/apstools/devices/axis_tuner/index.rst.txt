@@ -1,0 +1,100 @@
+axis_tuner
+==========
+
+.. py:module:: apstools.devices.axis_tuner
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.axis_tuner``
+
+   Axis Tuner
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~AxisTunerException
+      ~AxisTunerMixin
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:exception:: AxisTunerException
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.axis_tuner.AxisTunerException``
+
+
+   Bases: :py:obj:`ValueError`
+
+
+   Exception during execution of `AxisTunerBase` subclass
+
+   .. index:: Ophyd Exception; AxisTunerException
+
+
+.. py:class:: AxisTunerMixin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.axis_tuner.AxisTunerMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   Mixin class to provide tuning capabilities for an axis
+
+   .. index:: Ophyd Device Mixin; AxisTunerMixin
+
+   See the `TuneAxis()` example in this jupyter notebook:
+   https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
+
+   HOOK METHODS
+
+   There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
+   for callers to add additional plan parts, such as opening or closing shutters,
+   setting detector parameters, or other actions.
+
+   Each hook method must accept a single argument:
+   an axis object such as `EpicsMotor` or `SynAxis`,
+   such as::
+
+       def my_pre_tune_hook(axis):
+           yield from bps.mv(shutter, "open")
+       def my_post_tune_hook(axis):
+           yield from bps.mv(shutter, "close")
+
+       class TunableSynAxis(AxisTunerMixin, SynAxis): pass
+
+       myaxis = TunableSynAxis(name="myaxis")
+       mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
+       myaxis.tuner = TuneAxis([mydet], myaxis)
+       myaxis.pre_tune_method = my_pre_tune_hook
+       myaxis.post_tune_method = my_post_tune_hook
+
+       def tune_myaxis():
+           yield from myaxis.tune(md={"plan_name": "tune_myaxis"})
+
+       RE(tune_myaxis())
+
+
+   .. py:attribute:: post_tune_method
+
+
+   .. py:attribute:: pre_tune_method
+
+
+   .. py:method:: tune(md=None, **kwargs)
+
+
+   .. py:attribute:: tuner
+      :value: None
+
+
+

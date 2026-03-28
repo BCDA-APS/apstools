@@ -1,0 +1,1502 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>area_detector_support &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/devices/area_detector_support/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="avs_filters" href="../avs_filters/index.html" />
+    <link rel="prev" title="area_detector_factory" href="../area_detector_factory/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">devices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../utils/index.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">devices</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">area_detector_support</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.devices.area_detector_support">
+<span id="area-detector-support"></span><h1>area_detector_support<a class="headerlink" href="#module-apstools.devices.area_detector_support" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support</span></code></p>
+<section id="id1">
+<h2>Area Detector Support<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameHDF5Plugin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Alternative to HDF5Plugin: EPICS area detector PV sets file name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameJPEGPlugin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Alternative to JPEGPlugin: EPICS area detector PV sets file name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Custom class to define image file name from EPICS.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameTIFFPlugin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Alternative to TIFFPlugin: EPICS area detector PV sets file name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName" title="apstools.devices.area_detector_support.AD_EpicsHdf5FileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Custom class to define HDF5 image file name from EPICS PVs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsHDF5IterativeWriter</span></code></a>(*args, **kwargs)</p></td>
+<td><p>intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName" title="apstools.devices.area_detector_support.AD_EpicsJPEGFileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsJPEGFileName</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Custom class to define JPEG image file name from EPICS PVs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsJPEGIterativeWriter</span></code></a>(*args, **kwargs)</p></td>
+<td><p>intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName" title="apstools.devices.area_detector_support.AD_EpicsTIFFFileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Custom class to define TIFF image file name from EPICS PVs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsTIFFIterativeWriter</span></code></a>(*args, **kwargs)</p></td>
+<td><p>intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_FrameType_schemes" title="apstools.devices.area_detector_support.AD_FrameType_schemes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_FrameType_schemes</span></code></a></p></td>
+<td><p>Naming schemes for area detector frame types.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_full_file_name_local" title="apstools.devices.area_detector_support.AD_full_file_name_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_full_file_name_local</span></code></a>(plugin)</p></td>
+<td><p>Return AD plugin's <em>Last filename</em> using local filesystem path.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_plugin_primed" title="apstools.devices.area_detector_support.AD_plugin_primed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_plugin_primed</span></code></a>(plugin)</p></td>
+<td><p>Has area detector pushed an NDarray to the file writer plugin?  True or False</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_prime_plugin" title="apstools.devices.area_detector_support.AD_prime_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_prime_plugin</span></code></a>(detector, plugin)</p></td>
+<td><p>Prime this area detector's file writer plugin.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_prime_plugin2" title="apstools.devices.area_detector_support.AD_prime_plugin2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_prime_plugin2</span></code></a>(plugin)</p></td>
+<td><p>Prime this area detector's file writer plugin.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_setup_FrameType" title="apstools.devices.area_detector_support.AD_setup_FrameType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_setup_FrameType</span></code></a>(prefix[, scheme])</p></td>
+<td><p>configure so frames are identified &amp; handled by type (dark, white, or image)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.BadPixelPlugin" title="apstools.devices.area_detector_support.BadPixelPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BadPixelPlugin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>ADCore NDBadPixel, new in AD 3.13.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1" title="apstools.devices.area_detector_support.CamMixin_V3_1_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CamMixin_V3_1_1</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
+<td><p>Update cam support to AD release 3.1.1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.CamMixin_V34" title="apstools.devices.area_detector_support.CamMixin_V34"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CamMixin_V34</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
+<td><p>Update cam support to AD release 3.1.1.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.HDF5FileWriterPlugin" title="apstools.devices.area_detector_support.HDF5FileWriterPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HDF5FileWriterPlugin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Add data acquisition methods to HDF5Plugin.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.SingleTrigger_V34" title="apstools.devices.area_detector_support.SingleTrigger_V34"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleTrigger_V34</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.ensure_AD_plugin_primed" title="apstools.devices.area_detector_support.ensure_AD_plugin_primed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_AD_plugin_primed</span></code></a>(plugin[, allow])</p></td>
+<td><p>Ensure the AD file writing plugin is <em>primed</em> (warmed up), if allowed.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsFileNameHDF5Plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameHDF5Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.HDF5Plugin_V34</span></code>, <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsHDF5IterativeWriter</span></code></a></p>
+<p>Alternative to HDF5Plugin: EPICS area detector PV sets file name.</p>
+<div class="admonition caution" id="index-0">
+<p class="admonition-title">Caution</p>
+<p><em>Caveat emptor</em> applies here.  You assume expertise!</p>
+</div>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName</span></code>.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_EpicsFileNameHDF5Plugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalWithRBV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PvaPlugin_V34</span> <span class="k">as</span> <span class="n">PvaPlugin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">AD_EpicsFileNameHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsFileNameJPEGPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameJPEGPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.JPEGPlugin_V34</span></code>, <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsJPEGIterativeWriter</span></code></a></p>
+<p>Alternative to JPEGPlugin: EPICS area detector PV sets file name.</p>
+<div class="admonition caution" id="index-1">
+<p class="admonition-title">Caution</p>
+<p><em>Caveat emptor</em> applies here.  You assume expertise!</p>
+</div>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">AD_EpicsJpegFileName</span></code>.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_EpicsFileNameJPEGPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalWithRBV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PvaPlugin_V34</span> <span class="k">as</span> <span class="n">PvaPlugin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">jpeg1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">AD_EpicsFileNameHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;JPEG1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameMixin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsFileNameMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsFileNameMixin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins.FileStorePluginBase</span></code></p>
+<p>Custom class to define image file name from EPICS.</p>
+<p>Used as part of AD_EpicsFileNameHDF5Plugin.</p>
+<div class="admonition caution" id="index-2">
+<p class="admonition-title">Caution</p>
+<p><em>Caveat emptor</em> applies here.  You assume expertise!</p>
+</div>
+<p>Replace standard ophyd file naming algorithm (where file names
+are defined as UUID strings, virtually guaranteeing that
+no existing images files will ever be overwritten).</p>
+<p>Caller is responsible for setting values of these Components:</p>
+<ul class="simple">
+<li><p>array_counter</p></li>
+<li><p>auto_increment</p></li>
+<li><p>auto_save</p></li>
+<li><p>compression (only HDF)</p></li>
+<li><p>create_directory</p></li>
+<li><p>file_name</p></li>
+<li><p>file_number</p></li>
+<li><p>file_path</p></li>
+<li><p>file_template</p></li>
+<li><p>num_capture</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_filename</span></code></a>()</p></td>
+<td><p>overrides default behavior: Get info from EPICS file writer plugin.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_frames_per_point</span></code></a>()</p></td>
+<td><p>overrides default behavior</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stage</span></code></a>()</p></td>
+<td><p>Overrides default behavior of parent class.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To allow users to control the file <strong>name</strong>,
+we override the <code class="docutils literal notranslate"><span class="pre">make_filename()</span></code> method here
+and we need to override some intervening classes.</p>
+<p>To allow users to control the file <strong>number</strong>,
+we override the <code class="docutils literal notranslate"><span class="pre">stage()</span></code> method here
+and triple-comment out that line, and bring in
+sections from the methods we are replacing here.</p>
+<p>It is allowed to set the <code class="docutils literal notranslate"><span class="pre">file_template=&quot;%s%s.h5&quot;</span></code>
+so the file name does not include the file number.</p>
+<p>The image file name is set in <code class="docutils literal notranslate"><span class="pre">FileStoreBase.make_filename()</span></code>
+from <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins</span></code>.  This is called
+(during device staging) from <code class="docutils literal notranslate"><span class="pre">FileStoreBase.stage()</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point">
+<span class="sig-name descname"><span class="pre">get_frames_per_point</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameMixin.get_frames_per_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point" title="Link to this definition">#</a></dt>
+<dd><p>overrides default behavior</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename">
+<span class="sig-name descname"><span class="pre">make_filename</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameMixin.make_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename" title="Link to this definition">#</a></dt>
+<dd><p>overrides default behavior: Get info from EPICS file writer plugin.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage">
+<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameMixin.stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage" title="Link to this definition">#</a></dt>
+<dd><p>Overrides default behavior of parent class.</p>
+<p>Parent class items overridden here:</p>
+<ul class="simple">
+<li><p>Sets file_name based on a UUID.</p></li>
+<li><p>Sets file_path from write_path_template.</p></li>
+<li><p>Sets file_number to 0.</p></li>
+</ul>
+<p>Set EPICS items before device is staged, then copy EPICS
+naming template (and other items) to ophyd after staging.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsFileNameTIFFPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsFileNameTIFFPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.TIFFPlugin_V34</span></code>, <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsTIFFIterativeWriter</span></code></a></p>
+<p>Alternative to TIFFPlugin: EPICS area detector PV sets file name.</p>
+<div class="admonition caution" id="index-3">
+<p class="admonition-title">Caution</p>
+<p><em>Caveat emptor</em> applies here.  You assume expertise!</p>
+</div>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName</span></code>.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_EpicsFileNameTIFFPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalWithRBV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PvaPlugin_V34</span> <span class="k">as</span> <span class="n">PvaPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">tiff1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">AD_EpicsFileNameTIFFPlugin</span><span class="p">,</span>
+        <span class="s2">&quot;TIFF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsHDF5IterativeWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsHDF5IterativeWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName" title="apstools.devices.area_detector_support.AD_EpicsHdf5FileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite</span></code></p>
+<p>intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsHdf5FileName">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsHdf5FileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsHdf5FileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsHdf5FileName</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a></p>
+<p>Custom class to define HDF5 image file name from EPICS PVs.</p>
+<p>Used as part of AD_EpicsFileNameHDF5Plugin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsHdf5FileName.filestore_spec">
+<span class="sig-name descname"><span class="pre">filestore_spec</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AD_HDF5'</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName.filestore_spec" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsJPEGFileName">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsJPEGFileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsJPEGFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsJPEGFileName</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a></p>
+<p>Custom class to define JPEG image file name from EPICS PVs.</p>
+<p>Used as part of AD_EpicsFileNameJPEGPlugin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsJPEGFileName.filestore_spec">
+<span class="sig-name descname"><span class="pre">filestore_spec</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AD_JPEG'</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName.filestore_spec" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsJPEGIterativeWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsJPEGIterativeWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName" title="apstools.devices.area_detector_support.AD_EpicsJPEGFileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsJPEGFileName</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite</span></code></p>
+<p>intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsTIFFFileName">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsTIFFFileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsTIFFFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsTIFFFileName</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a></p>
+<p>Custom class to define TIFF image file name from EPICS PVs.</p>
+<p>Used as part of AD_EpicsFileNameTIFFPlugin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsTIFFFileName.filestore_spec">
+<span class="sig-name descname"><span class="pre">filestore_spec</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AD_TIFF'</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName.filestore_spec" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_EpicsTIFFIterativeWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_EpicsTIFFIterativeWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName" title="apstools.devices.area_detector_support.AD_EpicsTIFFFileName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins.FileStoreIterativeWrite</span></code></p>
+<p>intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_FrameType_schemes">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_FrameType_schemes</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.AD_FrameType_schemes" title="Link to this definition">#</a></dt>
+<dd><p>Naming schemes for area detector frame types.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_full_file_name_local">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_full_file_name_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_full_file_name_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_full_file_name_local" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_full_file_name_local</span></code></p>
+</div>
+<p>Return AD plugin’s <em>Last filename</em> using local filesystem path.</p>
+<p>Get the full name, in terms of the bluesky filesystem, for the image file
+recently-acquired by the area detector plugin.</p>
+<p>Return the name as a pathlib object.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>plugin <em>obj</em> :</dt><dd><p>Instance of ophyd area detector file writing plugin.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_plugin_primed">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_plugin_primed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_plugin_primed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_plugin_primed" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_plugin_primed</span></code></p>
+</div>
+<p>Has area detector pushed an NDarray to the file writer plugin?  True or False</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> immediately (without connecting to the IOC) when the
+plugin’s <code class="docutils literal notranslate"><span class="pre">stage_sigs</span></code> will disable the plugin on stage, because the
+priming check is irrelevant for a disabled plugin.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>plugin</dt><dd><p><em>obj</em> :
+area detector plugin to be <em>primed</em> (such as <code class="docutils literal notranslate"><span class="pre">detector.hdf1</span></code>)</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_plugin_primed</span><span class="p">(</span><span class="n">detector</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Works around an observed issue: #598
+<a class="github reference external" href="https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372">NSLS-II/ophyd#598</a></p>
+<p>If detector IOC has just been started and has not yet taken an image
+with the file writer plugin, then a TimeoutError will occur as the
+file writer plugin “Capture” is set to 1 (Start).  In such case,
+first acquire at least one image with the file writer plugin enabled.</p>
+<p>Also issue in apstools (needs a robust method to detect if primed):
+<a class="github reference external" href="https://github.com/BCDA-APS/apstools/issues/464">BCDA-APS/apstools#464</a></p>
+<p>Since Area Detector release 2.1 (2014-10-14).</p>
+<p>The <em>prime</em> process is not needed if you select the
+<em>LazyOpen</em> feature with <em>Stream</em> mode for the file plugin.
+<em>LazyOpen</em> defers file creation until the first frame arrives
+in the plugin. This removes the need to initialize the plugin
+with a dummy frame before starting capture.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_prime_plugin">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_prime_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_prime_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_prime_plugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_prime_plugin</span></code></p>
+</div>
+<p>Prime this area detector’s file writer plugin.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>detector</dt><dd><p><em>obj</em> :
+area detector (such as <code class="docutils literal notranslate"><span class="pre">detector</span></code>)</p>
+</dd>
+<dt>plugin</dt><dd><p><em>obj</em> :
+area detector plugin to be <em>primed</em> (such as <code class="docutils literal notranslate"><span class="pre">detector.hdf1</span></code>)</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_prime_plugin</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">detector</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_prime_plugin2">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_prime_plugin2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_prime_plugin2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_prime_plugin2" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_prime_plugin2</span></code></p>
+</div>
+<p>Prime this area detector’s file writer plugin.</p>
+<p>Collect and push an NDarray to the file writer plugin.
+Works with all file writer plugins.</p>
+<p>Based on <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.HDF5Plugin.warmup()</span></code>.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>plugin</dt><dd><p><em>obj</em> :
+area detector plugin to be <em>primed</em> (such as <code class="docutils literal notranslate"><span class="pre">detector.hdf1</span></code>)</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_prime_plugin2</span><span class="p">(</span><span class="n">detector</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.AD_setup_FrameType">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">AD_setup_FrameType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NeXus'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#AD_setup_FrameType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.AD_setup_FrameType" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.AD_setup_FrameType</span></code></p>
+</div>
+<p>configure so frames are identified &amp; handled by type (dark, white, or image)</p>
+<p>PARAMETERS</p>
+<blockquote>
+<div><dl class="simple">
+<dt>prefix</dt><dd><p><em>str</em> :
+EPICS PV prefix of area detector, such as <code class="docutils literal notranslate"><span class="pre">13SIM1:</span></code></p>
+</dd>
+<dt>scheme</dt><dd><p><em>str</em> :
+any key in the <code class="docutils literal notranslate"><span class="pre">AD_FrameType_schemes</span></code> dictionary</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>This routine prepares the EPICS Area Detector to identify frames
+by image type for handling by clients, such as the HDF5 file writing plugin.
+With the HDF5 plugin, the <code class="docutils literal notranslate"><span class="pre">FrameType</span></code> PV is added to the NDattributes
+and then used in the layout file to direct the acquired frame to
+the chosen dataset.  The <code class="docutils literal notranslate"><span class="pre">FrameType</span></code> PV value provides the HDF5 address
+to be used.</p>
+<p>To use a different scheme than the defaults, add a new key to
+the <code class="docutils literal notranslate"><span class="pre">AD_FrameType_schemes</span></code> dictionary, defining storage values for the
+fields of the EPICS <code class="docutils literal notranslate"><span class="pre">mbbo</span></code> record that you will be using.</p>
+<p>see: <a class="reference external" href="https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb">https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb</a></p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_setup_FrameType</span><span class="p">(</span><span class="s2">&quot;2bmbPG3:&quot;</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;DataExchange&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Call this function <em>before</em> creating the ophyd area detector object</p></li>
+<li><p>use lower-level PyEpics interface</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.BadPixelPlugin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">BadPixelPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#BadPixelPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.BadPixelPlugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.BadPixelPlugin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.PluginBase</span></code></p>
+<p>ADCore NDBadPixel, new in AD 3.13.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.BadPixelPlugin.file_name">
+<span class="sig-name descname"><span class="pre">file_name</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.BadPixelPlugin.file_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V34">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">CamMixin_V34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#CamMixin_V34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V34" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.CamMixin_V34</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1" title="apstools.devices.area_detector_support.CamMixin_V3_1_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CamMixin_V3_1_1</span></code></a></p>
+<p>Update cam support to AD release 3.1.1.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">CamMixin_V3_1_1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#CamMixin_V3_1_1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.CamMixin_V3_1_1</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.CamBase</span></code></p>
+<p>Update cam support to AD release 3.1.1.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1.acquire_busy">
+<span class="sig-name descname"><span class="pre">acquire_busy</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.acquire_busy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1.is_busy">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_busy</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.is_busy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.offset" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1.pool_max_buffers">
+<span class="sig-name descname"><span class="pre">pool_max_buffers</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.pool_max_buffers" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.CamMixin_V3_1_1.wait_for_plugins">
+<span class="sig-name descname"><span class="pre">wait_for_plugins</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.wait_for_plugins" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.HDF5FileWriterPlugin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">HDF5FileWriterPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#HDF5FileWriterPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.HDF5FileWriterPlugin" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.HDF5FileWriterPlugin</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.filestore_mixins.FileStoreHDF5IterativeWrite</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.HDF5Plugin_V34</span></code></p>
+<p>Add data acquisition methods to HDF5Plugin.  Ophyd default file names.</p>
+<p>File names are based on uuid.uuid4() strings.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stage()</span></code> - prepare device PVs befor data acquisition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unstage()</span></code> - restore device PVs after data acquisition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">generate_datum()</span></code> - coordinate image storage metadata</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.HDF5FileWriterPlugin.stage">
+<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#HDF5FileWriterPlugin.stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.HDF5FileWriterPlugin.stage" title="Link to this definition">#</a></dt>
+<dd><p>Stage the device for data collection.</p>
+<p>This method is expected to put the device into a state where
+repeated calls to <code class="xref py py-meth docutils literal notranslate"><span class="pre">trigger()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code> will ‘do the right thing’.</p>
+<p>Staging not idempotent and should raise
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">RedundantStaging</span></code> if staged twice without an
+intermediate <code class="xref py py-meth docutils literal notranslate"><span class="pre">unstage()</span></code>.</p>
+<p>This method should be as fast as is feasible as it does not return
+a status object.</p>
+<p>The return value of this is a list of all of the (sub) devices
+stage, including it’s self.  This is used to ensure devices
+are not staged twice by the <code class="xref py py-obj docutils literal notranslate"><span class="pre">RunEngine</span></code>.</p>
+<p>This is an optional method, if the device does not need
+staging behavior it should not implement <cite>stage</cite> (or
+<cite>unstage</cite>).</p>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>devices<span class="classifier">list</span></dt><dd><p>list including self and all child devices staged</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.SimDetectorCam_V34">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">SimDetectorCam_V34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#SimDetectorCam_V34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.SimDetectorCam_V34" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.SimDetectorCam_V34</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.area_detector_support.CamMixin_V34" title="apstools.devices.area_detector_support.CamMixin_V34"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CamMixin_V34</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.SimDetectorCam</span></code></p>
+<p>Adds triggering configuration and AcquireBusy support.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.SimDetectorCam_V34.nd_attr_status">
+<span class="sig-name descname"><span class="pre">nd_attr_status</span></span><a class="headerlink" href="#apstools.devices.area_detector_support.SimDetectorCam_V34.nd_attr_status" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.SingleTrigger_V34">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">SingleTrigger_V34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#SingleTrigger_V34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.SingleTrigger_V34" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.SingleTrigger_V34</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.SingleTrigger</span></code></p>
+<p>Variation of ophyd’s SingleTrigger mixin supporting AcquireBusy.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.SingleTrigger_V34.stage">
+<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#SingleTrigger_V34.stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.SingleTrigger_V34.stage" title="Link to this definition">#</a></dt>
+<dd><p>Prepare device settings before data acquisition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.SingleTrigger_V34.unstage">
+<span class="sig-name descname"><span class="pre">unstage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#SingleTrigger_V34.unstage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.SingleTrigger_V34.unstage" title="Link to this definition">#</a></dt>
+<dd><p>Restore device settings after data acquisition.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.area_detector_support.ensure_AD_plugin_primed">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.area_detector_support.</span></span><span class="sig-name descname"><span class="pre">ensure_AD_plugin_primed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/area_detector_support.html#ensure_AD_plugin_primed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.area_detector_support.ensure_AD_plugin_primed" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.area_detector_support.ensure_AD_plugin_primed</span></code></p>
+</div>
+<p>Ensure the AD file writing plugin is <em>primed</em> (warmed up), if allowed.</p>
+<p>This function primes the plugin only if it is deemed necessary (for the use
+by ophyd).</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>plugin</dt><dd><p><em>obj</em> :
+area detector plugin to be <em>primed</em> (such as <code class="docutils literal notranslate"><span class="pre">detector.hdf1</span></code>)</p>
+</dd>
+<dt>allow</dt><dd><p><em>bool</em> :
+(default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)
+Should the detector be primed?  This keyword argument might be provided
+by a local configuration setting, controlled externally, such as
+from configuration file or other ophyd Signal.</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_AD_plugin_primed</span>
+<span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">det</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># or from a boolean python object</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">local_configuration_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">ok_to_prime</span>
+<span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">det</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="n">allow</span><span class="o">=</span><span class="n">ok_to_prime</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An area detector file writing plugin is <em>primed</em> (as considered by ophyd) if
+the plugin’s image array parameters (size, number of bits, &amp; color mode)
+match those configured in the cam.  This agreement is required by the
+bluesky RunEngine (via <code class="docutils literal notranslate"><span class="pre">area_detector_handlers</span></code>) to generate a descriptor
+document for any ensuing image events.</p>
+<p>Use with these area detector file writing plugins (maybe others):</p>
+<ul class="simple">
+<li><p>HDF5Plugin</p></li>
+<li><p>JPEGPlugin</p></li>
+<li><p>NetCDFPlugin</p></li>
+<li><p>TIFFPlugin</p></li>
+</ul>
+<p>Even with <code class="docutils literal notranslate"><span class="pre">lazy_open=1</span></code>, ophyd (via <code class="docutils literal notranslate"><span class="pre">area_detector_handlers</span></code>) checks
+if the area detector file writing plugin has been <em>primed</em>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="docutils literal notranslate"><span class="pre">ophyd.areadetector.plugins.UnprimedPlugin</span></code>:
+<a class="github reference external" href="https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004">bluesky/ophyd</a></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../area_detector_factory/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">area_detector_factory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../avs_filters/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">avs_filters</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Area Detector Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameHDF5Plugin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameJPEGPlugin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin.get_frames_per_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin.make_filename()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin.stage()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin"><code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameTIFFPlugin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter"><code class="docutils literal notranslate"><span class="pre">AD_EpicsHDF5IterativeWriter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName"><code class="docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsHdf5FileName.filestore_spec"><code class="docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName.filestore_spec</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName"><code class="docutils literal notranslate"><span class="pre">AD_EpicsJPEGFileName</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsJPEGFileName.filestore_spec"><code class="docutils literal notranslate"><span class="pre">AD_EpicsJPEGFileName.filestore_spec</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter"><code class="docutils literal notranslate"><span class="pre">AD_EpicsJPEGIterativeWriter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName"><code class="docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsTIFFFileName.filestore_spec"><code class="docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName.filestore_spec</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter"><code class="docutils literal notranslate"><span class="pre">AD_EpicsTIFFIterativeWriter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_FrameType_schemes"><code class="docutils literal notranslate"><span class="pre">AD_FrameType_schemes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_full_file_name_local"><code class="docutils literal notranslate"><span class="pre">AD_full_file_name_local()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_plugin_primed"><code class="docutils literal notranslate"><span class="pre">AD_plugin_primed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_prime_plugin"><code class="docutils literal notranslate"><span class="pre">AD_prime_plugin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_prime_plugin2"><code class="docutils literal notranslate"><span class="pre">AD_prime_plugin2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.AD_setup_FrameType"><code class="docutils literal notranslate"><span class="pre">AD_setup_FrameType()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.BadPixelPlugin"><code class="docutils literal notranslate"><span class="pre">BadPixelPlugin</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.BadPixelPlugin.file_name"><code class="docutils literal notranslate"><span class="pre">BadPixelPlugin.file_name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V34"><code class="docutils literal notranslate"><span class="pre">CamMixin_V34</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.acquire_busy"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1.acquire_busy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.is_busy"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1.is_busy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.offset"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1.offset</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.pool_max_buffers"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1.pool_max_buffers</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.CamMixin_V3_1_1.wait_for_plugins"><code class="docutils literal notranslate"><span class="pre">CamMixin_V3_1_1.wait_for_plugins</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.HDF5FileWriterPlugin"><code class="docutils literal notranslate"><span class="pre">HDF5FileWriterPlugin</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.HDF5FileWriterPlugin.stage"><code class="docutils literal notranslate"><span class="pre">HDF5FileWriterPlugin.stage()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.SimDetectorCam_V34"><code class="docutils literal notranslate"><span class="pre">SimDetectorCam_V34</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.SimDetectorCam_V34.nd_attr_status"><code class="docutils literal notranslate"><span class="pre">SimDetectorCam_V34.nd_attr_status</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.SingleTrigger_V34"><code class="docutils literal notranslate"><span class="pre">SingleTrigger_V34</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.SingleTrigger_V34.stage"><code class="docutils literal notranslate"><span class="pre">SingleTrigger_V34.stage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.SingleTrigger_V34.unstage"><code class="docutils literal notranslate"><span class="pre">SingleTrigger_V34.unstage()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.area_detector_support.ensure_AD_plugin_primed"><code class="docutils literal notranslate"><span class="pre">ensure_AD_plugin_primed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/devices/area_detector_support/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

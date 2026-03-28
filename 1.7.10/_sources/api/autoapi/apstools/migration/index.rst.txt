@@ -1,0 +1,19 @@
+migration
+=========
+
+.. py:module:: apstools.migration
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.migration``
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/autoapi/apstools/migration/spec2ophyd/index
+
+

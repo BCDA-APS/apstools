@@ -1,0 +1,1083 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Utilities &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/_utils';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="synApps" href="synApps/index.html" />
+    <link rel="prev" title="Plans" href="_plans.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_plans.html">Plans</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/apstools/index.html">apstools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/devices/index.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/utils/index.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Utilities</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="utilities">
+<span id="id1"></span><h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h1>
+<p>Assists measurement, data exploration, and the user experience.</p>
+<p>For complete API details see the <a class="reference internal" href="autoapi/apstools/index.html"><span class="doc">Full API Reference</span></a>.</p>
+<p>Also consult the <a class="reference internal" href="../genindex.html"><span class="std std-ref">Index</span></a> under the <em>apstools</em> heading
+for links to the Exceptions, and Utilities described here.</p>
+<section id="utilities-by-activity">
+<h2>Utilities by Activity<a class="headerlink" href="#utilities-by-activity" title="Link to this heading">#</a></h2>
+<section id="aps-data-management">
+<span id="utils-aps-dm"></span><h3>APS Data Management<a class="headerlink" href="#aps-data-management" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_cat" title="apstools.utils.aps_data_management.dm_api_cat"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_cat()</span></code></a></p></td>
+<td><p>return the APS DM Catalog API object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_daq" title="apstools.utils.aps_data_management.dm_api_daq"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_daq()</span></code></a></p></td>
+<td><p>return the APS DM Data Acquisition API object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_dataset_cat" title="apstools.utils.aps_data_management.dm_api_dataset_cat"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_dataset_cat()</span></code></a></p></td>
+<td><p>return the APS DM Dataset Metadata Catalog API object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_ds" title="apstools.utils.aps_data_management.dm_api_ds"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_ds()</span></code></a></p></td>
+<td><p>return the APS DM Data Storage API object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_file" title="apstools.utils.aps_data_management.dm_api_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_file()</span></code></a></p></td>
+<td><p>return the APS DM File API object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_filecat" title="apstools.utils.aps_data_management.dm_api_filecat"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_filecat()</span></code></a></p></td>
+<td><p>return the APS DM Metadata Catalog Service API object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_api_proc" title="apstools.utils.aps_data_management.dm_api_proc"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_api_proc()</span></code></a></p></td>
+<td><p>return the APS DM Processing API object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.dm_setup" title="apstools.utils.aps_data_management.dm_setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">dm_setup()</span></code></a></p></td>
+<td><p>set up this session for APS Data Management</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html#apstools.utils.aps_data_management.DM_WorkflowCache" title="apstools.utils.aps_data_management.DM_WorkflowCache"><code class="xref py py-class docutils literal notranslate"><span class="pre">DM_WorkflowCache</span></code></a></p></td>
+<td><p>track one or more APS DM workflows for bluesky plans</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="finding">
+<span id="utils-finding"></span><h3>Finding<a class="headerlink" href="#finding" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbyname" title="apstools.utils.pvregistry.findbyname"><code class="xref py py-func docutils literal notranslate"><span class="pre">findbyname()</span></code></a></p></td>
+<td><p>find the ophyd object associated with the given ophyd name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbypv" title="apstools.utils.pvregistry.findbypv"><code class="xref py py-func docutils literal notranslate"><span class="pre">findbypv()</span></code></a></p></td>
+<td><p>find all ophyd objects associated with the given EPICS PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.findCatalogsInNamespace" title="apstools.utils.catalog.findCatalogsInNamespace"><code class="xref py py-func docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code></a></p></td>
+<td><p>return a dictionary of databroker catalogs in the default namespace</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="listing">
+<span id="utils-listing"></span><h3>Listing<a class="headerlink" href="#listing" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/device_info/index.html#apstools.utils.device_info.listdevice" title="apstools.utils.device_info.listdevice"><code class="xref py py-func docutils literal notranslate"><span class="pre">listdevice()</span></code></a></p></td>
+<td><p>describe signal information from a device in a pandas DataFrame</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.listobjects" title="apstools.utils.misc.listobjects"><code class="xref py py-func docutils literal notranslate"><span class="pre">listobjects()</span></code></a></p></td>
+<td><p>show all ophyd Signal and Device objects defined as globals</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_plans/index.html#apstools.utils.list_plans.listplans" title="apstools.utils.list_plans.listplans"><code class="xref py py-func docutils literal notranslate"><span class="pre">listplans()</span></code></a></p></td>
+<td><p>list all plans</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.listRunKeys" title="apstools.utils.list_runs.listRunKeys"><code class="xref py py-func docutils literal notranslate"><span class="pre">listRunKeys()</span></code></a></p></td>
+<td><p>list all keys (column names) in a scan’s stream</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.ListRuns" title="apstools.utils.list_runs.ListRuns"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListRuns</span></code></a></p></td>
+<td><p>list runs from a catalog according to some options</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.listruns" title="apstools.utils.list_runs.listruns"><code class="xref py py-func docutils literal notranslate"><span class="pre">listruns()</span></code></a></p></td>
+<td><p>list runs from catalog</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="reporting">
+<span id="utils-reporting"></span><h3>Reporting<a class="headerlink" href="#reporting" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html#apstools.utils.log_utils.file_log_handler" title="apstools.utils.log_utils.file_log_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_log_handler()</span></code></a></p></td>
+<td><p>record logging output to a file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html#apstools.utils.log_utils.get_log_path" title="apstools.utils.log_utils.get_log_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_log_path()</span></code></a></p></td>
+<td><p>return a path to <code class="docutils literal notranslate"><span class="pre">./.logs</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.print_RE_md" title="apstools.utils.misc.print_RE_md"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_RE_md()</span></code></a></p></td>
+<td><p>print the RunEngine metadata in a table</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html#apstools.utils.log_utils.setup_IPython_console_logging" title="apstools.utils.log_utils.setup_IPython_console_logging"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup_IPython_console_logging()</span></code></a></p></td>
+<td><p>record all input and output from the IPython console</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/slit_core/index.html#apstools.utils.slit_core.SlitGeometry" title="apstools.utils.slit_core.SlitGeometry"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlitGeometry</span></code></a></p></td>
+<td><p>slit size and center as a named tuple</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html#apstools.utils.log_utils.stream_log_handler" title="apstools.utils.log_utils.stream_log_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">stream_log_handler()</span></code></a></p></td>
+<td><p>record logging output to a stream such as the console</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="other-utilities">
+<span id="utils-other"></span><h3>Other Utilities<a class="headerlink" href="#other-utilities" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.array_index" title="apstools.utils.statistics.array_index"><code class="xref py py-func docutils literal notranslate"><span class="pre">array_index()</span></code></a></p></td>
+<td><p>return the index of the first occurrence of value in an array</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.cleanupText" title="apstools.utils.misc.cleanupText"><code class="xref py py-func docutils literal notranslate"><span class="pre">cleanupText()</span></code></a></p></td>
+<td><p>convert text so it can be used as a dictionary key</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.connect_pvlist" title="apstools.utils.misc.connect_pvlist"><code class="xref py py-func docutils literal notranslate"><span class="pre">connect_pvlist()</span></code></a></p></td>
+<td><p>given a list of EPICS PV names, return a dict of EpicsSignal objects</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.dynamic_import" title="apstools.utils.misc.dynamic_import"><code class="xref py py-func docutils literal notranslate"><span class="pre">dynamic_import()</span></code></a></p></td>
+<td><p>import the object given its import path as text</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/email/index.html#apstools.utils.email.EmailNotifications" title="apstools.utils.email.EmailNotifications"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailNotifications</span></code></a></p></td>
+<td><p>send email notifications when requested</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.factor_fwhm" title="apstools.utils.statistics.factor_fwhm"><code class="xref py py-data docutils literal notranslate"><span class="pre">factor_fwhm</span></code></a></p></td>
+<td><p>conversion factor between FWHM and standard deviation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.peak_full_width" title="apstools.utils.statistics.peak_full_width"><code class="xref py py-func docutils literal notranslate"><span class="pre">peak_full_width()</span></code></a></p></td>
+<td><p>assess apparent FWHM by inspecting the data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.plotxy" title="apstools.utils.plot.plotxy"><code class="xref py py-func docutils literal notranslate"><span class="pre">plotxy()</span></code></a></p></td>
+<td><p>plot y vs x from a bluesky run</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.select_live_plot" title="apstools.utils.plot.select_live_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_live_plot()</span></code></a></p></td>
+<td><p>get the first live plot matching a signal</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.select_mpl_figure" title="apstools.utils.plot.select_mpl_figure"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_mpl_figure()</span></code></a></p></td>
+<td><p>get the matplotlib Figure window for y vs x</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.trim_plot_by_name" title="apstools.utils.plot.trim_plot_by_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_plot_by_name()</span></code></a></p></td>
+<td><p>replot with at most the last <em>n</em> lines, by figure name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.trim_plot_lines" title="apstools.utils.plot.trim_plot_lines"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_plot_lines()</span></code></a></p></td>
+<td><p>replot with at most the last <em>n</em> lines for given x and y axes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.trim_string_for_EPICS" title="apstools.utils.misc.trim_string_for_EPICS"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_string_for_EPICS()</span></code></a></p></td>
+<td><p>ensure a string does not exceed EPICS PV length</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/time_constants/index.html#apstools.utils.time_constants.ts2iso" title="apstools.utils.time_constants.ts2iso"><code class="xref py py-func docutils literal notranslate"><span class="pre">ts2iso()</span></code></a></p></td>
+<td><p>convert Python timestamp (float) to ISO 8601 time in current time zone</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.unix" title="apstools.utils.misc.unix"><code class="xref py py-func docutils literal notranslate"><span class="pre">unix()</span></code></a></p></td>
+<td><p>run a UNIX command, return (stdout, stderr)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/apsu_controls_subnet/index.html#apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet" title="apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet"><code class="xref py py-func docutils literal notranslate"><span class="pre">warn_if_not_aps_controls_subnet()</span></code></a></p></td>
+<td><p>warn if not on APS-U controls subnet</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.xy_statistics" title="apstools.utils.statistics.xy_statistics"><code class="xref py py-func docutils literal notranslate"><span class="pre">xy_statistics()</span></code></a></p></td>
+<td><p>compute statistical measures of a 1-D array using numpy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="general">
+<span id="utils-general"></span><h3>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.call_signature_decorator" title="apstools.utils.misc.call_signature_decorator"><code class="xref py py-func docutils literal notranslate"><span class="pre">call_signature_decorator()</span></code></a></p></td>
+<td><p>get the names of all function parameters supplied by the caller</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.cleanupText" title="apstools.utils.misc.cleanupText"><code class="xref py py-func docutils literal notranslate"><span class="pre">cleanupText()</span></code></a></p></td>
+<td><p>convert text so it can be used as a dictionary key</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.command_list_as_table" title="apstools.plans.command_list.command_list_as_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">command_list_as_table()</span></code></a></p></td>
+<td><p>format a command list as a pyRestTable table object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.connect_pvlist" title="apstools.utils.misc.connect_pvlist"><code class="xref py py-func docutils literal notranslate"><span class="pre">connect_pvlist()</span></code></a></p></td>
+<td><p>given a list of EPICS PV names, return a dict of EpicsSignal objects</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.copy_filtered_catalog" title="apstools.utils.catalog.copy_filtered_catalog"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy_filtered_catalog()</span></code></a></p></td>
+<td><p>copy filtered runs from source catalog to target catalog</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/query/index.html#apstools.utils.query.db_query" title="apstools.utils.query.db_query"><code class="xref py py-func docutils literal notranslate"><span class="pre">db_query()</span></code></a></p></td>
+<td><p>search the databroker v2 database</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.dictionary_table" title="apstools.utils.misc.dictionary_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">dictionary_table()</span></code></a></p></td>
+<td><p>return a text table from a dictionary</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.dynamic_import" title="apstools.utils.misc.dynamic_import"><code class="xref py py-func docutils literal notranslate"><span class="pre">dynamic_import()</span></code></a></p></td>
+<td><p>import the object given its import path as text</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/email/index.html#apstools.utils.email.EmailNotifications" title="apstools.utils.email.EmailNotifications"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailNotifications</span></code></a></p></td>
+<td><p>send email notifications when requested</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelDatabaseFileBase" title="apstools.utils.spreadsheet.ExcelDatabaseFileBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExcelDatabaseFileBase</span></code></a></p></td>
+<td><p>base class: read-only support for Excel files as databases</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric" title="apstools.utils.spreadsheet.ExcelDatabaseFileGeneric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric</span></code></a></p></td>
+<td><p>generic read-only handling of Excel spreadsheet-as-database</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelReadError" title="apstools.utils.spreadsheet.ExcelReadError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExcelReadError</span></code></a></p></td>
+<td><p>exception when reading Excel spreadsheet</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbyname" title="apstools.utils.pvregistry.findbyname"><code class="xref py py-func docutils literal notranslate"><span class="pre">findbyname()</span></code></a></p></td>
+<td><p>find the ophyd object associated with the given ophyd name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbypv" title="apstools.utils.pvregistry.findbypv"><code class="xref py py-func docutils literal notranslate"><span class="pre">findbypv()</span></code></a></p></td>
+<td><p>find all ophyd objects associated with the given EPICS PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.findCatalogsInNamespace" title="apstools.utils.catalog.findCatalogsInNamespace"><code class="xref py py-func docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code></a></p></td>
+<td><p>return a dictionary of databroker catalogs in the default namespace</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.full_dotted_name" title="apstools.utils.misc.full_dotted_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">full_dotted_name()</span></code></a></p></td>
+<td><p>return the full dotted name of an ophyd object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/descriptor_support/index.html#apstools.utils.descriptor_support.get_stream_data_map" title="apstools.utils.descriptor_support.get_stream_data_map"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_stream_data_map()</span></code></a></p></td>
+<td><p>return the names of run’s detector and motor signals</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.getCatalog" title="apstools.utils.catalog.getCatalog"><code class="xref py py-func docutils literal notranslate"><span class="pre">getCatalog()</span></code></a></p></td>
+<td><p>return a catalog object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.getDatabase" title="apstools.utils.catalog.getDatabase"><code class="xref py py-func docutils literal notranslate"><span class="pre">getDatabase()</span></code></a></p></td>
+<td><p>return a bluesky database using keyword guides or default choice</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.getDefaultCatalog" title="apstools.utils.catalog.getDefaultCatalog"><code class="xref py py-func docutils literal notranslate"><span class="pre">getDefaultCatalog()</span></code></a></p></td>
+<td><p>return the default databroker catalog</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.getDefaultDatabase" title="apstools.utils.catalog.getDefaultDatabase"><code class="xref py py-func docutils literal notranslate"><span class="pre">getDefaultDatabase()</span></code></a></p></td>
+<td><p>find the default database (has the most recent run)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/profile_support/index.html#apstools.utils.profile_support.getDefaultNamespace" title="apstools.utils.profile_support.getDefaultNamespace"><code class="xref py py-func docutils literal notranslate"><span class="pre">getDefaultNamespace()</span></code></a></p></td>
+<td><p>get the IPython shell’s namespace dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.getRunData" title="apstools.utils.list_runs.getRunData"><code class="xref py py-func docutils literal notranslate"><span class="pre">getRunData()</span></code></a></p></td>
+<td><p>get the run’s data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.getRunDataValue" title="apstools.utils.list_runs.getRunDataValue"><code class="xref py py-func docutils literal notranslate"><span class="pre">getRunDataValue()</span></code></a></p></td>
+<td><p>get value of key in run stream</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.getStreamValues" title="apstools.utils.catalog.getStreamValues"><code class="xref py py-func docutils literal notranslate"><span class="pre">getStreamValues()</span></code></a></p></td>
+<td><p>get values from a previous scan stream in a databroker catalog</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/profile_support/index.html#apstools.utils.profile_support.ipython_profile_name" title="apstools.utils.profile_support.ipython_profile_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">ipython_profile_name()</span></code></a></p></td>
+<td><p>return the name of the current IPython profile</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.itemizer" title="apstools.utils.misc.itemizer"><code class="xref py py-func docutils literal notranslate"><span class="pre">itemizer()</span></code></a></p></td>
+<td><p>format a list of items</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/device_info/index.html#apstools.utils.device_info.listdevice" title="apstools.utils.device_info.listdevice"><code class="xref py py-func docutils literal notranslate"><span class="pre">listdevice()</span></code></a></p></td>
+<td><p>describe signal information from a device in a pandas DataFrame</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.listobjects" title="apstools.utils.misc.listobjects"><code class="xref py py-func docutils literal notranslate"><span class="pre">listobjects()</span></code></a></p></td>
+<td><p>show all ophyd Signal and Device objects defined as globals</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_plans/index.html#apstools.utils.list_plans.listplans" title="apstools.utils.list_plans.listplans"><code class="xref py py-func docutils literal notranslate"><span class="pre">listplans()</span></code></a></p></td>
+<td><p>list all plans</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.listRunKeys" title="apstools.utils.list_runs.listRunKeys"><code class="xref py py-func docutils literal notranslate"><span class="pre">listRunKeys()</span></code></a></p></td>
+<td><p>list all keys (column names) in a scan’s stream</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.ListRuns" title="apstools.utils.list_runs.ListRuns"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListRuns</span></code></a></p></td>
+<td><p>list runs from a catalog according to some options</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.listruns" title="apstools.utils.list_runs.listruns"><code class="xref py py-func docutils literal notranslate"><span class="pre">listruns()</span></code></a></p></td>
+<td><p>list runs from catalog</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/mmap_dict/index.html#apstools.utils.mmap_dict.MMap" title="apstools.utils.mmap_dict.MMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMap</span></code></a></p></td>
+<td><p>dictionary with keys accessible as attributes (read-only)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters" title="apstools.utils.override_parameters.OverrideParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">OverrideParameters</span></code></a></p></td>
+<td><p>define parameters that can be overridden from a user configuration file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.pairwise" title="apstools.utils.misc.pairwise"><code class="xref py py-func docutils literal notranslate"><span class="pre">pairwise()</span></code></a></p></td>
+<td><p>break a list into pairs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.plotxy" title="apstools.utils.plot.plotxy"><code class="xref py py-func docutils literal notranslate"><span class="pre">plotxy()</span></code></a></p></td>
+<td><p>plot y vs x from a bluesky run</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.print_RE_md" title="apstools.utils.misc.print_RE_md"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_RE_md()</span></code></a></p></td>
+<td><p>print the RunEngine metadata in a table</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html#apstools.utils.catalog.quantify_md_key_use" title="apstools.utils.catalog.quantify_md_key_use"><code class="xref py py-func docutils literal notranslate"><span class="pre">quantify_md_key_use()</span></code></a></p></td>
+<td><p>print table of different key values and how many times each appears</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.redefine_motor_position" title="apstools.utils.misc.redefine_motor_position"><code class="xref py py-func docutils literal notranslate"><span class="pre">redefine_motor_position()</span></code></a></p></td>
+<td><p>set EPICS motor record’s user coordinate to a new position</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.render" title="apstools.utils.misc.render"><code class="xref py py-func docutils literal notranslate"><span class="pre">render()</span></code></a></p></td>
+<td><p>round floating-point numbers to significant figures</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.replay" title="apstools.utils.misc.replay"><code class="xref py py-func docutils literal notranslate"><span class="pre">replay()</span></code></a></p></td>
+<td><p>replay the document stream from one or more scans</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/memory/index.html#apstools.utils.memory.rss_mem" title="apstools.utils.memory.rss_mem"><code class="xref py py-func docutils literal notranslate"><span class="pre">rss_mem()</span></code></a></p></td>
+<td><p>return memory used by this process</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.run_in_thread" title="apstools.utils.misc.run_in_thread"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_in_thread()</span></code></a></p></td>
+<td><p>decorator: run a function in a thread</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.safe_ophyd_name" title="apstools.utils.misc.safe_ophyd_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">safe_ophyd_name()</span></code></a></p></td>
+<td><p>make text safe to be used as an ophyd object name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.select_live_plot" title="apstools.utils.plot.select_live_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_live_plot()</span></code></a></p></td>
+<td><p>get the first live plot matching a signal</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.select_mpl_figure" title="apstools.utils.plot.select_mpl_figure"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_mpl_figure()</span></code></a></p></td>
+<td><p>get the matplotlib Figure window for y vs x</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.split_quoted_line" title="apstools.utils.misc.split_quoted_line"><code class="xref py py-func docutils literal notranslate"><span class="pre">split_quoted_line()</span></code></a></p></td>
+<td><p>split a line into words, some of which may be quoted</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/stored_dict/index.html#apstools.utils.stored_dict.StoredDict" title="apstools.utils.stored_dict.StoredDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">StoredDict</span></code></a></p></td>
+<td><p>a MutableMapping which syncs its contents to storage</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html#apstools.utils.list_runs.summarize_runs" title="apstools.utils.list_runs.summarize_runs"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarize_runs()</span></code></a></p></td>
+<td><p>report bluesky run metrics from the databroker</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.text_encode" title="apstools.utils.misc.text_encode"><code class="xref py py-func docutils literal notranslate"><span class="pre">text_encode()</span></code></a></p></td>
+<td><p>encode source using the default codepoint</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.to_unicode_or_bust" title="apstools.utils.misc.to_unicode_or_bust"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_unicode_or_bust()</span></code></a></p></td>
+<td><p>convert bytes to unicode</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.trim_plot_by_name" title="apstools.utils.plot.trim_plot_by_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_plot_by_name()</span></code></a></p></td>
+<td><p>replot with at most the last <em>n</em> lines, by figure name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/plot/index.html#apstools.utils.plot.trim_plot_lines" title="apstools.utils.plot.trim_plot_lines"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_plot_lines()</span></code></a></p></td>
+<td><p>replot with at most the last <em>n</em> lines for given x and y axes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.trim_string_for_EPICS" title="apstools.utils.misc.trim_string_for_EPICS"><code class="xref py py-func docutils literal notranslate"><span class="pre">trim_string_for_EPICS()</span></code></a></p></td>
+<td><p>ensure a string does not exceed EPICS PV length</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/utils/misc/index.html#apstools.utils.misc.unix" title="apstools.utils.misc.unix"><code class="xref py py-func docutils literal notranslate"><span class="pre">unix()</span></code></a></p></td>
+<td><p>run a UNIX command, return (stdout, stderr)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="_plans.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plans</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="synApps/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">synApps</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities-by-activity">Utilities by Activity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aps-data-management">APS Data Management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding">Finding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#listing">Listing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting">Reporting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-utilities">Other Utilities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/_utils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

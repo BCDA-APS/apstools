@@ -1,0 +1,1287 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Devices &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/_devices';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File Writers" href="_filewriters.html" />
+    <link rel="prev" title="Callbacks" href="_callbacks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/apstools/index.html">apstools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/devices/index.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/devices/xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/apstools/utils/index.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/apstools/utils/time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Devices</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="devices">
+<span id="id1"></span><h1>Devices<a class="headerlink" href="#devices" title="Link to this heading">#</a></h1>
+<p>Ophyd-style Devices for the APS.</p>
+<p>For complete API details see the <a class="reference internal" href="autoapi/apstools/index.html"><span class="doc">Full API Reference</span></a>.</p>
+<p>Also consult the <a class="reference internal" href="../genindex.html"><span class="std std-ref">Index</span></a> under the <em>Ophyd</em> heading for
+links to the Devices, Exceptions, Mixins, Signals, and other support
+items described here.</p>
+<section id="categories">
+<h2>Categories<a class="headerlink" href="#categories" title="Link to this heading">#</a></h2>
+<p>See these categories:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#devices-aps-support"><span class="std std-ref">APS General Support</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-area-detector"><span class="std std-ref">Area Detector Support</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-factories"><span class="std std-ref">Factory Functions</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-flyers"><span class="std std-ref">Fly Scan Support</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-insertion-devices"><span class="std std-ref">Insertion Devices</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-motors"><span class="std std-ref">Motors, Positioners, Axes, …</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-scalers"><span class="std std-ref">Detector &amp; Scaler Support</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-shutters"><span class="std std-ref">Shutters</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-slits"><span class="std std-ref">Slits</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-temperature-controllers"><span class="std std-ref">Temperature Support</span></a></p></li>
+<li><p><a class="reference internal" href="#devices-other-support"><span class="std std-ref">Other Support</span></a></p></li>
+</ul>
+<section id="aps-general-support">
+<span id="devices-aps-support"></span><h3>APS General Support<a class="headerlink" href="#aps-general-support" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_cycle/index.html#apstools.devices.aps_cycle.ApsCycleDM" title="apstools.devices.aps_cycle.ApsCycleDM"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsCycleDM</span></code></a></p></td>
+<td><p>get the APS cycle name from a local file (source: official APS schedule)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_machine/index.html#apstools.devices.aps_machine.ApsMachineParametersDevice" title="apstools.devices.aps_machine.ApsMachineParametersDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsMachineParametersDevice</span></code></a></p></td>
+<td><p>common operational parameters of the APS of general interest</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.ApsPssShutter" title="apstools.devices.shutters.ApsPssShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsPssShutter</span></code></a></p></td>
+<td><p>APS PSS shutter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.ApsPssShutterWithStatus" title="apstools.devices.shutters.ApsPssShutterWithStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus</span></code></a></p></td>
+<td><p>APS PSS shutter with separate status PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.SimulatedApsPssShutterWithStatus" title="apstools.devices.shutters.SimulatedApsPssShutterWithStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus</span></code></a></p></td>
+<td><p>simulated APS PSS shutter</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="area-detector-support">
+<span id="devices-area-detector"></span><h3>Area Detector Support<a class="headerlink" href="#area-detector-support" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_class_factory" title="apstools.devices.area_detector_factory.ad_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">ad_class_factory()</span></code></a></p></td>
+<td><p>build an area detector class with specified plugins</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_creator" title="apstools.devices.area_detector_factory.ad_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ad_creator()</span></code></a></p></td>
+<td><p>create an area detector object from a custom class</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Plugins</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsFileNameHDF5Plugin</span></code></a></p></td>
+<td><p>HDF5 plugin: EPICS area detector PV sets file name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsFileNameJPEGPlugin</span></code></a></p></td>
+<td><p>JPEG plugin: EPICS area detector PV sets file name</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin" title="apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsFileNameTIFFPlugin</span></code></a></p></td>
+<td><p>TIFF plugin: EPICS area detector PV sets file name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Mix-in classes</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin" title="apstools.devices.area_detector_support.AD_EpicsFileNameMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsFileNameMixin</span></code></a></p></td>
+<td><p>custom class to define image file name from EPICS</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsHdf5FileName" title="apstools.devices.area_detector_support.AD_EpicsHdf5FileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsHdf5FileName</span></code></a></p></td>
+<td><p>custom class to define HDF5 image file name from EPICS PVs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsHDF5IterativeWriter</span></code></a></p></td>
+<td><p>intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsJPEGFileName" title="apstools.devices.area_detector_support.AD_EpicsJPEGFileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsJPEGFileName</span></code></a></p></td>
+<td><p>custom class to define JPEG image file name from EPICS PVs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsJPEGIterativeWriter</span></code></a></p></td>
+<td><p>intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsTIFFFileName" title="apstools.devices.area_detector_support.AD_EpicsTIFFFileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsTIFFFileName</span></code></a></p></td>
+<td><p>custom class to define TIFF image file name from EPICS PVs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter" title="apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">AD_EpicsTIFFIterativeWriter</span></code></a></p></td>
+<td><p>intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.BadPixelPlugin" title="apstools.devices.area_detector_support.BadPixelPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BadPixelPlugin</span></code></a></p></td>
+<td><p>ADCore NDBadPixel plugin, new in AD 3.13</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.CamMixin_V34" title="apstools.devices.area_detector_support.CamMixin_V34"><code class="xref py py-class docutils literal notranslate"><span class="pre">CamMixin_V34</span></code></a></p></td>
+<td><p>update cam support to AD release 3.4</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.CamMixin_V3_1_1" title="apstools.devices.area_detector_support.CamMixin_V3_1_1"><code class="xref py py-class docutils literal notranslate"><span class="pre">CamMixin_V3_1_1</span></code></a></p></td>
+<td><p>update cam support to AD release 3.1.1</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.SingleTrigger_V34" title="apstools.devices.area_detector_support.SingleTrigger_V34"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleTrigger_V34</span></code></a></p></td>
+<td><p>variation of ophyd’s SingleTrigger mixin supporting AcquireBusy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Other support</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_full_file_name_local" title="apstools.devices.area_detector_support.AD_full_file_name_local"><code class="xref py py-func docutils literal notranslate"><span class="pre">AD_full_file_name_local()</span></code></a></p></td>
+<td><p>return AD plugin’s last filename using local filesystem path</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_plugin_primed" title="apstools.devices.area_detector_support.AD_plugin_primed"><code class="xref py py-func docutils literal notranslate"><span class="pre">AD_plugin_primed()</span></code></a></p></td>
+<td><p>check whether an NDArray has been pushed to the file writer plugin</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_prime_plugin2" title="apstools.devices.area_detector_support.AD_prime_plugin2"><code class="xref py py-func docutils literal notranslate"><span class="pre">AD_prime_plugin2()</span></code></a></p></td>
+<td><p>prime this area detector’s file writer plugin</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.AD_setup_FrameType" title="apstools.devices.area_detector_support.AD_setup_FrameType"><code class="xref py py-func docutils literal notranslate"><span class="pre">AD_setup_FrameType()</span></code></a></p></td>
+<td><p>configure frames to be identified and handled by type</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_support/index.html#apstools.devices.area_detector_support.ensure_AD_plugin_primed" title="apstools.devices.area_detector_support.ensure_AD_plugin_primed"><code class="xref py py-func docutils literal notranslate"><span class="pre">ensure_AD_plugin_primed()</span></code></a></p></td>
+<td><p>ensure the AD file writing plugin is primed, if allowed</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="detector-scaler-support">
+<span id="devices-scalers"></span><h3>Detector &amp; Scaler Support<a class="headerlink" href="#detector-scaler-support" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/measComp_usb_ctr_support/index.html#apstools.devices.measComp_usb_ctr_support.MeasCompCtr" title="apstools.devices.measComp_usb_ctr_support.MeasCompCtr"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCompCtr</span></code></a></p></td>
+<td><p>Measurement Computing USB CTR08 high-speed counter/timer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/measComp_usb_ctr_support/index.html#apstools.devices.measComp_usb_ctr_support.MeasCompCtrMcs" title="apstools.devices.measComp_usb_ctr_support.MeasCompCtrMcs"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCompCtrMcs</span></code></a></p></td>
+<td><p>Measurement Computing USB CTR08 multi-channel scaler controls</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/struck3820/index.html#apstools.devices.struck3820.Struck3820" title="apstools.devices.struck3820.Struck3820"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struck3820</span></code></a></p></td>
+<td><p>Struck/SIS 3820 multi-channel scaler (as used by USAXS)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/synth_pseudo_voigt/index.html#apstools.devices.synth_pseudo_voigt.SynPseudoVoigt" title="apstools.devices.synth_pseudo_voigt.SynPseudoVoigt"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynPseudoVoigt</span></code></a></p></td>
+<td><p>evaluate a point on a pseudo-Voigt based on the value of a motor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/scaler_support/index.html#apstools.devices.scaler_support.use_EPICS_scaler_channels" title="apstools.devices.scaler_support.use_EPICS_scaler_channels"><code class="xref py py-func docutils literal notranslate"><span class="pre">use_EPICS_scaler_channels()</span></code></a></p></td>
+<td><p>configure scaler for only the channels with names assigned in EPICS</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The Measurement Computing USB-CTR08 EPICS support
+provides a compatible EPICS scaler record.</p>
+</div>
+</section>
+<section id="factory-functions">
+<span id="devices-factories"></span><h3>Factory Functions<a class="headerlink" href="#factory-functions" title="Link to this heading">#</a></h3>
+<p class="rubric">Object Factories</p>
+<p>Object factories create ophyd objects.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_creator" title="apstools.devices.area_detector_factory.ad_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ad_creator()</span></code></a></p></td>
+<td><p>create an area detector object from a custom class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.make_dict_device" title="apstools.devices.dict_device_support.make_dict_device"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_dict_device()</span></code></a></p></td>
+<td><p>make a recordable DictionaryDevice instance from a dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_creator()</span></code></a></p></td>
+<td><p>create a MotorBundle with any number of motors</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Class Factories</p>
+<p>Class factories create ophyd Device classes.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_class_factory" title="apstools.devices.area_detector_factory.ad_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">ad_class_factory()</span></code></a></p></td>
+<td><p>build an area detector class with specified plugins</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.dict_device_factory" title="apstools.devices.dict_device_support.dict_device_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">dict_device_factory()</span></code></a></p></td>
+<td><p>create a DictionaryDevice class using the supplied dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_class_factory" title="apstools.devices.motor_factory.mb_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_class_factory()</span></code></a></p></td>
+<td><p>create a custom MotorBundle (or specified base) class</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="fly-scan-support">
+<span id="devices-flyers"></span><h3>Fly Scan Support<a class="headerlink" href="#fly-scan-support" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ScalerMotorFlyer()</span></code> support withdrawn pending issue #763.</p>
+</section>
+<section id="insertion-devices">
+<span id="devices-insertion-devices"></span><h3>Insertion Devices<a class="headerlink" href="#insertion-devices" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html#apstools.devices.aps_undulator.PlanarUndulator" title="apstools.devices.aps_undulator.PlanarUndulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlanarUndulator</span></code></a></p></td>
+<td><p>APS planar undulator</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html#apstools.devices.aps_undulator.Revolver_Undulator" title="apstools.devices.aps_undulator.Revolver_Undulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Revolver_Undulator</span></code></a></p></td>
+<td><p>APS revolver insertion device</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html#apstools.devices.aps_undulator.STI_Undulator" title="apstools.devices.aps_undulator.STI_Undulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">STI_Undulator</span></code></a></p></td>
+<td><p>APS planar undulator built by STI Optronics</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html#apstools.devices.aps_undulator.Undulator2M" title="apstools.devices.aps_undulator.Undulator2M"><code class="xref py py-class docutils literal notranslate"><span class="pre">Undulator2M</span></code></a></p></td>
+<td><p>APS 2M undulator</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_undulator/index.html#apstools.devices.aps_undulator.Undulator4M" title="apstools.devices.aps_undulator.Undulator4M"><code class="xref py py-class docutils literal notranslate"><span class="pre">Undulator4M</span></code></a></p></td>
+<td><p>APS 4M undulator</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ApsUndulator</span></code> and <code class="docutils literal notranslate"><span class="pre">ApsUndulatorDual</span></code> device support
+classes have been removed.  These devices are not used in the APS-U era.</p>
+</div>
+</section>
+<section id="motors-positioners-axes">
+<span id="devices-motors"></span><h3>Motors, Positioners, Axes, …<a class="headerlink" href="#motors-positioners-axes" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.AcsMotor" title="apstools.devices.acs_motors.AcsMotor"><code class="xref py py-class docutils literal notranslate"><span class="pre">AcsMotor</span></code></a></p></td>
+<td><p>AcsMotionControl motor support</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/axis_tuner/index.html#apstools.devices.axis_tuner.AxisTunerException" title="apstools.devices.axis_tuner.AxisTunerException"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisTunerException</span></code></a></p></td>
+<td><p>exception during execution of AxisTunerBase subclass</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/axis_tuner/index.html#apstools.devices.axis_tuner.AxisTunerMixin" title="apstools.devices.axis_tuner.AxisTunerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisTunerMixin</span></code></a></p></td>
+<td><p>mixin class to provide tuning capabilities for an axis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/description_mixin/index.html#apstools.devices.description_mixin.EpicsDescriptionMixin" title="apstools.devices.description_mixin.EpicsDescriptionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsDescriptionMixin</span></code></a></p></td>
+<td><p>add a record’s description field to a Device, such as EpicsMotor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorDialMixin" title="apstools.devices.motor_mixins.EpicsMotorDialMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorDialMixin</span></code></a></p></td>
+<td><p>add motor record’s dial coordinate fields to Device</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorEnableMixin" title="apstools.devices.motor_mixins.EpicsMotorEnableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorEnableMixin</span></code></a></p></td>
+<td><p>mixin providing access to motor enable/disable</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorRawMixin" title="apstools.devices.motor_mixins.EpicsMotorRawMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorRawMixin</span></code></a></p></td>
+<td><p>add motor record’s raw coordinate fields to Device</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorResolutionMixin" title="apstools.devices.motor_mixins.EpicsMotorResolutionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorResolutionMixin</span></code></a></p></td>
+<td><p>add motor record’s resolution fields to motor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorServoMixin" title="apstools.devices.motor_mixins.EpicsMotorServoMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorServoMixin</span></code></a></p></td>
+<td><p>add motor record’s servo loop controls to Device</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.EpicsMotorShutter" title="apstools.devices.shutters.EpicsMotorShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorShutter</span></code></a></p></td>
+<td><p>shutter implemented with an EPICS motor moved between two positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.EpicsOnOffShutter" title="apstools.devices.shutters.EpicsOnOffShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsOnOffShutter</span></code></a></p></td>
+<td><p>shutter using a single EPICS PV moved between two positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_class_factory" title="apstools.devices.motor_factory.mb_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_class_factory()</span></code></a></p></td>
+<td><p>create a custom MotorBundle (or specified base) class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_creator()</span></code></a></p></td>
+<td><p>create a MotorBundle with any number of motors</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p></td>
+<td><p>PVPositioner that computes <code class="docutils literal notranslate"><span class="pre">done</span></code> as a soft signal</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop" title="apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDoneWithStop</span></code></a></p></td>
+<td><p>PVPositionerSoftDone with stop() and inposition</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedSwaitControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS swait record</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedTransformControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS transform record</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="shutters">
+<span id="devices-shutters"></span><h3>Shutters<a class="headerlink" href="#shutters" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.ApsPssShutter" title="apstools.devices.shutters.ApsPssShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsPssShutter</span></code></a></p></td>
+<td><p>APS PSS shutter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.ApsPssShutterWithStatus" title="apstools.devices.shutters.ApsPssShutterWithStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus</span></code></a></p></td>
+<td><p>APS PSS shutter with separate status PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.EpicsMotorShutter" title="apstools.devices.shutters.EpicsMotorShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMotorShutter</span></code></a></p></td>
+<td><p>shutter implemented with an EPICS motor moved between two positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.EpicsOnOffShutter" title="apstools.devices.shutters.EpicsOnOffShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsOnOffShutter</span></code></a></p></td>
+<td><p>shutter using a single EPICS PV moved between two positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.OneSignalShutter" title="apstools.devices.shutters.OneSignalShutter"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSignalShutter</span></code></a></p></td>
+<td><p>shutter Device using one Signal for open and close</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.ShutterBase" title="apstools.devices.shutters.ShutterBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShutterBase</span></code></a></p></td>
+<td><p>base class for all shutter Devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/shutters/index.html#apstools.devices.shutters.SimulatedApsPssShutterWithStatus" title="apstools.devices.shutters.SimulatedApsPssShutterWithStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus</span></code></a></p></td>
+<td><p>simulated APS PSS shutter</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="slits">
+<span id="devices-slits"></span><h3>Slits<a class="headerlink" href="#slits" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/hhl_slits/index.html#apstools.devices.hhl_slits.HHLSlits" title="apstools.devices.hhl_slits.HHLSlits"><code class="xref py py-class docutils literal notranslate"><span class="pre">HHLSlits</span></code></a></p></td>
+<td><p>high heat load slit</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/synApps/db_2slit/index.html#apstools.synApps.db_2slit.Optics2Slit1D" title="apstools.synApps.db_2slit.Optics2Slit1D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a></p></td>
+<td><p>EPICS synApps optics 2slit.db 1D support: xn, xp, size, center, sync</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/synApps/db_2slit/index.html#apstools.synApps.db_2slit.Optics2Slit2D_HV" title="apstools.synApps.db_2slit.Optics2Slit2D_HV"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code></a></p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/synApps/db_2slit/index.html#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop" title="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code></a></p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: inb, out, bot, top</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/utils/slit_core/index.html#apstools.utils.slit_core.SlitGeometry" title="apstools.utils.slit_core.SlitGeometry"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlitGeometry</span></code></a></p></td>
+<td><p>slit size and center as a named tuple</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_slit/index.html#apstools.devices.xia_slit.XiaSlit2D" title="apstools.devices.xia_slit.XiaSlit2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">XiaSlit2D</span></code></a></p></td>
+<td><p>EPICS synApps optics xia_slit.db 2D support</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="synapps-support">
+<h3>synApps Support<a class="headerlink" href="#synapps-support" title="Link to this heading">#</a></h3>
+<p>See separate <a class="reference internal" href="synApps/index.html#synapps"><span class="std std-ref">synApps</span></a> section.</p>
+</section>
+<section id="temperature-support">
+<span id="devices-temperature-controllers"></span><h3>Temperature Support<a class="headerlink" href="#temperature-support" title="Link to this heading">#</a></h3>
+<section id="controllers">
+<h4>Controllers<a class="headerlink" href="#controllers" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/eurotherm_2216e/index.html#apstools.devices.eurotherm_2216e.Eurotherm2216e" title="apstools.devices.eurotherm_2216e.Eurotherm2216e"><code class="xref py py-class docutils literal notranslate"><span class="pre">Eurotherm2216e</span></code></a></p></td>
+<td><p>Eurotherm 2216e temperature controller</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore336Device" title="apstools.devices.lakeshore_controllers.LakeShore336Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">LakeShore336Device</span></code></a></p></td>
+<td><p>LakeShore 336 temperature controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore340Device" title="apstools.devices.lakeshore_controllers.LakeShore340Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">LakeShore340Device</span></code></a></p></td>
+<td><p>LakeShore 340 temperature controller</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/linkam_controllers/index.html#apstools.devices.linkam_controllers.Linkam_CI94_Device" title="apstools.devices.linkam_controllers.Linkam_CI94_Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Linkam_CI94_Device</span></code></a></p></td>
+<td><p>Linkam model CI94 temperature controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/linkam_controllers/index.html#apstools.devices.linkam_controllers.Linkam_T96_Device" title="apstools.devices.linkam_controllers.Linkam_T96_Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Linkam_T96_Device</span></code></a></p></td>
+<td><p>Linkam model T96 temperature controller</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html#apstools.devices.ptc10_controller.PTC10AioChannel" title="apstools.devices.ptc10_controller.PTC10AioChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PTC10AioChannel</span></code></a></p></td>
+<td><p>SRS PTC10 AIO module</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html#apstools.devices.ptc10_controller.PTC10PositionerMixin" title="apstools.devices.ptc10_controller.PTC10PositionerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PTC10PositionerMixin</span></code></a></p></td>
+<td><p>mixin so SRS PTC10 can be used as a temperature positioner</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html#apstools.devices.ptc10_controller.PTC10RtdChannel" title="apstools.devices.ptc10_controller.PTC10RtdChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PTC10RtdChannel</span></code></a></p></td>
+<td><p>SRS PTC10 RTD module channel</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/ptc10_controller/index.html#apstools.devices.ptc10_controller.PTC10TcChannel" title="apstools.devices.ptc10_controller.PTC10TcChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PTC10TcChannel</span></code></a></p></td>
+<td><p>SRS PTC10 thermocouple module channel</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedSwaitControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS swait record</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedTransformControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS transform record</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="readers">
+<h4>Readers<a class="headerlink" href="#readers" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/measComp_tc32_support/index.html#apstools.devices.measComp_tc32_support.MeasCompTc32" title="apstools.devices.measComp_tc32_support.MeasCompTc32"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCompTc32</span></code></a></p></td>
+<td><p>Measurement Computing TC-32 32-channel thermocouple reader</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="other-support">
+<span id="devices-other-support"></span><h3>Other Support<a class="headerlink" href="#other-support" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_bss_user/index.html#apstools.devices.aps_bss_user.ApsBssUserInfoDevice" title="apstools.devices.aps_bss_user.ApsBssUserInfoDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsBssUserInfoDevice</span></code></a></p></td>
+<td><p>provide current experiment info from the APS BSS</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/delay/index.html#apstools.devices.delay.DG645Delay" title="apstools.devices.delay.DG645Delay"><code class="xref py py-class docutils literal notranslate"><span class="pre">DG645Delay</span></code></a></p></td>
+<td><p>SRS DG-645 digital delay/pulse generator</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.dict_device_factory" title="apstools.devices.dict_device_support.dict_device_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">dict_device_factory()</span></code></a></p></td>
+<td><p>create a DictionaryDevice class using the supplied dictionary</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector" title="apstools.devices.aps_data_management.DM_WorkflowConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DM_WorkflowConnector</span></code></a></p></td>
+<td><p>support for APS Data Management tools</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.DualPf4FilterBox" title="apstools.devices.xia_pf4.DualPf4FilterBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualPf4FilterBox</span></code></a></p></td>
+<td><p>(<em>legacy</em>, use <a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterDual" title="apstools.devices.xia_pf4.Pf4FilterDual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterDual</span></code></a>) dual XIA PF4 filter boxes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/description_mixin/index.html#apstools.devices.description_mixin.EpicsDescriptionMixin" title="apstools.devices.description_mixin.EpicsDescriptionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsDescriptionMixin</span></code></a></p></td>
+<td><p>add a record’s description field to a Device, such as EpicsMotor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/epics_scan_id_signal/index.html#apstools.devices.epics_scan_id_signal.EpicsScanIdSignal" title="apstools.devices.epics_scan_id_signal.EpicsScanIdSignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsScanIdSignal</span></code></a></p></td>
+<td><p>use an EPICS PV as the source of the RunEngine’s <code class="docutils literal notranslate"><span class="pre">scan_id</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/kohzu_monochromator/index.html#apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator" title="apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator"><code class="xref py py-class docutils literal notranslate"><span class="pre">KohzuSeqCtl_Monochromator</span></code></a></p></td>
+<td><p>synApps Kohzu double-crystal monochromator sequence control</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabJackBase</span></code></a></p></td>
+<td><p>LabJack T-series data acquisition unit (DAQ)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT4" title="apstools.devices.labjack.LabJackT4"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabJackT4</span></code></a></p></td>
+<td><p>LabJack T4 DAQ</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT7" title="apstools.devices.labjack.LabJackT7"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabJackT7</span></code></a></p></td>
+<td><p>LabJack T7 DAQ</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT7Pro" title="apstools.devices.labjack.LabJackT7Pro"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabJackT7Pro</span></code></a></p></td>
+<td><p>LabJack T7 Pro DAQ</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT8" title="apstools.devices.labjack.LabJackT8"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabJackT8</span></code></a></p></td>
+<td><p>LabJack T8 DAQ</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.make_dict_device" title="apstools.devices.dict_device_support.make_dict_device"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_dict_device()</span></code></a></p></td>
+<td><p>make a recordable DictionaryDevice instance from a dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/measComp_usb_ctr_support/index.html#apstools.devices.measComp_usb_ctr_support.MeasCompCtr" title="apstools.devices.measComp_usb_ctr_support.MeasCompCtr"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCompCtr</span></code></a></p></td>
+<td><p>Measurement Computing USB CTR08 high-speed counter/timer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterBank" title="apstools.devices.xia_pf4.Pf4FilterBank"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterBank</span></code></a></p></td>
+<td><p>single module of XIA PF4 filters (4 blades)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterCommon" title="apstools.devices.xia_pf4.Pf4FilterCommon"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterCommon</span></code></a></p></td>
+<td><p>XIA PF4 filters — common support</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterDual" title="apstools.devices.xia_pf4.Pf4FilterDual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterDual</span></code></a></p></td>
+<td><p>XIA PF4 filter: two sets of 4 filters (A, B)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterSingle" title="apstools.devices.xia_pf4.Pf4FilterSingle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterSingle</span></code></a></p></td>
+<td><p>XIA PF4 filter: one set of 4 filters (A)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterTriple" title="apstools.devices.xia_pf4.Pf4FilterTriple"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pf4FilterTriple</span></code></a></p></td>
+<td><p>XIA PF4 filter: three sets of 4 filters (A, B, C)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedSwaitControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS swait record</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner" title="apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedTransformControllerPositioner</span></code></a></p></td>
+<td><p>simulated process controller as positioner with EPICS transform record</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/srs570_preamplifier/index.html#apstools.devices.srs570_preamplifier.SRS570_PreAmplifier" title="apstools.devices.srs570_preamplifier.SRS570_PreAmplifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">SRS570_PreAmplifier</span></code></a></p></td>
+<td><p>Stanford Research Systems 570 preamplifier from synApps</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/struck3820/index.html#apstools.devices.struck3820.Struck3820" title="apstools.devices.struck3820.Struck3820"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struck3820</span></code></a></p></td>
+<td><p>Struck/SIS 3820 multi-channel scaler (as used by USAXS)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="internal-routines">
+<h3>Internal Routines<a class="headerlink" href="#internal-routines" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/aps_machine/index.html#apstools.devices.aps_machine.ApsOperatorMessagesDevice" title="apstools.devices.aps_machine.ApsOperatorMessagesDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApsOperatorMessagesDevice</span></code></a></p></td>
+<td><p>general messages from the APS main control room</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="autoapi/apstools/devices/mixin_base/index.html#apstools.devices.mixin_base.DeviceMixinBase" title="apstools.devices.mixin_base.DeviceMixinBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeviceMixinBase</span></code></a></p></td>
+<td><p>base class for apstools Device mixin classes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autoapi/apstools/devices/tracking_signal/index.html#apstools.devices.tracking_signal.TrackingSignal" title="apstools.devices.tracking_signal.TrackingSignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrackingSignal</span></code></a></p></td>
+<td><p>non-EPICS signal for use when coordinating Device actions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="_callbacks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Callbacks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="_filewriters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">File Writers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories">Categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aps-general-support">APS General Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#area-detector-support">Area Detector Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detector-scaler-support">Detector &amp; Scaler Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#factory-functions">Factory Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fly-scan-support">Fly Scan Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insertion-devices">Insertion Devices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#motors-positioners-axes">Motors, Positioners, Axes, …</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shutters">Shutters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slits">Slits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#synapps-support">synApps Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-support">Temperature Support</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#controllers">Controllers</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readers">Readers</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-support">Other Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-routines">Internal Routines</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/_devices.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

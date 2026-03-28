@@ -1,0 +1,1501 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The lineup2() plan — align an axis with a signal &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/pl_lineup';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The nscan() plan – scan multiple axes together" href="pl_nscan.html" />
+    <link rel="prev" title="The Excel_plan() – batch scans using a spreadsheet" href="pl_excel_scan.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_ad_scan_with_motor.html">How-To: Scan Area Detector with Motor(s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">lineup2()</span></code> plan — align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="plan_examples.html" class="nav-link">Plan Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="docutils literal notranslate"><span class="pre">lineup2()</span></code> plan — align an axis with a signal</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="the-lineup2-plan-align-an-axis-with-a-signal">
+<h1>The <code class="docutils literal notranslate"><span class="pre">lineup2()</span></code> plan — align an axis with a signal<a class="headerlink" href="#the-lineup2-plan-align-an-axis-with-a-signal" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">apstools.plans.lineup2()</span></code> plan aligns a mover (axis) to the peak
+of a detector signal.  It scans <code class="docutils literal notranslate"><span class="pre">mover</span></code> over a relative range, computes
+peak statistics using <em>numpy</em>, and moves the mover to the chosen
+statistical feature (default: <code class="docutils literal notranslate"><span class="pre">&quot;centroid&quot;</span></code>).  If <code class="docutils literal notranslate"><span class="pre">nscans</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>
+(default: 2), a second, finer scan is run centred on the result of
+the first.</p>
+<p>Unlike the older, deprecated <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan, <code class="docutils literal notranslate"><span class="pre">lineup2()</span></code>:</p>
+<ul class="simple">
+<li><p>does <strong>not</strong> require a <code class="docutils literal notranslate"><span class="pre">BestEffortCallback</span></code>,</p></li>
+<li><p>works in the <em>queueserver</em>, Jupyter notebooks, and IPython consoles,</p></li>
+<li><p>writes peak statistics as a named bluesky stream (<code class="docutils literal notranslate"><span class="pre">&quot;signal_stats&quot;</span></code> by
+default) <strong>before</strong> the run closes, so they are available in the
+data catalog immediately after each scan.</p></li>
+</ul>
+<p>This notebook uses only simulated (software-only) devices — no EPICS
+hardware is required.</p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">best_effort</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">SynGauss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">lineup2</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+
+<span class="n">bec</span> <span class="o">=</span> <span class="n">best_effort</span><span class="o">.</span><span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create a simulated mover and a Gaussian detector signal centred at <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">-0.5</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">SoftPositioner</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">noisy</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span>
+    <span class="s2">&quot;noisy&quot;</span><span class="p">,</span>
+    <span class="n">m1</span><span class="p">,</span>
+    <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">Imax</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">noise</span><span class="o">=</span><span class="s2">&quot;poisson&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">noisy</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="run-lineup2">
+<h2>Run lineup2()<a class="headerlink" href="#run-lineup2" title="Link to this heading">#</a></h2>
+<p>Scan <code class="docutils literal notranslate"><span class="pre">m1</span></code> over ±2 around its current position with 41 points and two
+passes.  Peak statistics are printed after each pass and are also
+written as the <code class="docutils literal notranslate"><span class="pre">&quot;signal_stats&quot;</span></code> bluesky stream before the run closes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">lineup2</span><span class="p">([</span><span class="n">noisy</span><span class="p">],</span> <span class="n">m1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">41</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2026-03-27 11:08:23
+Persistent Unique Scan ID: &#39;36cb71fa-7b53-4df6-8cc6-a50941f7c8a5&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+
+|   seq_num |       time |      noisy |
++-----------+------------+------------+
+|         1 | 11:08:23.2 |          0 |
+|         2 | 11:08:23.3 |          0 |
+|         3 | 11:08:23.3 |          0 |
+|         4 | 11:08:23.3 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|         5 | 11:08:23.4 |          0 |
+|         6 | 11:08:23.4 |          0 |
+|         7 | 11:08:23.5 |          0 |
+|         8 | 11:08:23.5 |          0 |
+|         9 | 11:08:23.6 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        10 | 11:08:23.6 |          0 |
+|        11 | 11:08:23.6 |          0 |
+|        12 | 11:08:23.7 |         33 |
+|        13 | 11:08:23.7 |       1154 |
+|        14 | 11:08:23.8 |      13617 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        15 | 11:08:23.8 |      60446 |
+|        16 | 11:08:23.9 |      99782 |
+|        17 | 11:08:23.9 |      60687 |
+|        18 | 11:08:24.0 |      13381 |
+|        19 | 11:08:24.0 |       1103 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        20 | 11:08:24.0 |         35 |
+|        21 | 11:08:24.1 |          0 |
+|        22 | 11:08:24.1 |          0 |
+|        23 | 11:08:24.2 |          0 |
+|        24 | 11:08:24.2 |          0 |
+|        25 | 11:08:24.2 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        26 | 11:08:24.3 |          0 |
+|        27 | 11:08:24.3 |          0 |
+|        28 | 11:08:24.4 |          0 |
+|        29 | 11:08:24.4 |          0 |
+|        30 | 11:08:24.5 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        31 | 11:08:24.5 |          0 |
+|        32 | 11:08:24.5 |          0 |
+|        33 | 11:08:24.6 |          0 |
+|        34 | 11:08:24.6 |          0 |
+|        35 | 11:08:24.7 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        36 | 11:08:24.7 |          0 |
+|        37 | 11:08:24.8 |          0 |
+|        38 | 11:08:24.8 |          0 |
+|        39 | 11:08:24.8 |          0 |
+|        40 | 11:08:24.9 |          0 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        41 | 11:08:24.9 |          0 |
+New stream: &#39;signal_stats&#39;
++-----------+------------+------------+
+Plan lineup2 [&#39;36cb71fa&#39;] (scan num: 1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: &#39;m1&#39;  Detector: &#39;noisy&#39;  Feature: &#39;centroid&#39;
+========== ======================
+statistic  value                 
+========== ======================
+n          41                    
+centroid   -0.5001502569553784   
+x_at_max_y -0.5                  
+fwhm       0.2453610814405645    
+variance   0.010011486466238052  
+sigma      0.10005741584829209   
+min_x      -2.0                  
+mean_x     1.0831444142684454e-16
+max_x      2.0                   
+min_y      0                     
+mean_y     6103.365853658536     
+max_y      99782                 
+========== ======================
+
+m1 moved to centroid: -0.5001502569553784
+
+
+Transient Scan ID: 2     Time: 2026-03-27 11:08:25
+Persistent Unique Scan ID: &#39;4cd1e16c-301e-431f-88b6-c8bca8fda6b6&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+
+|   seq_num |       time |      noisy |
++-----------+------------+------------+
+|         1 | 11:08:25.2 |          0 |
+|         2 | 11:08:25.2 |          4 |
+|         3 | 11:08:25.3 |          8 |
+|         4 | 11:08:25.3 |         21 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|         5 | 11:08:25.4 |         41 |
+|         6 | 11:08:25.4 |        106 |
+|         7 | 11:08:25.5 |        266 |
+|         8 | 11:08:25.5 |        612 |
+|         9 | 11:08:25.6 |       1280 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        10 | 11:08:25.6 |       2671 |
+|        11 | 11:08:25.7 |       4996 |
+|        12 | 11:08:25.7 |       8837 |
+|        13 | 11:08:25.8 |      14331 |
+|        14 | 11:08:25.8 |      22751 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        15 | 11:08:25.9 |      34167 |
+|        16 | 11:08:25.9 |      47339 |
+|        17 | 11:08:25.9 |      61833 |
+|        18 | 11:08:26.0 |      76316 |
+|        19 | 11:08:26.0 |      88850 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        20 | 11:08:26.1 |      96750 |
+|        21 | 11:08:26.1 |     100382 |
+|        22 | 11:08:26.2 |      96945 |
+|        23 | 11:08:26.2 |      89043 |
+|        24 | 11:08:26.3 |      76557 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        25 | 11:08:26.3 |      61925 |
+|        26 | 11:08:26.4 |      47149 |
+|        27 | 11:08:26.4 |      33712 |
+|        28 | 11:08:26.5 |      22614 |
+|        29 | 11:08:26.5 |      14654 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        30 | 11:08:26.6 |       8755 |
+|        31 | 11:08:26.6 |       4780 |
+|        32 | 11:08:26.7 |       2691 |
+|        33 | 11:08:26.7 |       1256 |
+|        34 | 11:08:26.8 |        584 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        35 | 11:08:26.8 |        286 |
+|        36 | 11:08:26.8 |        116 |
+|        37 | 11:08:26.9 |         44 |
+|        38 | 11:08:26.9 |         34 |
+|        39 | 11:08:27.0 |          9 |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        40 | 11:08:27.0 |          1 |
+|        41 | 11:08:27.1 |          2 |
+New stream: &#39;signal_stats&#39;
++-----------+------------+------------+
+Plan lineup2 [&#39;4cd1e16c&#39;] (scan num: 2)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: &#39;m1&#39;  Detector: &#39;noisy&#39;  Feature: &#39;centroid&#39;
+========== =====================
+statistic  value                
+========== =====================
+n          41                   
+centroid   -0.5002225420758496  
+x_at_max_y -0.5001502569553784  
+fwhm       0.23548172867948947  
+variance   0.009987929441983073 
+sigma      0.09993962898661908  
+min_x      -0.9908724198365074  
+mean_x     -0.5001502569553784  
+max_x      -0.009428094074249382
+min_y      0                    
+mean_y     24944.341463414636   
+max_y      100382               
+========== =====================
+
+m1 moved to centroid: -0.5002225420758496
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;36cb71fa-7b53-4df6-8cc6-a50941f7c8a5&#39;,
+ &#39;4cd1e16c-301e-431f-88b6-c8bca8fda6b6&#39;)
+</pre></div>
+</div>
+<img alt="../_images/b3739e0874753eb8a468f9cfb7cf97873dce6f925fadd1178a462f1b56ffbd26.png" src="../_images/b3739e0874753eb8a468f9cfb7cf97873dce6f925fadd1178a462f1b56ffbd26.png" />
+</div>
+</div>
+</section>
+<section id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">apstools.utils.plotxy()</span></code> to overlay both scans.  The coarse first
+scan (wide range) and the fine second scan (narrow range, centred on
+the result of the first) are plotted together.  Centroid and FWHM
+markers are added automatically when <code class="docutils literal notranslate"><span class="pre">stats=True</span></code> (the default).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plotxy</span>
+
+<span class="c1"># Plot the coarse scan first, then overlay the fine scan.</span>
+<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;noisy&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;lineup2() — coarse and fine scans&quot;</span><span class="p">)</span>
+<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;noisy&quot;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/414d75cd3251732fa553eca10dc4f22e96b7ea05f9d3ca2acdc50135c03449fb.png" src="../_images/414d75cd3251732fa553eca10dc4f22e96b7ea05f9d3ca2acdc50135c03449fb.png" />
+</div>
+</div>
+</section>
+<section id="inspect-the-signal-stats-stream">
+<h2>Inspect the signal_stats stream<a class="headerlink" href="#inspect-the-signal-stats-stream" title="Link to this heading">#</a></h2>
+<p>Because <code class="docutils literal notranslate"><span class="pre">lineup2()</span></code> writes peak statistics into the <code class="docutils literal notranslate"><span class="pre">&quot;signal_stats&quot;</span></code>
+stream before each run closes, they are immediately available from the
+catalog.  The most recent run’s statistics can be read like any other
+bluesky stream:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">run</span><span class="o">.</span><span class="n">signal_stats</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 201B
+Dimensions:                                (time: 1)
+Coordinates:
+  * time                                   (time) float64 8B 1.775e+09
+Data variables: (12/25)
+    lineup2_signal_stats_max_x             (time) float64 8B -0.009428
+    lineup2_signal_stats_mean_x            (time) float64 8B -0.5002
+    lineup2_signal_stats_median_x          (time) float64 8B -0.5002
+    lineup2_signal_stats_min_x             (time) float64 8B -0.9909
+    lineup2_signal_stats_n                 (time) int64 8B 41
+    lineup2_signal_stats_range_x           (time) float64 8B 0.9814
+    ...                                     ...
+    lineup2_signal_stats_correlation       (time) float64 8B -0.0001836
+    lineup2_signal_stats_intercept         (time) float64 8B 2.493e+04
+    lineup2_signal_stats_slope             (time) float64 8B -21.39
+    lineup2_signal_stats_stddev_intercept  (time) float64 8B 1.079e+04
+    lineup2_signal_stats_stddev_slope      (time) float64 8B 1.866e+04
+    lineup2_signal_stats_success           (time) bool 1B True</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-91c331ab-81c7-42c6-9bdc-4f5d3ec14b22' class='xr-section-summary-in' type='checkbox' disabled /><label for='section-91c331ab-81c7-42c6-9bdc-4f5d3ec14b22' class='xr-section-summary'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1</li></ul></div></li><li class='xr-section-item'><input id='section-9d2fb983-1202-4ddf-b223-1a6cfa98f315' class='xr-section-summary-in' type='checkbox' checked /><label for='section-9d2fb983-1202-4ddf-b223-1a6cfa98f315' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.775e+09</div><input id='attrs-5d66baba-54f8-4824-b124-4a5bdc984415' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-5d66baba-54f8-4824-b124-4a5bdc984415' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e36b6592-94eb-4dbe-9800-5e0ea81ef0ec' class='xr-var-data-in' type='checkbox'><label for='data-e36b6592-94eb-4dbe-9800-5e0ea81ef0ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1.774628e+09])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-286c7ba0-c065-4011-8e45-303a920e4c70' class='xr-section-summary-in' type='checkbox' /><label for='section-286c7ba0-c065-4011-8e45-303a920e4c70' class='xr-section-summary' title='Expand/collapse section'>Data variables: <span>(25)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.009428</div><input id='attrs-ecc39c20-6faa-4212-8487-7729df2002a5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ecc39c20-6faa-4212-8487-7729df2002a5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5d4d2d21-fe48-4302-897c-c626b38cd937' class='xr-var-data-in' type='checkbox'><label for='data-5d4d2d21-fe48-4302-897c-c626b38cd937' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.00942809])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.5002</div><input id='attrs-10c19d9b-c54c-4a65-9c21-6e9ded0e7a23' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-10c19d9b-c54c-4a65-9c21-6e9ded0e7a23' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8f022c9e-b37f-4e5c-8225-80ce6fd3a2b6' class='xr-var-data-in' type='checkbox'><label for='data-8f022c9e-b37f-4e5c-8225-80ce6fd3a2b6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.50015026])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_median_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.5002</div><input id='attrs-2d0a3309-b39d-4097-9e95-64ef74be98d4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2d0a3309-b39d-4097-9e95-64ef74be98d4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-46c27f33-7e90-4297-b71a-82143d950f7a' class='xr-var-data-in' type='checkbox'><label for='data-46c27f33-7e90-4297-b71a-82143d950f7a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.50015026])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.9909</div><input id='attrs-8ce259e1-dccb-4987-aabe-5fbf44ee6117' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8ce259e1-dccb-4987-aabe-5fbf44ee6117' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e3372b05-2bd9-42d6-98c3-a0af10dd9b50' class='xr-var-data-in' type='checkbox'><label for='data-e3372b05-2bd9-42d6-98c3-a0af10dd9b50' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.99087242])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_n</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>41</div><input id='attrs-f9ed1fef-1a03-4530-ba94-ab66a67323c6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f9ed1fef-1a03-4530-ba94-ab66a67323c6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7ae9dfa4-669c-4eea-90e8-656f40ecc8a7' class='xr-var-data-in' type='checkbox'><label for='data-7ae9dfa4-669c-4eea-90e8-656f40ecc8a7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([41])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_range_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.9814</div><input id='attrs-b336ed5a-f3d6-4067-8f63-a7307c5f3b4c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b336ed5a-f3d6-4067-8f63-a7307c5f3b4c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-83525423-5292-497d-8732-1d780f242462' class='xr-var-data-in' type='checkbox'><label for='data-83525423-5292-497d-8732-1d780f242462' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0.98144433])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.2903</div><input id='attrs-195a1a86-9781-4916-893f-3180a5f90411' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-195a1a86-9781-4916-893f-3180a5f90411' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-06fdb0e5-8e41-4e22-ad7f-4f4388cb5790' class='xr-var-data-in' type='checkbox'><label for='data-06fdb0e5-8e41-4e22-ad7f-4f4388cb5790' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0.29031515])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>100382</div><input id='attrs-966c880f-5a8d-4a67-aa09-5a4a147f1fcd' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-966c880f-5a8d-4a67-aa09-5a4a147f1fcd' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-229bec39-8921-423a-8afb-6522fd2b01ea' class='xr-var-data-in' type='checkbox'><label for='data-229bec39-8921-423a-8afb-6522fd2b01ea' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([100382])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.494e+04</div><input id='attrs-b4c71b99-5f26-4279-b801-c84a23c3e7be' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b4c71b99-5f26-4279-b801-c84a23c3e7be' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9a2d3fae-0970-4b26-8865-b096c5db56cc' class='xr-var-data-in' type='checkbox'><label for='data-9a2d3fae-0970-4b26-8865-b096c5db56cc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([24944.34146341])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_median_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.019e+04</div><input id='attrs-f3c6d507-7676-42c4-843f-c0e43a86e083' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f3c6d507-7676-42c4-843f-c0e43a86e083' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-72326d11-5179-4044-846a-0bbba4503fbb' class='xr-var-data-in' type='checkbox'><label for='data-72326d11-5179-4044-846a-0bbba4503fbb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([50191.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0</div><input id='attrs-4a4a2bf1-830f-4893-9f91-2e1cf08c1e6f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4a4a2bf1-830f-4893-9f91-2e1cf08c1e6f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-395d63b7-a729-4a1b-8e22-796e978a9219' class='xr-var-data-in' type='checkbox'><label for='data-395d63b7-a729-4a1b-8e22-796e978a9219' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_range_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>100382</div><input id='attrs-0d7d2355-d651-468e-b9af-3e62560d51d2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0d7d2355-d651-468e-b9af-3e62560d51d2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5930f279-b645-4db4-adb8-f8fb339f33b1' class='xr-var-data-in' type='checkbox'><label for='data-5930f279-b645-4db4-adb8-f8fb339f33b1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([100382])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.383e+04</div><input id='attrs-5ba9ef6c-d32b-4154-88f1-32e64f3753f9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5ba9ef6c-d32b-4154-88f1-32e64f3753f9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b684f0d3-d02b-46e7-baee-efc838ed8ecc' class='xr-var-data-in' type='checkbox'><label for='data-b684f0d3-d02b-46e7-baee-efc838ed8ecc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([33831.92875161])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_x_at_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.9909</div><input id='attrs-140d6f63-9a4d-471b-b157-23d9eeb7ac4c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-140d6f63-9a4d-471b-b157-23d9eeb7ac4c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9f010666-9be2-4c18-a86c-9a647446b385' class='xr-var-data-in' type='checkbox'><label for='data-9f010666-9be2-4c18-a86c-9a647446b385' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.99087242])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.5002</div><input id='attrs-bd6c22a0-21ca-42ac-846a-b7bdb5e298b1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bd6c22a0-21ca-42ac-846a-b7bdb5e298b1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-13fee8e8-9fb8-4424-82bb-69539db699a4' class='xr-var-data-in' type='checkbox'><label for='data-13fee8e8-9fb8-4424-82bb-69539db699a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.50015026])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.5002</div><input id='attrs-9faf68e3-ae60-482d-8bea-d7a9b76dec99' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9faf68e3-ae60-482d-8bea-d7a9b76dec99' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6475b763-ac2b-4337-8100-5a97f47a9314' class='xr-var-data-in' type='checkbox'><label for='data-6475b763-ac2b-4337-8100-5a97f47a9314' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.50022254])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_fwhm</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.2355</div><input id='attrs-86367d09-d735-4a1d-83fe-3042e4405ae3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-86367d09-d735-4a1d-83fe-3042e4405ae3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6f1e217d-dfe1-442e-9f52-1d1e467572e6' class='xr-var-data-in' type='checkbox'><label for='data-6f1e217d-dfe1-442e-9f52-1d1e467572e6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0.23548173])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_variance</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.009988</div><input id='attrs-0c7556e3-7204-4c22-8979-a5f885eeca02' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0c7556e3-7204-4c22-8979-a5f885eeca02' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0280d546-0437-4592-abc6-e87a09498a3b' class='xr-var-data-in' type='checkbox'><label for='data-0280d546-0437-4592-abc6-e87a09498a3b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0.00998793])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.09994</div><input id='attrs-bfb16e7d-aa61-4036-9c99-47ae8a28143f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bfb16e7d-aa61-4036-9c99-47ae8a28143f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d245d919-d8a3-4ce2-a7ea-5446f8aef264' class='xr-var-data-in' type='checkbox'><label for='data-d245d919-d8a3-4ce2-a7ea-5446f8aef264' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([0.09993963])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_correlation</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.0001836</div><input id='attrs-3d16ad22-ba3d-4df9-b2db-0ad5e08b6916' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3d16ad22-ba3d-4df9-b2db-0ad5e08b6916' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6bba5d2a-06c6-4aba-83ec-8e667c30da21' class='xr-var-data-in' type='checkbox'><label for='data-6bba5d2a-06c6-4aba-83ec-8e667c30da21' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-0.00018358])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.493e+04</div><input id='attrs-104e8288-a639-492f-bbc1-651df902f34e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-104e8288-a639-492f-bbc1-651df902f34e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c9854f21-d12c-45f2-b193-7926df58dfc6' class='xr-var-data-in' type='checkbox'><label for='data-c9854f21-d12c-45f2-b193-7926df58dfc6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([24933.64150577])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-21.39</div><input id='attrs-e19a0489-6071-4bf8-b360-c490070b4617' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e19a0489-6071-4bf8-b360-c490070b4617' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-91f805f2-89da-4531-a8dd-a981ca304fd8' class='xr-var-data-in' type='checkbox'><label for='data-91f805f2-89da-4531-a8dd-a981ca304fd8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([-21.39348624])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_stddev_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.079e+04</div><input id='attrs-94ce0bc4-4950-4953-9358-a5985614a55d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-94ce0bc4-4950-4953-9358-a5985614a55d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c2325deb-f572-4e01-bbf2-46cda1c424d7' class='xr-var-data-in' type='checkbox'><label for='data-c2325deb-f572-4e01-bbf2-46cda1c424d7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([10791.44049877])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_stddev_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.866e+04</div><input id='attrs-f147f805-6329-4f8f-bdb2-962d33f5dcec' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f147f805-6329-4f8f-bdb2-962d33f5dcec' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-626b7537-470a-4029-b64b-fe53d292a09d' class='xr-var-data-in' type='checkbox'><label for='data-626b7537-470a-4029-b64b-fe53d292a09d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([18660.56339487])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lineup2_signal_stats_success</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>bool</div><div class='xr-var-preview xr-preview'>True</div><input id='attrs-06c5ac94-857e-4c08-9ac8-9ac9a7227fc0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-06c5ac94-857e-4c08-9ac8-9ac9a7227fc0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b50898e3-2e5c-4600-837b-45b31c1c1044' class='xr-var-data-in' type='checkbox'><label for='data-b50898e3-2e5c-4600-837b-45b31c1c1044' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>lineup2_signal_stats</dd></dl></div><div class='xr-var-data'><pre>array([ True])</pre></div></li></ul></div></li></ul></div></div></div></div>
+</div>
+</section>
+<section id="validate">
+<h2>Validate<a class="headerlink" href="#validate" title="Link to this heading">#</a></h2>
+<p>Confirm that <code class="docutils literal notranslate"><span class="pre">m1</span></code> was moved to within one sigma of the known peak centre.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">center</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>  <span class="c1"># known centre of the simulated Gaussian</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># known sigma</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak centre: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">   m1 position: </span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alignment successful: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">center</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sigma</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Peak centre: -0.5   m1 position: -0.5002
+Alignment successful: True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pl_excel_scan.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pl_nscan.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-lineup2">Run lineup2()</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-the-signal-stats-stream">Inspect the signal_stats stream</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate">Validate</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/pl_lineup.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,489 @@
+spec_file_writer
+================
+
+.. py:module:: apstools.callbacks.spec_file_writer
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.callbacks.spec_file_writer``
+
+   SPEC Data File Writer Callback
+   ++++++++++++++++++++++++++++++
+
+   EXAMPLE:
+
+   Execution of this plan (with ``RE(myPlan())``)::
+
+       def myPlan():
+           yield from bps.open_run()
+           spec_comment("this is a start document comment", "start")
+           spec_comment("this is a descriptor document comment", "descriptor")
+           yield bps.Msg('checkpoint')
+           yield from bps.trigger_and_read([scaler])
+           spec_comment("this is an event document comment after the first read")
+           yield from bps.sleep(2)
+           yield bps.Msg('checkpoint')
+           yield from bps.trigger_and_read([scaler])
+           spec_comment("this is an event document comment after the second read")
+           spec_comment("this is a stop document comment", "stop")
+           yield from bps.close_run()
+
+   results in this SPEC file output::
+
+       #S 1145  myPlan()
+       #D Mon Jan 28 12:48:09 2019
+       #C Mon Jan 28 12:48:09 2019.  plan_type = generator
+       #C Mon Jan 28 12:48:09 2019.  uid = ef98648a-8e3a-4e7e-ac99-3290c9b5fca7
+       #C Mon Jan 28 12:48:09 2019.  this is a start document comment
+       #C Mon Jan 28 12:48:09 2019.  this is a descriptor document comment
+       #MD APSTOOLS_VERSION = 2019.0103.0+5.g0f4e8b2
+       #MD BLUESKY_VERSION = 1.4.1
+       #MD OPHYD_VERSION = 1.3.0
+       #MD SESSION_START = 2019-01-28 12:19:25.446836
+       #MD beamline_id = developer
+       #MD ipython_session_start = 2018-02-14 12:54:06.447450
+       #MD login_id = mintadmin@mint-vm
+       #MD pid = 21784
+       #MD proposal_id = None
+       #N 2
+       #L Epoch_float  scaler_time  Epoch
+       1.4297869205474854 1.1 1
+       4.596935987472534 1.1 5
+       #C Mon Jan 28 12:48:11 2019.  this is an event document comment after the first read
+       #C Mon Jan 28 12:48:14 2019.  this is an event document comment after the second read
+       #C Mon Jan 28 12:48:14 2019.  this is a stop document comment
+       #C Mon Jan 28 12:48:14 2019.  num_events_primary = 2
+       #C Mon Jan 28 12:48:14 2019.  exit_status = success
+
+
+   .. autosummary::
+
+      ~SpecWriterCallback
+      ~SpecWriterCallback2
+      ~spec_comment
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: PRIMARY_STREAM_NAME
+   :value: 'primary'
+
+
+.. py:data:: SCAN_ID_RESET_VALUE
+   :value: 0
+
+
+.. py:data:: SPEC_TIME_FORMAT
+   :value: '%a %b %d %H:%M:%S %Y'
+
+
+.. py:class:: SpecWriterCallback(filename=None, auto_write=True, RE=None, reset_scan_id=False)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.spec_file_writer.SpecWriterCallback``
+
+
+   Bases: :py:obj:`object`
+
+
+   **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.
+
+   Collect data from Bluesky RunEngine documents to write as SPEC data.
+
+   .. index:: Bluesky Callback; SpecWriterCallback
+
+   This gathers data from all documents in a scan and appends scan to the file
+   when the ``stop`` document is received.  One or more scans can be written to
+   the same file.  The file format is text.
+
+   .. note:: ``SpecWriterCallback()`` does **not** inherit
+      from ``FileWriterCallbackBase()``.
+
+   PARAMETERS
+
+   filename
+       *string* :
+       (optional)
+       Local, relative or absolute name of SPEC data file to be used.
+       If ``filename=None``, defaults to format of ``YYYmmdd-HHMMSS.dat``
+       derived from the current system time.
+
+   auto_write
+       *boolean* :
+       (optional)
+       If ``True`` (default), ``write_scan()`` is called when *stop* document
+       is received.
+       If ``False``, the caller is responsible for calling ``write_scan()``
+       before the next ``start`` document is received.
+
+   RE
+       *object* :
+       Instance of ``bluesky.RunEngine`` or ``None``.
+
+   reset_scan_id
+       *boolean* :
+       (optional)
+       If True, and filename exists, then sets ``RE.md.scan_id`` to
+       highest scan number in existing SPEC data file.
+       default: False
+
+   User Interface methods
+
+   .. autosummary::
+
+      ~receiver
+      ~newfile
+      ~usefile
+      ~make_default_filename
+      ~clear
+      ~prepare_scan_contents
+      ~write_scan
+
+   Internal methods
+
+   .. autosummary::
+
+      ~write_header
+      ~start
+      ~descriptor
+      ~event
+      ~bulk_events
+      ~datum
+      ~resource
+      ~stop
+
+
+   .. py:attribute:: RE
+      :value: None
+
+
+
+   .. py:attribute:: auto_write
+      :value: True
+
+
+
+   .. py:attribute:: buffered_comments
+
+
+   .. py:method:: bulk_events(doc)
+
+      handle *bulk_events* documents
+
+
+
+   .. py:method:: clear()
+
+      reset all scan data defaults
+
+
+
+   .. py:method:: datum(doc)
+
+      handle *datum* documents
+
+
+
+   .. py:method:: descriptor(doc)
+
+      handle *descriptor* documents
+
+      prepare for primary scan data, ignore any other data stream
+
+
+
+   .. py:method:: event(doc)
+
+      handle *event* documents
+
+
+
+   .. py:method:: make_default_filename()
+
+      generate a file name to be used as default
+
+
+
+   .. py:method:: newfile(filename=None, scan_id=None, RE=None)
+
+      prepare to use a new SPEC data file
+
+      but don't create it until we have data
+
+
+
+   .. py:method:: prepare_scan_contents()
+
+      format the scan for a SPEC data file
+
+      :returns: [str] a list of lines to append to the data file
+
+
+
+   .. py:method:: receiver(key, document)
+
+      Bluesky callback: receive all documents for handling
+
+      .. index:: Bluesky Callback; SpecWriterCallback.receiver
+
+
+
+   .. py:attribute:: reset_scan_id
+      :value: False
+
+
+
+   .. py:method:: resource(doc)
+
+      handle *resource* documents
+
+
+
+   .. py:attribute:: spec_epoch
+      :value: None
+
+
+
+   .. py:attribute:: spec_filename
+      :value: None
+
+
+
+   .. py:attribute:: spec_host
+      :value: None
+
+
+
+   .. py:attribute:: spec_user
+      :value: None
+
+
+
+   .. py:method:: start(doc)
+
+      handle *start* documents
+
+
+
+   .. py:method:: stop(doc)
+
+      handle *stop* documents
+
+
+
+   .. py:attribute:: uid_short_length
+      :value: 8
+
+
+
+   .. py:method:: usefile(filename)
+
+      read from existing SPEC data file
+
+
+
+   .. py:method:: write_header()
+
+      Write the (initial) header section of a SPEC data file.
+
+
+
+   .. py:attribute:: write_new_header
+      :value: False
+
+
+
+   .. py:method:: write_scan()
+
+      write the most recent (completed) scan to the file
+
+      * creates file if not existing
+      * writes header if needed
+      * appends scan data
+
+      note:  does nothing if there are no lines to be written
+
+
+
+.. py:class:: SpecWriterCallback2(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.spec_file_writer.SpecWriterCallback2``
+
+
+   Bases: :py:obj:`apstools.callbacks.callback_base.FileWriterCallbackBase`
+
+
+   Write SPEC data file as data is collected, line-by-line.
+
+   .. index:: Bluesky Callback; SpecWriterCallback2
+
+   This writes data from a scan as each *event* document is received. One or
+   more scans can be written to the same file.  The file format is text.
+
+   .. rubric: Override Methods from FileWriterCallbackBase
+   .. autosummary::
+       ~descriptor
+       ~event
+       ~start
+       ~stop
+       ~writer
+
+   .. rubric: New Methods
+   .. autosummary::
+       ~_cmt
+       ~_write_lines_
+       ~make_default_filename
+       ~newfile
+       ~usefile
+       ~write_file_header
+       ~write_scan_data_row
+       ~write_scan_end
+       ~write_scan_header
+
+   .. rubric: Properties
+   .. autosummary::
+       ~spec_filename
+
+
+   .. py:attribute:: data_labels
+      :type:  list
+      :value: []
+
+
+
+   .. py:method:: descriptor(doc)
+
+      Handle *descriptor* documents of certain streams.
+
+
+
+   .. py:method:: event(doc)
+
+      a single "row" of data
+
+
+
+   .. py:attribute:: file_epoch
+      :value: None
+
+
+
+   .. py:method:: make_default_filename()
+
+      generate a file name to be used as default
+
+
+
+   .. py:method:: newfile(filename=None, scan_id=None, RE=None)
+
+      prepare to use a new SPEC data file
+
+      but don't create it until we have data
+
+
+
+   .. py:property:: spec_filename
+
+      Synonym for 'file_name' property.
+
+      API compatibility with SpecWriterCallback.
+
+
+
+   .. py:method:: start(doc)
+
+      First document of the run.
+
+
+
+   .. py:method:: stop(doc)
+
+      Last document of the run.
+
+
+
+   .. py:method:: usefile(filename)
+
+      read from existing SPEC data file
+
+
+
+   .. py:method:: write_file_header()
+
+      Write file header to file, if needed.
+
+
+
+   .. py:attribute:: write_new_file_header
+      :value: True
+
+
+
+   .. py:attribute:: write_new_scan_header
+      :value: False
+
+
+
+   .. py:method:: write_scan_data_row(doc)
+
+      Write row of scan data to file.
+
+
+
+   .. py:method:: write_scan_end(doc)
+
+      Write scan ending to file.
+
+
+
+   .. py:method:: write_scan_header()
+
+      Write scan header to file.
+
+
+
+   .. py:method:: writer()
+
+      Output to a file completed by other methods.
+
+
+
+.. py:function:: spec_comment(comment, doc=None, writer=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.spec_file_writer.spec_comment``
+
+
+   make it easy to add spec-style comments in a custom plan
+
+   These comments *only* go into the SPEC data file.
+
+   PARAMETERS
+
+   comment *string* :
+       (optional)
+       Comment text to be written.  SPEC expects it to be only one line!
+
+   doc *string* :
+       (optional)
+       Bluesky RunEngine document type.
+       One of: ``start descriptor event resource datum stop``
+       (default: ``event``)
+
+   writer *obj* :
+       (optional)
+       Instance of ``SpecWriterCallback()``,
+       typically: ``specwriter = SpecWriterCallback()``
+
+

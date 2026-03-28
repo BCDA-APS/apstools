@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>list_runs &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=fb1a6b5d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=4b2cc2f6"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/utils/list_runs/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="log_utils" href="../log_utils/index.html" />
+    <link rel="prev" title="list_plans" href="../list_plans/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../devices/index.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">utils</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">list_runs</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.utils.list_runs">
+<span id="list-runs"></span><h1>list_runs<a class="headerlink" href="#module-apstools.utils.list_runs" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs</span></code></p>
+<section id="directory-of-bluesky-runs">
+<h2>Directory of bluesky runs<a class="headerlink" href="#directory-of-bluesky-runs" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.list_runs.getRunData" title="apstools.utils.list_runs.getRunData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getRunData</span></code></a>(scan_id[, db, stream, query, use_v1])</p></td>
+<td><p>Convenience function to get the run's data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.list_runs.getRunDataValue" title="apstools.utils.list_runs.getRunDataValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getRunDataValue</span></code></a>(scan_id, key[, db, stream, ...])</p></td>
+<td><p>Convenience function to get value of key in run stream.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.list_runs.listRunKeys" title="apstools.utils.list_runs.listRunKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">listRunKeys</span></code></a>(scan_id[, key_fragment, db, ...])</p></td>
+<td><p>Convenience function to list all keys (column names) in the scan's stream (default: primary).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.list_runs.ListRuns" title="apstools.utils.list_runs.ListRuns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ListRuns</span></code></a>([cat, query, keys, missing, num, ...])</p></td>
+<td><p>List the runs from the given catalog according to some options.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.list_runs.listruns" title="apstools.utils.list_runs.listruns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">listruns</span></code></a>([cat, keys, missing, num, ...])</p></td>
+<td><p>List runs from catalog.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.list_runs.summarize_runs" title="apstools.utils.list_runs.summarize_runs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize_runs</span></code></a>([since, db])</p></td>
+<td><p>Report bluesky run metrics from the databroker.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">ListRuns</span></span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#ListRuns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.ListRuns" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.ListRuns</span></code></p>
+</div>
+<p>List the runs from the given catalog according to some options.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ListRuns</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>PUBLIC METHODS</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.list_runs.ListRuns.to_dataframe" title="apstools.utils.list_runs.ListRuns.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a>()</p></td>
+<td><p><strong>Deprecated</strong>: Output as pandas DataFrame object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.list_runs.ListRuns.to_table" title="apstools.utils.list_runs.ListRuns.to_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_table</span></code></a>([fmt])</p></td>
+<td><p><strong>Deprecated</strong>: Output as pyRestTable object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.list_runs.ListRuns.parse_runs" title="apstools.utils.list_runs.ListRuns.parse_runs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_runs</span></code></a>()</p></td>
+<td><p>Parse the runs for the given metadata keys.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>INTERNAL METHODS</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_get_by_key</span></code>(md, key)</p></td>
+<td><p>Get run's metadata value by key.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_check_cat</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_apply_search_filters</span></code>()</p></td>
+<td><p>Search for runs from the catalog.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_check_keys</span></code>()</p></td>
+<td><p>Check that self.keys is a list of strings.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.cat">
+<span class="sig-name descname"><span class="pre">cat</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.cat" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.hints_override">
+<span class="sig-name descname"><span class="pre">hints_override</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.hints_override" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.ids">
+<span class="sig-name descname"><span class="pre">ids</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.ids" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.keys" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.missing">
+<span class="sig-name descname"><span class="pre">missing</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.missing" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.num">
+<span class="sig-name descname"><span class="pre">num</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.num" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.parse_runs">
+<span class="sig-name descname"><span class="pre">parse_runs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#ListRuns.parse_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.parse_runs" title="Link to this definition">#</a></dt>
+<dd><p>Parse the runs for the given metadata keys.  Return a dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.query" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.reverse">
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.reverse" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.since">
+<span class="sig-name descname"><span class="pre">since</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.since" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.sortby">
+<span class="sig-name descname"><span class="pre">sortby</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'time'</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.sortby" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.timefmt">
+<span class="sig-name descname"><span class="pre">timefmt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.timefmt" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#ListRuns.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.to_dataframe" title="Link to this definition">#</a></dt>
+<dd><p><strong>Deprecated</strong>: Output as pandas DataFrame object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.to_table">
+<span class="sig-name descname"><span class="pre">to_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#ListRuns.to_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.to_table" title="Link to this definition">#</a></dt>
+<dd><p><strong>Deprecated</strong>: Output as pyRestTable object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.ListRuns.until">
+<span class="sig-name descname"><span class="pre">until</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.utils.list_runs.ListRuns.until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.getRunData">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">getRunData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'primary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#getRunData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.getRunData" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.getRunData</span></code></p>
+</div>
+<p>Convenience function to get the run’s data.  Default is the <code class="docutils literal notranslate"><span class="pre">primary</span></code> stream.</p>
+<p>PARAMETERS</p>
+<dl>
+<dt>scan_id</dt><dd><p><em>int</em> or <em>str</em> :
+Scan (run) identifier.
+Positive integer value is <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> from run’s metadata.
+Negative integer value is since most recent run in databroker.
+String is run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code> unique identifier (can abbreviate to
+the first characters needed to assure it is unique).</p>
+</dd>
+<dt>db</dt><dd><p><em>object</em> :
+Bluesky database, an instance of <code class="docutils literal notranslate"><span class="pre">databroker.catalog</span></code>.
+Default: will search existing session for instance.</p>
+</dd>
+<dt>stream</dt><dd><p><em>str</em> :
+Name of the bluesky data stream to obtain the data.
+Default: ‘primary’</p>
+</dd>
+<dt>query</dt><dd><p><em>dict</em> :
+mongo query dictionary, used to filter the results
+Default: <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<p>see: <a class="reference external" href="https://docs.mongodb.com/manual/reference/operator/query/">https://docs.mongodb.com/manual/reference/operator/query/</a></p>
+</dd>
+<dt>use_v1</dt><dd><p><em>bool</em> :
+Chooses databroker API version between ‘v1’ or ‘v2’.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code> (meaning use the v1 API)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.getRunDataValue">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">getRunDataValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'primary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#getRunDataValue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.getRunDataValue" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.getRunDataValue</span></code></p>
+</div>
+<p>Convenience function to get value of key in run stream.</p>
+<p>Defaults are last value of key in primary stream.</p>
+<p>PARAMETERS</p>
+<dl>
+<dt>scan_id</dt><dd><p><em>int</em> or <em>str</em> :
+Scan (run) identifier.
+Positive integer value is <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> from run’s metadata.
+Negative integer value is since most recent run in databroker.
+String is run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code> unique identifier (can abbreviate to
+the first characters needed to assure it is unique).</p>
+</dd>
+<dt>key</dt><dd><p><em>str</em> :
+Name of the key (data column) in the table of the stream’s data.
+Must match <em>identically</em>.</p>
+</dd>
+<dt>db</dt><dd><p><em>object</em> :
+Bluesky database, an instance of <code class="docutils literal notranslate"><span class="pre">databroker.catalog</span></code>.
+Default: will search existing session for instance.</p>
+</dd>
+<dt>stream</dt><dd><p><em>str</em> :
+Name of the bluesky data stream to obtain the data.
+Default: ‘primary’</p>
+</dd>
+<dt>query</dt><dd><p><em>dict</em> :
+mongo query dictionary, used to filter the results
+Default: <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<p>see: <a class="reference external" href="https://docs.mongodb.com/manual/reference/operator/query/">https://docs.mongodb.com/manual/reference/operator/query/</a></p>
+</dd>
+<dt>idx</dt><dd><p><em>int</em> or <em>str</em> :
+List index of value to be returned from column of table.
+Can be <code class="docutils literal notranslate"><span class="pre">0</span></code> for first value, <code class="docutils literal notranslate"><span class="pre">-1</span></code> for last value, <code class="docutils literal notranslate"><span class="pre">&quot;mean&quot;</span></code>
+for average value, or <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> for the full list of values.
+Default: <code class="docutils literal notranslate"><span class="pre">-1</span></code></p>
+</dd>
+<dt>use_v1</dt><dd><p><em>bool</em> :
+Chooses databroker API version between ‘v1’ or ‘v2’.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code> (meaning use the v1 API)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.listRunKeys">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">listRunKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_fragment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'primary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#listRunKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.listRunKeys" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.listRunKeys</span></code></p>
+</div>
+<p>Convenience function to list all keys (column names) in the scan’s stream (default: primary).</p>
+<p>PARAMETERS</p>
+<dl>
+<dt>scan_id</dt><dd><p><em>int</em> or <em>str</em> :
+Scan (run) identifier.
+Positive integer value is <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> from run’s metadata.
+Negative integer value is since most recent run in databroker.
+String is run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code> unique identifier (can abbreviate to
+the first characters needed to assure it is unique).</p>
+</dd>
+<dt>key_fragment</dt><dd><p><em>str</em> :
+Part or all of key name to be found in selected stream.
+For instance, if you specify <code class="docutils literal notranslate"><span class="pre">key_fragment=&quot;lakeshore&quot;</span></code>,
+it will return all the keys that include <code class="docutils literal notranslate"><span class="pre">lakeshore</span></code>.</p>
+</dd>
+<dt>db</dt><dd><p><em>object</em> :
+Bluesky database, an instance of <code class="docutils literal notranslate"><span class="pre">databroker.catalog</span></code>.
+Default: will search existing session for instance.</p>
+</dd>
+<dt>stream</dt><dd><p><em>str</em> :
+Name of the bluesky data stream to obtain the data.
+Default: ‘primary’</p>
+</dd>
+<dt>query</dt><dd><p><em>dict</em> :
+mongo query dictionary, used to filter the results
+Default: <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<p>see: <a class="reference external" href="https://docs.mongodb.com/manual/reference/operator/query/">https://docs.mongodb.com/manual/reference/operator/query/</a></p>
+</dd>
+<dt>strict</dt><dd><p><em>bool</em> :
+Should the <code class="docutils literal notranslate"><span class="pre">key_fragment</span></code> be matched identically (<code class="docutils literal notranslate"><span class="pre">strict=True</span></code>)
+or matched by lower case comparison (<code class="docutils literal notranslate"><span class="pre">strict=False</span></code>)?
+Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt>use_v1</dt><dd><p><em>bool</em> :
+Chooses databroker API version between ‘v1’ or ‘v2’.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code> (meaning use the v1 API)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.listruns">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">listruns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TableStyle.pyRestTable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">until</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hints_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#listruns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.listruns" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.listruns</span></code></p>
+</div>
+<p>List runs from catalog.</p>
+<p>This function provides a thin interface to the highly-reconfigurable
+<code class="docutils literal notranslate"><span class="pre">ListRuns()</span></code> class in this package.</p>
+<p>PARAMETERS</p>
+<dl>
+<dt>cat</dt><dd><p><em>object</em> :
+Instance of databroker v1 or v2 catalog.</p>
+</dd>
+<dt>keys</dt><dd><p><em>str</em> or <em>[str]</em> or None:
+Include these additional keys from the start document.
+(default: <code class="docutils literal notranslate"><span class="pre">None</span></code> means <code class="docutils literal notranslate"><span class="pre">&quot;scan_id</span> <span class="pre">time</span> <span class="pre">plan_name</span> <span class="pre">detectors&quot;</span></code>)</p>
+</dd>
+<dt>missing</dt><dd><p><em>str</em>:
+Test to report when a value is not available.
+(default: <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>)</p>
+</dd>
+<dt>hints_override <em>bool</em>:</dt><dd><p>For a key that appears in both the metadata and the hints,
+override the metadata value if the same key is found in the hints.
+(default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</dd>
+<dt>ids</dt><dd><p><em>[int]</em> or <em>[str]</em>:
+List of <code class="docutils literal notranslate"><span class="pre">uid</span></code> or <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> value(s).
+Can mix different kinds in the same list.
+Also can specify offsets (e.g., <code class="docutils literal notranslate"><span class="pre">-1</span></code>).
+According to the rules for <code class="docutils literal notranslate"><span class="pre">databroker</span></code> catalogs,
+a string is a <code class="docutils literal notranslate"><span class="pre">uid</span></code> (partial representations allowed),
+an int is <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> if positive or an offset if negative.
+(default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</dd>
+<dt>num</dt><dd><p><em>int</em> :
+Make the table include the <code class="docutils literal notranslate"><span class="pre">num</span></code> most recent runs.
+(default: <code class="docutils literal notranslate"><span class="pre">20</span></code>)</p>
+</dd>
+<dt>printing <em>bool</em> or <em>str</em> :</dt><dd><p>Deprecated.</p>
+</dd>
+<dt>reverse</dt><dd><p><em>bool</em> :
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sort in descending order by <code class="docutils literal notranslate"><span class="pre">sortby</span></code>.
+(default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+</dd>
+<dt>since</dt><dd><p><em>str</em> :
+include runs that started on or after this ISO8601 time
+(default: <code class="docutils literal notranslate"><span class="pre">&quot;1995-01-01&quot;</span></code>)</p>
+</dd>
+<dt>sortby</dt><dd><p><em>str</em> :
+Sort columns by this key, found by exact match in either
+the <code class="docutils literal notranslate"><span class="pre">start</span></code> or <code class="docutils literal notranslate"><span class="pre">stop</span></code> document.
+(default: <code class="docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>)</p>
+</dd>
+<dt>tablefmt <em>str</em> :</dt><dd><p>Deprecated.  Use <code class="docutils literal notranslate"><span class="pre">table_style</span></code> instead.</p>
+</dd>
+<dt>table_style <em>object</em> :</dt><dd><p>Either <code class="docutils literal notranslate"><span class="pre">TableStyle.pyRestTable</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">TableStyle.pandas</span></code>,
+using values from <code class="xref py py-class docutils literal notranslate"><span class="pre">apstools.utils.TableStyle</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> wll truncate long text to at most 50 characters.</p>
+</div>
+</dd>
+<dt>timefmt</dt><dd><p><em>str</em> :
+The <code class="docutils literal notranslate"><span class="pre">time</span></code> key (also includes keys <code class="docutils literal notranslate"><span class="pre">&quot;start.time&quot;</span></code> and  <code class="docutils literal notranslate"><span class="pre">&quot;stop.time&quot;</span></code>)
+will be formatted by the <code class="docutils literal notranslate"><span class="pre">self.timefmt</span></code> value.
+See <a class="reference external" href="https://strftime.org/">https://strftime.org/</a> for examples.  The special <code class="docutils literal notranslate"><span class="pre">timefmt=&quot;raw&quot;</span></code>
+is used to report time as the raw value (floating point time as used in
+python’s <code class="docutils literal notranslate"><span class="pre">time.time()</span></code>).
+(default: <code class="docutils literal notranslate"><span class="pre">&quot;%Y-%m-%d</span> <span class="pre">%H:%M:%S&quot;,</span></code>)</p>
+</dd>
+<dt>until</dt><dd><p><em>str</em> :
+include runs that started before this ISO8601 time
+(default: <code class="docutils literal notranslate"><span class="pre">2100-12-31</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">**query</span></code></dt><dd><p><em>dict</em> :
+Any additional keyword arguments will be passed to
+the databroker to refine the search for matching runs
+using the <code class="docutils literal notranslate"><span class="pre">mongoquery</span></code> package.</p>
+</dd>
+</dl>
+<p>RETURNS</p>
+<dl class="simple">
+<dt>object:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">pd.DataFrame()</span></code> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.list_runs.summarize_runs">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.list_runs.</span></span><span class="sig-name descname"><span class="pre">summarize_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/list_runs.html#summarize_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.list_runs.summarize_runs" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.list_runs.summarize_runs</span></code></p>
+</div>
+<p>Report bluesky run metrics from the databroker.</p>
+<ul class="simple">
+<li><p>How many different plans?</p></li>
+<li><p>How many runs?</p></li>
+<li><p>How many times each run was used?</p></li>
+<li><p>How frequently?  (TODO:)</p></li>
+</ul>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>since</dt><dd><p><em>str</em> :
+Report all runs since this ISO8601 date &amp; time
+(default: <code class="docutils literal notranslate"><span class="pre">1995</span></code>)</p>
+</dd>
+<dt>db</dt><dd><p><em>object</em> :
+Instance of <code class="docutils literal notranslate"><span class="pre">databroker.Broker()</span></code>
+(default: <code class="docutils literal notranslate"><span class="pre">db</span></code> from the IPython shell)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../list_plans/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">list_plans</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../log_utils/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">log_utils</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-of-bluesky-runs">Directory of bluesky runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns"><code class="docutils literal notranslate"><span class="pre">ListRuns</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.cat"><code class="docutils literal notranslate"><span class="pre">ListRuns.cat</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.hints_override"><code class="docutils literal notranslate"><span class="pre">ListRuns.hints_override</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.ids"><code class="docutils literal notranslate"><span class="pre">ListRuns.ids</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.keys"><code class="docutils literal notranslate"><span class="pre">ListRuns.keys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.missing"><code class="docutils literal notranslate"><span class="pre">ListRuns.missing</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.num"><code class="docutils literal notranslate"><span class="pre">ListRuns.num</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.parse_runs"><code class="docutils literal notranslate"><span class="pre">ListRuns.parse_runs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.query"><code class="docutils literal notranslate"><span class="pre">ListRuns.query</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.reverse"><code class="docutils literal notranslate"><span class="pre">ListRuns.reverse</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.since"><code class="docutils literal notranslate"><span class="pre">ListRuns.since</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.sortby"><code class="docutils literal notranslate"><span class="pre">ListRuns.sortby</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.timefmt"><code class="docutils literal notranslate"><span class="pre">ListRuns.timefmt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.to_dataframe"><code class="docutils literal notranslate"><span class="pre">ListRuns.to_dataframe()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.to_table"><code class="docutils literal notranslate"><span class="pre">ListRuns.to_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.ListRuns.until"><code class="docutils literal notranslate"><span class="pre">ListRuns.until</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.getRunData"><code class="docutils literal notranslate"><span class="pre">getRunData()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.getRunDataValue"><code class="docutils literal notranslate"><span class="pre">getRunDataValue()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.listRunKeys"><code class="docutils literal notranslate"><span class="pre">listRunKeys()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.listruns"><code class="docutils literal notranslate"><span class="pre">listruns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.list_runs.summarize_runs"><code class="docutils literal notranslate"><span class="pre">summarize_runs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/utils/list_runs/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2026, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

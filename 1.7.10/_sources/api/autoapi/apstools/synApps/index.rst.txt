@@ -1,0 +1,36 @@
+synApps
+=======
+
+.. py:module:: apstools.synApps
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps``
+
+   Ophyd support for EPICS synApps modules (records and databases).
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/autoapi/apstools/synApps/acalcout/index
+   /api/autoapi/apstools/synApps/asyn/index
+   /api/autoapi/apstools/synApps/busy/index
+   /api/autoapi/apstools/synApps/calcout/index
+   /api/autoapi/apstools/synApps/db_2slit/index
+   /api/autoapi/apstools/synApps/db_2slit_soft/index
+   /api/autoapi/apstools/synApps/epid/index
+   /api/autoapi/apstools/synApps/iocstats/index
+   /api/autoapi/apstools/synApps/luascript/index
+   /api/autoapi/apstools/synApps/save_data/index
+   /api/autoapi/apstools/synApps/scalcout/index
+   /api/autoapi/apstools/synApps/sscan/index
+   /api/autoapi/apstools/synApps/sseq/index
+   /api/autoapi/apstools/synApps/sub/index
+   /api/autoapi/apstools/synApps/swait/index
+   /api/autoapi/apstools/synApps/transform/index
+
+

@@ -1,0 +1,254 @@
+sub
+===
+
+.. py:module:: apstools.synApps.sub
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.sub``
+
+   Ophyd support for the EPICS sub record
+
+   https://epics.anl.gov/base/R7-0/6-docs/subRecord.html
+
+   Public Structures
+
+   .. autosummary::
+
+       ~UserAverageN
+       ~UserAverageDevice
+       ~SubRecord
+       ~SubRecordChannel
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: CHANNEL_LETTERS_LIST
+
+.. py:class:: SubRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sub.SubRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS base sub record support in ophyd
+
+   .. index:: Ophyd Device; SubRecord
+
+   .. autosummary::
+
+       ~reset
+
+   :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
+
+
+   .. py:attribute:: calculated_value
+
+
+   .. py:attribute:: channels
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: initroutine
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: read_attrs
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: subroutine
+
+
+   .. py:attribute:: units
+
+
+   .. py:property:: value
+
+
+.. py:class:: SubRecordChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sub.SubRecordChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Number channel of a sub record: A-L
+
+   .. index:: Ophyd Device; synApps SubRecordChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserAverageDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sub.UserAverageDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of user averaging sub records: ``$(P):userAve$(N)``
+
+   .. index:: Ophyd Device; synApps UserAverageDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: average1
+
+
+   .. py:attribute:: average10
+
+
+   .. py:attribute:: average2
+
+
+   .. py:attribute:: average3
+
+
+   .. py:attribute:: average4
+
+
+   .. py:attribute:: average5
+
+
+   .. py:attribute:: average6
+
+
+   .. py:attribute:: average7
+
+
+   .. py:attribute:: average8
+
+
+   .. py:attribute:: average9
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserAverageN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sub.UserAverageN``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS synApps XXX IOC setup of user average: ``$(P):userAve$(N)``
+
+   This database uses a sub record for most features plus additional
+   records to support done, acquire, clear, and other features.
+
+   It *uses* a ``sub`` record and other, hence not exactly a :meth:`SubRecord`.
+
+
+   .. py:attribute:: acquire
+
+
+   .. py:attribute:: algorithm
+
+
+   .. py:attribute:: auto
+
+
+   .. py:attribute:: average
+
+
+   .. py:attribute:: averaged_value
+
+
+   .. py:attribute:: busy
+
+
+   .. py:attribute:: channel
+
+
+   .. py:attribute:: clear
+
+
+   .. py:attribute:: corr_coef
+
+
+   .. py:attribute:: current_sample
+
+
+   .. py:attribute:: enable
+
+
+   .. py:attribute:: initroutine
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: line_fit
+
+
+   .. py:attribute:: mode
+
+
+   .. py:attribute:: number_samples
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: slope
+
+
+   .. py:attribute:: subroutine
+
+
