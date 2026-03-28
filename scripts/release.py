@@ -61,10 +61,7 @@ from pathlib import Path
 from packaging.version import Version
 
 ROOT = Path(__file__).parent.parent
-CHANGES = ROOT / "docs" / "source" / "changes.rst"
-# Also check the top-level CHANGES.rst (same file, different name)
-if not CHANGES.exists():
-    CHANGES = ROOT / "CHANGES.rst"
+CHANGES = ROOT / "CHANGES.rst"
 
 
 # ---------------------------------------------------------------------------
