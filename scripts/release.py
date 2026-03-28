@@ -74,8 +74,17 @@ def run(cmd, check=True, capture=True):
 
 
 def git_tags():
-    """Return all tags sorted newest-first by version."""
+    """Return all tags sorted newest-first by date."""
     result = run(["git", "tag", "--sort=-version:refname"])
+
+    # more details:
+    # git for-each-ref \
+    #     --sort=-creatordate\
+    #     --format '%(refname:short) %(creatordate:iso8601)'\
+    #     refs/tags
+
+    result = run(["git", "tag", "--sort=-creatordate"])
+
     return [t.strip() for t in result.stdout.splitlines() if t.strip()]
 
 
