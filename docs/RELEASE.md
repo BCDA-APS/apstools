@@ -78,12 +78,27 @@ git checkout -b release-1.7.10
 Edit `recipe/meta.yaml`:
 - Line 2: update `version` to the new rc tag (e.g. `1.7.10rc1`)
 - Line 2: update `sha256` to the value from Step 2
+- Update feedstock's `requirements.run` for any changes in repo's `dependencies`
+
+Commit changes locally on the new branch:
+
+```bash
+git commit -am "tag 1.7.10rc1"
+```
 
 Re-render the recipe:
+
+Execute these steps locally (or wait until the PR is opened below):
 
 ```bash
 conda update -c conda-forge conda-smithy
 conda smithy rerender
+```
+
+If re-rendering produced changes, commit them:
+
+```bash
+git commit -am "re-render"
 ```
 
 Push and open (or update) the PR against conda-forge:
@@ -93,6 +108,15 @@ git push origin release-1.7.10
 ```
 
 Complete all checklist items on the feedstock PR.
+
+#### Re-render on GitHub web site
+
+After the PR to conda-forge has been requested with the new branch, add
+this comment to the PR:
+
+```
+@conda-forge-admin, please rerender
+```
 
 ### Step 4 — Watch feedstock CI
 
