@@ -21,10 +21,184 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.3
-   *****
+   1.7.11
+   ******
 
-   Release expected by 2025-02-28.
+   Release expected by 2026-05-01.
+
+   Enhancements
+   ------------
+
+   Fixes
+   -----
+
+   Maintenance
+   -----------
+
+1.7.10
+******
+
+Released 2026-03-28.
+
+Enhancements
+------------
+
+* ``lineup2()`` now writes peak statistics (including ``success`` and
+  ``reasons``) as a bluesky stream before the run closes.  Stream name
+  is controlled by the new ``stats_stream`` kwarg (default:
+  ``"signal_stats"``). (:issue:`1046`)
+* Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
+
+Fixes
+-------------
+
+* ``AD_plugin_primed()`` and ``ensure_AD_plugin_primed()`` now skip the
+  priming check when the plugin's ``stage_sigs`` will disable it on stage.
+  (:issue:`1061`)
+* BUG 'dt_cycle_ends' in apstools.devices.aps_cycle.ApsCycleDM
+
+Maintenance
+-----------
+
+* Adopt ``pre-commit`` for code style with ``ruff`` (lint + format) and
+  file hygiene hooks; remove legacy ``black``, ``flake8``, and ``isort``
+  configurations. (:issue:`1156`)
+* Add ``scripts/make_switcher.py`` to auto-generate ``switcher.json`` from
+  git tags; simplify docs deployment: ``dev/`` auto-deploys on every push
+  to ``main``, tagged releases deploy on manual trigger only; remove
+  ``define_versions.sh`` and the gh-pages zip download/rebuild cycle.
+  (:issue:`1157`)
+* Add ``scripts/update_copyright.py`` pre-commit hook to keep copyright
+  ending year current automatically. (:issue:`1172`)
+* Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
+* Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
+* Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
+* Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
+* Move test catalogs from ``resources/`` to ``apstools/tests/`` and drop
+  ``_test`` suffix from file names. (:issue:`1165`)
+* Refactor test catalog installation to use in-memory ``databroker.temp()``
+  loaded from ``.json.gz`` snapshots, removing the fragile ``databroker-unpack``
+  / msgpack / intake YAML approach.  Re-enable 20 skipped tests. (:issue:`1131`)
+* Relocate some utils code from apsbits.
+* Replace ``sphinx.ext.autosummary`` and ``.. automodule::`` directives with
+  ``sphinx-autoapi`` for auto-generated API reference.  Curated topic pages
+  (Callbacks, Devices, File Writers, Plans, Utilities, synApps) are retained
+  as bullet-list indexes that cross-reference into the auto-generated pages.
+  (:issue:`1081`)
+* Review and refactor unit tests: remove ``try/except`` anti-patterns, use
+  ``parms, context`` parametrize style, add ``re.escape()`` to ``match=``
+  strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
+* Update copyright ending year to 2026. (:issue:`1172`)
+
+1.7.9
+*****
+
+Released 2025-10-13.
+
+Fixes
+-------------
+
+* Planar undulator has HPMU version (not HDMU version).
+
+1.7.8
+*****
+
+Released 2025-10-09.
+
+
+Fixes
+-------------
+
+* ApsMachineParametersDevice cannot get cycle name, current date not in data table.
+* SpecWriterCallback2 added extra data point when baseline stream was present.
+
+Maintenance
+-----------
+
+* Now testing with Python versions 3.10 - Py3.13. (still pinning databroker)
+* STI undulator uses 'STIVersionM' PV
+* Overhaul test_labels_to_streams.py and test_listruns_class.py
+
+1.7.7
+*****
+
+Released 2025-07-03.
+
+Enhancements
+-------------
+
+* Add device support for *db_2slit_soft* database (different than *db_2slit*).
+
+Fixes
+-------------
+
+* Fix KeyError in SpecWriterCallback2 for edge case.
+
+Maintenance
+-------------
+
+* Add kwargs to shutters, such as ApsPssShutter.
+
+1.7.5
+*****
+
+Released 2025-06-05.
+
+New Features
+-------------
+
+* Added AcsMotor for AcsMotionControl motor support.
+* Added HHLApertureACS High Heat Load Aperture.
+
+Enhancements
+-------------
+
+* Added mb_creator()
+
+Fixes
+-------------
+
+* KeyError from callback caused failure of lineup2() plan.
+* SpecWriterCallback2 attribute 'data_labels' was never initialized.
+* SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
+
+Maintenance
+-------------
+
+* Added HHLApertureBase for high heat-load apertures.
+* Apply @deprecated decorator to make these markings more visible.
+* SpecWriterCallback2: refactor how to get SPEC data labels.
+* Switch to use numpy >= 2.
+
+1.7.3
+*****
+
+Released 2025-04-29.
+
+Enhancements
+-------------
+
+* Add 'validate_ports' kwarg to 'ad_creator'.
+* Hoist area detector 'BadPixelPlugin' from USAXS.  (It's not in ophyd yet.)
+* Recover diffractometer configurations in FileWriterCallbackBase.
+
+Fixes
+-----
+
+* Fix area detector staging of unconfigured HDF5 plugin.
+* Fix problem with detector selection for lineup2() reported by USAXS.
+* Fix unit test involving package version string length.
+
+Maintenance
+-----------
+
+* Now testing with Python versions 3.9 - Py3.13. (still pinning databroker)
+* Removed 'lifetime' component from 'aps_machine' device.
+* Refactor cleanupText.
+* Refactor unit test for change in upstream ophyd-registry findall().
+* Remove testing requirement of ophyd-registry package.
+* Unit testing was taking ~1/2 hour to complete.
+* Update project packaging and installation procedures.
 
 1.7.2
 *****
@@ -55,7 +229,7 @@ Maintenance
    diagnostics.
 
 Deprecations
------------
+------------
 
 - Use of 'PySumReg.SummationRegisters' to be removed in next major release.
 

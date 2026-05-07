@@ -60,10 +60,12 @@ from .db_2slit import Optics2Slit1D
 from .db_2slit import Optics2Slit2D_HV
 from .db_2slit import Optics2Slit2D_InbOutBotTop
 
+from .db_2slit_soft import Optics2Slit1D_soft
+from .db_2slit_soft import Optics2Slit2D_soft
+
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

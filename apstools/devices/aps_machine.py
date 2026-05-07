@@ -67,7 +67,7 @@ class ApsMachineParametersDevice(Device):
     """
 
     current = Component(EpicsSignalRO, "S-DCCT:CurrentM")
-    lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
+    # lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     aps_cycle = Component(ApsCycleDM)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
@@ -91,8 +91,8 @@ class ApsMachineParametersDevice(Device):
 
     # shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True) # Not Found
 
-    shutter_status = Component(EpicsSignalRO, "RF-ACIS:FePermit:Sect1To35IdM.RVAL", string = True)
-    shutters_open  =  Component(EpicsSignalRO, "NoOfShuttersOpenA")
+    shutter_status = Component(EpicsSignalRO, "XFD:ShutterPermit", string=True)
+    shutters_open = Component(EpicsSignalRO, "NoOfShuttersOpenA")
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
 
@@ -131,9 +131,8 @@ class ApsMachineParametersDevice(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

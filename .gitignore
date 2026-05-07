@@ -9,8 +9,8 @@ _notes*.md
 # local note-taking
 _notes*.md
 
-# unit test
-.coverage
+# unit test coverage reports
+.coverage*
 
 db/
 log/
@@ -22,6 +22,7 @@ __pycache__/
 *.tar.gz
 *.whl
 docs/build/
+docs/source/api/autoapi/
 .settings/
 build/
 .ipynb_checkpoints/
@@ -41,3 +42,6 @@ build_log.txt
 
 # setuptools-scm : generated version number
 _version.py
+
+# bs_model_instrument
+.re_md_dict.yml

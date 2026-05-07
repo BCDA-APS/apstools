@@ -87,8 +87,6 @@ values record at both *start* and *end*, then use **two** decorators::
    ~label_stream_stub
    ~label_stream_wrapper
    ~When
-
-*new in apstools release 1.6.11*
 """
 
 from enum import Enum
@@ -97,12 +95,16 @@ from bluesky import preprocessors as bpp
 from bluesky.magics import get_labeled_devices
 from bluesky.utils import make_decorator
 from bluesky.utils import single_gen
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from ..utils import getDefaultNamespace
 from .doc_run import write_stream
 
 
-def label_stream_stub(labels=None, fmt=None, bec=None):
+@versionchanged(version="1.7.6", reason="Caller can specify namespace dict.")
+@versionadded(version="1.6.11")
+def label_stream_stub(labels=None, fmt=None, bec=None, ns: dict[str, object] = None):
     """
     Writes ophyd-labeled objects to open bluesky run streams. One stream per label.
 
@@ -123,12 +125,15 @@ def label_stream_stub(labels=None, fmt=None, bec=None):
         Instance of bluesky BestEffortCallback.
         Default: selected from default namespace, if available.
 
-    *new in apstools release 1.6.11*
+    ns
+        *dict*:
+        Namespace dictionary to search for labeled objects.
+        Default: selected from default namespace, if available.
     """
     from bluesky.callbacks.best_effort import BestEffortCallback
 
     fmt = fmt or "label_{}"
-    ns = getDefaultNamespace()
+    ns = ns or getDefaultNamespace()
     devices = get_labeled_devices(ns)
     labels = labels or list(devices.keys())
     if not isinstance(labels, (list, tuple)):
@@ -152,6 +157,7 @@ def label_stream_stub(labels=None, fmt=None, bec=None):
     # fmt: on
 
 
+@versionadded(version="1.6.11")
 class When(Enum):
     """Describes what point of the run the stream(s) should be written."""
 
@@ -159,7 +165,9 @@ class When(Enum):
     END = "end"
 
 
-def label_stream_wrapper(plan, labels, fmt=None, when="start"):
+@versionchanged(version="1.7.6", reason="Caller can specify namespace dict.")
+@versionadded(version="1.6.11")
+def label_stream_wrapper(plan, labels, fmt=None, when="start", ns: dict[str, object] = None):
     """
     Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".
 
@@ -171,7 +179,7 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
     labels
         *[str]* (or *str*):
         List of configured ophyd object "labels".
-        Passed through to :meth:`~apstools.plans.write_label_stream()`.
+        Passed through to :meth:`~apstools.plans.label_stream_stub()`.
         Default: ``None`` (meaning all).
     fmt
         *str*:
@@ -194,7 +202,10 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
 
         Default: ``"start"``
 
-    *new in apstools release 1.6.11*
+    ns
+        *dict*:
+        Namespace dictionary to search for labeled objects.
+        Default: selected from default namespace, if available.
     """
     try:
         if isinstance(when, str):
@@ -209,7 +220,7 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
         if msg.command == "open_run":
 
             def new_gen():
-                yield from label_stream_stub(labels, fmt=fmt)
+                yield from label_stream_stub(labels, fmt=fmt, ns=ns)
 
             return single_gen(msg), new_gen()
         else:
@@ -219,7 +230,7 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
         if msg.command == "close_run":
 
             def new_gen():
-                yield from label_stream_stub(labels, fmt=fmt)
+                yield from label_stream_stub(labels, fmt=fmt, ns=ns)
                 yield msg
 
             return new_gen(), None
@@ -234,9 +245,8 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
 label_stream_decorator = make_decorator(label_stream_wrapper)
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

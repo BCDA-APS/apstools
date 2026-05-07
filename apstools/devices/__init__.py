@@ -9,6 +9,8 @@ from .positioner_soft_done import PVPositionerSoftDone
 from .positioner_soft_done import PVPositionerSoftDoneWithStop
 
 # other imports
+from .acs_motors import AcsMotor
+
 from .aps_bss_user import ApsBssUserInfoDevice
 
 from .aps_cycle import ApsCycleDM
@@ -42,6 +44,7 @@ from .area_detector_support import AD_EpicsJPEGFileName
 from .area_detector_support import AD_EpicsJPEGIterativeWriter
 from .area_detector_support import AD_EpicsTIFFFileName
 from .area_detector_support import AD_EpicsTIFFIterativeWriter
+from .area_detector_support import BadPixelPlugin
 from .area_detector_support import CamMixin_V34
 from .area_detector_support import CamMixin_V3_1_1
 from .area_detector_support import HDF5FileWriterPlugin
@@ -49,6 +52,7 @@ from .area_detector_support import SimDetectorCam_V34
 from .area_detector_support import SingleTrigger_V34
 from .area_detector_support import ensure_AD_plugin_primed
 
+from .avs_filters import AVSfilters
 
 from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
@@ -72,7 +76,13 @@ from .eurotherm_2216e import Eurotherm2216e
 # from .flyer_motor_scaler import _SMFlyer_Step_1
 # from .flyer_motor_scaler import _SMFlyer_Step_2
 # from .flyer_motor_scaler import _SMFlyer_Step_3
+
+from .hhl_apertures import HHLAperture
+
 from .hhl_slits import HHLSlits
+
+from .jj_transfocators import JJtransfocator1x, JJtransfocator2x
+from .jj_transfocators import JJtransfocator1xZ, JJtransfocator2xZ
 
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 
@@ -90,6 +100,10 @@ from .measComp_usb_ctr_support import MeasCompCtr
 from .measComp_usb_ctr_support import MeasCompCtrMcs
 
 from .mixin_base import DeviceMixinBase
+
+from .motor_factory import axis_component
+from .motor_factory import mb_class_factory
+from .motor_factory import mb_creator
 
 from .motor_mixins import EpicsMotorDialMixin
 from .motor_mixins import EpicsMotorEnableMixin
@@ -205,9 +219,8 @@ from ..synApps import UserTransformN
 from ..synApps import UserTransformsDevice
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

@@ -170,4 +170,4 @@ class MockFlyer:
 mflyer = MockFlyer('mflyer', noisy_det, m1, -3, 6, 21)
 
 # FIXME: fails, see: https://github.com/NSLS-II/bluesky/issues/1157
-RE(bpre.fly_during_wrapper(bp.count([noisy_det], num=5), [mflyer]))      
+RE(bpre.fly_during_wrapper(bp.count([noisy_det], num=5), [mflyer]))

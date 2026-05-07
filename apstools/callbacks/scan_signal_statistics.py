@@ -11,16 +11,16 @@ import logging
 
 import pyRestTable
 import pysumreg  # deprecate, will remove in next major version bump
+from deprecated.sphinx import versionchanged
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
 
+@versionchanged(version="1.7.10", reason="Add compute() method; refactor stop() to use it.")
 class SignalStatsCallback:
     """
     Callback: Collect peak (& other) statistics during a scan.
-
-    .. caution:: This is an early draft and is subject to change!
 
     Subscribe the ``receiver()`` method. Use with step scan plans such as
     ``bp.scan()`` and ``bp.rel_scan()``.
@@ -72,15 +72,21 @@ class SignalStatsCallback:
     data_stream: str = "primary"
     """RunEngine document with signals to to watch."""
 
+    feature: str = None
+    """Name of the peak feature used for alignment (e.g. ``"centroid"``).  Set by the caller."""
+
     reporting: bool = True
     """If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""
+
+    _reported: bool = False
+    """Has ``report()`` been called since the last ``clear()``?"""
 
     _scanning: bool = False
     """Is a run *in progress*?"""
 
     _registers: dict = {}
     """
-    Deprecated: Use 'analysis' instead, will remove in next major release.
+    **Deprecated**: Use 'analysis' instead, will remove in next major release.
 
     Dictionary (keyed on Signal name) of ``SummationRegister()`` objects.
     """
@@ -91,19 +97,18 @@ class SignalStatsCallback:
     analysis: object = None
     """Dictionary of statistical array analyses."""
 
-    # TODO: What happens when the run is paused?
-
     def __repr__(self):
         if "_motor" not in dir(self):  # not initialized
             self.clear()
-        args = f"motor={self._motor!r},  detectors={self._detectors!r}"
+        args = f"motors={self.positioners!r},  detectors={self.detectors!r}"
         return f"{self.__class__.__name__}({args})"
 
     def clear(self):
         """Clear the internal memory for the next run."""
         self._scanning = False
-        self._detectors = []
-        self._motor = ""
+        self._reported = False
+        self.detectors: list[str] = []
+        self.positioners: list[str] = []
         self._registers = {}  # deprecated, for removal
         self._descriptor_uid = None
         self._x_name = None
@@ -112,6 +117,8 @@ class SignalStatsCallback:
 
     def descriptor(self, doc):
         """Receives 'descriptor' documents from the RunEngine."""
+        from ..utils.descriptor_support import get_stream_data_map
+
         if not self._scanning:
             return
         if doc["name"] != self.data_stream:
@@ -120,13 +127,21 @@ class SignalStatsCallback:
         # Remember now, to match with later events.
         self._descriptor_uid = doc["uid"]
 
+        data_map = get_stream_data_map(self.detectors, self.positioners, doc)
+        if len(data_map.get("detectors", [])) == 0:
+            logger.warning("No detector signals available.  No statistics.")
+            return
+        if len(data_map.get("motors", [])) == 0:
+            logger.warning("No motor signals available.  No statistics.")
+            return
+
         # Pick the first motor signal.
-        self._x_name = doc["hints"][self._motor]["fields"][0]
+        self._x_name = data_map["motors"][0]
         self._data[self._x_name] = []
 
-        # Get the signals for each detector object.s
-        for d in self._detectors:
-            for y_name in doc["hints"][d]["fields"]:
+        # Get the signals for each detector object(s)
+        for y_name in data_map["detectors"]:
+            if y_name not in self._y_names:
                 self._y_names.append(y_name)
                 self._data[y_name] = []
 
@@ -164,7 +179,7 @@ class SignalStatsCallback:
             return
 
         x_name = self._x_name
-        y_name = self._detectors[0]
+        y_name = self.detectors[0]
 
         keys = """
             n centroid x_at_max_y
@@ -177,29 +192,54 @@ class SignalStatsCallback:
         table = pyRestTable.Table()
         table.labels = "statistic value".split()
         table.rows = [(k, self.analysis.get(k, "--")) for k in keys if k in self.analysis]
-        print(f"Motor: {x_name!r}  Detector: {y_name!r}")
+        header = f"Motor: {x_name!r}  Detector: {y_name!r}"
+        if self.feature is not None:
+            header += f"  Feature: {self.feature!r}"
+        print(header)
         print(table)
+        self._reported = True
 
     def start(self, doc):
         """Receives 'start' documents from the RunEngine."""
         self.clear()
         self._scanning = True
         # These command arguments might each have many signals.
-        self._detectors = doc["detectors"]
-        self._motor = doc["motors"][0]  # just keep the first one
+        self.detectors = doc["detectors"]
+        self.positioners = doc["motors"]
+
+    def compute(self):
+        """Compute XY statistics from accumulated data.
+
+        Can be called mid-run (before the stop document) to populate
+        ``self.analysis`` with the current statistics.  This is used by
+        ``lineup2()`` to write the statistics as a bluesky stream before
+        the run closes.
+
+        (new in release 1.7.10)
+        """
+        from ..utils.statistics import xy_statistics
+
+        if self._x_name is None:
+            logger.warning("No XY statistics: no X axis name found.")
+            return
+        if len(self._y_names) == 0:
+            logger.warning("No XY statistics: no Y axis names found.")
+            return
+        if not self._data.get(self._x_name):
+            return
+
+        self.analysis = xy_statistics(
+            self._data[self._x_name],
+            self._data[self._y_names[0]],
+        )
 
     def stop(self, doc):
         """Receives 'stop' documents from the RunEngine."""
-        from ..utils.statistics import xy_statistics
-
         if not self._scanning:
             return
         self._scanning = False
 
-        self.analysis = xy_statistics(
-            self._data[self._x_name],
-            self._data[self._detectors[0]],
-        )
+        self.compute()
 
         if self.reporting:
             self.report()

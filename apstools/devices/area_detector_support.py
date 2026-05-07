@@ -20,6 +20,7 @@ Area Detector Support
    ~AD_prime_plugin
    ~AD_prime_plugin2
    ~AD_setup_FrameType
+   ~BadPixelPlugin
    ~CamMixin_V3_1_1
    ~CamMixin_V34
    ~HDF5FileWriterPlugin
@@ -37,11 +38,13 @@ from collections import OrderedDict
 
 import epics
 import numpy as np
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
+from ophyd import ADComponent
+from ophyd import CamBase
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
-from ophyd import ADComponent
-from ophyd import CamBase
 from ophyd import SimDetectorCam
 from ophyd import SingleTrigger
 from ophyd.areadetector.filestore_mixins import FileStoreBase
@@ -50,6 +53,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.plugins import HDF5Plugin_V34
 from ophyd.areadetector.plugins import JPEGPlugin_V34
+from ophyd.areadetector.plugins import PluginBase
 from ophyd.areadetector.plugins import TIFFPlugin_V34
 from packaging import version
 
@@ -125,9 +129,27 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "_RBV", field), value)
 
 
+def _plugin_disabled_on_stage(plugin):
+    """
+    Return ``True`` if the plugin's ``stage_sigs`` will disable it on stage.
+
+    Checks whether ``plugin.stage_sigs`` contains an ``enable`` key whose
+    value resolves to a disabled state (``0``, ``False``, or the string
+    ``"Disable"``).  Used to skip the priming check when a plugin is
+    intentionally staged as disabled.
+    """
+    _DISABLED_VALUES = {0, False, "Disable", "disable"}
+    enable_val = plugin.stage_sigs.get("enable")
+    return enable_val in _DISABLED_VALUES
+
+
 def AD_plugin_primed(plugin):
     """
     Has area detector pushed an NDarray to the file writer plugin?  True or False
+
+    Returns ``True`` immediately (without connecting to the IOC) when the
+    plugin's ``stage_sigs`` will disable the plugin on stage, because the
+    priming check is irrelevant for a disabled plugin.
 
     PARAMETERS
 
@@ -158,6 +180,10 @@ def AD_plugin_primed(plugin):
     in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
+    if _plugin_disabled_on_stage(plugin):
+        logger.debug("'%s' plugin is disabled on stage; skipping primed check", plugin.name)
+        return True
+
     cam = plugin.parent.cam
     tests = []
 
@@ -258,6 +284,8 @@ def AD_prime_plugin2(plugin):
         sig.set(val).wait()
 
 
+@versionchanged(version="1.7.10", reason="Skip priming check when plugin is disabled on stage.")
+@versionadded(version="1.6.16")
 def ensure_AD_plugin_primed(plugin, allow=False):
     """
     Ensure the AD file writing plugin is *primed* (warmed up), if allowed.
@@ -304,17 +332,20 @@ def ensure_AD_plugin_primed(plugin, allow=False):
     Even with ``lazy_open=1``, ophyd (via ``area_detector_handlers``) checks
     if the area detector file writing plugin has been *primed*.
 
-    .. see: ``ophyd.areadetector.plugins.UnprimedPlugin``:
+    .. seealso:: ``ophyd.areadetector.plugins.UnprimedPlugin``:
        https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
-
-    (new in apstools release 1.6.16)
     """
+    if _plugin_disabled_on_stage(plugin):
+        logger.debug("'%s' plugin is disabled on stage; skipping primed check", plugin.name)
+        return
+
     if allow:
         if not AD_plugin_primed(plugin):
             logger.info(f"Priming {plugin.name} ...")
             AD_prime_plugin2(plugin)
 
 
+@versionadded(version="1.6.2")
 def AD_full_file_name_local(plugin):
     """
     Return AD plugin's *Last filename* using local filesystem path.
@@ -328,8 +359,6 @@ def AD_full_file_name_local(plugin):
 
     plugin *obj* :
         Instance of ophyd area detector file writing plugin.
-
-    (new in apstools release 1.6.2)
     """
     fname = plugin.full_file_name.get().strip()
     if fname == "":
@@ -411,7 +440,7 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
     """
 
     def _remove_caller_stage_sigs(self):
-        """Caller is responsible for setting these stage_sigs."""
+        """Caller is responsible for setting these, pop from stage_sigs."""
         caller_sets_these = """
             array_counter
             auto_increment
@@ -425,8 +454,7 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
             num_capture
         """.split()
         for key in caller_sets_these:
-            if key in self.stage_sigs:
-                self.stage_sigs.pop(key)
+            self.stage_sigs.pop(key, None)
 
     def make_filename(self):
         """
@@ -462,6 +490,12 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
         Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
+        # Validate!
+        for attr in "file_name file_path file_template".split():
+            signal = getattr(self, attr)
+            if len(signal.get()) == 0:
+                raise ValueError(f"{signal._write_pv.pvname!r} is an empty string.")
+
         if "capture" in self.stage_sigs:
             self.stage_sigs.move_to_end("capture", last=True)
 
@@ -526,16 +560,16 @@ class AD_EpicsHdf5FileName(AD_EpicsFileNameMixin):
         self.stage_sigs.move_to_end("capture", last=True)
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite):
     """
     intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin
-
-    (new in apstools release 1.6.2)
     """
 
     pass
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsFileNameHDF5Plugin(HDF5Plugin_V34, AD_EpicsHDF5IterativeWriter):
     """
     Alternative to HDF5Plugin: EPICS area detector PV sets file name.
@@ -582,8 +616,6 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin_V34, AD_EpicsHDF5IterativeWriter):
                 read_path_template=READ_PATH_TEMPLATE,
             )
             pva = ADComponent(PvaPlugin, "Pva1:")
-
-    (new in apstools release 1.6.2)
     """
 
     pass
@@ -610,16 +642,16 @@ class AD_EpicsJPEGFileName(AD_EpicsFileNameMixin):
         self.stage_sigs.move_to_end("capture", last=True)
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsJPEGIterativeWriter(AD_EpicsJPEGFileName, FileStoreIterativeWrite):
     """
     intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin
-
-    (new in apstools release 1.6.2)
     """
 
     pass
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsFileNameJPEGPlugin(JPEGPlugin_V34, AD_EpicsJPEGIterativeWriter):
     """
     Alternative to JPEGPlugin: EPICS area detector PV sets file name.
@@ -667,13 +699,12 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin_V34, AD_EpicsJPEGIterativeWriter):
                 read_path_template=READ_PATH_TEMPLATE,
             )
             pva = ADComponent(PvaPlugin, "Pva1:")
-
-    (new in apstools release 1.6.2)
     """
 
     pass
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsTIFFFileName(AD_EpicsFileNameMixin):
     """
     Custom class to define TIFF image file name from EPICS PVs.
@@ -695,16 +726,16 @@ class AD_EpicsTIFFFileName(AD_EpicsFileNameMixin):
         self.stage_sigs.move_to_end("capture", last=True)
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsTIFFIterativeWriter(AD_EpicsTIFFFileName, FileStoreIterativeWrite):
     """
     intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin
-
-    (new in apstools release 1.6.2)
     """
 
     pass
 
 
+@versionadded(version="1.6.2")
 class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
     """
     Alternative to TIFFPlugin: EPICS area detector PV sets file name.
@@ -753,18 +784,26 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
                 read_path_template=READ_PATH_TEMPLATE,
             )
             pva = ADComponent(PvaPlugin, "Pva1:")
-
-    (new in apstools release 1.6.2)
     """
 
     pass
 
 
+@versionadded(version="1.7.3")
+class BadPixelPlugin(PluginBase):
+    """
+    ADCore NDBadPixel, new in AD 3.13.
+    """
+
+    _html_docs = ["NDBadPixelDoc.html"]
+
+    file_name = ADComponent(EpicsSignal, "FileName", string=True)
+
+
+@versionadded(version="1.6.3")
 class CamMixin_V3_1_1(CamBase):
     """
     Update cam support to AD release 3.1.1.
-
-    (new in release 1.6.3)
     """
 
     _cam_release = "3.1.1"
@@ -779,16 +818,16 @@ class CamMixin_V3_1_1(CamBase):
         return signal.get() in (1, signal.enum_strs[1])
 
 
+@versionadded(version="1.6.3")
 class CamMixin_V34(CamMixin_V3_1_1):
     """
     Update cam support to AD release 3.1.1.
-
-    (new in release 1.6.3)
     """
 
     _cam_release = "3.4"
 
 
+@versionadded(version="1.6.3")
 class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
     """Adds triggering configuration and AcquireBusy support."""
 
@@ -800,11 +839,10 @@ class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
     )
 
 
+@versionadded(version="1.6.3")
 class SingleTrigger_V34(SingleTrigger):
     """
     Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.
-
-    (new in release 1.6.3)
     """
 
     def __init__(self, *args, **kwargs):
@@ -831,6 +869,7 @@ class SingleTrigger_V34(SingleTrigger):
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
 
 
+@versionadded(version="1.6.3")
 class HDF5FileWriterPlugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
     """
     Add data acquisition methods to HDF5Plugin.  Ophyd default file names.
@@ -848,9 +887,8 @@ class HDF5FileWriterPlugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

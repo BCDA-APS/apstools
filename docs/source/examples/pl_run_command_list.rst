@@ -381,7 +381,7 @@ Grow (or shrink) the table as needed.
    about a numpy float that cannot be converted.  Instead, put that content
    in a second spreadsheet page.
 
-   .. see: https://github.com/BCDA-APS/apstools/issues/116
+   .. seealso:: https://github.com/BCDA-APS/apstools/issues/116
 
 You'll need to have an action plan for every different action your spreadsheet
 will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,

@@ -78,7 +78,7 @@ class Fb_EpidDatabase(EpidRecord):
     """
     EPICS synApps optics fb_epid database support in ophyd.
 
-    .. see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
+    .. seealso:: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
     """
 
     final_value = None  # replace final_value (RO) with setpoint (R/W)
@@ -150,9 +150,8 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

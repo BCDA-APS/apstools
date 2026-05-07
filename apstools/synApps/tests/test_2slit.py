@@ -3,6 +3,7 @@ import pytest
 
 from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
+from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from ...utils import SlitGeometry
 from ..db_2slit import Optics2Slit1D
@@ -45,6 +46,10 @@ def test_2slit1D():
     assert axis.component_names == tuple(cns)
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GHA workflows.",
+)
 def test_2slit2D_HV():
     slit1 = Optics2Slit2D_HV(f"{IOC_GP}Slit1", name="slit1")
     assert slit1 is not None

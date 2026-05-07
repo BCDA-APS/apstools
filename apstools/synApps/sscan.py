@@ -27,7 +27,6 @@ Private Structures
 
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt
@@ -240,6 +239,7 @@ class SscanRecord(Device):
             value = int(value)
             if started and value == 0:
                 working_status._finished()
+                self.execute_scan.clear_sub(execute_scan_cb)
 
         self.execute_scan.subscribe(execute_scan_cb)
         self.execute_scan.set(1)
@@ -346,9 +346,8 @@ class SscanDevice(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

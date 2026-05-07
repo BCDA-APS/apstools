@@ -1,0 +1,1706 @@
+[
+  [
+    "start",
+    {
+      "uid": "f05b6684-2000-4d71-b984-e2298c723490",
+      "time": 1746655000.2905135,
+      "versions": {
+        "ophyd": "1.10.0",
+        "bluesky": "1.13.1"
+      },
+      "scan_id": 165640,
+      "plan_type": "generator",
+      "plan_name": "sscan_1D_plan",
+      "assignments": {
+        "scan_positioners_p1_readback_pv": "gp:m1.RBV",
+        "scan_positioners_p1_setpoint_pv": "gp:m1.VAL",
+        "scan_detectors_d01_input_pv": "gp:scaler1.S1",
+        "scan_detectors_d02_input_pv": "gp:scaler1.S2",
+        "scan_detectors_d03_input_pv": "gp:scaler1.S3",
+        "scan_detectors_d04_input_pv": "gp:scaler1.S4",
+        "scan_detectors_d05_input_pv": "gp:scaler1.S5",
+        "scan_detectors_d06_input_pv": "gp:scaler1.S6"
+      },
+      "datetime": "2025-05-07T16:56:40.284605",
+      "hints": {
+        "dimensions": [
+          [
+            [
+              "time"
+            ],
+            "primary"
+          ]
+        ]
+      },
+      "detectors": [
+        "D01CV",
+        "D02CV",
+        "D03CV",
+        "D04CV",
+        "D05CV",
+        "D06CV"
+      ],
+      "motors": [
+        "R1CV",
+        "P1DV"
+      ]
+    }
+  ],
+  [
+    "descriptor",
+    {
+      "configuration": {
+        "scan": {
+          "data": {
+            "scan_desc": "gp:scan1",
+            "scan_scan_phase": 5,
+            "scan_data_state": 0,
+            "scan_data_ready": 0,
+            "scan_scan_busy": 1,
+            "scan_alert_flag": 0,
+            "scan_alert_message": "Scanning ...",
+            "scan_number_points": 31,
+            "scan_maximum_number_points": 1000,
+            "scan_pasm": 0,
+            "scan_bspv": "",
+            "scan_detector_delay": 0.0,
+            "scan_positioner_delay": 0.0,
+            "scan_reference_detector": 1,
+            "scan_wait": 0,
+            "scan_wcnt": 0,
+            "scan_awct": 0,
+            "scan_acqt": 0,
+            "scan_acqm": 0,
+            "scan_atime": 0.0,
+            "scan_copyto": 0,
+            "scan_a1pv": "",
+            "scan_a1nv": 1,
+            "scan_a1cd": 1.0,
+            "scan_aspv": "",
+            "scan_ascd": 1.0,
+            "scan_positioners_p1_readback_pv": "gp:m1.RBV",
+            "scan_positioners_p1_setpoint_pv": "gp:m1.VAL",
+            "scan_positioners_p1_start": -0.1,
+            "scan_positioners_p1_center": 0.0,
+            "scan_positioners_p1_end": 0.1,
+            "scan_positioners_p1_step_size": 0.006666666666666667,
+            "scan_positioners_p1_width": 0.2,
+            "scan_positioners_p1_abs_rel": 0,
+            "scan_positioners_p1_mode": 0,
+            "scan_positioners_p1_units": "degrees",
+            "scan_detectors_d01_input_pv": "gp:scaler1.S1",
+            "scan_detectors_d02_input_pv": "gp:scaler1.S2",
+            "scan_detectors_d03_input_pv": "gp:scaler1.S3",
+            "scan_detectors_d04_input_pv": "gp:scaler1.S4",
+            "scan_detectors_d05_input_pv": "gp:scaler1.S5",
+            "scan_detectors_d06_input_pv": "gp:scaler1.S6",
+            "scan_triggers_t1_trigger_pv": "gp:scaler1.CNT",
+            "scan_triggers_t1_trigger_value": 1.0
+          },
+          "timestamps": {
+            "scan_desc": 1746655000.328058,
+            "scan_scan_phase": 1746655000.328058,
+            "scan_data_state": 1746655000.328058,
+            "scan_data_ready": 1746655000.328058,
+            "scan_scan_busy": 1746655000.328058,
+            "scan_alert_flag": 1746655000.328058,
+            "scan_alert_message": 1746655000.328058,
+            "scan_number_points": 1746655000.328058,
+            "scan_maximum_number_points": 1746655000.328058,
+            "scan_pasm": 1746655000.328058,
+            "scan_bspv": 1746655000.328058,
+            "scan_detector_delay": 1746655000.328058,
+            "scan_positioner_delay": 1746655000.328058,
+            "scan_reference_detector": 1746655000.328058,
+            "scan_wait": 1746655000.328058,
+            "scan_wcnt": 1746655000.328058,
+            "scan_awct": 1746655000.328058,
+            "scan_acqt": 1746655000.328058,
+            "scan_acqm": 1746655000.328058,
+            "scan_atime": 1746655000.328058,
+            "scan_copyto": 1746655000.328058,
+            "scan_a1pv": 1746655000.328058,
+            "scan_a1nv": 1746655000.328058,
+            "scan_a1cd": 1746655000.328058,
+            "scan_aspv": 1746655000.328058,
+            "scan_ascd": 1746655000.328058,
+            "scan_positioners_p1_readback_pv": 1746655000.328058,
+            "scan_positioners_p1_setpoint_pv": 1746655000.328058,
+            "scan_positioners_p1_start": 1746655000.328058,
+            "scan_positioners_p1_center": 1746655000.328058,
+            "scan_positioners_p1_end": 1746655000.328058,
+            "scan_positioners_p1_step_size": 1746655000.328058,
+            "scan_positioners_p1_width": 1746655000.328058,
+            "scan_positioners_p1_abs_rel": 1746655000.328058,
+            "scan_positioners_p1_mode": 1746655000.328058,
+            "scan_positioners_p1_units": 1746655000.328058,
+            "scan_detectors_d01_input_pv": 1746655000.328058,
+            "scan_detectors_d02_input_pv": 1746655000.328058,
+            "scan_detectors_d03_input_pv": 1746655000.328058,
+            "scan_detectors_d04_input_pv": 1746655000.328058,
+            "scan_detectors_d05_input_pv": 1746655000.328058,
+            "scan_detectors_d06_input_pv": 1746655000.328058,
+            "scan_triggers_t1_trigger_pv": 1746655000.328058,
+            "scan_triggers_t1_trigger_value": 1746655000.328058
+          },
+          "data_keys": {
+            "scan_desc": {
+              "source": "PV:gp:scan1.DESC",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_scan_phase": {
+              "source": "PV:gp:scan1.FAZE",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "IDLE",
+                "INIT_SCAN",
+                "DO:BEFORE_SCAN",
+                "WAIT:BEFORE_SCAN",
+                "MOVE_MOTORS",
+                "WAIT:MOTORS",
+                "TRIG_DETCTRS",
+                "WAIT:DETCTRS",
+                "RETRACE_MOVE",
+                "WAIT:RETRACE",
+                "DO:AFTER_SCAN",
+                "WAIT:AFTER_SCAN",
+                "SCAN_DONE",
+                "SCAN_PENDING",
+                "PREVIEW",
+                "RECORD SCALAR DATA"
+              ]
+            },
+            "scan_data_state": {
+              "source": "PV:gp:scan1.DSTATE",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "UNPACKED",
+                "TRIG_ARRAY_READ",
+                "ARRAY_READ_WAIT",
+                "ARRAY_GET_CALLBACK_WAIT",
+                "RECORD_ARRAY_DATA",
+                "SAVE_DATA_WAIT",
+                "PACKED",
+                "POSTED"
+              ]
+            },
+            "scan_data_ready": {
+              "source": "PV:gp:scan1.DATA",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -32768,
+              "upper_ctrl_limit": 32767
+            },
+            "scan_scan_busy": {
+              "source": "PV:gp:scan1.BUSY",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0,
+              "upper_ctrl_limit": -1
+            },
+            "scan_alert_flag": {
+              "source": "PV:gp:scan1.ALRT",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0,
+              "upper_ctrl_limit": -1
+            },
+            "scan_alert_message": {
+              "source": "PV:gp:scan1.SMSG",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_number_points": {
+              "source": "PV:gp:scan1.NPTS",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -2147483648,
+              "upper_ctrl_limit": 2147483647
+            },
+            "scan_maximum_number_points": {
+              "source": "PV:gp:scan1.MPTS",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -2147483648,
+              "upper_ctrl_limit": 2147483647
+            },
+            "scan_pasm": {
+              "source": "PV:gp:scan1.PASM",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "STAY",
+                "START POS",
+                "PRIOR POS",
+                "PEAK POS",
+                "VALLEY POS",
+                "+EDGE POS",
+                "-EDGE POS",
+                "CNTR OF MASS"
+              ]
+            },
+            "scan_bspv": {
+              "source": "PV:gp:scan1.BSPV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detector_delay": {
+              "source": "PV:gp:scan1.DDLY",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 3
+            },
+            "scan_positioner_delay": {
+              "source": "PV:gp:scan1.PDLY",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 3
+            },
+            "scan_reference_detector": {
+              "source": "PV:gp:scan1.REFD",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -32768,
+              "upper_ctrl_limit": 32767
+            },
+            "scan_wait": {
+              "source": "PV:gp:scan1.WAIT",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -32768,
+              "upper_ctrl_limit": 32767
+            },
+            "scan_wcnt": {
+              "source": "PV:gp:scan1.WCNT",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -32768,
+              "upper_ctrl_limit": 32767
+            },
+            "scan_awct": {
+              "source": "PV:gp:scan1.AWCT",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -32768,
+              "upper_ctrl_limit": 32767
+            },
+            "scan_acqt": {
+              "source": "PV:gp:scan1.ACQT",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "SCALAR",
+                "1D ARRAY"
+              ]
+            },
+            "scan_acqm": {
+              "source": "PV:gp:scan1.ACQM",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "NORMAL",
+                "ACCUMULATE",
+                "ADD TO PREV"
+              ]
+            },
+            "scan_atime": {
+              "source": "PV:gp:scan1.ATIME",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 1
+            },
+            "scan_copyto": {
+              "source": "PV:gp:scan1.COPYTO",
+              "dtype": "integer",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -2147483648,
+              "upper_ctrl_limit": 2147483647
+            },
+            "scan_a1pv": {
+              "source": "PV:gp:scan1.A1PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_a1nv": {
+              "source": "PV:gp:scan1.A1NV",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "PV OK",
+                "No PV",
+                "PV NoRead",
+                "PV illegal1",
+                "PV NoWrite",
+                "PV illegal2",
+                "PV BAD"
+              ]
+            },
+            "scan_a1cd": {
+              "source": "PV:gp:scan1.A1CD",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 3
+            },
+            "scan_aspv": {
+              "source": "PV:gp:scan1.ASPV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_ascd": {
+              "source": "PV:gp:scan1.ASCD",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 3
+            },
+            "scan_positioners_p1_readback_pv": {
+              "source": "PV:gp:scan1.R1PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_positioners_p1_setpoint_pv": {
+              "source": "PV:gp:scan1.P1PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_positioners_p1_start": {
+              "source": "PV:gp:scan1.P1SP",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1000.0,
+              "upper_ctrl_limit": 1000.0,
+              "precision": 4
+            },
+            "scan_positioners_p1_center": {
+              "source": "PV:gp:scan1.P1CP",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1000.0,
+              "upper_ctrl_limit": 1000.0,
+              "precision": 4
+            },
+            "scan_positioners_p1_end": {
+              "source": "PV:gp:scan1.P1EP",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1000.0,
+              "upper_ctrl_limit": 1000.0,
+              "precision": 4
+            },
+            "scan_positioners_p1_step_size": {
+              "source": "PV:gp:scan1.P1SI",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1000.0,
+              "upper_ctrl_limit": 1000.0,
+              "precision": 4
+            },
+            "scan_positioners_p1_width": {
+              "source": "PV:gp:scan1.P1WD",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1000.0,
+              "upper_ctrl_limit": 1000.0,
+              "precision": 4
+            },
+            "scan_positioners_p1_abs_rel": {
+              "source": "PV:gp:scan1.P1AR",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "ABSOLUTE",
+                "RELATIVE"
+              ]
+            },
+            "scan_positioners_p1_mode": {
+              "source": "PV:gp:scan1.P1SM",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "LINEAR",
+                "TABLE",
+                "FLY"
+              ]
+            },
+            "scan_positioners_p1_units": {
+              "source": "PV:gp:scan1.P1EU",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d01_input_pv": {
+              "source": "PV:gp:scan1.D01PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d02_input_pv": {
+              "source": "PV:gp:scan1.D02PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d03_input_pv": {
+              "source": "PV:gp:scan1.D03PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d04_input_pv": {
+              "source": "PV:gp:scan1.D04PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d05_input_pv": {
+              "source": "PV:gp:scan1.D05PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_detectors_d06_input_pv": {
+              "source": "PV:gp:scan1.D06PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_triggers_t1_trigger_pv": {
+              "source": "PV:gp:scan1.T1PV",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scan_triggers_t1_trigger_value": {
+              "source": "PV:gp:scan1.T1CD",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": -1.0000000150474662e+30,
+              "upper_ctrl_limit": 1.0000000150474662e+30,
+              "precision": 3
+            }
+          }
+        }
+      },
+      "data_keys": {
+        "CPT": {
+          "source": "PV:gp:scan1.CPT",
+          "dtype": "integer",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -2147483648,
+          "upper_ctrl_limit": 2147483647,
+          "object_name": "scan"
+        },
+        "R1CV": {
+          "source": "PV:gp:scan1.R1CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "degrees",
+          "lower_ctrl_limit": -1000.0,
+          "upper_ctrl_limit": 1000.0,
+          "precision": 4,
+          "object_name": "scan"
+        },
+        "P1DV": {
+          "source": "PV:gp:scan1.P1DV",
+          "dtype": "number",
+          "shape": [],
+          "units": "degrees",
+          "lower_ctrl_limit": -1000.0,
+          "upper_ctrl_limit": 1000.0,
+          "precision": 4,
+          "object_name": "scan"
+        },
+        "D01CV": {
+          "source": "PV:gp:scan1.D01CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        },
+        "D02CV": {
+          "source": "PV:gp:scan1.D02CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        },
+        "D03CV": {
+          "source": "PV:gp:scan1.D03CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        },
+        "D04CV": {
+          "source": "PV:gp:scan1.D04CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        },
+        "D05CV": {
+          "source": "PV:gp:scan1.D05CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        },
+        "D06CV": {
+          "source": "PV:gp:scan1.D06CV",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": -1.0000000150474662e+30,
+          "upper_ctrl_limit": 1.0000000150474662e+30,
+          "precision": 3,
+          "object_name": "scan"
+        }
+      },
+      "name": "primary",
+      "object_keys": {
+        "scan": [
+          "CPT",
+          "R1CV",
+          "P1DV",
+          "D01CV",
+          "D02CV",
+          "D03CV",
+          "D04CV",
+          "D05CV",
+          "D06CV"
+        ]
+      },
+      "run_start": "f05b6684-2000-4d71-b984-e2298c723490",
+      "time": 1746655001.5094323,
+      "uid": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "hints": {
+        "scan": {
+          "fields": [
+            "R1CV",
+            "D01CV",
+            "D02CV",
+            "D03CV",
+            "D04CV",
+            "D05CV",
+            "D06CV"
+          ]
+        }
+      }
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "6ecbf2d8-c221-4cbd-9392-e131d1af1cc8",
+      "time": 1746655001.52718,
+      "seq_num": 1,
+      "data": {
+        "CPT": 1,
+        "R1CV": -0.1,
+        "P1DV": -0.09333333333333334,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 5.0,
+        "D04CV": 4.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "be762dc3-138c-4d88-8468-03aa2a6007bc",
+      "time": 1746655002.694597,
+      "seq_num": 2,
+      "data": {
+        "CPT": 2,
+        "R1CV": -0.09333000000000001,
+        "P1DV": -0.08666666666666667,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 6.0,
+        "D04CV": 4.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "c3ca662e-f313-4173-b5fb-ea2b88b73254",
+      "time": 1746655003.9016912,
+      "seq_num": 3,
+      "data": {
+        "CPT": 3,
+        "R1CV": -0.08667000000000001,
+        "P1DV": -0.08,
+        "D01CV": 11000000.0,
+        "D02CV": 6.0,
+        "D03CV": 5.0,
+        "D04CV": 5.0,
+        "D05CV": 5.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "d8d99c86-901f-4386-8e4f-28e28b3b31ec",
+      "time": 1746655005.1055121,
+      "seq_num": 4,
+      "data": {
+        "CPT": 4,
+        "R1CV": -0.08,
+        "P1DV": -0.07333333333333333,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 5.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "65308f6e-d861-4eeb-88ae-bc7c9c6c2bef",
+      "time": 1746655006.2974155,
+      "seq_num": 5,
+      "data": {
+        "CPT": 5,
+        "R1CV": -0.07333,
+        "P1DV": -0.06666666666666667,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 6.0,
+        "D04CV": 3.0,
+        "D05CV": 6.0,
+        "D06CV": 5.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "376d77ac-f25e-4510-8643-d33a83b8830e",
+      "time": 1746655007.5006154,
+      "seq_num": 6,
+      "data": {
+        "CPT": 6,
+        "R1CV": -0.06667000000000001,
+        "P1DV": -0.06,
+        "D01CV": 11000000.0,
+        "D02CV": 4.0,
+        "D03CV": 6.0,
+        "D04CV": 4.0,
+        "D05CV": 5.0,
+        "D06CV": 6.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "f3631cc8-fb35-4f4e-af1a-88ba790fa450",
+      "time": 1746655008.7019496,
+      "seq_num": 7,
+      "data": {
+        "CPT": 7,
+        "R1CV": -0.060000000000000005,
+        "P1DV": -0.05333333333333333,
+        "D01CV": 11000000.0,
+        "D02CV": 4.0,
+        "D03CV": 4.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "2a8f94b1-98d0-4dab-9aba-d939ab49ae6e",
+      "time": 1746655009.9021373,
+      "seq_num": 8,
+      "data": {
+        "CPT": 8,
+        "R1CV": -0.05333,
+        "P1DV": -0.04666666666666666,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 4.0,
+        "D04CV": 4.0,
+        "D05CV": 5.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "ca22be33-6902-4a53-8a39-20d8fc195ed7",
+      "time": 1746655011.2009778,
+      "seq_num": 9,
+      "data": {
+        "CPT": 9,
+        "R1CV": -0.04667,
+        "P1DV": -0.039999999999999994,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 7.0,
+        "D04CV": 5.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "08e3d089-da7c-498c-9390-756b602ce31c",
+      "time": 1746655012.5036952,
+      "seq_num": 10,
+      "data": {
+        "CPT": 10,
+        "R1CV": -0.04,
+        "P1DV": -0.033333333333333326,
+        "D01CV": 11000000.0,
+        "D02CV": 6.0,
+        "D03CV": 6.0,
+        "D04CV": 5.0,
+        "D05CV": 4.0,
+        "D06CV": 5.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "58feb5d1-acbe-4d32-9010-aa9ddddd4389",
+      "time": 1746655013.8110607,
+      "seq_num": 11,
+      "data": {
+        "CPT": 11,
+        "R1CV": -0.033330000000000005,
+        "P1DV": -0.026666666666666658,
+        "D01CV": 11000000.0,
+        "D02CV": 6.0,
+        "D03CV": 6.0,
+        "D04CV": 5.0,
+        "D05CV": 6.0,
+        "D06CV": 6.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "e6455f02-f4c9-449d-b911-233f11eb8aee",
+      "time": 1746655015.105013,
+      "seq_num": 12,
+      "data": {
+        "CPT": 12,
+        "R1CV": -0.026670000000000003,
+        "P1DV": -0.01999999999999999,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 7.0,
+        "D04CV": 6.0,
+        "D05CV": 7.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "73b56d78-83dc-4e7d-b791-e9c97b4923a9",
+      "time": 1746655016.405226,
+      "seq_num": 13,
+      "data": {
+        "CPT": 13,
+        "R1CV": -0.02,
+        "P1DV": -0.013333333333333322,
+        "D01CV": 11000000.0,
+        "D02CV": 8.0,
+        "D03CV": 8.0,
+        "D04CV": 8.0,
+        "D05CV": 7.0,
+        "D06CV": 8.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "50378b43-9f88-4350-8a9d-9d4c289691ae",
+      "time": 1746655017.7074325,
+      "seq_num": 14,
+      "data": {
+        "CPT": 14,
+        "R1CV": -0.013330000000000002,
+        "P1DV": -0.006666666666666655,
+        "D01CV": 11000000.0,
+        "D02CV": 11.0,
+        "D03CV": 11.0,
+        "D04CV": 10.0,
+        "D05CV": 10.0,
+        "D06CV": 12.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "e1d5dbe7-1f61-4a8a-baef-b40c9461000e",
+      "time": 1746655019.0156097,
+      "seq_num": 15,
+      "data": {
+        "CPT": 15,
+        "R1CV": -0.006670000000000001,
+        "P1DV": 1.214306433183765e-17,
+        "D01CV": 11000000.0,
+        "D02CV": 14.0,
+        "D03CV": 12.0,
+        "D04CV": 14.0,
+        "D05CV": 13.0,
+        "D06CV": 14.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "1b7393ff-9f67-4605-8e6a-6cb8502483a2",
+      "time": 1746655020.310722,
+      "seq_num": 16,
+      "data": {
+        "CPT": 16,
+        "R1CV": 0.0,
+        "P1DV": 0.006666666666666679,
+        "D01CV": 11000000.0,
+        "D02CV": 15.0,
+        "D03CV": 17.0,
+        "D04CV": 15.0,
+        "D05CV": 15.0,
+        "D06CV": 15.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "e4b276b5-068a-463e-912f-3f99a6ac5a5d",
+      "time": 1746655021.6112156,
+      "seq_num": 17,
+      "data": {
+        "CPT": 17,
+        "R1CV": 0.006670000000000001,
+        "P1DV": 0.013333333333333346,
+        "D01CV": 11000000.0,
+        "D02CV": 14.0,
+        "D03CV": 15.0,
+        "D04CV": 17.0,
+        "D05CV": 15.0,
+        "D06CV": 16.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "60f637af-5a88-46a3-b0e0-e380baa883b4",
+      "time": 1746655022.919804,
+      "seq_num": 18,
+      "data": {
+        "CPT": 18,
+        "R1CV": 0.013330000000000002,
+        "P1DV": 0.020000000000000014,
+        "D01CV": 11000000.0,
+        "D02CV": 13.0,
+        "D03CV": 14.0,
+        "D04CV": 16.0,
+        "D05CV": 12.0,
+        "D06CV": 12.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "aca5d11f-9143-41a8-8d2e-97099ce4ad88",
+      "time": 1746655024.2240794,
+      "seq_num": 19,
+      "data": {
+        "CPT": 19,
+        "R1CV": 0.02,
+        "P1DV": 0.026666666666666682,
+        "D01CV": 11000000.0,
+        "D02CV": 11.0,
+        "D03CV": 10.0,
+        "D04CV": 13.0,
+        "D05CV": 11.0,
+        "D06CV": 11.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "0e8d109b-20a1-48ca-9760-52fe572123b7",
+      "time": 1746655025.5258517,
+      "seq_num": 20,
+      "data": {
+        "CPT": 20,
+        "R1CV": 0.026670000000000003,
+        "P1DV": 0.03333333333333335,
+        "D01CV": 11000000.0,
+        "D02CV": 7.0,
+        "D03CV": 9.0,
+        "D04CV": 9.0,
+        "D05CV": 10.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "251e4ad6-e298-4702-b911-21593dbc5ec3",
+      "time": 1746655026.8222733,
+      "seq_num": 21,
+      "data": {
+        "CPT": 21,
+        "R1CV": 0.033330000000000005,
+        "P1DV": 0.040000000000000015,
+        "D01CV": 11000000.0,
+        "D02CV": 6.0,
+        "D03CV": 7.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 8.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "c3b2334f-ba23-4880-a7f5-c50a5d7ed5e0",
+      "time": 1746655028.1197276,
+      "seq_num": 22,
+      "data": {
+        "CPT": 22,
+        "R1CV": 0.04,
+        "P1DV": 0.04666666666666668,
+        "D01CV": 11000000.0,
+        "D02CV": 7.0,
+        "D03CV": 6.0,
+        "D04CV": 5.0,
+        "D05CV": 6.0,
+        "D06CV": 6.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "88a9b3c7-fde7-4553-9e60-6e1a21f0ba8e",
+      "time": 1746655029.421668,
+      "seq_num": 23,
+      "data": {
+        "CPT": 23,
+        "R1CV": 0.04667,
+        "P1DV": 0.05333333333333335,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 4.0,
+        "D04CV": 5.0,
+        "D05CV": 5.0,
+        "D06CV": 7.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "8280cb06-14ce-4b7f-8374-3228acfeaa0a",
+      "time": 1746655030.727898,
+      "seq_num": 24,
+      "data": {
+        "CPT": 24,
+        "R1CV": 0.05333,
+        "P1DV": 0.06000000000000002,
+        "D01CV": 11000000.0,
+        "D02CV": 4.0,
+        "D03CV": 6.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "25001bfd-c684-49bb-80a6-fbb1fd5257dc",
+      "time": 1746655032.0248272,
+      "seq_num": 25,
+      "data": {
+        "CPT": 25,
+        "R1CV": 0.060000000000000005,
+        "P1DV": 0.06666666666666668,
+        "D01CV": 11000000.0,
+        "D02CV": 6.0,
+        "D03CV": 5.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "80e54ba7-3d13-43ff-82a7-70d654e7f769",
+      "time": 1746655033.328905,
+      "seq_num": 26,
+      "data": {
+        "CPT": 26,
+        "R1CV": 0.06667000000000001,
+        "P1DV": 0.07333333333333335,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 5.0,
+        "D04CV": 5.0,
+        "D05CV": 6.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "799534a6-6bc5-4d5f-beb9-4205818bc367",
+      "time": 1746655034.630293,
+      "seq_num": 27,
+      "data": {
+        "CPT": 27,
+        "R1CV": 0.07333,
+        "P1DV": 0.08000000000000002,
+        "D01CV": 11000000.0,
+        "D02CV": 4.0,
+        "D03CV": 3.0,
+        "D04CV": 4.0,
+        "D05CV": 5.0,
+        "D06CV": 5.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "a9f4c0b5-3b23-4471-b499-e0943cd97ce2",
+      "time": 1746655035.93865,
+      "seq_num": 28,
+      "data": {
+        "CPT": 28,
+        "R1CV": 0.08,
+        "P1DV": 0.08666666666666668,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 5.0,
+        "D04CV": 5.0,
+        "D05CV": 6.0,
+        "D06CV": 4.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "0cfd0ae0-bbc3-4254-8c82-b679e1bb433c",
+      "time": 1746655037.231264,
+      "seq_num": 29,
+      "data": {
+        "CPT": 29,
+        "R1CV": 0.08667000000000001,
+        "P1DV": 0.09333333333333335,
+        "D01CV": 11000000.0,
+        "D02CV": 7.0,
+        "D03CV": 4.0,
+        "D04CV": 6.0,
+        "D05CV": 6.0,
+        "D06CV": 5.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "7ea1c1b2-7d02-47e9-a38c-5c6c6235b944",
+      "time": 1746655038.5365493,
+      "seq_num": 30,
+      "data": {
+        "CPT": 30,
+        "R1CV": 0.09333000000000001,
+        "P1DV": 0.10000000000000002,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 4.0,
+        "D04CV": 5.0,
+        "D05CV": 5.0,
+        "D06CV": 5.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "b8a47913-073c-46e7-a724-dd20efc39825",
+      "uid": "b16003ff-37ca-4a6a-bb0a-28b366f72fba",
+      "time": 1746655039.8361676,
+      "seq_num": 31,
+      "data": {
+        "CPT": 31,
+        "R1CV": 0.1,
+        "P1DV": 0.10000000000000002,
+        "D01CV": 11000000.0,
+        "D02CV": 5.0,
+        "D03CV": 3.0,
+        "D04CV": 6.0,
+        "D05CV": 5.0,
+        "D06CV": 6.0
+      },
+      "timestamps": {
+        "CPT": 1746655000.328058,
+        "R1CV": 1746655000.328058,
+        "P1DV": 1746655000.328058,
+        "D01CV": 1746655000.328058,
+        "D02CV": 1746655000.328058,
+        "D03CV": 1746655000.328058,
+        "D04CV": 1746655000.328058,
+        "D05CV": 1746655000.328058,
+        "D06CV": 1746655000.328058
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "stop",
+    {
+      "uid": "87a9c1d2-6760-4d19-8156-51724ca8fc7b",
+      "time": 1746655039.8385866,
+      "run_start": "f05b6684-2000-4d71-b984-e2298c723490",
+      "exit_status": "success",
+      "reason": "",
+      "num_events": {
+        "primary": 31
+      }
+    }
+  ]
+]

@@ -8,8 +8,6 @@ Area Detector Factory
    ~ad_class_factory
    ~PLUGIN_DEFAULTS
 
-*New in apstools 1.7.0.*
-
 EXAMPLE 1: DEFAULT CAM
 
 Just the camera plugin (uses `CamBase
@@ -83,12 +81,15 @@ import uuid
 logger = logging.getLogger(__name__)
 
 import ophyd.areadetector.plugins
+from deprecated.sphinx import versionadded
 from ophyd import ADComponent
 
 from ..utils import dynamic_import
 from .area_detector_support import AD_EpicsFileNameJPEGPlugin
 from .area_detector_support import AD_EpicsFileNameTIFFPlugin
+from .area_detector_support import BadPixelPlugin
 from .area_detector_support import HDF5FileWriterPlugin
+from .area_detector_support import SimDetectorCam_V34
 from .area_detector_support import SingleTrigger_V34
 
 DEFAULT_DETECTOR_BASES = (
@@ -100,7 +101,7 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
     # gets image from the detector
     "cam": {
         "suffix": "cam1:",
-        "class": ophyd.areadetector.CamBase,
+        "class": SimDetectorCam_V34,
     },
     # for imaging
     "image": {
@@ -115,6 +116,11 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
     "attr1": {
         "suffix": "Attr1:",
         "class": ophyd.areadetector.plugins.AttrPlotPlugin_V34,
+    },
+    "badpix1": {
+        "suffix": "BadPix1:",
+        "class": BadPixelPlugin,  # Not in ophyd.  Yet.
+        # new in apstools release 1.7.3
     },
     "cb1": {
         "suffix": "CB1:",
@@ -237,26 +243,23 @@ Another use case is to remove an existing set of defaults.
 """
 
 
+@versionadded(version="1.7.0")
 def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
     """
     Build an Area Detector class with specified plugins.
 
     PARAMETERS
 
-    name
-        *str* :
+    name str :
         Name of the class to be created.
-    bases
-        *object* or *tuple* :
+    bases object or tuple :
         Parent(s) of the new class.
         (default: ``(SingleTrigger_V34, DetectorBase)``)
-    plugins
-        *list* :
+    plugins list :
         Description of the plugins used.  The list consists
         of either strings or dictionaries.
         (default: ``["cam"]`` -- Just the camera plugin.)
-    plugin_defaults
-        *object*:
+    plugin_defaults object :
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
 
@@ -337,6 +340,7 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
     return type(name, bases, attributes)
 
 
+@versionadded(version="1.7.0")
 def ad_creator(
     prefix: str,
     *,
@@ -346,6 +350,7 @@ def ad_creator(
     name: str = None,
     plugin_defaults: dict = None,
     plugins=None,
+    validate_ports: bool = True,
     **kwargs,
 ):
     """
@@ -353,34 +358,36 @@ def ad_creator(
 
     PARAMETERS
 
-    prefix
-        *str*:
+    prefix str :
         EPICS PV prefix.
-    name
-        *str*:
+    name str :
         Name of the ophyd object.
-    class_name
-        *str*:
+    class_name str :
         Name of the class to be created.
         (default: ``"ADclass_HEX7"`` where HEX is a random
         7-digit hexadecimal string)
-    plugins
-        *list*:
+    plugins list :
         Description of the plugins used.
-    bases
-        *object* or *tuple* :
+    bases object or tuple:
         Parent(s) of the new class.
         (default: ``(SingleTrigger_V34, DetectorBase)``)
-    ad_setup
-        *object*:
-        Optional setup function to be called.
+    ad_setup object :
+        Optional setup function to be called.  Blocking code is allowed for this
+        function (does not have to be a bluesky plan stub).
         (default: ``None``)
-    plugin_defaults
-        *object*:
+    plugin_defaults object :
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
-    kwargs
-        *dict*:
+    validate_ports bool :
+        When True (default), call ``.validate_asyn_ports()``. This call will
+        wait for PV connections. Set 'False' to skip this test on startup.
+
+        If assigned plugin ports are used but no ophyd plugin class is provided,
+        an ophyd exception will be raised when the detector tries to take an
+        image.
+
+        (new in apstools release 1.7.3)
+    kwargs dict :
         Any additional keyword arguments for the new class definition.
         (default: ``{}``)
     """
@@ -392,15 +399,16 @@ def ad_creator(
         plugin_defaults=plugin_defaults,
     )
     det = ad_class(prefix, name=name, **kwargs)
-    det.validate_asyn_ports()
+    if validate_ports:
+        det.validate_asyn_ports()
     if ad_setup is not None:
-        # user-defined setup of the detector
+        # User-defined setup (blocking code allowed) of the detector.
         ad_setup(det)
     return det
 
 
 # -----------------------------------------------------------------------------
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

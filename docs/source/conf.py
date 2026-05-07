@@ -13,6 +13,7 @@ import tomllib
 
 sys.path.insert(0, str(pathlib.Path().absolute().parent.parent))
 import apstools  # noqa
+import apstools.devices  # noqa
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -58,8 +59,8 @@ with open(switcher_file) as fp:
 extensions = """
     IPython.sphinxext.ipython_console_highlighting
     IPython.sphinxext.ipython_directive
+    autoapi.extension
     sphinx.ext.autodoc
-    sphinx.ext.autosummary
     sphinx.ext.coverage
     sphinx.ext.githubpages
     sphinx.ext.inheritance_diagram
@@ -67,7 +68,7 @@ extensions = """
     sphinx.ext.todo
     sphinx.ext.viewcode
     nbsphinx
-    myst_parser
+    myst_nb
     sphinx_design
 """.split()
 myst_enable_extensions = ["colon_fence"]
@@ -76,7 +77,43 @@ templates_path = ["_templates"]
 source_suffix = [".rst", ".md"]
 exclude_patterns = ["**.ipynb_checkpoints"]
 
+myst_enable_extensions = ["colon_fence"]
+# myst-nb notebook execution when building docs
+nb_execution_mode = "off"
+
 today_fmt = "%Y-%m-%d %H:%M"
+
+# -- autoapi configuration ---------------------------------------------------
+# https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html
+
+autoapi_dirs = ["../../apstools"]
+autoapi_root = "api/autoapi"  # nested inside the existing api/ section
+autoapi_add_toctree_entry = False  # added manually to api/index.rst
+autoapi_ignore = [
+    "**/tests/**",
+    "**/test_*.py",
+    "**/conftest.py",
+    "**/_version.py",
+]
+autoapi_options = [
+    "members",
+    "undoc-members",
+    "show-inheritance",
+]
+autoapi_member_order = "alphabetical"
+autoapi_template_dir = "_templates/autoapi"
+
+
+def autoapi_skip_member(app, what, name, obj, skip, options):
+    """Skip logger instances from the autoapi output."""
+    if what == "data" and name.endswith(".logger"):
+        return True
+    return skip
+
+
+def setup(app):
+    app.connect("autoapi-skip-member", autoapi_skip_member)
+
 
 html_css_files = [
     "css/custom.css",
@@ -97,32 +134,10 @@ html_theme_options = {
     "navbar_start": ["navbar-logo", "version-switcher"],
     "switcher": {
         "json_url": switcher_json_url,
-        "version_match": 
-            release 
-            if release in switcher_version_list 
+        "version_match":
+            release
+            if release in switcher_version_list
             else "dev",
     }
 }
 # fmt: on
-
-autodoc_mock_imports = """
-    bluesky
-    dask
-    databroker
-    databroker_pack
-    epics
-    h5py
-    intake
-    numpy
-    openpyxl
-    ophyd
-    pandas
-    pint
-    psutil
-    pyRestTable
-    pysumreg
-    scipy
-    spec2nexus
-    toolz
-    xarray
-""".split()

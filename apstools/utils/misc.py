@@ -12,6 +12,7 @@ Miscellaneous Support
    ~dictionary_table
    ~dynamic_import
    ~full_dotted_name
+   ~host_on_aps_subnet
    ~itemizer
    ~listobjects
    ~pairwise
@@ -32,6 +33,7 @@ import inspect
 import logging
 import pathlib
 import re
+import socket
 import subprocess
 import sys
 import threading
@@ -45,6 +47,7 @@ import ophyd
 import pyRestTable
 from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
+from deprecated.sphinx import versionadded
 from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
@@ -93,7 +96,7 @@ def call_signature_decorator(f):
     return wrapper
 
 
-def cleanupText(text, replace="_"):
+def cleanupText(text, replace=None):
     """
     Convert text so it can be used as a dictionary key.
 
@@ -101,16 +104,7 @@ def cleanupText(text, replace="_"):
     remove troublesome characters, perhaps other cleanup as well.
     This is best done with regular expression pattern matching.
     """
-    pattern = "[a-zA-Z0-9_]"
-    if replace is None:
-        replace = "_"
-
-    def mapper(c):
-        if re.match(pattern, c) is not None:
-            return c
-        return replace
-
-    return "".join([mapper(c) for c in text])
+    return re.sub("[^a-zA-Z0-9_]", replace or "_", text)
 
 
 def count_child_devices_and_signals(device):
@@ -346,6 +340,7 @@ def render(value, sig_figs=12) -> str:
     return str(value)
 
 
+@versionadded(version="1.1.11")
 def replay(headers, callback=None, sort=True):
     """
     Replay the document stream from one (or more) scans (headers).
@@ -370,8 +365,6 @@ def replay(headers, callback=None, sort=True):
         *bool* :
         Sort the headers chronologically if True.
         (default:``True``)
-
-    (new in apstools release 1.1.11)
     """
     from databroker import Header
 
@@ -579,6 +572,7 @@ def unix(command, raises=True):
     return stdout, stderr
 
 
+@versionadded(version="1.1.8")
 def listobjects(
     show_pv=True,
     printing=None,  # DEPRECATED
@@ -651,8 +645,6 @@ def listobjects(
         Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
 
         In [2]:
-
-    (new in apstools release 1.1.8)
     """
     if symbols is None:
         g = ipython_shell_namespace()  # the default choice
@@ -757,10 +749,29 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 0)
 
 
+@versionadded(version="1.7.10", reason="transfer from apsbits")
+def host_on_aps_subnet():
+    """Detect if this host is on an APS subnet."""
+    LOOPBACK_IP4 = "127.0.0.1"
+    PUBLIC_IP4_PREFIX = "164.54."
+    PRIVATE_IP4_PREFIX = "10.54."
+    TEST_IP = "10.254.254.254"  # does not have to be reachable
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(0)
+        try:
+            sock.connect((TEST_IP, 1))
+            ip4 = sock.getsockname()[0]
+        except Exception:
+            ip4 = LOOPBACK_IP4
+    return True in [
+        ip4.startswith(PUBLIC_IP4_PREFIX),
+        ip4.startswith(PRIVATE_IP4_PREFIX),
+    ]
+
+
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

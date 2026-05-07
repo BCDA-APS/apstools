@@ -37,6 +37,7 @@ from .catalog import getDatabase
 from .catalog import getDefaultCatalog
 from .catalog import getDefaultDatabase
 from .catalog import getStreamValues
+from .descriptor_support import get_stream_data_map
 from .device_info import listdevice
 from .email import EmailNotifications
 from .image_analysis import analyze_1D
@@ -96,6 +97,7 @@ from .statistics import array_index
 from .statistics import xy_statistics
 from .statistics import factor_fwhm
 from .statistics import peak_full_width
+from .stored_dict import StoredDict
 from .time_constants import DAY
 from .time_constants import HOUR
 from .time_constants import MINUTE
@@ -104,19 +106,8 @@ from .time_constants import WEEK
 from .time_constants import ts2iso
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Argonne National Laboratory Open Source License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

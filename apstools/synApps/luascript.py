@@ -17,7 +17,6 @@ EXAMPLES::
 :see: https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt
@@ -196,9 +195,8 @@ class UserScriptsDevice(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

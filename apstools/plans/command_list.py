@@ -20,6 +20,7 @@ import pathlib
 
 import pyRestTable
 from bluesky import plan_stubs as bps
+from deprecated.sphinx import versionadded
 
 from .. import utils
 
@@ -54,6 +55,7 @@ def command_list_as_table(commands, show_raw=False):
     return tbl
 
 
+@versionadded(version="1.1.7")
 def execute_command_list(filename, commands, md=None):
     """
     plan: execute the command list
@@ -109,8 +111,6 @@ def execute_command_list(filename, commands, md=None):
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     full_filename = pathlib.Path(filename).absolute()
 
@@ -139,10 +139,12 @@ def execute_command_list(filename, commands, md=None):
         action = action.lower()
         if action == "tune_optics":
             # example: yield from tune_optics(md=_md)
+            # fmt: off
             emsg = (
                 f"This is an example.  action={raw_command}."
                 "  Must define your own execute_command_list() function"
             )
+            # fmt: on
             logger.warn(emsg)
             yield from bps.null()
 
@@ -150,6 +152,7 @@ def execute_command_list(filename, commands, md=None):
             print(f"no handling for line {i}: {raw_command}")
 
 
+@versionadded(version="1.1.7")
 def get_command_list(filename):
     """
     return command list from either text or Excel file
@@ -165,8 +168,6 @@ def get_command_list(filename):
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     full_filename = pathlib.Path(filename)
     if not full_filename.exists():
@@ -189,6 +190,7 @@ class _HandlerRegistrar:
     command = None
 
 
+@versionadded(version="1.1.7")
 def parse_Excel_command_file(filename):
     """
     parse an Excel spreadsheet with commands, return as command list
@@ -230,8 +232,6 @@ def parse_Excel_command_file(filename):
         ~run_command_file
         ~summarize_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     full_filename = pathlib.Path(filename)
     if not full_filename.exists():
@@ -255,6 +255,7 @@ def parse_Excel_command_file(filename):
     return commands
 
 
+@versionadded(version="1.1.7")
 def parse_text_command_file(filename):
     """
     parse a text file with commands, return as command list
@@ -314,8 +315,6 @@ def parse_text_command_file(filename):
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
-
-    *new in apstools release 1.1.7*
     """
     full_filename = pathlib.Path(filename)
     if not full_filename.exists():
@@ -335,6 +334,7 @@ def parse_text_command_file(filename):
     return commands
 
 
+@versionadded(version="1.1.7")
 def register_command_handler(handler=None):
     """
     Define the function called to execute the command list
@@ -358,12 +358,11 @@ def register_command_handler(handler=None):
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     COMMAND_LIST_REGISTRY.command = handler or execute_command_list
 
 
+@versionadded(version="1.1.7")
 def run_command_file(filename, md=None):
     """
     plan: execute a list of commands from a text or Excel file
@@ -383,8 +382,6 @@ def run_command_file(filename, md=None):
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     _md = dict(command_file=filename)
     _md.update(md or {})
@@ -392,6 +389,7 @@ def run_command_file(filename, md=None):
     yield from COMMAND_LIST_REGISTRY.command(filename, commands, md=_md)
 
 
+@versionadded(version="1.1.7")
 def summarize_command_file(filename):
     """
     print the command list from a text or Excel file
@@ -405,8 +403,6 @@ def summarize_command_file(filename):
         ~run_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
-
-    *new in apstools release 1.1.7*
     """
     commands = get_command_list(filename)
     print(f"Command file: {filename}")
@@ -417,9 +413,8 @@ COMMAND_LIST_REGISTRY = _HandlerRegistrar()
 COMMAND_LIST_REGISTRY.command = execute_command_list
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

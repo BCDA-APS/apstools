@@ -18,6 +18,8 @@ import logging
 
 import pandas as pd
 import pyRestTable
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .list_runs import getRunData
 from .profile_support import getDefaultNamespace
@@ -94,6 +96,7 @@ def getCatalog(ref=None):
     return cat
 
 
+@versionadded(version="1.4.0")
 def getDatabase(db=None, catalog_name=None):
     """
     Return Bluesky database using keyword guides or default choice.
@@ -115,8 +118,6 @@ def getDatabase(db=None, catalog_name=None):
 
     object or ``None``:
         Bluesky database, an instance of ``databroker.catalog``
-
-    (new in release 1.4.0)
     """
     from databroker import catalog
 
@@ -136,6 +137,9 @@ def getDatabase(db=None, catalog_name=None):
     return db.v2
 
 
+@versionchanged(
+    version="1.7.10", reason="Remove intake/msgpack workaround; use databroker.temp() catalogs in tests."
+)
 def getDefaultCatalog():
     """Return the default databroker catalog."""
     from databroker import catalog
@@ -155,6 +159,7 @@ def getDefaultCatalog():
         )
 
     cats = list(catalog)
+
     if len(cats) == 1:
         return catalog[cats[0]]
     if len(cats) > 1:
@@ -169,6 +174,7 @@ def getDefaultCatalog():
     raise ValueError("No catalogs available.")
 
 
+@versionadded(version="1.4.0")
 def getDefaultDatabase():
     """
     Find the "default" database (has the most recent run).
@@ -191,8 +197,6 @@ def getDefaultDatabase():
 
     object or ``None``:
         Bluesky database, an instance of ``databroker.catalog``
-
-    (new in release 1.4.0)
     """
     from databroker import Broker
     from databroker import catalog as db_catalog
@@ -240,6 +244,7 @@ def getDefaultDatabase():
     return sorted(choices)[-1]
 
 
+@versionadded(version="1.5.1")
 def getStreamValues(scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True):
     """
     Get values from a previous scan stream in a databroker catalog.
@@ -296,8 +301,6 @@ def getStreamValues(scan_id, key_fragment="", db=None, stream="baseline", query=
         pandas DataFrame with values from selected stream, search_string, and query
 
         see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
-
-    (new in apstools 1.5.1)
     """
     if key_fragment is None:
         key_fragment = ""
@@ -406,11 +409,7 @@ def quantify_md_key_use(
     since = since or "1995-01-01"
     until = until or "2100-12-31"
 
-    cat = (
-        (db or catalog[catalog_name])
-        .v2.search(TimeRange(since=since, until=until))
-        .search(query)
-    )
+    cat = (db or catalog[catalog_name]).v2.search(TimeRange(since=since, until=until)).search(query)
 
     items = []
     while True:
@@ -433,9 +432,8 @@ def quantify_md_key_use(
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

@@ -2,7 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
   "setuptools_scm[toml]>=8.0",
-  "setuptools>=64",
+  "setuptools>=77",
 ]
 
 [project]
@@ -10,10 +10,7 @@ name = "apstools"
 dynamic = ["version"]
 description = "Library of Python tools for use with the Bluesky Framework at the APS."
 authors = [
-  { name="Pete R. Jemian" },
-  { name="Fanny Rodolakis" },
-  { name="Max Wyman" },
-  { name="Eric Codrea" },
+  { name="BCDA" },
 ]
 maintainers = [
   { name="Pete Jemian" },
@@ -22,22 +19,16 @@ maintainers = [
   { name="Eric Codrea" },
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["EPICS", "data acquisition", "diffraction", "NeXus", "HDF5", "SPEC", "MatPlotLib"]
-license = {file = "LICENSE.txt"}
+license = "LicenseRef-ANL-Open-Source-License"
+license-files = ["LICENSE.txt"]
 classifiers = [
   "Development Status :: 6 - Mature",
   "Environment :: Console",
   "Intended Audience :: Science/Research",
-  "License :: Freely Distributable",
-  "License :: Public Domain",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  # "Programming Language :: Python :: 3.9",
-  # "Programming Language :: Python :: 3.10",
-  # "Programming Language :: Python :: 3.11",
-  # "Programming Language :: Python :: 3.12",
-  # "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
   "Topic :: Scientific/Engineering :: Astronomy",
   "Topic :: Scientific/Engineering :: Bio-Informatics",
@@ -54,28 +45,66 @@ classifiers = [
 ]
 dependencies = [
   "area-detector-handlers",
-  "bluesky>=1.6.2,!=1.11.0",
   "bluesky-live",
-  "databroker==1.2.5",
-  "databroker-pack",
+  "bluesky>=1.6.2,!=1.11.0",
+  "databroker<=1.999",
+  "Deprecated",
   "entrypoints",
   "h5py",
   "intake<=1",
+  "ipython",
   "matplotlib",
   "mongoquery>=1.3.6",
-  "numpy<2",
-  "ophyd>=1.6.1",
+  "numpy>=2",
   "openpyxl",
+  "ophyd>=1.6.1",
+  "pandas",
   "pint",
   "psutil",
-  "pyepics>=3.4.2",
+  "pyepics>=3.4.3",
   "pyRestTable>=2020.0.8",
-  "pysumreg",
+  "pysumreg",  # deprecate, will remove in next major version bump
   "scipy",
   "spec2nexus>=2021.1.7",
   "toolz>=0.12.1",
   "xlrd",
 ]
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "coverage",
+  "coveralls",
+  "ipykernel",
+  "mypy",
+  "ophyd-registry",
+  "pre-commit",
+  "pytest",
+  "ruff",
+  # databroker 2.0.0b57 needs
+  "doct",
+  "humanize",
+  "mongomock",
+  "pymongo",
+  # tiled 0.1.0b19 needs
+  # "suitcase-mongo",
+]
+doc = [
+  "ipython",
+  "jinja2 >=3.0",
+  "markupsafe ==2.0.1",
+  "myst-nb",
+  "myst-parser",
+  "nbsphinx",
+  "pydata-sphinx-theme",
+  "pygments >=2.12",
+  "pygments-ipython-console",
+  "setuptools-scm",
+  "sphinx",
+  "sphinx-autoapi",
+  "sphinx-design",
+]
+all = ["apstools[dev,doc]"]
 
 [project.scripts]
 spec2ophyd = "apstools.migration.spec2ophyd:main"
@@ -84,34 +113,8 @@ spec2ophyd = "apstools.migration.spec2ophyd:main"
 "Homepage" = "https://bcda-aps.github.io/apstools/latest/"
 "Bug Tracker" = "https://github.com/bcda-aps/apstools/issues"
 
-[tool.black]
-line-length = 115
-target-version = ['py311']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.pytest_cache
-    | _build
-    | build
-    | conda
-    | dist
-    | docs
-    | ideas
-    | resources
-  )/
-  | _version.py
-)
-'''
-
 [tool.copyright]
-copyright = "2017-2024, UChicago Argonne, LLC"
+copyright = "2017-2026, UChicago Argonne, LLC"
 
 [tool.coverage.run]
 concurrency = [
@@ -124,38 +127,6 @@ omit = [
     # omit these individual files
 ]
 relative_files = true
-
-[tool.flake8]
-max-line-length = 115
-exclude = [
-  ".git",
-  "__pycache__",
-  "build",
-  "dist",
-  "docs/source",
-  "ideas/",
-  "resources/debug_findpv.py",
-]
-extend-ignore = [
-  "E203", # See https://github.com/PyCQA/pycodestyle/issues/373
-  "E226",
-  "E402", # module level import not at top of file (for cansas.py)
-  "E501",
-  "E741",
-  "F401",  # imported but unused
-  "F403",
-  "F722", # allow Annotated[typ, some_func("some string")]
-  "F811", # support typing.overload decorator
-  "W503",
-  "W504",
-]
-
-[tool.isort]
-force_single_line  = "True"
-include_trailing_comma = true
-multi_line_output = "NOQA"
-profile = "black"
-src_paths = ["apstools"]
 
 [tool.pytest.ini_options]
 addopts = [
@@ -188,6 +159,7 @@ exclude = [
     "buck-out",
     "build",
     "dist",
+    "ideas",
     "node_modules",
     "site-packages",
     "venv",
@@ -197,15 +169,15 @@ exclude = [
 line-length = 115
 indent-width = 4
 
-# Assume Python 3.8
-target-version = "py38"
+# Keep in sync with requires-python above.
+target-version = "py310"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = ["E4", "E7", "E9", "F"]
-ignore = ["E402", "E741", "F405"]
+ignore = ["E402", "E741", "F401", "F403", "F405"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

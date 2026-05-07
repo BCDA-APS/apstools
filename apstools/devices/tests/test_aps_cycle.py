@@ -4,6 +4,7 @@ test the APS cycle computation code
 
 import datetime
 import socket
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 
@@ -32,20 +33,31 @@ def test_ApsCycleDM():
         assert int(cycle.split("-")[0]) > 2020
 
 
-def test_ApsCycleDB():
+@pytest.mark.parametrize(
+    "cycle, context, expected",
+    [
+        ["1776-7", pytest.raises(AssertionError), "1776-7"],
+        ["2025-1", does_not_raise(), None],
+        ["2400-3", pytest.raises(AssertionError), "2400-3"],
+        ["APS-U", does_not_raise(), None],
+    ],
+)
+def test_ApsCycleDB(cycle, context, expected):
     assert aps_cycle.YAML_CYCLE_FILE.exists()
+    with context as reason:
+        assert cycle in aps_cycle.cycle_db.db
+        assert isinstance(cycle, str)
+        assert cycle != ""
+        assert len(cycle) in (5, 6)  # 5 for APS-U
+        assert cycle.find("-") >= 0
+        if cycle.startswith("A"):
+            assert cycle == "APS-U"
+        else:
+            assert cycle.startswith("20")
+            assert int(cycle.split("-")[0]) > 2020
 
-    cycle = aps_cycle.cycle_db.get_cycle_name()
-    assert cycle in aps_cycle.cycle_db.db
-    assert isinstance(cycle, str)
-    assert cycle != ""
-    assert len(cycle) in (5, 6)  # 5 for APS-U
-    assert cycle.find("-") >= 0
-    if cycle.startswith("A"):
-        assert cycle == "APS-U"
-    else:
-        assert cycle.startswith("20")
-        assert int(cycle.split("-")[0]) > 2020
+    if expected is not None:
+        assert str(expected) in str(reason)
 
 
 @pytest.mark.parametrize(

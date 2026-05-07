@@ -12,6 +12,7 @@ import logging
 import math
 import weakref
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -30,6 +31,7 @@ logger = logging.getLogger(__name__)
 TARGET_UNDEFINED = "undefined"
 
 
+@versionadded(version="1.5.3")
 class PVPositionerSoftDone(PVPositioner):
     """
     PVPositioner that computes ``done`` as a soft signal.
@@ -87,8 +89,6 @@ class PVPositionerSoftDone(PVPositioner):
         be final value while ``setpoint`` will be the current desired position.
 
         Otherwise, both ``setpoint`` and ``target`` will be set to the same value.
-
-    (new in apstools 1.5.3)
     """
 
     # positioner
@@ -158,10 +158,10 @@ class PVPositionerSoftDone(PVPositioner):
 
     @property
     def actual_tolerance(self):
-        tolerance = self.tolerance.get() 
+        tolerance = self.tolerance.get()
         if tolerance < 0:
             # Use EPICS-defined precision.
-            tolerance = 10 ** (-1 * self.precision) 
+            tolerance = 10 ** (-1 * self.precision)
         return tolerance
 
     def cb_update_target(self, value, *args, **kwargs):

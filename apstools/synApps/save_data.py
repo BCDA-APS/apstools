@@ -17,7 +17,6 @@ Public Structures
 
 """
 
-
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -72,9 +71,8 @@ class SaveData(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

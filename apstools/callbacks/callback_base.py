@@ -7,12 +7,12 @@ Base Class for File Writer Callbacks
    ~FileWriterCallbackBase
 """
 
-
 import datetime
 import logging
 import pathlib
 
 import pyRestTable
+from deprecated.sphinx import deprecated
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,7 @@ class FileWriterCallbackBase:
     .. autosummary::
 
        ~clear
+       ~get_hklpy_configurations
        ~make_file_name
        ~writer
 
@@ -100,13 +101,15 @@ class FileWriterCallbackBase:
         delete any saved data from the cache and reinitialize
         """
         self.acquisitions = {}
-        self.detectors = []
+        self.data_map: dict[str, list[str]] = {}
+        self.detectors: list[str] = []
+        self.diffractometers = {}
         self.exit_status = None
         self.externals = {}
         self.doc_timestamp = None
         self.metadata = {}
         self.plan_name = None
-        self.positioners = []
+        self.positioners: list[str] = []
         self.scanning = False
         self.scan_id = None
         self.streams = {}
@@ -130,6 +133,20 @@ class FileWriterCallbackBase:
     @file_path.setter
     def file_path(self, value):
         self._file_path = pathlib.Path(value)
+
+    def get_hklpy_configurations(self, doc: dict) -> dict:
+        """Diffractometer details (from hklpy) in RE descriptor documents."""
+        configurations = {}  # zero, one, or more diffractometers are possible
+        for diffractometer_name in doc.get("configuration", {}):
+            record = doc["configuration"][diffractometer_name].get("data", {})
+            attrs = record.get(f"{diffractometer_name}_orientation_attrs")
+            if attrs is not None:
+                configurations[diffractometer_name] = {
+                    # empty when no orientation_attrs
+                    attr: record[f"{diffractometer_name}_{attr}"]
+                    for attr in attrs
+                }
+        return configurations
 
     def make_file_name(self):
         """
@@ -208,10 +225,11 @@ class FileWriterCallbackBase:
             tbl.addRow((k, v["_document_type_"], trim(v)))
         print(tbl)
 
-        print(f"elapsed scan time: {self.stop_time-self.start_time:.3f}s")
+        print(f"elapsed scan time: {self.stop_time - self.start_time:.3f}s")
 
     # - - - - - - - - - - - - - - -
 
+    @deprecated(version="1.6.0", reason="use EventPage instead")
     def bulk_events(self, doc):
         """Deprecated. Use EventPage instead."""
         if not self.scanning:
@@ -244,6 +262,8 @@ class FileWriterCallbackBase:
         """
         description of the data stream to be acquired
         """
+        from ..utils.descriptor_support import get_stream_data_map
+
         if not self.scanning:
             return
         stream = doc["name"]
@@ -252,6 +272,13 @@ class FileWriterCallbackBase:
         if stream not in self.streams:
             self.streams[stream] = []
         self.streams[stream].append(uid)
+
+        if stream == "primary":
+            self.data_map = get_stream_data_map(
+                self.detectors,
+                self.positioners,
+                doc,
+            )
 
         if uid not in self.acquisitions:
             self.acquisitions[uid] = dict(stream=stream, data={})
@@ -271,6 +298,9 @@ class FileWriterCallbackBase:
             dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
+
+        # Gather any available diffractometer configurations.
+        self.diffractometers.update(self.get_hklpy_configurations(doc))
 
     def event(self, doc):
         """
@@ -308,13 +338,13 @@ class FileWriterCallbackBase:
         beginning of a run, clear cache and collect metadata
         """
         self.clear()
-        self.plan_name = doc["plan_name"]
+        self.plan_name = doc.get("plan_name", "")
         self.scanning = True
-        self.scan_id = doc["scan_id"] or 0
+        self.scan_id = doc.get("scan_id") or 0
         self.start_time = doc["time"]
         self.uid = doc["uid"]
         self.detectors = doc.get("detectors", [])
-        self.positioners = doc.get("positioners") or doc.get("motors") or []
+        self.positioners = doc.get("positioners") or doc.get("motors", [])
 
         # gather the metadata
         for k, v in doc.items():
@@ -337,9 +367,8 @@ class FileWriterCallbackBase:
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

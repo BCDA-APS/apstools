@@ -7,7 +7,6 @@ Device information
    ~listdevice
 """
 
-
 import datetime
 import logging
 from collections import defaultdict
@@ -116,7 +115,7 @@ def listdevice(
 
         >>> listdevice(m1)
         ======================= ======= ==========================
-        data name               value   timestamp                 
+        data name               value   timestamp
         ======================= ======= ==========================
         m1                      0.0     2024-08-28 09:41:08.364137
         m1_user_setpoint        0.0     2024-08-28 09:41:08.364137
@@ -285,9 +284,8 @@ def listdevice(
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

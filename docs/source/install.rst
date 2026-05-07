@@ -24,23 +24,19 @@ If you have ``pip`` installed, then you can install::
 
     $ pip install apstools
 
-source
-------
+development
+-----------
 
 The latest development versions of apstools can be downloaded from the
-GitHub repository listed above::
+GitHub repository listed above.  Install from the source directory using
+``pip`` in editable mode:
 
-    $ git clone http://github.com/BCDA-APS/apstools.git
+.. code-block:: bash
+    :linenos:
 
-To install from the source directory using ``pip`` in editable mode::
-
-    $ cd apstools
-    $ python -m pip install -e .
-
-Required Libraries
-------------------
-
-The repository's ``environment.yml`` file lists the additional packages
-required by ``apstools``.  Most packages are available as conda packages
-from https://anaconda.org.  The others are available on
-https://PyPI.python.org.
+    ENV_NAME=apstools
+    git clone http://github.com/BCDA-APS/apstools
+    cd apstools
+    conda create -n "${ENV_NAME}" python pyepics apsu::aps-dm-api
+    conda activate "${ENV_NAME}"
+    pip install -e .[all]

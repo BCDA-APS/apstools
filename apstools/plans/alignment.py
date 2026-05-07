@@ -17,18 +17,21 @@ import sys
 
 import numpy as np
 import pyRestTable
-from scipy.optimize import curve_fit
-from scipy.special import erf
-
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
+from bluesky.utils import plan
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 from ophyd.scaler import ScalerCH
 from ophyd.scaler import ScalerChannel
+from scipy.optimize import curve_fit
+from scipy.special import erf
 
 from .. import utils
 from .doc_run import write_stream
@@ -37,6 +40,8 @@ logger = logging.getLogger(__name__)
 MAIN = sys.modules["__main__"]
 
 
+@deprecated(version="1.7.2", reason="use lineup2()")
+@plan
 def lineup(
     # fmt: off
     detectors,
@@ -54,11 +59,11 @@ def lineup(
     # fmt: on
 ):
     """
-    (use ``lineup2()`` now) Lineup and center a given axis, relative to current position.
+    **Deprecated** Lineup and center a given axis, relative to current position.
 
     If first run identifies a peak, makes a second run to fine tune the result.
 
-    ..caution:: ``lineup()`` does not work in the queueserver.  Use
+    .. caution:: ``lineup()`` does not work in the queueserver.  Use
         :func:`~apstools.plans.alignment.lineup2()` instead.
 
     .. index:: Bluesky Plan; lineup
@@ -149,7 +154,7 @@ def lineup(
 
         if det0.name not in bec.peaks[feature]:
             logger.error(
-                "No statistical analysis of scan peak for feature '%s'!" "  (bec.peaks=%s, bec=%s)",
+                "No statistical analysis of scan peak for feature '%s'!  (bec.peaks=%s, bec=%s)",
                 feature,
                 bec.peaks,
                 bec,
@@ -227,6 +232,7 @@ def lineup(
         scaler.stage_sigs = old_sigs
 
 
+@plan
 def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     """
     Align to the edge given mover & detector data, relative to absolute position.
@@ -335,6 +341,10 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         print("No significant signal change detected; motor movement skipped.")
 
 
+@versionchanged(version="1.7.10", reason="Write peak statistics as a bluesky stream before run closes.")
+@versionchanged(version="1.7.2", reason="Changed from PySumReg to numpy")
+@versionadded(version="1.6.18")
+@plan
 def lineup2(
     # fmt: off
     detectors,
@@ -349,6 +359,7 @@ def lineup2(
     signal_stats=None,
     reporting=None,
     md={},
+    stats_stream="signal_stats",
     # fmt: on
 ):
     """
@@ -376,9 +387,6 @@ def lineup2(
     consoles.  It does not require the bluesky BestEffortCallback.  Instead, it
     uses *numpy*  [#numpy]_ to compute statistics for each signal in a 1-D
     scan.
-
-    - New in release 1.6.18.
-    - Changed from PySumReg to numpy in release 1.7.2.
 
     .. rubric::  PARAMETERS
 
@@ -443,6 +451,11 @@ def lineup2(
     md *dict*:
         User-supplied metadata for this scan.
 
+    stats_stream *str*:
+        Name of the bluesky stream in which peak statistics (including
+        ``success`` and ``reasons``) are written before the run closes.
+        (default: ``"signal_stats"``)  (new in release 1.7.10)
+
     ----
 
     In addition to the many keys provided in `signal_stats.analysis` by
@@ -459,7 +472,6 @@ def lineup2(
         did not identify a peak.
     """
     from ..callbacks import SignalStatsCallback
-    from .. import utils
 
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
@@ -560,26 +572,61 @@ def lineup2(
     if "plan_name" not in _md:
         _md["plan_name"] = "lineup2"
 
+    # Expose which feature is used so report() can display it.
+    signal_stats.feature = feature
+
+    _target = [None]  # mutable closure cell for target from find_peak_position()
+
     @bpp.subs_decorator(signal_stats.receiver)
     def _inner():
-        """Run the scan, collecting statistics at each step."""
-        # TODO: save signal stats into separate stream
-        yield from bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md)
+        """Run the scan, writing peak statistics before the run closes."""
+
+        def insert_before_close(msg):
+            if msg.command == "close_run":
+
+                def new_gen():
+                    signal_stats.compute()
+                    _target[0] = find_peak_position()
+                    if signal_stats.analysis is not None:
+                        stats = signal_stats.analysis
+                        components = {k: Component(Signal) for k in stats}
+                        DynDevice = type("SignalStatsResults", (Device,), components)
+                        dev = DynDevice(name="lineup2_signal_stats")
+                        for k, v in stats.items():
+                            if isinstance(v, list):
+                                val = "; ".join(str(item) for item in v)
+                            elif hasattr(v, "item"):
+                                val = v.item()
+                            else:
+                                val = v
+                            getattr(dev, k).put(val)
+                        yield from write_stream(dev, stats_stream)
+                    yield msg
+
+                return new_gen(), None
+            return None, None
+
+        yield from bpp.plan_mutator(
+            bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md),
+            insert_before_close,
+        )
 
     while nscans > 0:  # allow for repeated scans
         yield from _inner()  # Run the scan.
         nscans -= 1
 
-        target = find_peak_position()
+        target = _target[0]
         if target is None:
             nscans = 0  # Nothing found, no point scanning again.
             yield from bps.mv(mover, m_pos)  # back to starting position
             logger.debug("Moved %s to %s: %f", mover.name, "original position", m_pos)
+            print(f"No peak found. {mover.name} returned to original position: {m_pos}")
         else:
             # Maintain absolute range: m_lo <= target <= m_hi
             target = min(max(m_lo, target), m_hi)
             yield from bps.mv(mover, target)  # Move to the feature position.
             logger.info("Moved %s to %s: %f", mover.name, feature, target)
+            print(f"{mover.name} moved to {feature}: {target}")
 
             if nscans > 0:
                 # move the end points for the next scan
@@ -588,7 +635,7 @@ def lineup2(
                 rel_start = max(m_lo - target, -offset)
                 rel_end = min(m_hi - target, offset)
 
-    if signal_stats.reporting:  # Final report
+    if signal_stats.reporting and not signal_stats._reported:  # Final report (avoid duplicate)
         signal_stats.report()
 
 
@@ -619,8 +666,8 @@ class TuneAxis(object):
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
         RE(tuner.tune(width=0.05, num=9), live_table)
 
-    Also see the jupyter notebook tited **Demonstrate TuneAxis()**
-    in the :ref:`examples` section.
+    Also see the :doc:`The TuneAxis() plan </examples/pl_tuneaxis>` (jupyter
+    notebook).
 
     .. autosummary::
 
@@ -968,9 +1015,8 @@ class TuneResults(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

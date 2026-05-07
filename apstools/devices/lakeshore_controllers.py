@@ -68,7 +68,9 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
 
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
-        super().__init__(*args, timeout=timeout, tolerance=0.1, use_target=True, readback_pv=f"IN{loop_number}", **kwargs)
+        super().__init__(
+            *args, timeout=timeout, tolerance=0.1, use_target=True, readback_pv=f"IN{loop_number}", **kwargs
+        )
         self._settle_time = 0
 
     @property
@@ -229,9 +231,8 @@ class LakeShore340Device(Device):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

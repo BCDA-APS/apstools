@@ -31,15 +31,15 @@ def test_MeasCompCtr():
     long_in long_out
     """.split()
     for i in range(4):
-        attrs.append(f"pulse_gen_{i+1}")
+        attrs.append(f"pulse_gen_{i + 1}")
         for a in "count delay duty_cycle frequency idle_state period run width".split():
-            attrs.append(f"pulse_gen_{i+1}.{a}")
+            attrs.append(f"pulse_gen_{i + 1}.{a}")
     for i in range(8):
-        attrs.append(f"binary_in_{i+1}")
-        attrs.append(f"binary_out_{i+1}")
-        attrs.append(f"binary_direction_{i+1}")
-        attrs.append(f"counter_{i+1}")
-        attrs.append(f"counter_{i+1}.counts")
+        attrs.append(f"binary_in_{i + 1}")
+        attrs.append(f"binary_out_{i + 1}")
+        attrs.append(f"binary_direction_{i + 1}")
+        attrs.append(f"counter_{i + 1}")
+        attrs.append(f"counter_{i + 1}.counts")
     for attr in attrs:
         assert attr in controller.read_attrs, f"{attr}"
     assert len(attrs) == len(controller.read_attrs)
@@ -61,7 +61,7 @@ def test_MeasCompCtrMcs():
     """.split():
         assert attr in controller.configuration_attrs, f"{attr}"
 
-    attrs = [f"mca{i+1}" for i in range(8)]
+    attrs = [f"mca{i + 1}" for i in range(8)]
     attrs.append("absolute_timebase_waveform")
     attrs.append("elapsed_real")
     for attr in attrs:

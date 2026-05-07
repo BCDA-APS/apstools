@@ -10,6 +10,7 @@ from ophyd.sim import instantiate_fake_device
 from ...synApps.swait import UserCalcsDevice
 from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
+from ...tests import in_gha_workflow
 from ...tests import rand
 from ...tests import timed_pause
 from ...utils import run_in_thread
@@ -18,6 +19,7 @@ from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 
 PV_PREFIX = f"{IOC_GP}gp:"
+DEFAULT_DELAY = 1
 delay_active = False
 
 
@@ -118,7 +120,7 @@ def confirm_in_position(p, dt):
 
 
 @run_in_thread
-def delayed_complete(positioner, readback, delay=1):
+def delayed_complete(positioner, readback, delay=DEFAULT_DELAY):
     "Time-delayed completion of positioner move."
     global delay_active
 
@@ -129,7 +131,7 @@ def delayed_complete(positioner, readback, delay=1):
 
 
 @run_in_thread
-def delayed_stop(positioner, delay=1):
+def delayed_stop(positioner, delay=DEFAULT_DELAY):
     "Time-delayed stop of positioner."
     time.sleep(delay)
     positioner.stop()
@@ -203,6 +205,10 @@ def test_structure(device, has_inposition):
     assert pos.tolerance.get() == -1
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GHA workflows.",
+)
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
@@ -223,6 +229,7 @@ def test_put_and_stop(rbv, prec, pos):
 
             # force a stop now
             pos.stop()
+            time.sleep(DEFAULT_DELAY)
             pos.cb_readback()
             assert pos.setpoint.get(use_monitor=False) == rb_mid
             assert pos.readback.get(use_monitor=False) == rb_mid

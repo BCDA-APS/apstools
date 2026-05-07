@@ -191,8 +191,14 @@ class UserCalcoutDevice(Device):
 
 def _setup_peak_calcout_(
     # fmt: off
-    calc, desc, calcout, ref_signal,
-    center=0, width=1, scale=1, noise=0.05
+    calc,
+    desc,
+    calcout,
+    ref_signal,
+    center=0,
+    width=1,
+    scale=1,
+    noise=0.05,
     # fmt: on
 ):
     """
@@ -404,9 +410,8 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

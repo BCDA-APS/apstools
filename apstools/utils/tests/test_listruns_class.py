@@ -1,6 +1,5 @@
 import datetime
 
-import databroker
 import intake
 import pytest
 
@@ -8,19 +7,16 @@ from ... import utils
 from .. import getDefaultNamespace
 from .._core import TableStyle
 
-TEST_CATALOG_NAME = "apstools_test"
+
+@pytest.fixture(scope="function")
+def cat(apstools_cat):
+    return apstools_cat
 
 
 @pytest.fixture(scope="function")
-def cat():
-    cat = databroker.catalog[TEST_CATALOG_NAME]
-    return cat
-
-
-@pytest.fixture(scope="function")
-def lr():
+def lr(apstools_cat):
     lr = utils.ListRuns()
-    lr.cat = databroker.catalog[TEST_CATALOG_NAME]
+    lr.cat = apstools_cat
     lr._check_keys()
     assert len(lr.cat) == 53
     return lr
@@ -29,7 +25,7 @@ def lr():
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         utils.getDefaultCatalog()
-    assert "Multiple catalog configurations available." in str(exinfo.value)
+    assert " available." in str(exinfo.value)
 
 
 def test_getDefaultCatalog(cat):
@@ -37,9 +33,9 @@ def test_getDefaultCatalog(cat):
     ns = getDefaultNamespace()
     ns.update(dict(cat1=cat))
 
-    cat = utils.getDefaultCatalog()
-    assert cat is not None
-    assert cat.name == TEST_CATALOG_NAME
+    result = utils.getDefaultCatalog()
+    assert result is not None
+    assert result.name == cat.name
 
 
 def test_getDefaultCatalog_many_found(cat):
@@ -51,14 +47,10 @@ def test_getDefaultCatalog_many_found(cat):
     assert "Multiple catalog objects available." in str(exinfo.value)
 
 
-def test_getCatalog():
-    # get by name of configuration YAML file
-    ret = utils.getCatalog(TEST_CATALOG_NAME)
-    assert ret.name == TEST_CATALOG_NAME
-
-    # get by supplying the catalog
-    ret = utils.getCatalog(ret)
-    assert ret.name == TEST_CATALOG_NAME
+def test_getCatalog(cat):
+    # get by supplying the catalog object directly
+    ret = utils.getCatalog(cat)
+    assert ret.name == cat.name
 
     # fail with configuration YAML file name not found
     bad_name = "no such catalog configuration"

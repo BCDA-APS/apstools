@@ -64,11 +64,15 @@ import time
 from collections import OrderedDict
 
 import numpy as np
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .callback_base import FileWriterCallbackBase
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
+PRIMARY_STREAM_NAME = "primary"
 
 
 def _rebuild_scan_command(doc):
@@ -140,6 +144,7 @@ def _rebuild_scan_command(doc):
     return f"{scan_id}  {cmd}"
 
 
+@deprecated(version="1.7.0", reason="Use SpecWriterCallback2()")
 class SpecWriterCallback(object):
     """
     **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.
@@ -686,6 +691,17 @@ class SpecWriterCallback(object):
         return scan_id
 
 
+@versionchanged(
+    version="1.7.8",
+    reason="BUG: extra data reported",
+)
+@versionchanged(
+    version="1.7.6",
+    reason="Translate motor object_key to motor data_key",
+)
+@versionchanged(version="1.7.4", reason="refactor how labels are gathered")
+@versionchanged(version="1.7.1", reason="set spec_filename in constructor")
+@versionadded(version="1.7.0")
 class SpecWriterCallback2(FileWriterCallbackBase):
     """
     Write SPEC data file as data is collected, line-by-line.
@@ -718,8 +734,6 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     .. rubric: Properties
     .. autosummary::
         ~spec_filename
-
-    *New in apstools 1.7.0.*
     """
 
     # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
@@ -730,6 +744,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self._file_header_motor_keys = None
         self._motor_stream_name = "label_start_motor"
+        self.data_labels: list = []
         self.file_epoch = None
         self.spec_filename = None
         self.write_new_file_header = True
@@ -739,6 +754,8 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         """
         Handle *descriptor* documents of certain streams.
         """
+        from ..utils.descriptor_support import get_stream_data_map
+
         if doc["uid"] in self._streams:
             fmt = "duplicate descriptor UID {} found"
             raise KeyError(fmt.format(doc["uid"]))
@@ -749,50 +766,27 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         if doc["name"] == self._motor_stream_name:
             # list of all known positioners (motors), #O:#P lines
-            mlist = sorted(doc["object_keys"].keys())
+            mlist = sorted(doc["configuration"])
             if self._file_header_motor_keys != mlist:
                 self.write_new_file_header = True
             self.motors = {k: None for k in mlist}
             return  # nothing more to do now
 
-            # for k in self.positioners.keys():
-            #     self.positioners[k] = doc["data"][k]  # get motor values
-
-        elif doc["name"] != "primary":
+        elif doc["name"] != PRIMARY_STREAM_NAME:
             return
 
         super().descriptor(doc)  # process the document
 
-        def get_data_labels():
-            "Names of each of the data columns. Values in doc['data_keys'][k]"
+        detectors = self.data_map.get("detectors", [])
+        motors = self.data_map.get("motors", [])
+        others = self.data_map.get("unassigned", [])
+        if len(detectors) > 1:
+            # First detector assumed to be the most important one.
+            # Move first "detector" to last column per SPEC convention.
+            detectors.append(detectors.pop(0))
 
-            def parse(master):
-                primary, secondary = [], []
-                for k_obj in master:
-                    hints = doc["hints"][k_obj]["fields"]
-                    for k in doc["object_keys"][k_obj]:
-                        if len(hints) > 0:
-                            if k in hints:
-                                primary.append(k)
-                            else:
-                                secondary.append(k)
-                        else:
-                            primary.append(k)
-                return primary, secondary
-
-            labels, others = parse(self.positioners)
-            labels += others + "Epoch Epoch_float".split()
-
-            dets, others = parse(self.detectors)
-            dets = others + list(reversed(dets))  # move first detector to last column
-
-            _knowns = labels + dets
-            others = [k for k in doc["data_keys"] if k not in _knowns]
-
-            return labels + others + dets
-
-        self.data_labels = get_data_labels()
-
+        # Per SPEC convention, write the labels in this order:
+        self.data_labels = motors + "Epoch Epoch_float".split() + others + detectors
         self.write_new_scan_header = True
 
     def event(self, doc):
@@ -804,7 +798,14 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         if descriptor["name"] == self._motor_stream_name:
             for k in self.motors.keys():
-                self.motors[k] = doc["data"][k]  # get motor values
+                key = k
+                if key not in doc["data"]:
+                    # De-reference assuming readback is the first in the list.
+                    key = descriptor["object_keys"][k][0]
+                self.motors[k] = doc["data"][key]  # get motor readback value
+            return
+
+        if descriptor["name"] != PRIMARY_STREAM_NAME:
             return
 
         self.write_file_header()
@@ -815,6 +816,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         """First document of the run."""
         super().start(doc)  # process the document
 
+        self.data_labels: list = []  # clear it for this run, descriptor will define it.
         self.file_epoch = self.file_epoch or self.start_time  # timestamp
         login_id = self.metadata.get("login_id")
         if login_id is not None:
@@ -881,7 +883,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             sdf = SpecDataFile(filename)
             scan_list = sdf.getScanNumbers()
             l = len(scan_list)
-            m = max(map(float, scan_list))
+            m = 0 if l == 0 else max(map(float, scan_list))
             highest = int(max(l, m) + 0.9999)  # solves issue #128
             scan_id = max(scan_id or 0, highest)
         self.spec_filename = filename
@@ -1089,6 +1091,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.file_name = file_name or self.make_default_filename()
 
 
+@versionadded(version="1.7.1")
 def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan
@@ -1124,9 +1127,8 @@ def spec_comment(comment, doc=None, writer=None):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

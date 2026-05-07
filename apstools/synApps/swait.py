@@ -28,7 +28,6 @@ EXAMPLES::
 :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt
@@ -398,9 +397,8 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :author:    BCDA
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

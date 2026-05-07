@@ -15,9 +15,8 @@ Python version(s) | Unit Tests | Code Coverage | License
 
 item              | description
 ------------------|--------------------------------
-**author**        | Pete R. Jemian
-**email**         | jemian@anl.gov
-**copyright**     | 2017-2024, UChicago Argonne, LLC
+**author**        | BCDA
+**copyright**     | 2017-2025, UChicago Argonne, LLC
 **documentation** | versions: [latest tagged release](https://bcda-aps.github.io/apstools/latest/) or [development (main branch)](https://bcda-aps.github.io/apstools/dev/)
 **source**        | https://github.com/BCDA-APS/apstools
 
@@ -29,4 +28,3 @@ item              | description
 * https://github.com/bluesky/bluesky
 * https://github.com/bluesky/ophyd
 * https://github.com/bluesky/databroker
-* https://github.com/bluesky/hklpy
