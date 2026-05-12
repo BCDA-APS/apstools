@@ -84,6 +84,7 @@ class HHLAperture(HHLApertureBase):
     horizontal = FCpt(EpicsMotor, "{_horizontal_motor}", labels={"motors"})
     diagonal = FCpt(EpicsMotor, "{_diagonal_motor}", labels={"motors"})
 
+
 class HHLApertureACS(HHLApertureBase):
     """
     High Heat Load Aperture for ACS motors.

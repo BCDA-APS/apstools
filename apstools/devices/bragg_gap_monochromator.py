@@ -6,9 +6,11 @@ Bragg-Gap double-crystal monochromator
 
    ~BraggGap_Monochromator
 """
+
 from ophyd import Device, EpicsSignal, EpicsSignalRO, EpicsMotor
 from ophyd import Component as Cpt
 from ophyd import FormattedComponent as FCpt
+
 
 class BraggGap_Monochromator(Device):
     """
@@ -35,7 +37,7 @@ class BraggGap_Monochromator(Device):
     bragg_motor = FCpt(EpicsMotor, "{_bragg_motor}", labels={"motors"})
     gap_motor = FCpt(EpicsMotor, "{_gap_motor}", labels={"motors"})
 
-	# Pseudo motors that relay into real motors based on offset mode
+    # Pseudo motors that relay into real motors based on offset mode
     energy = Cpt(EpicsMotor, "Energy", kind="hinted")
     theta = Cpt(EpicsMotor, "Bragg", kind="normal")
     # lambda is reserved word in Python, can't use it for wavelength
@@ -43,7 +45,6 @@ class BraggGap_Monochromator(Device):
 
     offset = Cpt(EpicsMotor, "Offset", kind="hinted")
     gap = Cpt(EpicsMotor, "Gap", kind="normal")
-
 
     offset_mode = Cpt(EpicsSignal, "offset_mode", kind="config", string=True)
     moving = Cpt(EpicsSignal, "EO:Done", kind="omitted")
@@ -56,7 +57,7 @@ class BraggGap_Monochromator(Device):
     crystal_l = Cpt(EpicsSignal, "BraggLAO", kind="config")
     crystal_lattice_constant = Cpt(EpicsSignal, "BraggAAO", kind="config")
     crystal_2d_spacing = Cpt(EpicsSignal, "Bragg2dSpacingAO", kind="config")
-    
+
     def calibrate_energy(self, value):
         """Calibrate the monochromator energy.
 
