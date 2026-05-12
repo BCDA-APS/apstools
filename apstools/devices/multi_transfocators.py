@@ -1,5 +1,5 @@
 """
-Multi-system Transfocators
+Multi-system Transfocators (a.k.a, CRLs, compact refracting lenses)
 
 Beamline optics involving 1 or more transfocators.
 
@@ -64,6 +64,7 @@ Available classes:
 
 """
 
+from deprecated.sphinx import versionadded
 from ophyd import Component as Cpt
 from ophyd import FormattedComponent as FCpt
 from ophyd import Device
@@ -72,6 +73,7 @@ from ophyd import EpicsMotor
 from ophyd import PVPositioner
 
 
+@versionadded(version="1.7.11")
 class fpower_index(PVPositioner):
     """
     focal power index "positioner"; increasing index, increasing focal power
@@ -82,6 +84,7 @@ class fpower_index(PVPositioner):
     done = Cpt(EpicsSignalRO, "sysBusy")
 
 
+@versionadded(version="1.7.11")
 class focal_size(PVPositioner):
     """
     focal size positioner
@@ -92,6 +95,7 @@ class focal_size(PVPositioner):
     done = Cpt(EpicsSignalRO, "sysBusy")
 
 
+@versionadded(version="1.7.11")
 class transfocatorSystem(Device):
     """
     Base class for CRL system
@@ -157,6 +161,7 @@ class transfocatorSystem(Device):
     sample = Cpt(EpicsSignal, "sample_RBV", write_pv="sample", string=True, kind="config")
 
 
+@versionadded(version="1.7.11")
 class transfocator1x(transfocatorSystem):
     """
     Base class for single CRL system
@@ -197,6 +202,7 @@ class transfocator1x(transfocatorSystem):
     y1 = FCpt(EpicsMotor, "{_y1_motor}", labels={"motors"})
 
 
+@versionadded(version="1.7.11")
 class transfocator1xZ(transfocator1x):
     """
     Single CRL system with z-motion
@@ -217,6 +223,7 @@ class transfocator1xZ(transfocator1x):
     z1 = FCpt(EpicsMotor, "{_z1_motor}", labels={"motors"})
 
 
+@versionadded(version="1.7.11")
 class transfocator2x(transfocator1x):
     """
     Base class for 2 CRL system
@@ -257,6 +264,7 @@ class transfocator2x(transfocator1x):
     y2 = FCpt(EpicsMotor, "{_y2_motor}", labels={"motors"})
 
 
+@versionadded(version="1.7.11")
 class transfocator2xZ_(transfocator2x):
     """
     2 CRL system, upstream CRL has z-motion
@@ -276,6 +284,7 @@ class transfocator2xZ_(transfocator2x):
     z1 = FCpt(EpicsMotor, "{_z1_motor}", labels={"motors"})
 
 
+@versionadded(version="1.7.11")
 class transfocator2x_Z(transfocator2x):
     """
     2 CRL system, only downstream CRL has z-motion
@@ -295,6 +304,7 @@ class transfocator2x_Z(transfocator2x):
     z2 = FCpt(EpicsMotor, "{_z2_motor}", labels={"motors"})
 
 
+@versionadded(version="1.7.11")
 class transfocator2xZZ(transfocator2xZ_):
     """
     2 CRL system, each CRL has z-motion

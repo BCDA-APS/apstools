@@ -7,11 +7,13 @@ Bragg-Gap double-crystal monochromator
    ~BraggGap_Monochromator
 """
 
+from deprecated.sphinx import versionadded
 from ophyd import Device, EpicsSignal, EpicsSignalRO, EpicsMotor
 from ophyd import Component as Cpt
 from ophyd import FormattedComponent as FCpt
 
 
+@versionadded(version="1.7.11")
 class BraggGap_Monochromator(Device):
     """
     synApps Bragg Gap double-crystal monochromator epics support
