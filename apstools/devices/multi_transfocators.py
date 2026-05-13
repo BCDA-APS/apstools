@@ -285,7 +285,7 @@ class Transfocator2xZ_(Transfocator2x):
 
 
 @versionadded(version="1.7.11")
-class transfocator2x_Z(transfocator2x):
+class Transfocator2x_Z(Transfocator2x):
     """
     2 CRL system, only downstream CRL has z-motion
     """
