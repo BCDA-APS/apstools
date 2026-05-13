@@ -26,6 +26,7 @@ Submodules
    /api/autoapi/apstools/devices/area_detector_support/index
    /api/autoapi/apstools/devices/avs_filters/index
    /api/autoapi/apstools/devices/axis_tuner/index
+   /api/autoapi/apstools/devices/bragg_gap_monochromator/index
    /api/autoapi/apstools/devices/delay/index
    /api/autoapi/apstools/devices/description_mixin/index
    /api/autoapi/apstools/devices/dict_device_support/index
@@ -43,6 +44,7 @@ Submodules
    /api/autoapi/apstools/devices/mixin_base/index
    /api/autoapi/apstools/devices/motor_factory/index
    /api/autoapi/apstools/devices/motor_mixins/index
+   /api/autoapi/apstools/devices/multi_transfocators/index
    /api/autoapi/apstools/devices/positioner_soft_done/index
    /api/autoapi/apstools/devices/preamp_base/index
    /api/autoapi/apstools/devices/ptc10_controller/index
