@@ -44,6 +44,7 @@ class HHLAperture(HHLApertureBase):
 
     Based on the Variable Mass Aperture Slits support in OPTICS module.
 
+
     Similar to HHL_slits but for beamlines that dont follow 25ID nomenclature.
 
     Parameters

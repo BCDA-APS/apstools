@@ -30,7 +30,7 @@ repos:
         pass_filenames: true
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.7
+    rev: v0.15.12
     hooks:
       - id: ruff                # replaces Flake8, isort, pydocstyle, pyupgrade
         args:
