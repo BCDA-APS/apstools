@@ -4,7 +4,7 @@ Bragg-Gap double-crystal monochromator
 
 .. autosummary::
 
-   ~BraggGap_Monochromator
+   ~BraggGapMonochromator
 """
 
 from deprecated.sphinx import versionadded
@@ -14,11 +14,11 @@ from ophyd import FormattedComponent as FCpt
 
 
 @versionadded(version="1.7.11")
-class BraggGap_Monochromator(Device):
+class BraggGapMonochromator(Device):
     """
     synApps Bragg Gap double-crystal monochromator epics support
 
-    .. index:: Ophyd Device; BraggGap_Monochromator
+    .. index:: Ophyd Device; BraggGapMonochromator
     """
 
     def __init__(

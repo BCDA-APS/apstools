@@ -6,19 +6,19 @@ Beamline optics involving 1 or more transfocators.
 EPICS support uses PyDevice for focal size calculation and lens configuration control
 
 Available classes:
-    transfocatorSystem
+    TransfocatorSystem
         Base class for all transfocator setups
-    transfocator1x
+    Transfocator1x
         Single CRL, no z-motion of system
-    transfocator1xZ
+    Transfocator1xZ
         Single CRL with z-motion of system
-    transfocator2x
+    Transfocator2x
         Base class for double CRL system, no z-motion on either system
-    transfocator2xZ_
+    Transfocator2xZ_
         Double CRL, z-motion on upstream transfocator
-    transfocator2x_Z
+    Transfocator2x_Z
         Double CRL, z-motion on downstream transfocator
-    transfocator2xZZ
+    Transfocator2xZZ
         Double CRL, z-motion on on both transfocators
 
     Parameters
@@ -74,7 +74,7 @@ from ophyd import PVPositioner
 
 
 @versionadded(version="1.7.11")
-class fpower_index(PVPositioner):
+class FPowerIndex(PVPositioner):
     """
     focal power index "positioner"; increasing index, increasing focal power
     """
@@ -85,7 +85,7 @@ class fpower_index(PVPositioner):
 
 
 @versionadded(version="1.7.11")
-class focal_size(PVPositioner):
+class FocalSize(PVPositioner):
     """
     focal size positioner
     """
@@ -96,7 +96,7 @@ class focal_size(PVPositioner):
 
 
 @versionadded(version="1.7.11")
-class transfocatorSystem(Device):
+class TransfocatorSystem(Device):
     """
     Base class for CRL system
     """
@@ -137,8 +137,8 @@ class transfocatorSystem(Device):
 
         super().__init__(prefix, *args, **kwargs)
 
-    focalPower = FCpt(fpower_index, "{prefix}")
-    focalSize = FCpt(focal_size, "{prefix}")
+    focalPower = FCpt(FPowerIndex, "{prefix}")
+    focalSize = FCpt(FocalSize, "{prefix}")
 
     q = Cpt(EpicsSignalRO, "q", kind="hinted")
     dq = Cpt(EpicsSignalRO, "dq", kind="hinted")
@@ -162,7 +162,7 @@ class transfocatorSystem(Device):
 
 
 @versionadded(version="1.7.11")
-class transfocator1x(transfocatorSystem):
+class Transfocator1x(TransfocatorSystem):
     """
     Base class for single CRL system
     """
@@ -203,7 +203,7 @@ class transfocator1x(transfocatorSystem):
 
 
 @versionadded(version="1.7.11")
-class transfocator1xZ(transfocator1x):
+class Transfocator1xZ(Transfocator1x):
     """
     Single CRL system with z-motion
     """
@@ -224,7 +224,7 @@ class transfocator1xZ(transfocator1x):
 
 
 @versionadded(version="1.7.11")
-class transfocator2x(transfocator1x):
+class Transfocator2x(Transfocator1x):
     """
     Base class for 2 CRL system
     """
@@ -265,7 +265,7 @@ class transfocator2x(transfocator1x):
 
 
 @versionadded(version="1.7.11")
-class transfocator2xZ_(transfocator2x):
+class Transfocator2xZ_(Transfocator2x):
     """
     2 CRL system, upstream CRL has z-motion
     """
@@ -305,7 +305,7 @@ class transfocator2x_Z(transfocator2x):
 
 
 @versionadded(version="1.7.11")
-class transfocator2xZZ(transfocator2xZ_):
+class Transfocator2xZZ(Transfocator2xZ_):
     """
     2 CRL system, each CRL has z-motion
     """
