@@ -200,10 +200,10 @@ class _RobotiqGripperGroup(Device):
         if target not in ("open", "close"):
             raise ValueError(f"Gripper target must be 'open' or 'close', got {target!r}")
 
-        if target == "close":
-            check = lambda: self.is_closed.get() or self.is_stopped_inner.get()
-        else:
-            check = lambda: self.is_open.get() or self.is_stopped_outer.get()
+        def check():
+            if target == "close":
+                return self.is_closed.get() or self.is_stopped_inner.get()
+            return self.is_open.get() or self.is_stopped_outer.get()
 
         status = Status(timeout=self.set_timeout)
 
