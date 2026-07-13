@@ -63,19 +63,13 @@ class _URJointGroup(Device):
         t0 = time.monotonic()
         while self.moving.get() == 1:
             if time.monotonic() - t0 > self.set_timeout:
-                raise TimeoutError(
-                    f"UR joint move did not complete within {self.set_timeout}s"
-                )
+                raise TimeoutError(f"UR joint move did not complete within {self.set_timeout}s")
             time.sleep(0.05)
 
         targets = tuple(target)
         if len(targets) != 6:
-            raise ValueError(
-                f"UR joint group needs 6 targets (j1..j6), got {len(targets)}"
-            )
-        for cpt, val in zip(
-            (self.j1, self.j2, self.j3, self.j4, self.j5, self.j6), targets
-        ):
+            raise ValueError(f"UR joint group needs 6 targets (j1..j6), got {len(targets)}")
+        for cpt, val in zip((self.j1, self.j2, self.j3, self.j4, self.j5, self.j6), targets):
             cpt.put(val)
         status = SubscriptionStatus(
             self.moving,
@@ -112,20 +106,13 @@ class _URPoseGroup(Device):
         t0 = time.monotonic()
         while self.moving.get() == 1:
             if time.monotonic() - t0 > self.set_timeout:
-                raise TimeoutError(
-                    f"UR pose move did not complete within {self.set_timeout}s"
-                )
+                raise TimeoutError(f"UR pose move did not complete within {self.set_timeout}s")
             time.sleep(0.05)
 
         targets = tuple(target)
         if len(targets) != 6:
-            raise ValueError(
-                f"UR pose group needs 6 targets (x,y,z,roll,pitch,yaw), "
-                f"got {len(targets)}"
-            )
-        for cpt, val in zip(
-            (self.x, self.y, self.z, self.roll, self.pitch, self.yaw), targets
-        ):
+            raise ValueError(f"UR pose group needs 6 targets (x,y,z,roll,pitch,yaw), got {len(targets)}")
+        for cpt, val in zip((self.x, self.y, self.z, self.roll, self.pitch, self.yaw), targets):
             cpt.put(val)
         status = SubscriptionStatus(
             self.moving,
