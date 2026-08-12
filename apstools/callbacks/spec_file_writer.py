@@ -935,14 +935,14 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             if len(p) > 4 and p[2] == "user":
                 username = p[4]
 
-            # find the highest scan number used
+            # Header-only SPEC files are valid and should reuse scan_id 0.
             key = "#S"
             scan_ids = []
             for line in f.readlines():
                 if line.startswith(key + " ") and len(line.split()) > 1:
                     scan_id = int(line.split()[1])
                     scan_ids.append(scan_id)
-            scan_id = max(scan_ids)
+            scan_id = max(scan_ids) if scan_ids else 0
 
         self.spec_filename = filename
         self.spec_epoch = epoch

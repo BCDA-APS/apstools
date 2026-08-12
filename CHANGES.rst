@@ -32,9 +32,9 @@ describe future plans.
    Fixes
    -----
 
-   * ``scripts/release.py`` now preserves the next staged upcoming release
-     section in ``CHANGES.rst`` instead of inventing a next-minor placeholder.
-     (:issue:`1177`)
+   * ``scripts/release.py`` now preserves the next staged release section in ``CHANGES.rst``. (:issue:`1177`)
+   * ``SpecWriterCallback2`` now reopens header-only SPEC files instead of rejecting them. (:issue:`1134`)
+
 
    Maintenance
    -----------

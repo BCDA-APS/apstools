@@ -8,6 +8,7 @@ import pathlib
 from contextlib import nullcontext as does_not_raise
 
 import pytest
+import spec2nexus.spec
 from bluesky import RunEngine
 from bluesky import plans as bp
 from ophyd import SoftPositioner
@@ -90,9 +91,29 @@ def test_issue_1083(tempdir: pytest.fixture):
         f.write(f"{ISSUE_1083_DATA.strip()}\n")
     assert data_file.exists()
 
+    specwriter: FileWriterCallbackBase = SpecWriterCallback2()
+    assert specwriter.newfile(data_file) == data_file
+
+
+def test_issue_1134_append_to_header_only_spec_file(tempdir: pytest.fixture):
+    data_file = tempdir / "issue_1134.dat"
+    sig = SoftPositioner(name="sig", init_pos=0)
+
+    with open(data_file, "w") as f:
+        f.write(f"{ISSUE_1083_DATA.strip()}\n")
+    assert data_file.exists()
+
+    specwriter: FileWriterCallbackBase = SpecWriterCallback2()
+    RE = RunEngine({})
+
     with does_not_raise():
-        specwriter: FileWriterCallbackBase = SpecWriterCallback2()
-        specwriter.newfile(data_file)
+        specwriter.newfile(data_file, RE=RE)
+        RE.subscribe(specwriter.receiver)
+        RE(bp.count([sig], num=1))
+
+    sdf = spec2nexus.spec.SpecDataFile(str(data_file))
+    assert len(sdf.scans) == 1
+    assert sdf.getScanNumbers() == ["1"]
 
 
 @pytest.mark.parametrize("run", catalog_test_runs())
