@@ -36,7 +36,8 @@ What each command does
    (strips the ``rcN`` suffix, e.g. ``1.7.10rc2`` → ``1.7.10``).
 2. Uncomment the upcoming release section in ``CHANGES.rst`` and replace
    the "Release expected by …" line with "Released YYYY-MM-DD."
-3. Insert a new commented-out section for the next minor version.
+3. Preserve any later commented-out upcoming release section already present
+   in ``CHANGES.rst`` instead of inventing the next version/date.
 4. Run ``scripts/make_switcher.py`` to update ``switcher.json``.
 5. Commit ``CHANGES.rst`` and ``switcher.json`` to main.
 6. Tag the repo with the final version (e.g. ``1.7.10``).
@@ -55,7 +56,6 @@ import argparse
 import re
 import subprocess
 import sys
-from datetime import date
 from pathlib import Path
 
 from packaging.version import Version
@@ -131,12 +131,10 @@ def assert_main():
 # CHANGES.rst helpers
 # ---------------------------------------------------------------------------
 
-# Pattern that marks the start of the upcoming (commented-out) release section.
-# Matches lines like:  ..
-#                         1.7.10
+# Pattern that marks a commented-out upcoming release section.
 _COMMENT_BLOCK_RE = re.compile(
-    r"^\.\.\n(   \d+\.\d+\.\d+\n   \*+\n\n   Release expected by (\d{4}-\d{2}-\d{2})\..*?)(?=^\d|\Z)",
-    re.MULTILINE | re.DOTALL,
+    r"^\.\.\n(?P<body>(?:   .*\n|\n)+?)(?=^\.\.\n|^\d|\Z)",
+    re.MULTILINE,
 )
 _UPCOMING_VERSION_RE = re.compile(r"^   (\d+\.\d+\.\d+)\n   \*+", re.MULTILINE)
 _EXPECTED_DATE_RE = re.compile(r"   Release expected by \d{4}-\d{2}-\d{2}\.")
@@ -161,10 +159,15 @@ def upcoming_version(text):
     return m.group(1)
 
 
-def next_minor_version(version_str):
-    """Return the next minor version string, e.g. '1.7.10' → '1.8.0'."""
-    v = Version(version_str)
-    return f"{v.major}.{v.minor + 1}.0"
+def split_commented_sections(text):
+    """Return the commented-out upcoming release sections in order."""
+    return [match.group(0) for match in _COMMENT_BLOCK_RE.finditer(text)]
+
+
+def next_upcoming_section(text):
+    """Return the later upcoming section, if one is already staged."""
+    commented_sections = split_commented_sections(text)
+    return commented_sections[1] if len(commented_sections) > 1 else None
 
 
 def uncomment_release_section(text, version_str, release_date):
@@ -222,17 +225,13 @@ def new_commented_section(next_version, milestone_date):
     )
 
 
-def insert_new_section(text, next_version):
-    """Insert a new commented-out section at the top of the change history."""
+def insert_new_section(text, new_section):
+    """Insert a commented-out section at the top of the change history."""
     # Insert just before the first real release heading (e.g. "1.7.9\n*****")
     first_release = re.search(r"^(\d+\.\d+\.\d+\n\*+)", text, re.MULTILINE)
     if not first_release:
         raise ValueError("Could not find first release heading in CHANGES.rst.")
     idx = first_release.start()
-    # Use a placeholder date one year from now; maintainer adjusts to milestone
-    today = date.today()
-    milestone_date = f"{today.year + 1}-{today.month:02d}-01"
-    new_section = new_commented_section(next_version, milestone_date)
     return text[:idx] + new_section + text[idx:]
 
 
@@ -325,20 +324,23 @@ def cmd_final(dry_run=False):
         print(f"ERROR: CHANGES.rst upcoming version ({up_ver}) does not match rc base version ({final_version}).")
         sys.exit(1)
 
+    next_section = next_upcoming_section(text)
     if dry_run:
-        next_ver = next_minor_version(final_version)
         print(f"Would release: {final_tag}")
-        print(f"Would create next section for: {next_ver}")
+        if next_section is None:
+            print("Would not create a new upcoming section.")
+        else:
+            print(f"Would preserve next section for: {upcoming_version(next_section)}")
         print("(dry run — no changes made)")
         return
 
     # 1. Uncomment and datestamp the release section.
-    today = date.today().isoformat()
+    today = subprocess.run(["date", "+%F"], check=True, capture_output=True, text=True).stdout.strip()
     text = uncomment_release_section(text, final_version, today)
 
-    # 2. Insert new commented section for the next minor.
-    next_ver = next_minor_version(final_version)
-    text = insert_new_section(text, next_ver)
+    # 2. Preserve any later commented-out upcoming section already present.
+    if next_section is not None:
+        text = insert_new_section(text, next_section)
     CHANGES.write_text(text, encoding="utf-8")
     print(f"Updated {CHANGES.name}")
 
