@@ -24,13 +24,17 @@ describe future plans.
    1.7.11
    ******
 
-   Release expected by 2026-05-01.
+   Release expected by 2026-09-01.
 
    Enhancements
    ------------
 
    Fixes
    -----
+
+   * ``scripts/release.py`` now preserves the next staged upcoming release
+     section in ``CHANGES.rst`` instead of inventing a next-minor placeholder.
+     (:issue:`1177`)
 
    Maintenance
    -----------
