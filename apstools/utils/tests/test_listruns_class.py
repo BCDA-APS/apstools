@@ -12,10 +12,14 @@ from .. import getDefaultNamespace
 from .._core import TableStyle
 
 
-def _count_runs_in_snapshot(path: pathlib.Path) -> int:
+def _snapshot_start_docs(path: pathlib.Path) -> list[dict]:
     with gzip.open(path, "rt", encoding="utf-8") as f:
         data = json.load(f)
-    return sum(1 for name, _doc in data if name == "start")
+    return [doc for name, doc in data if name == "start"]
+
+
+def _count_runs_in_snapshot(path: pathlib.Path) -> int:
+    return len(_snapshot_start_docs(path))
 
 
 @pytest.fixture(scope="function")
@@ -201,20 +205,27 @@ def test_ListRuns_query_count(lr):
 
 # fmt: off
 @pytest.mark.parametrize(
-    "nruns, query",
+    "query, match",
     [
-        (27, dict(scan_id={"$lt": 20})),
-        (26, dict(plan_name="count")),
-        (0, dict(scan_id={"$lt": 20}, plan_name="count")),
-        (19, dict(scan_id={"$gte": 100})),
-        (19, dict(scan_id={"$gte": 100}, plan_name="count")),
+        (dict(scan_id={"$lt": 20}), lambda doc: doc.get("scan_id", 0) < 20),
+        (dict(plan_name="count"), lambda doc: doc.get("plan_name") == "count"),
+        (
+            dict(scan_id={"$lt": 20}, plan_name="count"),
+            lambda doc: doc.get("scan_id", 0) < 20 and doc.get("plan_name") == "count",
+        ),
+        (dict(scan_id={"$gte": 100}), lambda doc: doc.get("scan_id", 0) >= 100),
+        (
+            dict(scan_id={"$gte": 100}, plan_name="count"),
+            lambda doc: doc.get("scan_id", 0) >= 100 and doc.get("plan_name") == "count",
+        ),
     ],
 )
-def test_ListRuns_query_parametrize(nruns, query, lr):
+def test_ListRuns_query_parametrize(query, match, lr):
     lr.num = 100
     lr.query = query
     dd = lr.parse_runs()
-    assert len(dd["time"]) == nruns
+    expected = sum(1 for doc in _snapshot_start_docs(TEST_DATA / "apstools.json.gz") if match(doc))
+    assert len(dd["time"]) == expected
 # fmt: on
 
 
