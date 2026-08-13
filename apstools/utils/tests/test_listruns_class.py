@@ -1,11 +1,21 @@
 import datetime
+import gzip
+import json
+import pathlib
 
 import intake
 import pytest
 
 from ... import utils
+from ...conftest import TEST_DATA
 from .. import getDefaultNamespace
 from .._core import TableStyle
+
+
+def _count_runs_in_snapshot(path: pathlib.Path) -> int:
+    with gzip.open(path, "rt", encoding="utf-8") as f:
+        data = json.load(f)
+    return sum(1 for name, _doc in data if name == "start")
 
 
 @pytest.fixture(scope="function")
@@ -18,7 +28,7 @@ def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert len(lr.cat) == 53
+    assert _count_runs_in_snapshot(TEST_DATA / "apstools.json.gz") == 53
     return lr
 
 
