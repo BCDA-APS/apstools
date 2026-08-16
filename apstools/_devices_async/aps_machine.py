@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 
 
 class ApsMachine(EpicsDevice, StandardReadable):
-
     _ophyd_labels_ = {"synchrotrons"}
 
     class MachineStatus(SubsetEnum):
@@ -33,27 +32,17 @@ class ApsMachine(EpicsDevice, StandardReadable):
     operators: A[SignalR[str], PvSuffix("OPS:message1"), Format.CONFIG_SIGNAL]
     floor_coordinator: A[SignalR[str], PvSuffix("OPS:message2"), Format.CONFIG_SIGNAL]
     fill_pattern: A[SignalR[str], PvSuffix("OPS:message3"), Format.CONFIG_SIGNAL]
-    last_problem_message: A[
-        SignalR[str], PvSuffix("OPS:message4"), Format.CONFIG_SIGNAL
-    ]
+    last_problem_message: A[SignalR[str], PvSuffix("OPS:message4"), Format.CONFIG_SIGNAL]
     last_trip_message: A[SignalR[str], PvSuffix("OPS:message5"), Format.CONFIG_SIGNAL]
     message6: A[SignalR[str], PvSuffix("OPS:message6"), Format.CONFIG_SIGNAL]
     message7: A[SignalR[str], PvSuffix("OPS:message7"), Format.CONFIG_SIGNAL]
     message8: A[SignalR[str], PvSuffix("OPS:message8"), Format.CONFIG_SIGNAL]
-    machine_status: A[
-        SignalR[MachineStatus], PvSuffix("S:DesiredMode"), Format.CONFIG_SIGNAL
-    ]
-    operating_mode: A[
-        SignalR[OperatingMode], PvSuffix("S:ActualMode"), Format.CONFIG_SIGNAL
-    ]
-    shutter_status: A[
-        SignalR[bool], PvSuffix("XFD:ShutterPermit"), Format.CONFIG_SIGNAL
-    ]
+    machine_status: A[SignalR[MachineStatus], PvSuffix("S:DesiredMode"), Format.CONFIG_SIGNAL]
+    operating_mode: A[SignalR[OperatingMode], PvSuffix("S:ActualMode"), Format.CONFIG_SIGNAL]
+    shutter_status: A[SignalR[bool], PvSuffix("XFD:ShutterPermit"), Format.CONFIG_SIGNAL]
     shutters_open: A[SignalR[int], PvSuffix("NoOfShuttersOpenA"), Format.CONFIG_SIGNAL]
     fill_number: A[SignalR[int], PvSuffix("S:FillNumber"), Format.CONFIG_SIGNAL]
-    orbit_correction: A[
-        SignalR[float], PvSuffix("S:OrbitCorrection:CC"), Format.CONFIG_SIGNAL
-    ]
+    orbit_correction: A[SignalR[float], PvSuffix("S:OrbitCorrection:CC"), Format.CONFIG_SIGNAL]
 
 
 # -----------------------------------------------------------------------------
