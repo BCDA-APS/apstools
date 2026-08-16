@@ -80,6 +80,7 @@ dev = [
   "ophyd-registry",
   "pre-commit",
   "pytest",
+  "pytest-asyncio",
   "ruff",
   # databroker 2.0.0b57 needs
   "doct",
@@ -104,7 +105,10 @@ doc = [
   "sphinx-autoapi",
   "sphinx-design",
 ]
-all = ["apstools[dev,doc]"]
+async = [
+  "ophyd-async[ca]",
+]
+all = ["apstools[dev,doc,async]"]
 
 [project.scripts]
 spec2ophyd = "apstools.migration.spec2ophyd:main"
