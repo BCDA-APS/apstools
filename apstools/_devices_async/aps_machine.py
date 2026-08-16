@@ -61,7 +61,9 @@ class ApsMachine(EpicsDevice, StandardReadable):
 # :email:     wolfman@anl.gov
 # :copyright: Copyright © 2023, UChicago Argonne, LLC
 #
-# Distributed under the terms of the Argonne National Laboratory Open Source License.
+# Distributed under the terms of the Argonne National Laboratory Open
+# Source License.
 #
-# The full license is in the file LICENSE.txt, distributed with this software.
+# The full license is in the file LICENSE.txt, distributed with this
+# software.
 # -----------------------------------------------------------------------------
