@@ -37,7 +37,6 @@ class ApsMachine(EpicsDevice, StandardReadable):
         SignalR[str], PvSuffix("OPS:message4"), Format.CONFIG_SIGNAL
     ]
     last_trip_message: A[SignalR[str], PvSuffix("OPS:message5"), Format.CONFIG_SIGNAL]
-    # messages 6-8: meaning?
     message6: A[SignalR[str], PvSuffix("OPS:message6"), Format.CONFIG_SIGNAL]
     message7: A[SignalR[str], PvSuffix("OPS:message7"), Format.CONFIG_SIGNAL]
     message8: A[SignalR[str], PvSuffix("OPS:message8"), Format.CONFIG_SIGNAL]
