@@ -13,7 +13,7 @@ def cat(apstools_cat):
     return apstools_cat
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
