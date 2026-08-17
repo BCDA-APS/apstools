@@ -13,12 +13,12 @@ def cat(apstools_cat):
     return apstools_cat
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert len(lr.cat) == 53
+    assert len(lr.cat) == 53, f"{list(cat)}"
     return lr
 
 
