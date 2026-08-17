@@ -18,7 +18,7 @@ def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert len(lr.cat) == 53, f"{list(cat)}"
+    assert len(lr.cat) == 53, f"{cat}"
     return lr
 
 
