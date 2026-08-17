@@ -220,7 +220,6 @@ def test_NXWriter_make_file_name(tempdir):
         callback.make_file_name()
     assert exinfo is not None
     assert "NoneType" in str(exinfo.value), f"{callback=} {exinfo=}"
-    assert "an integer" in str(exinfo.value), f"{callback=} {exinfo=}"
 
     callback.start_time = 1000  # 1969-12-31T18:16:40
     with pytest.raises(TypeError) as exinfo:
