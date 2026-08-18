@@ -18,7 +18,7 @@ def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert 52 <= len(lr.cat) <= 53, f"{cat}"  # TODO: restore "only 53"
+    assert len(lr.cat) == 53, f"{cat}"  # TODO: restore "only 53"
     return lr
 
 
