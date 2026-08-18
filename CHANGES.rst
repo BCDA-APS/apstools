@@ -41,6 +41,11 @@ describe future plans.
 
    * Stabilize ``ListRuns`` test run count across Python versions. (:issue:`1134`)
 
+   Deprecations
+   ------------
+
+   * Deprecate ``ApsBssUserInfoDevice`` (``apsbss`` discontinued). (:issue:`969`)
+
 1.7.10
 ******
 
