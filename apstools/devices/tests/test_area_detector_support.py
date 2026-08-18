@@ -231,14 +231,15 @@ def test_stage(plugin_name, plugin_class, adsimdet, fname):
 
 
 @pytest.mark.parametrize(
-    "plugin_name, plugin_class",
+    "plugin_name, plugin_class, data_type, extension",
     [
-        ["hdf1", AD_EpicsFileNameHDF5Plugin],
-        ["jpeg1", AD_EpicsFileNameJPEGPlugin],
-        ["tiff1", AD_EpicsFileNameTIFFPlugin],
+        # JPEG writer needs 8-bit data (issue #1166); each writer its own extension.
+        pytest.param("hdf1", AD_EpicsFileNameHDF5Plugin, "Float64", "h5", id="hdf1"),
+        pytest.param("jpeg1", AD_EpicsFileNameJPEGPlugin, "UInt8", "jpg", id="jpeg1"),
+        pytest.param("tiff1", AD_EpicsFileNameTIFFPlugin, "Float64", "tif", id="tiff1"),
     ],
 )
-def test_bp_count_custom_name(plugin_name, plugin_class, fname):
+def test_bp_count_custom_name(plugin_name, plugin_class, data_type, extension, fname):
     assert isinstance(plugin_name, str)
 
     adsimdet = custom_ad_creator(plugin_name)
@@ -257,11 +258,12 @@ def test_bp_count_custom_name(plugin_name, plugin_class, fname):
             plugin.file_name, file_name,
             plugin.file_path, file_path,
             plugin.num_capture, n_images,
+            adsimdet.cam.data_type, data_type,
             adsimdet.cam.num_images, n_images,
             adsimdet.cam.acquire_time, 0.001,
             adsimdet.cam.acquire_period, 0.002,
             adsimdet.cam.image_mode, "Single",
-            plugin.file_template, "%s%s_%3.3d.h5"
+            plugin.file_template, f"%s%s_%3.3d.{extension}"
         )
         # fmt: on
 
