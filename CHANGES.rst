@@ -39,6 +39,8 @@ describe future plans.
    Maintenance
    -----------
 
+   * Stabilize ``ListRuns`` test run count across Python versions. (:issue:`1134`)
+
 1.7.10
 ******
 
