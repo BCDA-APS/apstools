@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.spreadsheet</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Spreadsheet Support</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -445,7 +445,7 @@
 <span class="sd">   ~ExcelDatabaseFileBase</span>
 <span class="sd">   ~ExcelDatabaseFileGeneric</span>
 <span class="sd">   ~ExcelReadError</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
@@ -460,18 +460,18 @@
 <div class="viewcode-block" id="ExcelReadError">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelReadError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExcelReadError</span><span class="p">(</span><span class="n">openpyxl</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidFileException</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Exception when reading Excel spreadsheet.</span>
 
 <span class="sd">    .. index:: apstools Exception; ExcelReadError</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
 <div class="viewcode-block" id="ExcelDatabaseFileBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelDatabaseFileBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExcelDatabaseFileBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    base class: read-only support for Excel files, treat them like databases</span>
 
 <span class="sd">    .. index:: apstools Utility; ExcelDatabaseFileBase</span>
@@ -487,33 +487,33 @@
 <span class="sd">    ::</span>
 
 <span class="sd">        class ExhibitorsDB(ExcelDatabaseFileBase):</span>
-<span class="sd">            &#39;&#39;&#39;</span>
+<span class="sd">            '''</span>
 <span class="sd">            content for exhibitors from the Excel file</span>
-<span class="sd">            &#39;&#39;&#39;</span>
-<span class="sd">            EXCEL_FILE = pathlib.Path(&quot;resources&quot;) / &quot;exhibitors.xlsx&quot;</span>
+<span class="sd">            '''</span>
+<span class="sd">            EXCEL_FILE = pathlib.Path("resources") / "exhibitors.xlsx"</span>
 <span class="sd">            LABELS_ROW = 2</span>
 
 <span class="sd">            def handle_single_entry(self, entry):</span>
-<span class="sd">                &#39;&#39;&#39;any special handling for a row from the Excel file&#39;&#39;&#39;</span>
+<span class="sd">                '''any special handling for a row from the Excel file'''</span>
 <span class="sd">                pass</span>
 
 <span class="sd">            def handleExcelRowEntry(self, entry):</span>
-<span class="sd">                &#39;&#39;&#39;identify unique key (row of the Excel file)&#39;&#39;&#39;</span>
-<span class="sd">                key = entry[&quot;Name&quot;]</span>
+<span class="sd">                '''identify unique key (row of the Excel file)'''</span>
+<span class="sd">                key = entry["Name"]</span>
 <span class="sd">                self.db[key] = entry</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">EXCEL_FILE</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># subclass MUST define</span>
-    <span class="c1"># EXCEL_FILE = pathlib.Path(&quot;abstracts&quot;) / &quot;index of abstracts.xlsx&quot;</span>
+    <span class="c1"># EXCEL_FILE = pathlib.Path("abstracts") / "index of abstracts.xlsx"</span>
     <span class="n">LABELS_ROW</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># labels are on line LABELS_ROW+1 in the Excel file</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;subclass must define EXCEL_FILE&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"subclass must define EXCEL_FILE"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -524,7 +524,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">handle_single_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>  <span class="c1"># subclass MUST override</span>
         <span class="c1"># fmt: off</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;subclass must override handle_single_entry() method&quot;</span>
+            <span class="s2">"subclass must override handle_single_entry() method"</span>
         <span class="p">)</span></div>
 
         <span class="c1"># fmt: on</span>
@@ -534,7 +534,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">handleExcelRowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>  <span class="c1"># subclass MUST override</span>
         <span class="c1"># fmt: off</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;subclass must override handleExcelRowEntry() method&quot;</span>
+            <span class="s2">"subclass must override handleExcelRowEntry() method"</span>
         <span class="p">)</span></div>
 
         <span class="c1"># fmt: on</span>
@@ -570,7 +570,7 @@
                 <span class="c1"># create the column titles</span>
                 <span class="c1"># fmt: off</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="sa">f</span><span class="s2">&quot;Column_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="sa">f</span><span class="s2">"Column_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
                 <span class="p">]</span>
                 <span class="c1"># fmt: on</span>
         <span class="k">except</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidFileException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
@@ -603,7 +603,7 @@
 <div class="viewcode-block" id="ExcelDatabaseFileGeneric">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExcelDatabaseFileGeneric</span><span class="p">(</span><span class="n">ExcelDatabaseFileBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generic (read-only) handling of Excel spreadsheet-as-database</span>
 
 <span class="sd">    .. index:: apstools Utility; ExcelDatabaseFileGeneric</span>
@@ -626,19 +626,19 @@
 <span class="sd">    should be ignored by the bluesky plan that reads this table. The</span>
 <span class="sd">    table will end with a row of empty cells.</span>
 
-<span class="sd">    While it&#39;s a good idea to put the ``action`` column first, that is</span>
+<span class="sd">    While it's a good idea to put the ``action`` column first, that is</span>
 <span class="sd">    not necessary. It is not even necessary to name the column</span>
 <span class="sd">    ``action``. You can re-arrange the order of the columns and change</span>
 <span class="sd">    their names **as long as** the column names match what text strings</span>
 <span class="sd">    your Python code expects to find.</span>
 
 <span class="sd">    A future upgrade [#]_ will allow the table boundaries to be named by</span>
-<span class="sd">    Excel when using Excel&#39;s ``Format as Table`` [#]_ feature. For now,</span>
+<span class="sd">    Excel when using Excel's ``Format as Table`` [#]_ feature. For now,</span>
 <span class="sd">    leave a blank row and column at the bottom and right edges of the</span>
 <span class="sd">    table.</span>
 
 <span class="sd">    .. [#] https://github.com/BCDA-APS/apstools/issues/122</span>
-<span class="sd">    .. [#] Excel&#39;s ``Format as Table``:</span>
+<span class="sd">    .. [#] Excel's ``Format as Table``:</span>
 <span class="sd">        https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -698,29 +698,29 @@
 <span class="sd">            for i, row in xl.db.values():</span>
 <span class="sd">                # prepare the metadata</span>
 <span class="sd">                _md = {cleanupText(k): v for k, v in row.items()}</span>
-<span class="sd">                _md[&quot;xl_file&quot;] = xl_file</span>
-<span class="sd">                _md[&quot;excel_row_number&quot;] = i+1</span>
+<span class="sd">                _md["xl_file"] = xl_file</span>
+<span class="sd">                _md["excel_row_number"] = i+1</span>
 <span class="sd">                _md.update(md) # overlay with user-supplied metadata</span>
 
 <span class="sd">                # determine what action to take</span>
-<span class="sd">                action = row[&quot;action&quot;].lower()</span>
-<span class="sd">                if action == &quot;open&quot;:</span>
-<span class="sd">                    yield from bps.mv(shutter, &quot;open&quot;)</span>
-<span class="sd">                elif action == &quot;close&quot;:</span>
-<span class="sd">                    yield from bps.mv(shutter, &quot;close&quot;)</span>
-<span class="sd">                elif action == &quot;image&quot;:</span>
+<span class="sd">                action = row["action"].lower()</span>
+<span class="sd">                if action == "open":</span>
+<span class="sd">                    yield from bps.mv(shutter, "open")</span>
+<span class="sd">                elif action == "close":</span>
+<span class="sd">                    yield from bps.mv(shutter, "close")</span>
+<span class="sd">                elif action == "image":</span>
 <span class="sd">                    # your code to take an image, given **row as parameters</span>
 <span class="sd">                    yield from my_image(**row, md=_md)</span>
-<span class="sd">                elif action == &quot;scan&quot;:</span>
+<span class="sd">                elif action == "scan":</span>
 <span class="sd">                    # your code to make a scan, given **row as parameters</span>
 <span class="sd">                    yield from my_scan(**row, md=_md)</span>
 <span class="sd">                else:</span>
-<span class="sd">                    print(f&quot;no handling for row {i+1}: action={action}&quot;)</span>
+<span class="sd">                    print(f"no handling for row {i+1}: action={action}")</span>
 
 <span class="sd">        # execute this plan through the RunEngine</span>
-<span class="sd">        RE(myExcelPlan(&quot;spreadsheet.xlsx&quot;, md=dict(purpose=&quot;apstools demo&quot;))</span>
+<span class="sd">        RE(myExcelPlan("spreadsheet.xlsx", md=dict(purpose="apstools demo"))</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">labels_row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index_</span> <span class="o">=</span> <span class="mi">0</span>
@@ -737,7 +737,7 @@
 <div class="viewcode-block" id="ExcelDatabaseFileGeneric.handleExcelRowEntry">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/spreadsheet/index.html#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handleExcelRowEntry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">handleExcelRowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;use row number as the unique key&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""use row number as the unique key"""</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index_</span> <span class="o">+=</span> <span class="mi">1</span></div>

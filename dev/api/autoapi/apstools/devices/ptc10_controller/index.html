@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -646,13 +646,13 @@ based on the <cite>ophyd.PVPositioner</cite> to use their <cite>PTC10</cite> as 
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PVPositioner</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyPTC10</span><span class="p">(</span><span class="n">PTC10PositionerMixin</span><span class="p">,</span> <span class="n">PVPositioner</span><span class="p">):</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;2A:temperature&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;5A:setPoint&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"2A:temperature"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"5A:setPoint"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">rtd</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PTC10RtdChannel</span><span class="p">,</span> <span class="s2">&quot;3A:&quot;</span><span class="p">)</span>
-    <span class="n">pid</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PTC10AioChannel</span><span class="p">,</span> <span class="s2">&quot;5A:&quot;</span><span class="p">)</span>
+    <span class="n">rtd</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PTC10RtdChannel</span><span class="p">,</span> <span class="s2">"3A:"</span><span class="p">)</span>
+    <span class="n">pid</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PTC10AioChannel</span><span class="p">,</span> <span class="s2">"5A:"</span><span class="p">)</span>
 
-<span class="n">ptc10</span> <span class="o">=</span> <span class="n">MyPTC10</span><span class="p">(</span><span class="s2">&quot;IOC_PREFIX:ptc10:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ptc10&quot;</span><span class="p">)</span>
+<span class="n">ptc10</span> <span class="o">=</span> <span class="n">MyPTC10</span><span class="p">(</span><span class="s2">"IOC_PREFIX:ptc10:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"ptc10"</span><span class="p">)</span>
 <span class="n">ptc10</span><span class="o">.</span><span class="n">report_dmov_changes</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># a diagnostic</span>
 <span class="n">ptc10</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># done when |readback-setpoint|&lt;=tolerance</span>
 </pre></div>

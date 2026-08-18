@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -635,9 +635,9 @@
 the next simulated controller reading.</p>
 <p>Example with <code class="docutils literal notranslate"><span class="pre">swait</span></code> record:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">controller</span> <span class="o">=</span> <span class="n">SimulatedSwaitControllerPositioner</span><span class="p">(</span>
-    <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;controller&quot;</span><span class="p">,</span>
-    <span class="n">loop_pv</span><span class="o">=</span><span class="s2">&quot;gp:userCalc1&quot;</span><span class="p">,</span>
+    <span class="s2">""</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"controller"</span><span class="p">,</span>
+    <span class="n">loop_pv</span><span class="o">=</span><span class="s2">"gp:userCalc1"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
@@ -681,7 +681,7 @@ the next simulated controller reading.</p>
 simulated controller reading and reporting if the readback is “in position”.</p>
 <p>Example with <code class="docutils literal notranslate"><span class="pre">transform</span></code> record:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">controller</span> <span class="o">=</span> <span class="n">SimulatedTransformControllerPositioner</span><span class="p">(</span>
-    <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;controller&quot;</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">&quot;gp:userTran1&quot;</span><span class="p">,</span>
+    <span class="s2">""</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"controller"</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">"gp:userTran1"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>

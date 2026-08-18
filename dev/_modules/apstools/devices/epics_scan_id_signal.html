@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -446,24 +446,24 @@
 
 <div class="viewcode-block" id="EpicsScanIdSignal">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/epics_scan_id_signal/index.html#apstools.devices.epics_scan_id_signal.EpicsScanIdSignal">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.3&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.3"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsScanIdSignal</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use an EPICS PV as the source of the RunEngine&#39;s ``scan_id``.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Use an EPICS PV as the source of the RunEngine's ``scan_id``.</span>
 
 <span class="sd">    Uses a writable EPICS integer PV (such as longout record).</span>
 
 <span class="sd">    EXAMPLE::</span>
 
-<span class="sd">        scan_id = EpicsScanIdDevice(&quot;ioc:scan_id:longout&quot;, name=&quot;scan_id&quot;)</span>
+<span class="sd">        scan_id = EpicsScanIdDevice("ioc:scan_id:longout", name="scan_id")</span>
 <span class="sd">        # ...</span>
 <span class="sd">        RE = bluesky.RunEngine({}, scan_id_source=scan_id.cb_scan_id_source)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="EpicsScanIdSignal.cb_scan_id_source">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/epics_scan_id_signal/index.html#apstools.devices.epics_scan_id_signal.EpicsScanIdSignal.cb_scan_id_source">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cb_scan_id_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Callback function for RunEngine.  Returns *next* scan_id to be used.</span>
 
 <span class="sd">        * Get current scan_id from PV.</span>
@@ -471,7 +471,7 @@
 <span class="sd">        * Increment.</span>
 <span class="sd">        * Set PV with new value.</span>
 <span class="sd">        * Return new value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">new_scan_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">new_scan_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_scan_id</span></div>

@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -524,13 +524,13 @@ from a set of motor specifications.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_creator</span>
 
-<span class="n">empty</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="p">)</span>
+<span class="n">empty</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"empty"</span><span class="p">)</span>
 <span class="n">empty</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MB_Device(prefix=&#39;&#39;, name=&#39;empty&#39;, read_attrs=[], configuration_attrs=[])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MB_Device(prefix='', name='empty', read_attrs=[], configuration_attrs=[])
 </pre></div>
 </div>
 </div>
@@ -541,13 +541,13 @@ from a set of motor specifications.</p>
 <p>Create a device with simulated (SoftPositioner) axes by providing a list of names:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sim"</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">[</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
 <span class="n">sim</span><span class="o">.</span><span class="n">x</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SoftPositioner(name=&#39;sim_x&#39;, parent=&#39;sim&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SoftPositioner(name='sim_x', parent='sim', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')
 </pre></div>
 </div>
 </div>
@@ -559,15 +559,15 @@ from a set of motor specifications.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">combo</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
-    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"bundle"</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">"gp:"</span><span class="p">,</span>
     <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;m3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
-        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
-        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
+        <span class="s2">"x"</span><span class="p">:</span> <span class="s2">"m1"</span><span class="p">,</span>
+        <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"m2"</span><span class="p">,</span>
+        <span class="s2">"z"</span><span class="p">:</span> <span class="s2">"m3"</span><span class="p">,</span>
+        <span class="s2">"roll"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
+        <span class="s2">"pitch"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
+        <span class="s2">"yaw"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
     <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">combo</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">combo</span><span class="o">.</span><span class="n">roll</span>
@@ -575,8 +575,8 @@ from a set of motor specifications.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;]),
- SoftPositioner(name=&#39;bundle_roll&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(EpicsMotor(prefix='gp:m1', name='bundle_x', parent='bundle', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu']),
+ SoftPositioner(name='bundle_roll', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed'))
 </pre></div>
 </div>
 </div>
@@ -587,13 +587,13 @@ from a set of motor specifications.</p>
 <p>Add custom labels to your device for organization or registry lookup:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labeled</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;labeled&quot;</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">},</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mygroup&quot;</span><span class="p">,</span> <span class="s2">&quot;motors&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labeled</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"labeled"</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="s2">"m1"</span><span class="p">},</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"mygroup"</span><span class="p">,</span> <span class="s2">"motors"</span><span class="p">])</span>
 <span class="n">labeled</span><span class="o">.</span><span class="n">_ophyd_labels_</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;motors&#39;, &#39;mygroup&#39;}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{'motors', 'mygroup'}
 </pre></div>
 </div>
 </div>

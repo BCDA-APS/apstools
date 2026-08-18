@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.synApps.sub</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Ophyd support for the EPICS sub record</span>
 
 <span class="sd">https://epics.anl.gov/base/R7-0/6-docs/subRecord.html</span>
@@ -449,7 +449,7 @@
 <span class="sd">    ~UserAverageDevice</span>
 <span class="sd">    ~SubRecord</span>
 <span class="sd">    ~SubRecordChannel</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -464,13 +464,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordDeviceCommonAll</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordFloatFields</span>
 
-<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">&quot;A B C D E F G H I J K L&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">"A B C D E F G H I J K L"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="SubRecordChannel">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.SubRecordChannel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SubRecordChannel</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Number channel of a sub record: A-L</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps SubRecordChannel</span>
@@ -478,10 +478,10 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~reset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ch</span> <span class="o">=</span> <span class="n">letter</span>
@@ -490,8 +490,8 @@
 <div class="viewcode-block" id="SubRecordChannel.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.SubRecordChannel.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 </div>
 
@@ -500,7 +500,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_channels</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">nsym</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">SubRecordChannel</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">SubRecordChannel</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">defn</span>
 
@@ -508,7 +508,7 @@
 <div class="viewcode-block" id="SubRecord">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.SubRecord">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SubRecord</span><span class="p">(</span><span class="n">EpicsRecordFloatFields</span><span class="p">,</span> <span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS base sub record support in ophyd</span>
 
 <span class="sd">    .. index:: Ophyd Device; SubRecord</span>
@@ -518,19 +518,19 @@
 <span class="sd">        ~reset</span>
 
 <span class="sd">    :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">units</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.EGU&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".EGU"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">initroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.INAM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">subroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SNAM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">initroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".INAM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">subroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SNAM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">channels</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_channels</span><span class="p">(</span><span class="n">CHANNEL_LETTERS_LIST</span><span class="p">))</span>
 
-    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span>
-    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span>
+    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -539,25 +539,25 @@
 <div class="viewcode-block" id="SubRecord.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.SubRecord.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"5"</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">initroutine</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># initSubAve in userAve</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subroutine</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># SubAve in userAve</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initroutine</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>  <span class="c1"># initSubAve in userAve</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subroutine</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>  <span class="c1"># SubAve in userAve</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">:</span>
             <span class="n">channel</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">letter</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">SubRecordChannel</span><span class="p">):</span>
                 <span class="n">channel</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
 </div>
 
 
@@ -565,50 +565,50 @@
 <div class="viewcode-block" id="UserAverageN">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.UserAverageN">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserAverageN</span><span class="p">(</span><span class="n">EpicsRecordFloatFields</span><span class="p">,</span> <span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of user average: ``$(P):userAve$(N)``</span>
 
 <span class="sd">    This database uses a sub record for most features plus additional</span>
 <span class="sd">    records to support done, acquire, clear, and other features.</span>
 
 <span class="sd">    It *uses* a ``sub`` record and other, hence not exactly a :meth:`SubRecord`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Enable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Enable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">averaged_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">channel</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.INPB&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">averaged_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".INPB"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">initroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.INAM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">subroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.SNAM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">initroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".INAM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">subroutine</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".SNAM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">number_samples</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.A&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.B&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-    <span class="n">current_sample</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.E&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">average</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.H&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">line_fit</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.I&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">auto</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.J&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">slope</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.K&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">corr_coef</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.L&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">number_samples</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".A"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".B"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+    <span class="n">current_sample</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".E"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">average</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".H"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">line_fit</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".I"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">auto</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".J"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">slope</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".K"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">corr_coef</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".L"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;_mode&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">algorithm</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;_algorithm&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"_mode"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">algorithm</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"_algorithm"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">clear</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.C&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">acquire</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;_acquire&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">busy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;_busy&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">clear</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".C"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">acquire</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"_acquire"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">busy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"_busy"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserAverageN.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.UserAverageN.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">enum_strs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># enable</span>
-        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="s2">&quot;scanning_rate mode algorithm&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="s2">"scanning_rate mode algorithm"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">enum_strs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_samples</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 </div>
@@ -618,7 +618,7 @@
 <div class="viewcode-block" id="UserAverageDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.UserAverageDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserAverageDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of user averaging sub records: ``$(P):userAve$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps UserAverageDevice</span>
@@ -627,24 +627,24 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;userAveEnable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">average1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve1&quot;</span><span class="p">)</span>
-    <span class="n">average2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve2&quot;</span><span class="p">)</span>
-    <span class="n">average3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve3&quot;</span><span class="p">)</span>
-    <span class="n">average4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve4&quot;</span><span class="p">)</span>
-    <span class="n">average5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve5&quot;</span><span class="p">)</span>
-    <span class="n">average6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve6&quot;</span><span class="p">)</span>
-    <span class="n">average7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve7&quot;</span><span class="p">)</span>
-    <span class="n">average8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve8&quot;</span><span class="p">)</span>
-    <span class="n">average9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve9&quot;</span><span class="p">)</span>
-    <span class="n">average10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">&quot;userAve10&quot;</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"userAveEnable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">average1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve1"</span><span class="p">)</span>
+    <span class="n">average2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve2"</span><span class="p">)</span>
+    <span class="n">average3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve3"</span><span class="p">)</span>
+    <span class="n">average4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve4"</span><span class="p">)</span>
+    <span class="n">average5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve5"</span><span class="p">)</span>
+    <span class="n">average6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve6"</span><span class="p">)</span>
+    <span class="n">average7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve7"</span><span class="p">)</span>
+    <span class="n">average8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve8"</span><span class="p">)</span>
+    <span class="n">average9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve9"</span><span class="p">)</span>
+    <span class="n">average10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserAverageN</span><span class="p">,</span> <span class="s2">"userAve10"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserAverageDevice.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sub/index.html#apstools.synApps.sub.UserAverageDevice.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># lgtm [py/similar-function]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">average1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">average2</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">average3</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -655,8 +655,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">average8</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">average9</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">average10</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;average</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;enable&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"average</span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"enable"</span><span class="p">)</span></div>
 </div>
 
 

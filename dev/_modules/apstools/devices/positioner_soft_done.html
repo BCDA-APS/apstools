@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.positioner_soft_done</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PVPositioner that computes ``done`` as a soft signal.</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~PVPositionerSoftDone</span>
 <span class="sd">   ~PVPositionerSoftDoneWithStop</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -462,18 +462,18 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="c1"># Must use a data type that can be serialized as json (Python&#39;s None cannot be serialized)</span>
+<span class="c1"># Must use a data type that can be serialized as json (Python's None cannot be serialized)</span>
 <span class="c1"># This ValueError: Cannot determine the appropriate bluesky-friendly data type for value</span>
-<span class="c1"># None of Python type &lt;class &#39;NoneType&#39;&gt;. Supported types include: int, float, str, and</span>
+<span class="c1"># None of Python type &lt;class 'NoneType'&gt;. Supported types include: int, float, str, and</span>
 <span class="c1"># iterables such as list, tuple, np.ndarray, and so on.</span>
-<span class="n">TARGET_UNDEFINED</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span>
+<span class="n">TARGET_UNDEFINED</span> <span class="o">=</span> <span class="s2">"undefined"</span>
 
 
 <div class="viewcode-block" id="PVPositionerSoftDone">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.5.3&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.5.3"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PVPositionerSoftDone</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    PVPositioner that computes ``done`` as a soft signal.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -529,31 +529,31 @@
 <span class="sd">        be final value while ``setpoint`` will be the current desired position.</span>
 
 <span class="sd">        Otherwise, both ``setpoint`` and ``target`` will be set to the same value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># positioner</span>
     <span class="c1"># fmt: off</span>
     <span class="n">readback</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
-        <span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{_readback_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{_readback_pv}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">setpoint</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
-        <span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{_setpoint_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{_setpoint_pv}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="c1"># fmt: on</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
     <span class="n">done_value</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="n">tolerance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">report_dmov_changes</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">tolerance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">report_dmov_changes</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
-    <span class="n">target</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">TARGET_UNDEFINED</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">TARGET_UNDEFINED</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">readback_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">setpoint_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">readback_pv</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+        <span class="n">setpoint_pv</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">use_target</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -561,9 +561,9 @@
         <span class="c1"># fmt: off</span>
         <span class="k">if</span> <span class="n">setpoint_pv</span> <span class="o">==</span> <span class="n">readback_pv</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;readback_pv (</span><span class="si">{</span><span class="n">readback_pv</span><span class="si">}</span><span class="s2">)&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot; and setpoint_pv (</span><span class="si">{</span><span class="n">setpoint_pv</span><span class="si">}</span><span class="s2">)&quot;</span>
-                <span class="s2">&quot; must have different values&quot;</span>
+                <span class="sa">f</span><span class="s2">"readback_pv (</span><span class="si">{</span><span class="n">readback_pv</span><span class="si">}</span><span class="s2">)"</span>
+                <span class="sa">f</span><span class="s2">" and setpoint_pv (</span><span class="si">{</span><span class="n">setpoint_pv</span><span class="si">}</span><span class="s2">)"</span>
+                <span class="s2">" must have different values"</span>
             <span class="p">)</span>
         <span class="c1"># fmt: on</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setpoint_pv</span> <span class="o">=</span> <span class="n">setpoint_pv</span>
@@ -579,8 +579,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_setpoint</span><span class="p">)</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="s2">&quot;setpoint&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_types</span><span class="p">:</span>
-            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;event_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;setpoint&quot;</span>
+        <span class="k">if</span> <span class="s2">"setpoint"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_types</span><span class="p">:</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">"event_type"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"setpoint"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_update_target</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
 
         <span class="c1"># cancel subscriptions before object is garbage collected</span>
@@ -594,7 +594,7 @@
 <div class="viewcode-block" id="PVPositionerSoftDone.cleanup">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone.cleanup">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear subscriptions on exit.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Clear subscriptions on exit."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span></div>
 
@@ -616,13 +616,13 @@
 <div class="viewcode-block" id="PVPositionerSoftDone.cb_readback">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone.cb_readback">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cb_readback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Called when readback changes (EPICS CA monitor event) or on-demand.</span>
 
 <span class="sd">        Responsible for determining _if_ the positioner is done moving.</span>
 <span class="sd">        Since soft positioners have no such direct indication, computes</span>
 <span class="sd">        if the positioner is in position (if a move is active).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">idle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">done_value</span>
         <span class="k">if</span> <span class="n">idle</span><span class="p">:</span>
             <span class="k">return</span>
@@ -630,13 +630,13 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inposition</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">done_value</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_dmov_changes</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reached: </span><span class="si">{</span><span class="kc">True</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reached: </span><span class="si">{</span><span class="kc">True</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PVPositionerSoftDone.cb_setpoint">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone.cb_setpoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cb_setpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Called when setpoint changes (EPICS CA monitor event).</span>
 
 <span class="sd">        When the setpoint is changed, force`` done=False``.  For any move, ``done``</span>
@@ -646,29 +646,29 @@
 <span class="sd">        The ``cb_readback()`` method will compute ``done``.</span>
 
 <span class="sd">        Since other code will also call this method, check the keys in kwargs</span>
-<span class="sd">        and do not react to the &quot;wrong&quot; signature.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;status&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+<span class="sd">        and do not react to the "wrong" signature.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="s2">"value"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">"status"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">done_value</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;cb_setpoint: done=</span><span class="si">%s</span><span class="s2">, setpoint=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"cb_setpoint: done=</span><span class="si">%s</span><span class="s2">, setpoint=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Do readback and setpoint (both from cache) agree within tolerance?</span>
 
 <span class="sd">        Returns::</span>
 
 <span class="sd">            inposition = |readback - setpoint| &lt;= tolerance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Since this method must execute quickly, do NOT force</span>
         <span class="c1"># EPICS CA gets using `use_monitor=False`.</span>
         <span class="n">rb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">sp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_target</span> <span class="ow">is</span> <span class="kc">False</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_tolerance</span>
         <span class="n">inpos</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;inposition: inpos=</span><span class="si">%s</span><span class="s2"> rb=</span><span class="si">%s</span><span class="s2"> sp=</span><span class="si">%s</span><span class="s2"> tol=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">inpos</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"inposition: inpos=</span><span class="si">%s</span><span class="s2"> rb=</span><span class="si">%s</span><span class="s2"> sp=</span><span class="si">%s</span><span class="s2"> tol=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">inpos</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inpos</span>
 
     <span class="nd">@property</span>
@@ -676,12 +676,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">precision</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_setup_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move and do not wait until motion is complete (asynchronous)&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.setpoint = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Move and do not wait until motion is complete (asynchronous)"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">.setpoint = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.actuate = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuate_value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">.actuate = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuate_value</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">actuate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuate_value</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">()</span>  <span class="c1"># This is needed to force the first check.</span></div>
 
@@ -690,20 +690,20 @@
 <div class="viewcode-block" id="PVPositionerSoftDoneWithStop">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PVPositionerSoftDoneWithStop</span><span class="p">(</span><span class="n">PVPositionerSoftDone</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    PVPositionerSoftDone with stop() and inposition.</span>
 
 <span class="sd">    The :meth:`stop()` method sets the setpoint to the immediate readback</span>
 <span class="sd">    value (only when ``inposition`` is ``True``).  This stops the</span>
 <span class="sd">    positioner at the current position.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="PVPositionerSoftDoneWithStop.stop">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Hold the current readback when stop() is called and not :meth:`inposition`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inposition</span><span class="p">:</span>

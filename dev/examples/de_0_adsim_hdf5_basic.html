@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -532,7 +532,7 @@ $ <b>iocmgr.sh start ADSIM ad</b>
 </pre>
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
 </pre></div>
 </div>
 </div>
@@ -573,8 +573,8 @@ area acquired.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -586,7 +586,7 @@ area acquired.</p>
 <p>Here, we create an <code class="docutils literal notranslate"><span class="pre">example</span></code> directory with subdirectory for year, month, and day (such as: <code class="docutils literal notranslate"><span class="pre">example/2022/07/04</span></code>):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"example/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>
 </pre></div>
 </div>
 </div>
@@ -597,8 +597,8 @@ area acquired.</p>
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 </pre></div>
 </div>
 </div>
@@ -656,7 +656,7 @@ screen view shows the PVA1 plugin enabled, we will not enable that in this examp
 <p>Each <a class="reference external" href="https://blueskyproject.io/ophyd/explanations/area-detector.html?highlight=singletrigger#ports">port</a> named by the detector <em><strong>must</strong></em> have its plugin (or <code class="docutils literal notranslate"><span class="pre">cam</span></code>) defined in the ophyd detector class.</p>
 <p>You can check if you missed any plugins once you have created your detector object by calling its <code class="docutils literal notranslate"><span class="pre">.missing_plugins()</span></code> method. For example, where our example ADSimDetector IOC uses the <code class="docutils literal notranslate"><span class="pre">ad:</span></code> PV prefix:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetector</span>
-<span class="n">det</span> <span class="o">=</span> <span class="n">SimDetector</span><span class="p">(</span><span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">)</span>
+<span class="n">det</span> <span class="o">=</span> <span class="n">SimDetector</span><span class="p">(</span><span class="s2">"ad:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">)</span>
 <span class="n">det</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -751,19 +751,19 @@ wait for it to connect with EPICS.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
 
 <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}})</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}})</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
-            <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
-            <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"class"</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
+            <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+            <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
 
-<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
+<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"adsimdet"</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -821,8 +821,8 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># override default setting from ophyd</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"blocking_callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"No"</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"wait_for_plugins"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Yes"</span>
 </pre></div>
 </div>
 </div>
@@ -830,7 +830,7 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 <p>For good measure, also make sure the <code class="docutils literal notranslate"><span class="pre">image</span></code> plugin does not block.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"blocking_callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"No"</span>
 </pre></div>
 </div>
 </div>
@@ -842,12 +842,12 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 <p>But since our <a class="reference internal" href="#punx"><span class="std std-ref">last step</span></a> uses a tool that does not yet have this package, we’ll use <code class="docutils literal notranslate"><span class="pre">zlib</span></code> compression.</p>
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.015</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_capture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;compression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;zlib&quot;</span>  <span class="c1"># LZ4</span>
-<span class="c1"># adsimdet.hdf1.stage_sigs[&quot;queue_size&quot;] = 20</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"acquire_period"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.015</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"acquire_time"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"num_images"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"num_capture"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"compression"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"zlib"</span>  <span class="c1"># LZ4</span>
+<span class="c1"># adsimdet.hdf1.stage_sigs["queue_size"] = 20</span>
 </pre></div>
 </div>
 </div>
@@ -878,7 +878,7 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;hdf1&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>['hdf1']
 </pre></div>
 </div>
 </div>
@@ -890,7 +890,7 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;cam.acquire&#39;, 0), (&#39;cam.image_mode&#39;, 1)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('cam.acquire', 0), ('cam.image_mode', 1)])
 </pre></div>
 </div>
 </div>
@@ -902,10 +902,10 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;wait_for_plugins&#39;, &#39;Yes&#39;),
-             (&#39;acquire_period&#39;, 0.015),
-             (&#39;acquire_time&#39;, 0.01),
-             (&#39;num_images&#39;, 5)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('wait_for_plugins', 'Yes'),
+             ('acquire_period', 0.015),
+             ('acquire_time', 0.01),
+             ('num_images', 5)])
 </pre></div>
 </div>
 </div>
@@ -917,18 +917,18 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;enable&#39;, 1),
-             (&#39;blocking_callbacks&#39;, &#39;No&#39;),
-             (&#39;parent.cam.array_callbacks&#39;, 1),
-             (&#39;create_directory&#39;, -3),
-             (&#39;auto_increment&#39;, &#39;Yes&#39;),
-             (&#39;array_counter&#39;, 0),
-             (&#39;auto_save&#39;, &#39;Yes&#39;),
-             (&#39;num_capture&#39;, 0),
-             (&#39;file_template&#39;, &#39;%s%s_%6.6d.h5&#39;),
-             (&#39;file_write_mode&#39;, &#39;Stream&#39;),
-             (&#39;capture&#39;, 1),
-             (&#39;compression&#39;, &#39;zlib&#39;)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('enable', 1),
+             ('blocking_callbacks', 'No'),
+             ('parent.cam.array_callbacks', 1),
+             ('create_directory', -3),
+             ('auto_increment', 'Yes'),
+             ('array_counter', 0),
+             ('auto_save', 'Yes'),
+             ('num_capture', 0),
+             ('file_template', '%s%s_%6.6d.h5'),
+             ('file_write_mode', 'Stream'),
+             ('capture', 1),
+             ('compression', 'zlib')])
 </pre></div>
 </div>
 </div>
@@ -989,20 +989,20 @@ an empty list: <code class="docutils literal notranslate"><span class="pre">[]</
 <p>Ignore that.</p>
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with default HDF5 File Name&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Area Detector with default HDF5 File Name"</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">"image"</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2024-08-25 11:41:47
-Persistent Unique Scan ID: &#39;03540259-129f-4dcd-ac4d-6e2c2dc77527&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: '03540259-129f-4dcd-ac4d-6e2c2dc77527'
+New stream: 'primary'
 +-----------+------------+
 |   seq_num |       time |
 +-----------+------------+
 |         1 | 11:41:47.6 |
 +-----------+------------+
-generator count [&#39;03540259&#39;] (scan num: 1)
+generator count ['03540259'] (scan num: 1)
 </pre></div>
 </div>
 </div>
@@ -1049,8 +1049,8 @@ generator count [&#39;03540259&#39;] (scan num: 1)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
-  uid=&#39;03540259-129f-4dcd-ac4d-6e2c2dc77527&#39;
-  exit_status=&#39;success&#39;
+  uid='03540259-129f-4dcd-ac4d-6e2c2dc77527'
+  exit_status='success'
   2024-08-25 11:41:47.396 -- 2024-08-25 11:41:47.679
   Streams:
     * primary
@@ -1075,7 +1075,7 @@ generator count [&#39;03540259&#39;] (scan num: 1)
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  &#39;dims&#39;: dict(self._ds.dims),
+  'dims': dict(self._ds.dims),
 </pre></div>
 </div>
 <div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
@@ -1492,7 +1492,7 @@ Data variables:
 <p>This <code class="docutils literal notranslate"><span class="pre">image</span></code> object has rank of 4 (1 timestamp and 5 frames of 1k x 1k).</p>
 </details><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">"adsimdet_image"</span><span class="p">]</span>
 <span class="c1"># image is an xarray.DataArray with 1 timestamp and 5 frames of 1k x 1k</span>
 </pre></div>
 </div>
@@ -1531,13 +1531,13 @@ Data variables:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Resource({&#39;path_semantics&#39;: &#39;posix&#39;,
- &#39;resource_kwargs&#39;: {&#39;frame_per_point&#39;: 5},
- &#39;resource_path&#39;: &#39;tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5&#39;,
- &#39;root&#39;: &#39;/&#39;,
- &#39;run_start&#39;: &#39;03540259-129f-4dcd-ac4d-6e2c2dc77527&#39;,
- &#39;spec&#39;: &#39;AD_HDF5&#39;,
- &#39;uid&#39;: &#39;d442acbf-c730-4f26-9d4a-97c89d5d3395&#39;})]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Resource({'path_semantics': 'posix',
+ 'resource_kwargs': {'frame_per_point': 5},
+ 'resource_path': 'tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5',
+ 'root': '/',
+ 'run_start': '03540259-129f-4dcd-ac4d-6e2c2dc77527',
+ 'spec': 'AD_HDF5',
+ 'uid': 'd442acbf-c730-4f26-9d4a-97c89d5d3395'})]
 </pre></div>
 </div>
 </div>
@@ -1549,13 +1549,13 @@ Data variables:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_full_file_name_local</span>
 
 <span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>local_file_name.exists()=True
-local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5&#39;)
+local_file_name=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5')
 </pre></div>
 </div>
 </div>
@@ -1564,17 +1564,17 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab95
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rsrc</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">'root'</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">'resource_path'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># confirm they are the same</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fname.exists()=True
-fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5&#39;)
+fname=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5')
 (local_file_name == fname)=True
 </pre></div>
 </div>
@@ -1590,7 +1590,7 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">unix</span>
 
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">"punx tree </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">}</span><span class="s2">"</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1600,45 +1600,45 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 
 /tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-41aa-b0a3_000000.h5 : NeXus data file
   entry:NXentry
-    @NX_class = &quot;NXentry&quot;
+    @NX_class = "NXentry"
     data:NXdata
-      @NX_class = &quot;NXdata&quot;
+      @NX_class = "NXdata"
       data:NX_UINT8[5,1024,1024] = __array
         __array = [
             [
-                [11, 15, 17, &#39;...&#39;, 8]
-                [18, 10, 9, &#39;...&#39;, 9]
-                [14, 9, 18, &#39;...&#39;, 13]
+                [11, 15, 17, '...', 8]
+                [18, 10, 9, '...', 9]
+                [14, 9, 18, '...', 13]
                 ...
-                [16, 13, 10, &#39;...&#39;, 25]
+                [16, 13, 10, '...', 25]
               ]
             [
-                [7, 17, 15, &#39;...&#39;, 12]
-                [18, 7, 12, &#39;...&#39;, 10]
-                [11, 18, 12, &#39;...&#39;, 20]
+                [7, 17, 15, '...', 12]
+                [18, 7, 12, '...', 10]
+                [11, 18, 12, '...', 20]
                 ...
-                [17, 13, 15, &#39;...&#39;, 30]
+                [17, 13, 15, '...', 30]
               ]
             [
-                [7, 15, 10, &#39;...&#39;, 19]
-                [11, 16, 12, &#39;...&#39;, 14]
-                [15, 7, 12, &#39;...&#39;, 19]
+                [7, 15, 10, '...', 19]
+                [11, 16, 12, '...', 14]
+                [15, 7, 12, '...', 19]
                 ...
-                [20, 14, 7, &#39;...&#39;, 30]
+                [20, 14, 7, '...', 30]
               ]
             [
-                [13, 13, 8, &#39;...&#39;, 8]
-                [20, 11, 12, &#39;...&#39;, 15]
-                [17, 12, 20, &#39;...&#39;, 14]
+                [13, 13, 8, '...', 8]
+                [20, 11, 12, '...', 15]
+                [17, 12, 20, '...', 14]
                 ...
-                [9, 10, 10, &#39;...&#39;, 31]
+                [9, 10, 10, '...', 31]
               ]
             [
-                [8, 16, 10, &#39;...&#39;, 10]
-                [10, 9, 12, &#39;...&#39;, 18]
-                [7, 7, 16, &#39;...&#39;, 16]
+                [8, 16, 10, '...', 10]
+                [10, 9, 12, '...', 18]
+                [7, 7, 16, '...', 16]
                 ...
-                [10, 16, 10, &#39;...&#39;, 28]
+                [10, 16, 10, '...', 28]
               ]
           ]
         @NDArrayDimBinning = [1 1]
@@ -1647,68 +1647,68 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
         @NDArrayNumDims = 2
         @signal = 1
     instrument:NXinstrument
-      @NX_class = &quot;NXinstrument&quot;
+      @NX_class = "NXinstrument"
       NDAttributes:NXcollection
-        @NX_class = &quot;NXcollection&quot;
-        @hostname = &quot;arf.jemian.org&quot;
+        @NX_class = "NXcollection"
+        @hostname = "arf.jemian.org"
         NDArrayEpicsTSSec:NX_UINT32[5] = [1093452107, 1093452107, 1093452107, 1093452107, 1093452107]
-          @NDAttrDescription = &quot;The NDArray EPICS timestamp seconds past epoch&quot;
-          @NDAttrName = &quot;NDArrayEpicsTSSec&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The NDArray EPICS timestamp seconds past epoch"
+          @NDAttrName = "NDArrayEpicsTSSec"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayEpicsTSnSec:NX_UINT32[5] = [492255441, 502449647, 517459894, 532556914, 547673991]
-          @NDAttrDescription = &quot;The NDArray EPICS timestamp nanoseconds&quot;
-          @NDAttrName = &quot;NDArrayEpicsTSnSec&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The NDArray EPICS timestamp nanoseconds"
+          @NDAttrName = "NDArrayEpicsTSnSec"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayTimeStamp:NX_FLOAT64[5] = [1093452107.4373698, 1093452107.4922705, 1093452107.507369, 1093452107.5224965, 1093452107.537584]
-          @NDAttrDescription = &quot;The timestamp of the NDArray as float64&quot;
-          @NDAttrName = &quot;NDArrayTimeStamp&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The timestamp of the NDArray as float64"
+          @NDAttrName = "NDArrayTimeStamp"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayUniqueId:NX_INT32[5] = [3221, 3222, 3223, 3224, 3225]
-          @NDAttrDescription = &quot;The unique ID of the NDArray&quot;
-          @NDAttrName = &quot;NDArrayUniqueId&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The unique ID of the NDArray"
+          @NDAttrName = "NDArrayUniqueId"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
       detector:NXdetector
-        @NX_class = &quot;NXdetector&quot;
+        @NX_class = "NXdetector"
         data:NX_UINT8[5,1024,1024] = __array
           __array = [
               [
-                  [11, 15, 17, &#39;...&#39;, 8]
-                  [18, 10, 9, &#39;...&#39;, 9]
-                  [14, 9, 18, &#39;...&#39;, 13]
+                  [11, 15, 17, '...', 8]
+                  [18, 10, 9, '...', 9]
+                  [14, 9, 18, '...', 13]
                   ...
-                  [16, 13, 10, &#39;...&#39;, 25]
+                  [16, 13, 10, '...', 25]
                 ]
               [
-                  [7, 17, 15, &#39;...&#39;, 12]
-                  [18, 7, 12, &#39;...&#39;, 10]
-                  [11, 18, 12, &#39;...&#39;, 20]
+                  [7, 17, 15, '...', 12]
+                  [18, 7, 12, '...', 10]
+                  [11, 18, 12, '...', 20]
                   ...
-                  [17, 13, 15, &#39;...&#39;, 30]
+                  [17, 13, 15, '...', 30]
                 ]
               [
-                  [7, 15, 10, &#39;...&#39;, 19]
-                  [11, 16, 12, &#39;...&#39;, 14]
-                  [15, 7, 12, &#39;...&#39;, 19]
+                  [7, 15, 10, '...', 19]
+                  [11, 16, 12, '...', 14]
+                  [15, 7, 12, '...', 19]
                   ...
-                  [20, 14, 7, &#39;...&#39;, 30]
+                  [20, 14, 7, '...', 30]
                 ]
               [
-                  [13, 13, 8, &#39;...&#39;, 8]
-                  [20, 11, 12, &#39;...&#39;, 15]
-                  [17, 12, 20, &#39;...&#39;, 14]
+                  [13, 13, 8, '...', 8]
+                  [20, 11, 12, '...', 15]
+                  [17, 12, 20, '...', 14]
                   ...
-                  [9, 10, 10, &#39;...&#39;, 31]
+                  [9, 10, 10, '...', 31]
                 ]
               [
-                  [8, 16, 10, &#39;...&#39;, 10]
-                  [10, 9, 12, &#39;...&#39;, 18]
-                  [7, 7, 16, &#39;...&#39;, 16]
+                  [8, 16, 10, '...', 10]
+                  [10, 9, 12, '...', 18]
+                  [7, 7, 16, '...', 16]
                   ...
-                  [10, 16, 10, &#39;...&#39;, 28]
+                  [10, 16, 10, '...', 28]
                 ]
             ]
           @NDArrayDimBinning = [1 1]
@@ -1717,12 +1717,12 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
           @NDArrayNumDims = 2
           @signal = 1
         NDAttributes:NXcollection
-          @NX_class = &quot;NXcollection&quot;
+          @NX_class = "NXcollection"
           ColorMode:NX_INT32[5] = [0, 0, 0, 0, 0]
-            @NDAttrDescription = &quot;Color mode&quot;
-            @NDAttrName = &quot;ColorMode&quot;
-            @NDAttrSource = &quot;Driver&quot;
-            @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+            @NDAttrDescription = "Color mode"
+            @NDAttrName = "ColorMode"
+            @NDAttrSource = "Driver"
+            @NDAttrSourceType = "NDAttrSourceDriver"
       performance
         timestamp:NX_FLOAT64[5,5] = __array
           __array = [
@@ -1759,15 +1759,15 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>  <span class="c1"># turn on matplotlib plots</span>
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
 
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
-<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"example/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 </pre></div>
 </div>
 </div>
@@ -1776,38 +1776,38 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}})</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}})</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
-            <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
-            <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"class"</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
+            <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+            <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
 
-<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
+<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"adsimdet"</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>  <span class="c1"># confirm all plugins are defined</span>
 
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>  <span class="c1"># include `hdf1` plugin with &#39;adsimdet.read()&#39;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"hdf1"</span><span class="p">)</span>  <span class="c1"># include `hdf1` plugin with 'adsimdet.read()'</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># IOC may create up to 5 new subdirectories, as needed</span>
 
 <span class="c1"># override default settings from ophyd</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"wait_for_plugins"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Yes"</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"blocking_callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"No"</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"blocking_callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"No"</span>
 
 <span class="c1"># apply some of our own customizations</span>
 <span class="n">NUM_FRAMES</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.002</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.001</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM_FRAMES</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_capture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;compression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;zlib&quot;</span>  <span class="c1"># LZ4</span>
-<span class="c1"># adsimdet.hdf1.stage_sigs[&quot;queue_size&quot;] = 20</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"acquire_period"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.002</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"acquire_time"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"num_images"</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM_FRAMES</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"num_capture"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"compression"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"zlib"</span>  <span class="c1"># LZ4</span>
+<span class="c1"># adsimdet.hdf1.stage_sigs["queue_size"] = 20</span>
 
 <span class="c1"># this step is needed for ophyd</span>
 <span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -1818,7 +1818,7 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 <p>Prepare for data acquisition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>  <span class="c1"># or use your own catalog: databroker.catalog[&quot;CATALOG_NAME&quot;]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>  <span class="c1"># or use your own catalog: databroker.catalog["CATALOG_NAME"]</span>
 <span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">({})</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">BestEffortCallback</span><span class="p">())</span>
@@ -1834,9 +1834,9 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
     <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">(</span>
         <span class="p">[</span><span class="n">adsimdet</span><span class="p">],</span>
         <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with default HDF5 File Name&quot;</span><span class="p">,</span>
-            <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
-            <span class="n">image_file_name_style</span><span class="o">=</span><span class="s2">&quot;ophyd(uid)&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">"Area Detector with default HDF5 File Name"</span><span class="p">,</span>
+            <span class="n">purpose</span><span class="o">=</span><span class="s2">"image"</span><span class="p">,</span>
+            <span class="n">image_file_name_style</span><span class="o">=</span><span class="s2">"ophyd(uid)"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
 <span class="p">)</span>
@@ -1845,26 +1845,26 @@ fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ab959322-75db-
 <span class="k">assert</span> <span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">num_captured</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="n">NUM_FRAMES</span>
 
 <span class="c1"># Show the image file name on the bluesky (local) workstation</span>
-<span class="c1"># Use information from the &#39;adsimdet&#39; object</span>
+<span class="c1"># Use information from the 'adsimdet' object</span>
 <span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2024-08-25 11:41:49
-Persistent Unique Scan ID: &#39;12211035-6f0f-4937-a20e-68c1c571a332&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: '12211035-6f0f-4937-a20e-68c1c571a332'
+New stream: 'primary'
 +-----------+------------+
 |   seq_num |       time |
 +-----------+------------+
 |         1 | 11:41:49.8 |
 +-----------+------------+
-generator count [&#39;12211035&#39;] (scan num: 1)
+generator count ['12211035'] (scan num: 1)
 
 
 
-local_file_name.exists()=True local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ac152816-7131-4cfa-a0e4_000000.h5&#39;)
+local_file_name.exists()=True local_file_name=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ac152816-7131-4cfa-a0e4_000000.h5')
 </pre></div>
 </div>
 </div>
@@ -1874,22 +1874,22 @@ local_file_name.exists()=True local_file_name=PosixPath(&#39;/tmp/docker_ioc/ioc
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">()</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s2">"adsimdet_image"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">()</span>
 
 <span class="c1"># Show the image file name on the bluesky (local) workstation</span>
 <span class="c1"># Use information from the databroker run</span>
 <span class="n">_r</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_r</span><span class="p">[</span><span class="s1">'root'</span><span class="p">]</span><span class="si">}{</span><span class="n">_r</span><span class="p">[</span><span class="s1">'resource_path'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># confirm the name above () is the same</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fname.exists()=True
-fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ac152816-7131-4cfa-a0e4_000000.h5&#39;)
+fname=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/ac152816-7131-4cfa-a0e4_000000.h5')
 (local_file_name == fname)=True
 </pre></div>
 </div>

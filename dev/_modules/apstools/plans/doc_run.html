@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.plans.doc_run</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Documentation of batch runs</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -445,7 +445,7 @@
 <span class="sd">   ~addDeviceDataAsStream</span>
 <span class="sd">   ~documentation_run</span>
 <span class="sd">   ~write_stream</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -462,11 +462,11 @@
 <div class="viewcode-block" id="addDeviceDataAsStream">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/doc_run/index.html#apstools.plans.doc_run.addDeviceDataAsStream">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">addDeviceDataAsStream</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renamed to write_stream().  Will remove with relase 1.7+.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Renamed to write_stream().  Will remove with relase 1.7+."""</span>
     <span class="c1"># fmt: off</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="ne">UserWarning</span><span class="p">(</span>
-            <span class="s2">&quot;Deprecation: addDeviceDataAsStream() renamed to write_stream().&quot;</span>
+            <span class="s2">"Deprecation: addDeviceDataAsStream() renamed to write_stream()."</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="c1"># fmt: on</span>
@@ -477,7 +477,7 @@
 <div class="viewcode-block" id="documentation_run">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/doc_run/index.html#apstools.plans.doc_run.documentation_run">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">documentation_run</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Save text as a bluesky run.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -487,7 +487,7 @@
 <span class="sd">        Text to be written.</span>
 <span class="sd">    stream</span>
 <span class="sd">        *str* :</span>
-<span class="sd">        document stream, default: &quot;primary&quot;</span>
+<span class="sd">        document stream, default: "primary"</span>
 <span class="sd">    bec</span>
 <span class="sd">        *object* :</span>
 <span class="sd">        Instance of `bluesky.BestEffortCallback`,</span>
@@ -496,15 +496,15 @@
 <span class="sd">        *dict*</span>
 <span class="sd">        (optional):</span>
 <span class="sd">        metadata dictionary</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">bec</span> <span class="o">=</span> <span class="n">bec</span> <span class="ow">or</span> <span class="n">ipython_shell_namespace</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bec&quot;</span><span class="p">)</span>
-    <span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="ow">or</span> <span class="s2">&quot;primary&quot;</span>
+<span class="sd">    """</span>
+    <span class="n">bec</span> <span class="o">=</span> <span class="n">bec</span> <span class="ow">or</span> <span class="n">ipython_shell_namespace</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"bec"</span><span class="p">)</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="ow">or</span> <span class="s2">"primary"</span>
 
-    <span class="n">text_signal</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="n">text_signal</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"text"</span><span class="p">)</span>
 
     <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;save text as bluesky run&quot;</span><span class="p">,</span>
-        <span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;documentation_run&quot;</span><span class="p">,</span>
+        <span class="n">purpose</span><span class="o">=</span><span class="s2">"save text as bluesky run"</span><span class="p">,</span>
+        <span class="n">plan_name</span><span class="o">=</span><span class="s2">"documentation_run"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
 
@@ -529,7 +529,7 @@
 <div class="viewcode-block" id="write_stream">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/doc_run/index.html#apstools.plans.doc_run.write_stream">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_stream</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    add an ophyd Device as an additional document stream</span>
 
 <span class="sd">    .. index:: Bluesky Plan; write_stream</span>
@@ -540,15 +540,15 @@
 <span class="sd">        ...</span>
 <span class="sd">        yield from bps.open_run(md={})</span>
 <span class="sd">        # ...</span>
-<span class="sd">        yield from write_stream(prescanDeviceList, &quot;metadata_prescan&quot;)</span>
+<span class="sd">        yield from write_stream(prescanDeviceList, "metadata_prescan")</span>
 <span class="sd">        # ...</span>
 <span class="sd">        yield from custom_scan_procedure()</span>
 <span class="sd">        # ...</span>
-<span class="sd">        yield from write_stream(postscanDeviceList, &quot;metadata_postscan&quot;)</span>
+<span class="sd">        yield from write_stream(postscanDeviceList, "metadata_postscan")</span>
 <span class="sd">        # ...</span>
 <span class="sd">        yield from bps.close_run()</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># just in case...</span>
         <span class="n">devices</span> <span class="o">=</span> <span class="p">[</span><span class="n">devices</span><span class="p">]</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
@@ -556,7 +556,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;device=</span><span class="si">%s</span><span class="s2">, exception=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"device=</span><span class="si">%s</span><span class="s2">, exception=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
 
 

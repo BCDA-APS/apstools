@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.multi_transfocators</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Multi-system Transfocators (a.k.a, CRLs, compact refracting lenses)</span>
 
 <span class="sd">Beamline optics involving 1 or more transfocators.</span>
@@ -462,45 +462,45 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 <span class="sd">    prefix:</span>
-<span class="sd">      EPICS prefix required to communicate with transfocator IOC, ex: &quot;100idPyCRL:CRL:&quot;</span>
+<span class="sd">      EPICS prefix required to communicate with transfocator IOC, ex: "100idPyCRL:CRL:"</span>
 <span class="sd">    crls:</span>
 <span class="sd">        list of crl labels (strings)</span>
 <span class="sd">    samples:</span>
 <span class="sd">        list of sample station labels (strings)</span>
 <span class="sd">    pitch1_motor:</span>
-<span class="sd">      The motor record PV controlling the real pitch motor on CRL1, ex &quot;100id:m4&quot;</span>
+<span class="sd">      The motor record PV controlling the real pitch motor on CRL1, ex "100id:m4"</span>
 <span class="sd">    yaw1_motor:</span>
-<span class="sd">      The motor record PV controlling the real yaw motor on CRL1, ex &quot;100id:m5&quot;</span>
+<span class="sd">      The motor record PV controlling the real yaw motor on CRL1, ex "100id:m5"</span>
 <span class="sd">    x1_motor:</span>
-<span class="sd">      The motor record PV controlling the real lateral motor on CRL1, ex: &quot;100id:m1&quot;</span>
+<span class="sd">      The motor record PV controlling the real lateral motor on CRL1, ex: "100id:m1"</span>
 <span class="sd">    y1_motor:</span>
-<span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: &quot;100id:m2&quot;</span>
+<span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: "100id:m2"</span>
 
 
 <span class="sd">    Optional</span>
 <span class="sd">    ========</span>
-<span class="sd">    For CRL with translation (transfocator1xZ) there&#39;s one more motor:</span>
+<span class="sd">    For CRL with translation (transfocator1xZ) there's one more motor:</span>
 
 <span class="sd">    z1_motor:</span>
-<span class="sd">      The motor record PV controlling the real translation motor on CRL1, ex: &quot;100id:m3&quot;</span>
+<span class="sd">      The motor record PV controlling the real translation motor on CRL1, ex: "100id:m3"</span>
 
-<span class="sd">    For two CRL system  (transfocator2x) there&#39;s 4 more motors:</span>
+<span class="sd">    For two CRL system  (transfocator2x) there's 4 more motors:</span>
 
 <span class="sd">    pitch2_motor:</span>
-<span class="sd">      The motor record PV controlling the real pitch motor on CRL1, ex &quot;100id:m29&quot;</span>
+<span class="sd">      The motor record PV controlling the real pitch motor on CRL1, ex "100id:m29"</span>
 <span class="sd">    yaw2_motor:</span>
-<span class="sd">      The motor record PV controlling the real yaw motor on CRL1, ex &quot;100id:m30&quot;</span>
+<span class="sd">      The motor record PV controlling the real yaw motor on CRL1, ex "100id:m30"</span>
 <span class="sd">    x2_motor:</span>
-<span class="sd">      The motor record PV controlling the real lateral motor on CRL1, ex: &quot;100id:m26&quot;</span>
+<span class="sd">      The motor record PV controlling the real lateral motor on CRL1, ex: "100id:m26"</span>
 <span class="sd">    y2_motor:</span>
-<span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: &quot;100id:m27&quot;</span>
+<span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: "100id:m27"</span>
 
-<span class="sd">    For two CRL system with Translation (transfocator2xZZ), there&#39;s yet another motor:</span>
+<span class="sd">    For two CRL system with Translation (transfocator2xZZ), there's yet another motor:</span>
 
 <span class="sd">    z2_motor:</span>
-<span class="sd">      The motor record PV controlling the real translation motor on CRL2, ex: &quot;100id:m28&quot;</span>
+<span class="sd">      The motor record PV controlling the real translation motor on CRL2, ex: "100id:m28"</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
@@ -513,39 +513,39 @@
 
 <div class="viewcode-block" id="FPowerIndex">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.FPowerIndex">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FPowerIndex</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    focal power index &quot;positioner&quot;; increasing index, increasing focal power</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    focal power index "positioner"; increasing index, increasing focal power</span>
+<span class="sd">    """</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;fpower;sortedIndex_RBV&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;fpower:sortedIndex&quot;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sysBusy&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"fpower;sortedIndex_RBV"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"fpower:sortedIndex"</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"sysBusy"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="FocalSize">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.FocalSize">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FocalSize</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    focal size positioner</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;fSize_actual&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;focalSize&quot;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sysBusy&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"fSize_actual"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"focalSize"</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"sysBusy"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="TransfocatorSystem">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.TransfocatorSystem">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransfocatorSystem</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for CRL system</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -583,38 +583,38 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">focalPower</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">FPowerIndex</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">focalSize</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">FocalSize</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">focalPower</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">FPowerIndex</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">focalSize</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">FocalSize</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">q</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">dq</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;dq&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"q"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"dq"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">sam_position_readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;SamPosCalc.F&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">sam_position_offset_readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;SamPosCalc.G&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">sam_position_readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"SamPosCalc.F"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">sam_position_offset_readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"SamPosCalc.G"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;EnergyLocal&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;EnergyBeamline&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">energy_keV_lookup</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;energy_rbv&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"EnergyLocal"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"EnergyBeamline"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">energy_keV_lookup</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"energy_rbv"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">beamMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;beamMode&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">energyMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;energySelect&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">beamMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"beamMode"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">energyMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"energySelect"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">systemType</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;sysType_RBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;sysType&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">systemType</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"sysType_RBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">"sysType"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">system1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;system1_RBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;system1&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">system2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;system2_RBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;system2&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">system1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"system1_RBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">"system1"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">system2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"system2_RBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">"system2"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;sample_RBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"sample_RBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">"sample"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator1x">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator1x">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator1x</span><span class="p">(</span><span class="n">TransfocatorSystem</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for single CRL system</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -637,28 +637,28 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">crls</span><span class="p">,</span> <span class="n">pitch1_motor</span><span class="p">,</span> <span class="n">yaw1_motor</span><span class="p">,</span> <span class="n">x1_motor</span><span class="p">,</span> <span class="n">y1_motor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">binary_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lenses&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">bw_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lensConfig_BW&quot;</span><span class="p">)</span>
-    <span class="n">rbv_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lensConfig_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">crl1_z_pos</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:oePositionOffset_RBV&quot;</span><span class="p">)</span>
-    <span class="n">interLensDelay1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:interLensDelay&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">binary_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lenses"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">bw_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lensConfig_BW"</span><span class="p">)</span>
+    <span class="n">rbv_crl1_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lensConfig_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">crl1_z_pos</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:oePositionOffset_RBV"</span><span class="p">)</span>
+    <span class="n">interLensDelay1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:interLensDelay"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">binary_crl1_set</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lens_decode.A&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">binary_crl1_set</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[0]}</span><span class="s2">:lens_decode.A"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">pitch1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_pitch1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">yaw1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_yaw1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_x1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">y1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_y1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">pitch1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_pitch1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">yaw1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_yaw1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_x1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_y1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator1xZ">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator1xZ">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator1xZ</span><span class="p">(</span><span class="n">Transfocator1x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Single CRL system with z-motion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -672,17 +672,17 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">z1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">z1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_z1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator2x">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator2x">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator2x</span><span class="p">(</span><span class="n">Transfocator1x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for 2 CRL system</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -705,28 +705,28 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">crls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">binary_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lenses&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">bw_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lensConfig_BW&quot;</span><span class="p">)</span>
-    <span class="n">rbv_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lensConfig_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">crl2_z_pos</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:oePositionOffset_RBV&quot;</span><span class="p">)</span>
-    <span class="n">interLensDelay2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:interLensDelay&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">binary_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lenses"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">bw_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lensConfig_BW"</span><span class="p">)</span>
+    <span class="n">rbv_crl2_config</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lensConfig_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">crl2_z_pos</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:oePositionOffset_RBV"</span><span class="p">)</span>
+    <span class="n">interLensDelay2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:interLensDelay"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">binary_crl2_set</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lens_decode.A&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">binary_crl2_set</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}{crls[1]}</span><span class="s2">:lens_decode.A"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
 
-    <span class="n">pitch2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_pitch2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">yaw2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_yaw2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_x2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">y2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_y2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">pitch2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_pitch2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">yaw2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_yaw2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_x2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_y2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator2xZ_">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator2xZ_">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator2xZ_</span><span class="p">(</span><span class="n">Transfocator2x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    2 CRL system, upstream CRL has z-motion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -739,17 +739,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_z1_motor</span> <span class="o">=</span> <span class="n">z1_motor</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">z1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">z1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_z1_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator2x_Z">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator2x_Z">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator2x_Z</span><span class="p">(</span><span class="n">Transfocator2x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    2 CRL system, only downstream CRL has z-motion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -762,17 +762,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_z2_motor</span> <span class="o">=</span> <span class="n">z2_motor</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">z2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">z2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_z2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="Transfocator2xZZ">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/multi_transfocators/index.html#apstools.devices.multi_transfocators.Transfocator2xZZ">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transfocator2xZZ</span><span class="p">(</span><span class="n">Transfocator2xZ_</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    2 CRL system, each CRL has z-motion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -786,7 +786,7 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">z2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">z2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_z2_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 </pre></div>
 

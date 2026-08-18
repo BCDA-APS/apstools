@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.list_plans</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Directory of the known plans</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~listplans</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -459,7 +459,7 @@
 <div class="viewcode-block" id="listplans">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/list_plans/index.html#apstools.utils.list_plans.listplans">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">listplans</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">table_style</span><span class="o">=</span><span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    List all plans.  (Actually, lists all generator functions).</span>
 
 <span class="sd">    NOTE: Can only detect generator functions.</span>
@@ -481,39 +481,39 @@
 <span class="sd">        using values from :class:`apstools.utils.TableStyle`.</span>
 
 <span class="sd">        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="n">getDefaultNamespace</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s2">&quot;user_global_ns&quot;</span><span class="p">)</span>
-        <span class="n">_gg</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)}</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">getDefaultNamespace</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s2">"user_global_ns"</span><span class="p">)</span>
+        <span class="n">_gg</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># fmt: off</span>
         <span class="n">_gg</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>  <span class="c1"># not interested in these</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;signal_names&quot;</span><span class="p">,</span> <span class="p">)</span>  <span class="c1"># names to avoid</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>  <span class="c1"># not interested in these</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"signal_names"</span><span class="p">,</span> <span class="p">)</span>  <span class="c1"># names to avoid</span>
         <span class="p">}</span>
         <span class="c1"># fmt: on</span>
 
     <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismodule</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">"."</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">OphydObject</span><span class="p">):</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">"."</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">""</span>
 
     <span class="n">dd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">plan</span><span class="o">=</span><span class="p">[],</span> <span class="n">doc</span><span class="o">=</span><span class="p">[])</span>
 
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">_gg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>  <span class="c1"># TODO: bluesky.isplan(obj)</span>
-            <span class="n">doc</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;---&quot;</span>
-            <span class="n">more</span> <span class="o">=</span> <span class="s2">&quot; ...&quot;</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="s2">"---"</span>
+            <span class="n">more</span> <span class="o">=</span> <span class="s2">" ..."</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">trunc</span> <span class="ow">and</span> <span class="n">trunc</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">more</span><span class="p">):</span>
                 <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[:</span> <span class="n">trunc</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">more</span><span class="p">)]</span> <span class="o">+</span> <span class="n">more</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;plan&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"plan"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"doc"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">table_style</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span></div>
 

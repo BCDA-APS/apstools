@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.aps_machine</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">APS Machine Parameters</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -446,7 +446,7 @@
 
 <span class="sd">   ~ApsMachineParametersDevice</span>
 <span class="sd">   ~ApsOperatorMessagesDevice</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -458,28 +458,28 @@
 <div class="viewcode-block" id="ApsOperatorMessagesDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_machine/index.html#apstools.devices.aps_machine.ApsOperatorMessagesDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApsOperatorMessagesDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    General messages from the APS main control room.</span>
 
 <span class="sd">    .. index:: Ophyd Device; ApsOperatorMessagesDevice</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">operators</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message1&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">floor_coordinator</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message2&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">fill_pattern</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message3&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">last_problem_message</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message4&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">last_trip_message</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message5&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">operators</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message1"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">floor_coordinator</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message2"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fill_pattern</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message3"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">last_problem_message</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message4"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">last_trip_message</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message5"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># messages 6-8: meaning?</span>
-    <span class="n">message6</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message6&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">message7</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message7&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">message8</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;OPS:message8&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">message6</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message6"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">message7</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message7"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">message8</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"OPS:message8"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="ApsMachineParametersDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_machine/index.html#apstools.devices.aps_machine.ApsMachineParametersDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApsMachineParametersDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Common operational parameters of the APS of general interest.</span>
 
 <span class="sd">    .. index:: Ophyd Device; ApsMachineParametersDevice</span>
@@ -487,14 +487,14 @@
 <span class="sd">    EXAMPLE::</span>
 
 <span class="sd">        import apstools.devices</span>
-<span class="sd">        aps = apstools.devices.ApsMachineParametersDevice(name=&quot;aps&quot;)</span>
+<span class="sd">        aps = apstools.devices.ApsMachineParametersDevice(name="aps")</span>
 <span class="sd">        aps_current = aps.current</span>
 
 <span class="sd">        # make sure these values are logged at start and stop of every scan</span>
 <span class="sd">        sd.baseline.append(aps)</span>
 <span class="sd">        # record storage ring current as secondary stream during scans</span>
 <span class="sd">        # name: aps_current_monitor</span>
-<span class="sd">        # db[-1].table(&quot;aps_current_monitor&quot;)</span>
+<span class="sd">        # db[-1].table("aps_current_monitor")</span>
 <span class="sd">        sd.monitors.append(aps_current)</span>
 
 <span class="sd">    The `sd.baseline` and `sd.monitors` usage relies on this global setup::</span>
@@ -507,47 +507,47 @@
 
 <span class="sd">        ~inUserOperations</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">current</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;S-DCCT:CurrentM&quot;</span><span class="p">)</span>
-    <span class="c1"># lifetime = Component(EpicsSignalRO, &quot;S:SRlifeTimeHrsCC&quot;)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"S-DCCT:CurrentM"</span><span class="p">)</span>
+    <span class="c1"># lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")</span>
     <span class="n">aps_cycle</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">ApsCycleDM</span><span class="p">)</span>
-    <span class="n">machine_status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;S:DesiredMode&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">machine_status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"S:DesiredMode"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># In [3]: APS.machine_status.enum_strs</span>
     <span class="c1"># Out[3]:</span>
-    <span class="c1"># (&#39;State Unknown&#39;,</span>
-    <span class="c1">#  &#39;USER OPERATIONS&#39;,</span>
-    <span class="c1">#  &#39;Bm Ln Studies&#39;,</span>
-    <span class="c1">#  &#39;INJ Studies&#39;,</span>
-    <span class="c1">#  &#39;ASD Studies&#39;,</span>
-    <span class="c1">#  &#39;NO BEAM&#39;,</span>
-    <span class="c1">#  &#39;MAINTENANCE&#39;)</span>
-    <span class="n">operating_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;S:ActualMode&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># ('State Unknown',</span>
+    <span class="c1">#  'USER OPERATIONS',</span>
+    <span class="c1">#  'Bm Ln Studies',</span>
+    <span class="c1">#  'INJ Studies',</span>
+    <span class="c1">#  'ASD Studies',</span>
+    <span class="c1">#  'NO BEAM',</span>
+    <span class="c1">#  'MAINTENANCE')</span>
+    <span class="n">operating_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"S:ActualMode"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># In [4]: APS.operating_mode.enum_strs</span>
     <span class="c1"># Out[4]:</span>
-    <span class="c1"># (&#39;State Unknown&#39;,</span>
-    <span class="c1"># &#39;NO BEAM&#39;,</span>
-    <span class="c1"># &#39;Injecting&#39;,</span>
-    <span class="c1"># &#39;Stored Beam&#39;,</span>
-    <span class="c1"># &#39;Delivered Beam&#39;,</span>
-    <span class="c1"># &#39;MAINTENANCE&#39;)</span>
+    <span class="c1"># ('State Unknown',</span>
+    <span class="c1"># 'NO BEAM',</span>
+    <span class="c1"># 'Injecting',</span>
+    <span class="c1"># 'Stored Beam',</span>
+    <span class="c1"># 'Delivered Beam',</span>
+    <span class="c1"># 'MAINTENANCE')</span>
 
-    <span class="c1"># shutter_permit = Component(EpicsSignalRO, &quot;ACIS:ShutterPermit&quot;, string=True) # Not Found</span>
+    <span class="c1"># shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True) # Not Found</span>
 
-    <span class="n">shutter_status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;XFD:ShutterPermit&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">shutters_open</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;NoOfShuttersOpenA&quot;</span><span class="p">)</span>
-    <span class="n">fill_number</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;S:FillNumber&quot;</span><span class="p">)</span>
-    <span class="n">orbit_correction</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;S:OrbitCorrection:CC&quot;</span><span class="p">)</span>
+    <span class="n">shutter_status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"XFD:ShutterPermit"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">shutters_open</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"NoOfShuttersOpenA"</span><span class="p">)</span>
+    <span class="n">fill_number</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"S:FillNumber"</span><span class="p">)</span>
+    <span class="n">orbit_correction</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"S:OrbitCorrection:CC"</span><span class="p">)</span>
 
-    <span class="c1"># global_feedback = Component(EpicsSignalRO, &quot;SRFB:GBL:LoopStatusBI&quot;, string=True)  # Not Found</span>
-    <span class="c1"># global_feedback_h = Component(EpicsSignalRO, &quot;SRFB:GBL:HLoopStatusBI&quot;, string=True) # Not Found</span>
-    <span class="c1"># global_feedback_v = Component(EpicsSignalRO, &quot;SRFB:GBL:VLoopStatusBI&quot;, string=True) # Not Found</span>
+    <span class="c1"># global_feedback = Component(EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True)  # Not Found</span>
+    <span class="c1"># global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True) # Not Found</span>
+    <span class="c1"># global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True) # Not Found</span>
 
     <span class="n">operator_messages</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">ApsOperatorMessagesDevice</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inUserOperations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        determine if APS is in User Operations mode (boolean)</span>
 
 <span class="sd">        Use this property to configure ophyd Devices for direct or simulated hardware.</span>
@@ -555,7 +555,7 @@
 
 <span class="sd">        EXAMPLE::</span>
 
-<span class="sd">            APS = apstools.devices.ApsMachineParametersDevice(name=&quot;APS&quot;)</span>
+<span class="sd">            APS = apstools.devices.ApsMachineParametersDevice(name="APS")</span>
 
 <span class="sd">            if APS.inUserOperations:</span>
 <span class="sd">                suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)</span>
@@ -564,11 +564,11 @@
 <span class="sd">                # use pseudo shutter controls and no current suspenders</span>
 <span class="sd">                pass</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># fmt: off</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine_status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span>
-            <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;USER OPERATIONS&quot;</span><span class="p">,</span>
-            <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Bm Ln Studies&quot;</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="s2">"USER OPERATIONS"</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">,</span> <span class="s2">"Bm Ln Studies"</span><span class="p">,</span>
         <span class="p">)</span></div>
 
         <span class="c1"># fmt: on</span>

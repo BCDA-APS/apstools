@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.query</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Searching databroker catalogs</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~db_query</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">._core</span><span class="w"> </span><span class="kn">import</span> <span class="n">FIRST_DATA</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._core</span><span class="w"> </span><span class="kn">import</span> <span class="n">LAST_DATA</span>
@@ -452,7 +452,7 @@
 <div class="viewcode-block" id="db_query">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/query/index.html#apstools.utils.query.db_query">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">db_query</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Searches the databroker v2 database.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -474,14 +474,14 @@
 <span class="sd">    .. seealso::</span>
 
 <span class="sd">       :func:`databroker.catalog.search`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">databroker.queries</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span>
 
     <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">db</span>
 
-    <span class="n">since</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;since&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">until</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;until&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">since</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"since"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">until</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"until"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">since</span> <span class="ow">or</span> <span class="n">until</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">since</span><span class="p">:</span>

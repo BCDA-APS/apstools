@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.plans.alignment</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Alignment plans</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -447,7 +447,7 @@
 <span class="sd">   ~tune_axes</span>
 <span class="sd">   ~TuneAxis</span>
 <span class="sd">   ~TuneResults</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -475,12 +475,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.doc_run</span><span class="w"> </span><span class="kn">import</span> <span class="n">write_stream</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">MAIN</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;__main__&quot;</span><span class="p">]</span>
+<span class="n">MAIN</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">"__main__"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="lineup">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.lineup">[docs]</a>
-<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.2&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;use lineup2()&quot;</span><span class="p">)</span>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.2"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"use lineup2()"</span><span class="p">)</span>
 <span class="nd">@plan</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">lineup</span><span class="p">(</span>
     <span class="c1"># fmt: off</span>
@@ -492,13 +492,13 @@
     <span class="n">time_s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
     <span class="n">peak_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">width_factor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;cen&quot;</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">"cen"</span><span class="p">,</span>
     <span class="n">rescan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">bec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="c1"># fmt: on</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    **Deprecated** Lineup and center a given axis, relative to current position.</span>
 
 <span class="sd">    If first run identifies a peak, makes a second run to fine tune the result.</span>
@@ -556,35 +556,35 @@
 <span class="sd">    EXAMPLE::</span>
 
 <span class="sd">        RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">bec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;bec&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"bec"</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
             <span class="c1"># get from __main__ namespace</span>
-            <span class="n">bec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;bec&quot;</span><span class="p">)</span>
+            <span class="n">bec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">"bec"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot find BestEffortCallback() instance.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot find BestEffortCallback() instance."</span><span class="p">)</span>
     <span class="n">bec</span><span class="o">.</span><span class="n">enable_plots</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
     <span class="n">det0</span> <span class="o">=</span> <span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using detector &#39;</span><span class="si">%s</span><span class="s2">&#39; for lineup()&quot;</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Using detector '</span><span class="si">%s</span><span class="s2">' for lineup()"</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="c1"># first, determine if det0 is part of a ScalerCH device</span>
     <span class="n">scaler</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="n">det0</span><span class="o">.</span><span class="n">parent</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">det0</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">ScalerChannel</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"parent"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">ScalerCH</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"parent"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">ScalerCH</span><span class="p">):</span>
                 <span class="n">scaler</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span>
 
     <span class="k">if</span> <span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">old_sigs</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span>
-        <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;preset_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_s</span>
+        <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"preset_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_s</span>
         <span class="n">scaler</span><span class="o">.</span><span class="n">select_channels</span><span class="p">([</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">):</span>
         <span class="n">old_position</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">position</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">old_position</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
@@ -594,7 +594,7 @@
 
         <span class="k">if</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="n">feature</span><span class="p">]:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;No statistical analysis of scan peak for feature &#39;</span><span class="si">%s</span><span class="s2">&#39;!  (bec.peaks=</span><span class="si">%s</span><span class="s2">, bec=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="s2">"No statistical analysis of scan peak for feature '</span><span class="si">%s</span><span class="s2">'!  (bec.peaks=</span><span class="si">%s</span><span class="s2">, bec=</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
                 <span class="n">feature</span><span class="p">,</span>
                 <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
                 <span class="n">bec</span><span class="p">,</span>
@@ -602,21 +602,21 @@
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;detector&quot;</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;starting position&quot;</span><span class="p">,</span> <span class="n">old_position</span><span class="p">))</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"key"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">"axis"</span><span class="p">,</span> <span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">"detector"</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">"starting position"</span><span class="p">,</span> <span class="n">old_position</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">ATTRS</span><span class="p">:</span>
                 <span class="n">target</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
                     <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;alignment scan results:</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"alignment scan results:</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-            <span class="n">lo</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [-1] means detector</span>
-            <span class="n">hi</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [0] means axis</span>
-            <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-            <span class="n">final</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;cen&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">"min"</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [-1] means detector</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">"max"</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [0] means axis</span>
+            <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">"fwhm"</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">final</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">"cen"</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
 
             <span class="c1"># local PeakStats object of our plot of det0 .v x</span>
             <span class="n">ps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bec</span><span class="o">.</span><span class="n">_peak_stats</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
@@ -624,17 +624,17 @@
             <span class="n">x_range</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">x_data</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">final</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;centroid is None&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"centroid is None"</span><span class="p">)</span>
                 <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
             <span class="k">elif</span> <span class="n">fwhm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;FWHM is None&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"FWHM is None"</span><span class="p">)</span>
                 <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
             <span class="k">elif</span> <span class="n">hi</span> <span class="o">&lt;</span> <span class="n">peak_factor</span> <span class="o">*</span> <span class="n">lo</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;no clear peak: </span><span class="si">%f</span><span class="s2"> &lt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">,</span> <span class="n">lo</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"no clear peak: </span><span class="si">%f</span><span class="s2"> &lt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">,</span> <span class="n">lo</span><span class="p">)</span>
                 <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
             <span class="k">elif</span> <span class="n">fwhm</span> <span class="o">&gt;</span> <span class="n">width_factor</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                    <span class="s2">&quot;FWHM too large: </span><span class="si">%f</span><span class="s2"> &gt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"FWHM too large: </span><span class="si">%f</span><span class="s2"> &gt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">fwhm</span><span class="p">,</span>
                     <span class="n">width_factor</span><span class="p">,</span>
                     <span class="n">x_range</span><span class="p">,</span>
@@ -644,26 +644,26 @@
                 <span class="n">aligned</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;moving </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">  (aligned: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="s2">"moving </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">  (aligned: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
                 <span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">final</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">aligned</span><span class="p">),</span>
             <span class="p">)</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">final</span><span class="p">)</span>
 
-        <span class="c1"># too sneaky?  We&#39;re modifying this structure locally</span>
+        <span class="c1"># too sneaky?  We're modifying this structure locally</span>
         <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">aligned</span> <span class="o">=</span> <span class="n">aligned</span>
-        <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">ATTRS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;com&quot;</span><span class="p">,</span> <span class="s2">&quot;cen&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;fwhm&quot;</span><span class="p">)</span>
+        <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">ATTRS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"com"</span><span class="p">,</span> <span class="s2">"cen"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">,</span> <span class="s2">"fwhm"</span><span class="p">)</span>
 
-    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;alignment&quot;</span><span class="p">)</span>
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">"alignment"</span><span class="p">)</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">([</span><span class="n">det0</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="n">minus</span><span class="p">,</span> <span class="n">plus</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">peak_analysis</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">aligned</span> <span class="ow">and</span> <span class="n">rescan</span><span class="p">:</span>
         <span class="c1"># again, tweak axis to maximize</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;purpose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alignment - fine&quot;</span>
-        <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"purpose"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"alignment - fine"</span>
+        <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">"fwhm"</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
         <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">([</span><span class="n">det0</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="o">-</span><span class="n">fwhm</span><span class="p">,</span> <span class="n">fwhm</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">peak_analysis</span><span class="p">()</span>
 
@@ -677,7 +677,7 @@
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.edge_align">[docs]</a>
 <span class="nd">@plan</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">edge_align</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Align to the edge given mover &amp; detector data, relative to absolute position.</span>
 
 <span class="sd">    This plan can be used in the queueserver, Jupyter notebooks, and IPython</span>
@@ -706,10 +706,10 @@
 
 <span class="sd">    md *dict*:</span>
 <span class="sd">        User-supplied metadata for this scan.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">guess_erf_params</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Provide an initial guess for the parameters of an error function.</span>
 
 <span class="sd">        Parameters</span>
@@ -720,8 +720,8 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        guess : dict</span>
-<span class="sd">            A dictionary containing the guessed parameters &#39;low_y_data&#39;, &#39;high_y_data&#39;, &#39;width&#39;, and &#39;midpoint&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            A dictionary containing the guessed parameters 'low_y_data', 'high_y_data', 'width', and 'midpoint'.</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Sort data to make finding the mid-point easier and to assist in other estimations</span>
         <span class="n">y_data_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span>
@@ -735,7 +735,7 @@
         <span class="n">high_x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x_data_sorted</span><span class="p">)</span>
 
         <span class="c1"># Estimate width as a fraction of the range. This is very arbitrary and might need tuning!</span>
-        <span class="c1"># This is a guess and might need adjustment based on your data&#39;s characteristics.</span>
+        <span class="c1"># This is a guess and might need adjustment based on your data's characteristics.</span>
         <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="n">high_x_data</span> <span class="o">-</span> <span class="n">low_x_data</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
 
         <span class="c1"># Estimate the midpoint of the x values</span>
@@ -744,7 +744,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">low_y_data</span><span class="p">,</span> <span class="n">high_y_data</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">erf_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Create error function for fitting and simulation</span>
 
 <span class="sd">        Parameters</span>
@@ -752,15 +752,15 @@
 <span class="sd">        x		:	input upon which error function is evaluated</span>
 <span class="sd">        low		: 	min value of error function</span>
 <span class="sd">        high	: 	max value of error function</span>
-<span class="sd">        width  	:	&quot;spread&quot; of error function transition region</span>
-<span class="sd">        midpoint:	location of error function&#39;s &quot;center&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        width  	:	"spread" of error function transition region</span>
+<span class="sd">        midpoint:	location of error function's "center"</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">erf</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">midpoint</span><span class="p">)</span> <span class="o">/</span> <span class="n">width</span><span class="p">))</span> <span class="o">+</span> <span class="n">low</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
 
-    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;edge_align&quot;</span><span class="p">)</span>
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">"edge_align"</span><span class="p">)</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
 
     <span class="n">uid</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
@@ -768,28 +768,28 @@
     <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>  <span class="c1"># return uids</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="n">x</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;mover&quot;</span><span class="p">]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;noisy&quot;</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"mover"</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"noisy"</span><span class="p">]</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">initial_guess</span> <span class="o">=</span> <span class="n">guess_erf_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">erf_model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Significant signal change detected; motor moving to detected edge.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Significant signal change detected; motor moving to detected edge."</span><span class="p">)</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">popt</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No significant signal change detected; motor movement skipped.&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"No significant signal change detected; motor movement skipped."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="lineup2">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.lineup2">[docs]</a>
-<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.10&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Write peak statistics as a bluesky stream before run closes.&quot;</span><span class="p">)</span>
-<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.2&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Changed from PySumReg to numpy&quot;</span><span class="p">)</span>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.18&quot;</span><span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.10"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Write peak statistics as a bluesky stream before run closes."</span><span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.2"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Changed from PySumReg to numpy"</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.18"</span><span class="p">)</span>
 <span class="nd">@plan</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">lineup2</span><span class="p">(</span>
     <span class="c1"># fmt: off</span>
@@ -800,21 +800,21 @@
     <span class="n">points</span><span class="p">,</span>
     <span class="n">peak_factor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
     <span class="n">width_factor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;centroid&quot;</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">"centroid"</span><span class="p">,</span>
     <span class="n">nscans</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">signal_stats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">reporting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">md</span><span class="o">=</span><span class="p">{},</span>
-    <span class="n">stats_stream</span><span class="o">=</span><span class="s2">&quot;signal_stats&quot;</span><span class="p">,</span>
+    <span class="n">stats_stream</span><span class="o">=</span><span class="s2">"signal_stats"</span><span class="p">,</span>
     <span class="c1"># fmt: on</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Lineup and center a given mover, relative to the current position.</span>
 
 <span class="sd">    Step scan ``mover`` and measure ``detectors`` at each step. Peak analysis is</span>
 <span class="sd">    based on data collected during the scan for the **first** detector (in the</span>
 <span class="sd">    list of ``detectors``) *vs.* ``mover``.  If a peak is detected, move the</span>
-<span class="sd">    ``mover`` to the feature position (default is ``&quot;centroid&quot;``). If</span>
+<span class="sd">    ``mover`` to the feature position (default is ``"centroid"``). If</span>
 <span class="sd">    ``nscans&gt;1``, adjust the scan range based on the apparent FWHM and rescan.</span>
 <span class="sd">    At most, a total of ``nscans`` will be run.</span>
 
@@ -900,7 +900,7 @@
 <span class="sd">    stats_stream *str*:</span>
 <span class="sd">        Name of the bluesky stream in which peak statistics (including</span>
 <span class="sd">        ``success`` and ``reasons``) are written before the run closes.</span>
-<span class="sd">        (default: ``&quot;signal_stats&quot;``)  (new in release 1.7.10)</span>
+<span class="sd">        (default: ``"signal_stats"``)  (new in release 1.7.10)</span>
 
 <span class="sd">    ----</span>
 
@@ -916,13 +916,13 @@
 <span class="sd">    reason : [str]</span>
 <span class="sd">        If ``success=False``, this is a list of the reasons why ``lineup2()``</span>
 <span class="sd">        did not identify a peak.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalStatsCallback</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
 
-    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;alignment&quot;</span><span class="p">)</span>
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">"alignment"</span><span class="p">)</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
 
     <span class="c1"># Do not move the positioner outside the limits of the first scan.</span>
@@ -935,14 +935,14 @@
 
     <span class="k">if</span> <span class="n">signal_stats</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Print report() when stop document is received.</span>
-        <span class="k">if</span> <span class="s2">&quot;signal_stats&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"signal_stats"</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
             <span class="c1"># get from __main__ namespace</span>
-            <span class="n">signal_stats</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;signal_stats&quot;</span><span class="p">)</span>
+            <span class="n">signal_stats</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">"signal_stats"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">signal_stats</span> <span class="o">=</span> <span class="n">SignalStatsCallback</span><span class="p">()</span>
             <span class="c1"># Add signal_stats to __main__ namespace.  Users have requested</span>
             <span class="c1"># a way to determine if a lineup failed and why.</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;signal_stats&quot;</span><span class="p">,</span> <span class="n">signal_stats</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">"signal_stats"</span><span class="p">,</span> <span class="n">signal_stats</span><span class="p">)</span>
         <span class="n">signal_stats</span><span class="o">.</span><span class="n">reporting</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">reporting</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reporting</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Do not print report() when stop document is received.</span>
@@ -950,22 +950,22 @@
 
     <span class="c1"># Allow for feature to be defined using a name from PeakStats.</span>
     <span class="n">xref_PeakStats</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;com&quot;</span><span class="p">:</span> <span class="s2">&quot;centroid&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;cen&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_max_y&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_max_y&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_min_y&quot;</span><span class="p">,</span>
+        <span class="s2">"com"</span><span class="p">:</span> <span class="s2">"centroid"</span><span class="p">,</span>
+        <span class="s2">"cen"</span><span class="p">:</span> <span class="s2">"x_at_max_y"</span><span class="p">,</span>
+        <span class="s2">"max"</span><span class="p">:</span> <span class="s2">"x_at_max_y"</span><span class="p">,</span>
+        <span class="s2">"min"</span><span class="p">:</span> <span class="s2">"x_at_min_y"</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="c1"># translate from PeakStats feature to SignalStats</span>
     <span class="n">feature</span> <span class="o">=</span> <span class="n">xref_PeakStats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">find_peak_position</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the X value of the specified &#39;feature&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the X value of the specified 'feature'."""</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stats: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"stats: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
         <span class="n">peak_is_strong</span> <span class="o">=</span> <span class="n">strong_peak</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
         <span class="n">peak_too_wide</span> <span class="o">=</span> <span class="n">too_wide</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
         <span class="n">peak_width_zero</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">==</span> <span class="mi">0</span>
-        <span class="n">peak_sigma_zero</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">peak_sigma_zero</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
         <span class="n">findings</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">peak_is_strong</span><span class="p">,</span>
             <span class="ow">not</span> <span class="n">peak_too_wide</span><span class="p">,</span>
@@ -973,26 +973,26 @@
             <span class="ow">not</span> <span class="n">peak_sigma_zero</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">findings</span><span class="p">):</span>
-            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"success"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
 
         <span class="c1"># Save these into stats for the caller to find.</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s2">"success"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">peak_is_strong</span><span class="p">:</span>
-            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No strong peak found.&quot;</span><span class="p">)</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"No strong peak found."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">peak_too_wide</span><span class="p">:</span>
-            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Peak is too wide.&quot;</span><span class="p">)</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Peak is too wide."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">peak_width_zero</span><span class="p">:</span>
-            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FWHM is zero.&quot;</span><span class="p">)</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"FWHM is zero."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">peak_sigma_zero</span><span class="p">:</span>
-            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Computed peak sigma is zero.&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No peak found.  Reasons: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">])</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stats: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Computed peak sigma is zero."</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">]))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"No peak found.  Reasons: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">"reasons"</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"stats: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">strong_peak</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if the peak is strong.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Determine if the peak is strong."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">denominator</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">mean_y</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">min_y</span>
             <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1002,7 +1002,7 @@
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">too_wide</span><span class="p">(</span><span class="n">stats</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Does the measured peak width fill the full range of X?&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Does the measured peak width fill the full range of X?"""</span>
         <span class="n">fallback_errors</span> <span class="o">=</span> <span class="p">(</span>
             <span class="ne">AttributeError</span><span class="p">,</span>  <span class="c1"># no statistics available</span>
             <span class="ne">ValueError</span><span class="p">,</span>  <span class="c1"># math domain error: variance&lt;0 (noise, no clear peak)</span>
@@ -1011,12 +1011,12 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">&gt;</span> <span class="n">width_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">min_x</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">fallback_errors</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot detect width: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Statistics: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cannot detect width: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Statistics: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">if</span> <span class="s2">&quot;plan_name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lineup2&quot;</span>
+    <span class="k">if</span> <span class="s2">"plan_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"plan_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"lineup2"</span>
 
     <span class="c1"># Expose which feature is used so report() can display it.</span>
     <span class="n">signal_stats</span><span class="o">.</span><span class="n">feature</span> <span class="o">=</span> <span class="n">feature</span>
@@ -1025,10 +1025,10 @@
 
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">subs_decorator</span><span class="p">(</span><span class="n">signal_stats</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_inner</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the scan, writing peak statistics before the run closes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run the scan, writing peak statistics before the run closes."""</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;close_run&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"close_run"</span><span class="p">:</span>
 
                 <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                     <span class="n">signal_stats</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
@@ -1036,12 +1036,12 @@
                     <span class="k">if</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">stats</span> <span class="o">=</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span>
                         <span class="n">components</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">}</span>
-                        <span class="n">DynDevice</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;SignalStatsResults&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Device</span><span class="p">,),</span> <span class="n">components</span><span class="p">)</span>
-                        <span class="n">dev</span> <span class="o">=</span> <span class="n">DynDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;lineup2_signal_stats&quot;</span><span class="p">)</span>
+                        <span class="n">DynDevice</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">"SignalStatsResults"</span><span class="p">,</span> <span class="p">(</span><span class="n">Device</span><span class="p">,),</span> <span class="n">components</span><span class="p">)</span>
+                        <span class="n">dev</span> <span class="o">=</span> <span class="n">DynDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"lineup2_signal_stats"</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                                <span class="n">val</span> <span class="o">=</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span>
-                            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;item&quot;</span><span class="p">):</span>
+                                <span class="n">val</span> <span class="o">=</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span>
+                            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">"item"</span><span class="p">):</span>
                                 <span class="n">val</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="n">val</span> <span class="o">=</span> <span class="n">v</span>
@@ -1065,19 +1065,19 @@
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">nscans</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Nothing found, no point scanning again.</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">m_pos</span><span class="p">)</span>  <span class="c1"># back to starting position</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;original position&quot;</span><span class="p">,</span> <span class="n">m_pos</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No peak found. </span><span class="si">{</span><span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> returned to original position: </span><span class="si">{</span><span class="n">m_pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">"original position"</span><span class="p">,</span> <span class="n">m_pos</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No peak found. </span><span class="si">{</span><span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> returned to original position: </span><span class="si">{</span><span class="n">m_pos</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Maintain absolute range: m_lo &lt;= target &lt;= m_hi</span>
             <span class="n">target</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">m_lo</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">m_hi</span><span class="p">)</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  <span class="c1"># Move to the feature position.</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> moved to </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> moved to </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">nscans</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c1"># move the end points for the next scan</span>
                 <span class="n">offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">fwhm</span>
-                <span class="c1"># Can&#39;t move outside absolute range of m_lo..m_hi</span>
+                <span class="c1"># Can't move outside absolute range of m_lo..m_hi</span>
                 <span class="n">rel_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">m_lo</span> <span class="o">-</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">)</span>
                 <span class="n">rel_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">m_hi</span> <span class="o">-</span> <span class="n">target</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
 
@@ -1089,7 +1089,7 @@
 <div class="viewcode-block" id="TuneAxis">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TuneAxis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    tune an axis with a signal</span>
 
 <span class="sd">    .. index:: Bluesky Device; TuneAxis</span>
@@ -1099,19 +1099,19 @@
 <span class="sd">    needed to tune this device again.  For example, one could add</span>
 <span class="sd">    a tuner to a motor stage::</span>
 
-<span class="sd">        motor = EpicsMotor(&quot;xxx:motor&quot;, &quot;motor&quot;)</span>
+<span class="sd">        motor = EpicsMotor("xxx:motor", "motor")</span>
 <span class="sd">        motor.tuner = TuneAxis([det], motor)</span>
 
 <span class="sd">    Then the ``motor`` could be tuned individually::</span>
 
-<span class="sd">        RE(motor.tuner.tune(md={&quot;activity&quot;: &quot;tuning&quot;}))</span>
+<span class="sd">        RE(motor.tuner.tune(md={"activity": "tuning"}))</span>
 
 <span class="sd">    or the :meth:`tune()` could be part of a plan with other steps.</span>
 
 <span class="sd">    Example::</span>
 
 <span class="sd">        tuner = TuneAxis([det], axis)</span>
-<span class="sd">        live_table = LiveTable([&quot;axis&quot;, &quot;det&quot;])</span>
+<span class="sd">        live_table = LiveTable(["axis", "det"])</span>
 <span class="sd">        RE(tuner.multi_pass_tune(width=2, num=9), live_table)</span>
 <span class="sd">        RE(tuner.tune(width=0.05, num=9), live_table)</span>
 
@@ -1130,9 +1130,9 @@
 
 <span class="sd">       ~tune_axes</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">_peak_choices_</span> <span class="o">=</span> <span class="s2">&quot;cen com&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">_peak_choices_</span> <span class="o">=</span> <span class="s2">"cen com"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">signal_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="o">=</span> <span class="n">signals</span>
@@ -1155,7 +1155,7 @@
 <div class="viewcode-block" id="TuneAxis.tune">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneAxis.tune">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">peak_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Bluesky plan to execute one pass through the current scan range</span>
 
 <span class="sd">        .. index:: Bluesky Plan; TuneAxis.tune</span>
@@ -1179,13 +1179,13 @@
 <span class="sd">            *dict* :</span>
 <span class="sd">            (optional)</span>
 <span class="sd">            metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">width</span> <span class="o">=</span> <span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
         <span class="n">peak_factor</span> <span class="o">=</span> <span class="n">peak_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak_choices_</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;peak_choice must be one of </span><span class="si">{}</span><span class="s2">, geave </span><span class="si">{}</span><span class="s2">&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">"peak_choice must be one of </span><span class="si">{}</span><span class="s2">, geave </span><span class="si">{}</span><span class="s2">"</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak_choices_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
@@ -1201,9 +1201,9 @@
             <span class="n">time_iso8601</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
         <span class="p">)</span>
         <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;tune_md&quot;</span><span class="p">:</span> <span class="n">tune_md</span><span class="p">,</span>
-            <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;.tune&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tune_parameters&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="s2">"tune_md"</span><span class="p">:</span> <span class="n">tune_md</span><span class="p">,</span>
+            <span class="s2">"plan_name"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">".tune"</span><span class="p">,</span>
+            <span class="s2">"tune_parameters"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
                 <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span>
                 <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
                 <span class="n">initial_position</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
@@ -1211,12 +1211,12 @@
                 <span class="n">x_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">y_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">,</span>
             <span class="p">),</span>
-            <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,),</span>
-            <span class="s2">&quot;detectors&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">,),</span>
-            <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dimensions</span><span class="o">=</span><span class="p">[([</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="s2">&quot;primary&quot;</span><span class="p">)]),</span>
+            <span class="s2">"motors"</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,),</span>
+            <span class="s2">"detectors"</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">,),</span>
+            <span class="s2">"hints"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dimensions</span><span class="o">=</span><span class="p">[([</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="s2">"primary"</span><span class="p">)]),</span>
         <span class="p">}</span>
         <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
-        <span class="k">if</span> <span class="s2">&quot;pass_max&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"pass_max"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">PeakStats</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">)</span>
 
@@ -1236,9 +1236,9 @@
             <span class="n">final_position</span> <span class="o">=</span> <span class="n">initial_position</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_detected</span><span class="p">(</span><span class="n">peak_factor</span><span class="o">=</span><span class="n">peak_factor</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">&quot;cen&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">"cen"</span><span class="p">:</span>
                     <span class="n">final_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">cen</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">&quot;com&quot;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">"com"</span><span class="p">:</span>
                     <span class="n">final_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">com</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">final_position</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1246,7 +1246,7 @@
 
             <span class="c1"># add stream with results</span>
             <span class="c1"># yield from add_results_stream()</span>
-            <span class="n">stream_name</span> <span class="o">=</span> <span class="s2">&quot;PeakStats&quot;</span>
+            <span class="n">stream_name</span> <span class="o">=</span> <span class="s2">"PeakStats"</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">TuneResults</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
 
             <span class="n">results</span><span class="o">.</span><span class="n">tune_ok</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span><span class="p">)</span>
@@ -1260,9 +1260,9 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">yield from</span> <span class="n">write_stream</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">12</span>
+                    <span class="n">separator</span> <span class="o">=</span> <span class="s2">" "</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">*</span> <span class="mi">12</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error saving stream </span><span class="si">{</span><span class="n">stream_name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error saving stream </span><span class="si">{</span><span class="n">stream_name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
 
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">final_position</span><span class="p">)</span>
@@ -1285,7 +1285,7 @@
         <span class="n">snake</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Bluesky plan for tuning this axis with this signal</span>
 
 <span class="sd">        Execute multiple passes to refine the centroid determination.</span>
@@ -1324,7 +1324,7 @@
 <span class="sd">            *dict* :</span>
 <span class="sd">            (optional)</span>
 <span class="sd">            metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">width</span> <span class="o">=</span> <span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
         <span class="n">step_factor</span> <span class="o">=</span> <span class="n">step_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_factor</span>
@@ -1336,11 +1336,11 @@
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_scan</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">step_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">snake</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">_pass_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pass_max</span><span class="p">):</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Multipass tune </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pass_max</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Multipass tune </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pass_max</span><span class="p">)</span>
                 <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;pass&quot;</span><span class="p">:</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">&quot;pass_max&quot;</span><span class="p">:</span> <span class="n">pass_max</span><span class="p">,</span>
-                    <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.multi_pass_tune&quot;</span><span class="p">,</span>
+                    <span class="s2">"pass"</span><span class="p">:</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">"pass_max"</span><span class="p">:</span> <span class="n">pass_max</span><span class="p">,</span>
+                    <span class="s2">"plan_name"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.multi_pass_tune"</span><span class="p">,</span>
                 <span class="p">}</span>
                 <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
 
@@ -1363,7 +1363,7 @@
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneAxis.multi_pass_tune_summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">multi_pass_tune_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;pass Ok? center width max.X max.Y&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"pass Ok? center width max.X max.Y"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">):</span>
             <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
@@ -1380,13 +1380,13 @@
 <div class="viewcode-block" id="TuneAxis.peak_detected">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneAxis.peak_detected">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">peak_detected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peak_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        returns True if a peak was detected, otherwise False</span>
 
 <span class="sd">        The default algorithm identifies a peak when the maximum</span>
 <span class="sd">        value is four times the minimum value.  Change this routine</span>
 <span class="sd">        by subclassing :class:`TuneAxis` and override :meth:`peak_detected`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">peak_factor</span> <span class="o">=</span> <span class="n">peak_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1399,7 +1399,7 @@
         <span class="n">ymin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">min</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">ok</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">&gt;=</span> <span class="n">peak_factor</span> <span class="o">*</span> <span class="n">ymin</span>  <span class="c1"># this works for USAXS@APS</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ymax &lt; ymin * </span><span class="si">%f</span><span class="s2">: is it a peak?&quot;</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"ymax &lt; ymin * </span><span class="si">%f</span><span class="s2">: is it a peak?"</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ok</span></div>
 </div>
 
@@ -1408,7 +1408,7 @@
 <div class="viewcode-block" id="tune_axes">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.tune_axes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tune_axes</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Bluesky plan to tune a list of axes in sequence.</span>
 
 <span class="sd">    Expects each axis will have a ``tuner`` attribute which is an instance of</span>
@@ -1427,10 +1427,10 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">       ~TuneAxis</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;tuner&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not find &#39;</span><span class="si">{</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.tuner&#39; attribute.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"tuner"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Did not find '</span><span class="si">{</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.tuner' attribute."</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">axis</span><span class="o">.</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">()</span></div>
 
 
@@ -1438,11 +1438,11 @@
 <div class="viewcode-block" id="TuneResults">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TuneResults</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Provides bps.read() as a Device</span>
 
 <span class="sd">    .. index:: Bluesky Device; TuneResults</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">tune_ok</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="n">initial_position</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
@@ -1457,15 +1457,15 @@
     <span class="nb">min</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="nb">max</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="n">crossings</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
-    <span class="n">peakstats_attrs</span> <span class="o">=</span> <span class="s2">&quot;x y cen com fwhm min max crossings&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">peakstats_attrs</span> <span class="o">=</span> <span class="s2">"x y cen com fwhm min max crossings"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 <div class="viewcode-block" id="TuneResults.report">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/alignment/index.html#apstools.plans.alignment.TuneResults.report">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakstats_attrs</span> <span class="o">+</span> <span class="s2">&quot;tune_ok center initial_position final_position&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakstats_attrs</span> <span class="o">+</span> <span class="s2">"tune_ok center initial_position final_position"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"key"</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"result"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="n">t</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
@@ -1480,8 +1480,8 @@
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakstats_attrs</span><span class="p">:</span>
             <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># None cannot be mapped into json</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>  <span class="c1"># but &quot;null&quot; can replace it</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;crossings&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="s2">"null"</span>  <span class="c1"># but "null" can replace it</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"crossings"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">):</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
 </div>

@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -647,7 +647,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotorDialMixin</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">myEpicsMotor</span><span class="p">(</span><span class="n">EpicsMotorDialMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="k">pass</span>
-<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">dial</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -672,7 +672,7 @@
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyEpicsMotor</span><span class="p">(</span><span class="n">EpicsMotorEnableMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="o">...</span>
 
-<span class="n">m1</span> <span class="o">=</span> <span class="n">MyEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">MyEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">enabled</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -778,7 +778,7 @@ Will be removed in a future release of apstools.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotorRawMixin</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">myEpicsMotor</span><span class="p">(</span><span class="n">EpicsMotorRawMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="k">pass</span>
-<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -809,10 +809,10 @@ setup in bluesky.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotorResolutionMixin</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">myEpicsMotor</span><span class="p">(</span><span class="n">EpicsMotorResolutionMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="k">pass</span>
-<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;resolution=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">resolution</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;steps_per_rev=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">steps_per_rev</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;units_per_rev=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">units_per_rev</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"resolution=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">resolution</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"steps_per_rev=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">steps_per_rev</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"units_per_rev=</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">units_per_rev</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -845,7 +845,7 @@ setup in bluesky.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotorServoMixin</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">myEpicsMotor</span><span class="p">(</span><span class="n">EpicsMotorServoMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="k">pass</span>
-<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">myEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">servo</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 </div>

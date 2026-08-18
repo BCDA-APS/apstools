@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.description_mixin</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Mixin to add EPICS .DESC field</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~EpicsDescriptionMixin</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
@@ -454,8 +454,8 @@
 <div class="viewcode-block" id="EpicsDescriptionMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/description_mixin/index.html#apstools.devices.description_mixin.EpicsDescriptionMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsDescriptionMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    add a record&#39;s description field to a Device, such as EpicsMotor</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    add a record's description field to a Device, such as EpicsMotor</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsDescriptionMixin</span>
 
@@ -466,19 +466,19 @@
 
 <span class="sd">        class MyEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass</span>
 
-<span class="sd">        m1 = MyEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
+<span class="sd">        m1 = MyEpicsMotor('xxx:m1', name='m1')</span>
 <span class="sd">        print(m1.desc.get())</span>
 
 <span class="sd">    more ideas::</span>
 
 <span class="sd">        class TunableSynAxis(AxisTunerMixin, SynAxis):</span>
-<span class="sd">            &#39;&#39;&#39;synthetic axis that can be tuned&#39;&#39;&#39;</span>
+<span class="sd">            '''synthetic axis that can be tuned'''</span>
 
 <span class="sd">        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):</span>
-<span class="sd">            &#39;&#39;&#39;EpicsMotor that can be tuned&#39;&#39;&#39;</span>
+<span class="sd">            '''EpicsMotor that can be tuned'''</span>
 
 <span class="sd">        class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):</span>
-<span class="sd">            &#39;&#39;&#39;EpicsMotor with description field&#39;&#39;&#39;</span>
+<span class="sd">            '''EpicsMotor with description field'''</span>
 
 <span class="sd">        class EpicsMotorWithMore(</span>
 <span class="sd">            EpicsDescriptionMixin,</span>
@@ -486,17 +486,17 @@
 <span class="sd">            EpicsMotorRawMixin,</span>
 <span class="sd">            EpicsMotor</span>
 <span class="sd">        ):</span>
-<span class="sd">            &#39;&#39;&#39;</span>
+<span class="sd">            '''</span>
 <span class="sd">            EpicsMotor with more fields</span>
 
 <span class="sd">            * description (``desc``)</span>
 <span class="sd">            * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)</span>
 <span class="sd">            * dial coordinates (``dial``)</span>
 <span class="sd">            * raw coordinates (``raw``)</span>
-<span class="sd">            &#39;&#39;&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">            '''</span>
+<span class="sd">    """</span>
 
-    <span class="n">desc</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DESC&quot;</span><span class="p">)</span></div>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DESC"</span><span class="p">)</span></div>
 
 
 

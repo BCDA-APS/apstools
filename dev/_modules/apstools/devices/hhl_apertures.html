@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.hhl_apertures</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">High Heat-Load Apertures</span>
 <span class="sd">=============================</span>
 
@@ -446,7 +446,7 @@
 <span class="sd">  ~HHLAperture</span>
 <span class="sd">  ~HHLApertureACS</span>
 <span class="sd">  ~HHLApertureWBA</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -465,25 +465,25 @@
 <div class="viewcode-block" id="HHLApertureBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_apertures/index.html#apstools.devices.hhl_apertures.HHLApertureBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HHLApertureBase</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for HHLAperture classes, 2-axis slit.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for HHLAperture classes, 2-axis slit."""</span>
 
 <div class="viewcode-block" id="HHLApertureBase.SlitAxis">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_apertures/index.html#apstools.devices.hhl_apertures.HHLApertureBase.SlitAxis">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">SlitAxis</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-        <span class="n">center</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;Center&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"Size"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"Center"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
     <span class="c1"># Individual slit directions</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span></div>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">"v"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="HHLAperture">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_apertures/index.html#apstools.devices.hhl_apertures.HHLAperture">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HHLAperture</span><span class="p">(</span><span class="n">HHLApertureBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    High Heat Load Aperture.</span>
 
 <span class="sd">    There are no independent parts to move, so each axis only has center and size.</span>
@@ -496,16 +496,16 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 <span class="sd">    prefix:</span>
-<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: &quot;9ida:SL1:&quot;</span>
+<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: "9ida:SL1:"</span>
 <span class="sd">    pitch_motor:</span>
-<span class="sd">      The motor record PV controlling the real pitch motor, ex &quot;9ida:CR9A1:m3&quot;</span>
+<span class="sd">      The motor record PV controlling the real pitch motor, ex "9ida:CR9A1:m3"</span>
 <span class="sd">    yaw_motor:</span>
-<span class="sd">      The motor record PV controlling the real yaw motor, ex &quot;9ida:CR9A1:m4&quot;</span>
+<span class="sd">      The motor record PV controlling the real yaw motor, ex "9ida:CR9A1:m4"</span>
 <span class="sd">    horizontal_motor:</span>
-<span class="sd">      The motor record PV controlling the real horizontal motor, ex: &quot;9ida:CR9A1:m1&quot;</span>
+<span class="sd">      The motor record PV controlling the real horizontal motor, ex: "9ida:CR9A1:m1"</span>
 <span class="sd">    diagonal_motor:</span>
-<span class="sd">      The motor record PV controlling the real diagonal motor, ex: &quot;9ida:CR9A1:m2&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">      The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -525,17 +525,17 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_pitch_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_yaw_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_horizontal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_diagonal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_pitch_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_yaw_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_horizontal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_diagonal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="HHLApertureACS">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_apertures/index.html#apstools.devices.hhl_apertures.HHLApertureACS">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HHLApertureACS</span><span class="p">(</span><span class="n">HHLApertureBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    High Heat Load Aperture for ACS motors.</span>
 
 <span class="sd">    There are no independent parts to move, so each axis only has center and size.</span>
@@ -547,16 +547,16 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 <span class="sd">    prefix:</span>
-<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: &quot;9ida:SL1:&quot;</span>
+<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: "9ida:SL1:"</span>
 <span class="sd">    pitch_motor:</span>
-<span class="sd">      The motor record PV controlling the real pitch motor, ex &quot;9ida:CR9A1:m3&quot;</span>
+<span class="sd">      The motor record PV controlling the real pitch motor, ex "9ida:CR9A1:m3"</span>
 <span class="sd">    yaw_motor:</span>
-<span class="sd">      The motor record PV controlling the real yaw motor, ex &quot;9ida:CR9A1:m4&quot;</span>
+<span class="sd">      The motor record PV controlling the real yaw motor, ex "9ida:CR9A1:m4"</span>
 <span class="sd">    horizontal_motor:</span>
-<span class="sd">      The motor record PV controlling the real horizontal motor, ex: &quot;9ida:CR9A1:m1&quot;</span>
+<span class="sd">      The motor record PV controlling the real horizontal motor, ex: "9ida:CR9A1:m1"</span>
 <span class="sd">    diagonal_motor:</span>
-<span class="sd">      The motor record PV controlling the real diagonal motor, ex: &quot;9ida:CR9A1:m2&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">      The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -576,26 +576,26 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_pitch_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_yaw_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_horizontal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_diagonal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_pitch_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_yaw_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_horizontal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">AcsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_diagonal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
 
 <div class="viewcode-block" id="HHLApertureWBA">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_apertures/index.html#apstools.devices.hhl_apertures.HHLApertureWBA">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HHLApertureWBA</span><span class="p">(</span><span class="n">HHLApertureACS</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;High Heat-Load Apertures White Beam&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""High Heat-Load Apertures White Beam"""</span>
 
-    <span class="n">pitch_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;PITCH:zeroed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">pitch_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;PITCH:indexed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">yaw_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;YAW:zeroed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">yaw_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;YAW:indexed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">hor_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;HOR:zeroed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">hor_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;HOR:indexed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">diag_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;VERT:zeroed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">diag_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;VERT:indexed&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">pitch_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"PITCH:zeroed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pitch_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"PITCH:indexed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">yaw_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"YAW:zeroed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">yaw_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"YAW:indexed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">hor_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"HOR:zeroed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">hor_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"HOR:indexed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">diag_zeroed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"VERT:zeroed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">diag_indexed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"VERT:indexed"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 </pre></div>
 

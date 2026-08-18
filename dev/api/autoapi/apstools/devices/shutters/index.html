@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -687,21 +687,21 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dd>
 </dl>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shutter_a</span> <span class="o">=</span> <span class="n">ApsPssShutter</span><span class="p">(</span><span class="s2">&quot;2bma:A_shutter:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shutter_a</span> <span class="o">=</span> <span class="n">ApsPssShutter</span><span class="p">(</span><span class="s2">"2bma:A_shutter:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"shutter"</span><span class="p">)</span>
 <span class="n">shutter_a</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 
 <span class="n">shutter_a</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
 <span class="n">shutter_a</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
-<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"open"</span><span class="p">)</span>
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>When using the shutter in a plan, be sure to use <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code>, such as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">):</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># do something</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">in_a_plan</span><span class="p">(</span><span class="n">shutter_a</span><span class="p">))</span>
 </pre></div>
@@ -791,13 +791,13 @@ shutter_a.set(“x”)</p>
 </dl>
 <p>EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A_shutter</span> <span class="o">=</span> <span class="n">ApsPssShutterWithStatus</span><span class="p">(</span>
-    <span class="s2">&quot;2bma:A_shutter:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PA:02BM:STA_A_FES_OPEN_PL&quot;</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;A_shutter&quot;</span><span class="p">)</span>
+    <span class="s2">"2bma:A_shutter:"</span><span class="p">,</span>
+    <span class="s2">"PA:02BM:STA_A_FES_OPEN_PL"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"A_shutter"</span><span class="p">)</span>
 <span class="n">B_shutter</span> <span class="o">=</span> <span class="n">ApsPssShutterWithStatus</span><span class="p">(</span>
-    <span class="s2">&quot;2bma:B_shutter:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PA:02BM:STA_B_SBS_OPEN_PL&quot;</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;B_shutter&quot;</span><span class="p">)</span>
+    <span class="s2">"2bma:B_shutter:"</span><span class="p">,</span>
+    <span class="s2">"PA:02BM:STA_B_SBS_OPEN_PL"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"B_shutter"</span><span class="p">)</span>
 <span class="n">A_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">B_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 
@@ -806,8 +806,8 @@ shutter_a.set(“x”)</p>
 
 <span class="ow">or</span>
 
-<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
-<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"open"</span><span class="p">)</span>
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>When using the shutter in a plan, be sure to use <cite>yield from</cite>.</p>
@@ -902,7 +902,7 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dd>
 </dl>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tomo_shutter</span> <span class="o">=</span> <span class="n">EpicsMotorShutter</span><span class="p">(</span><span class="s2">&quot;2bma:m23&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tomo_shutter&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tomo_shutter</span> <span class="o">=</span> <span class="n">EpicsMotorShutter</span><span class="p">(</span><span class="s2">"2bma:m23"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"tomo_shutter"</span><span class="p">)</span>
 <span class="n">tomo_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">tomo_shutter</span><span class="o">.</span><span class="n">close_value</span> <span class="o">=</span> <span class="mf">1.0</span>      <span class="c1"># default</span>
 <span class="n">tomo_shutter</span><span class="o">.</span><span class="n">open_value</span> <span class="o">=</span> <span class="mf">0.0</span>       <span class="c1"># default</span>
@@ -912,16 +912,16 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 
 <span class="c1"># or, when used in a plan</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"O"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">"O"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"X"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">"X"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -974,7 +974,7 @@ with the expected open and close values.</p>
 </dd>
 </dl>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bit_shutter</span> <span class="o">=</span> <span class="n">EpicsOnOffShutter</span><span class="p">(</span><span class="s2">&quot;2bma:bit1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bit_shutter&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bit_shutter</span> <span class="o">=</span> <span class="n">EpicsOnOffShutter</span><span class="p">(</span><span class="s2">"2bma:bit1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"bit_shutter"</span><span class="p">)</span>
 <span class="n">bit_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">bit_shutter</span><span class="o">.</span><span class="n">close_value</span> <span class="o">=</span> <span class="mi">0</span>      <span class="c1"># default</span>
 <span class="n">bit_shutter</span><span class="o">.</span><span class="n">open_value</span> <span class="o">=</span> <span class="mi">1</span>       <span class="c1"># default</span>
@@ -983,8 +983,8 @@ with the expected open and close values.</p>
 
 <span class="c1"># or, when used in a plan</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1036,13 +1036,13 @@ Be sure to use <code class="docutils literal notranslate"><span class="pre">yiel
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">):</span>
     <span class="n">shutter</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># wait for completion is optional</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>    <span class="c1"># do it again</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>    <span class="c1"># ALWAYS waits for completion</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Shutter state: "</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># wait for completion is optional</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Shutter state: "</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>    <span class="c1"># do it again</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Shutter state: "</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>    <span class="c1"># ALWAYS waits for completion</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Shutter state: "</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">))</span>
 </pre></div>
@@ -1295,7 +1295,7 @@ position. (default = “unknown”)</p>
 </dd>
 </dl>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sim"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">

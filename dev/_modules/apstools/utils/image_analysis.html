@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.image_analysis</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Statistical peak analysis functions</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -447,12 +447,12 @@
 
 <span class="sd">   ~analyze_1D</span>
 <span class="sd">   ~analyze_2D</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">    analyze_1D</span>
 <span class="s2">    analyze_2D</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="s2">"""</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -466,7 +466,7 @@
 <div class="viewcode-block" id="analyze_1D">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/image_analysis/index.html#apstools.utils.image_analysis.analyze_1D">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">analyze_1D</span><span class="p">(</span><span class="n">y_arr</span><span class="p">,</span> <span class="n">x_arr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Measures of 1D data peak center &amp; width.</span>
 
 <span class="sd">    Return result is a dictionary prepared by the</span>
@@ -475,19 +475,19 @@
 
 <span class="sd">    Example::</span>
 
-<span class="sd">        {&#39;mean_x&#39;: 2.0, &#39;mean_y&#39;: 7.2,</span>
-<span class="sd">        &#39;stddev_x&#39;: 1.5811388300841898, &#39;stddev_y&#39;: 3.3466401061363027,</span>
-<span class="sd">        &#39;slope&#39;: 0.0, &#39;intercept&#39;: 7.2, &#39;correlation&#39;: 0.0,</span>
-<span class="sd">        &#39;centroid&#39;: 2.0, &#39;sigma&#39;: 1.1547005383792515,</span>
-<span class="sd">        &#39;min_x&#39;: 1, &#39;max_x&#39;: 4, &#39;min_y&#39;: 4, &#39;max_y&#39;: 12,</span>
-<span class="sd">        &#39;x_at_max_y&#39;: 2,</span>
-<span class="sd">        &#39;n&#39;: 5, &#39;X&#39;: 10, &#39;Y&#39;: 36, &#39;XX&#39;: 30, &#39;XY&#39;: 72,</span>
-<span class="sd">        &#39;XXY&#39;: 192, &#39;YY&#39;: 304}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        {'mean_x': 2.0, 'mean_y': 7.2,</span>
+<span class="sd">        'stddev_x': 1.5811388300841898, 'stddev_y': 3.3466401061363027,</span>
+<span class="sd">        'slope': 0.0, 'intercept': 7.2, 'correlation': 0.0,</span>
+<span class="sd">        'centroid': 2.0, 'sigma': 1.1547005383792515,</span>
+<span class="sd">        'min_x': 1, 'max_x': 4, 'min_y': 4, 'max_y': 12,</span>
+<span class="sd">        'x_at_max_y': 2,</span>
+<span class="sd">        'n': 5, 'X': 10, 'Y': 36, 'XX': 30, 'XY': 72,</span>
+<span class="sd">        'XXY': 192, 'YY': 304}</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">x_arr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">x_arr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_arr</span><span class="p">)))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_arr</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_arr</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x and y arrays are not of the same length.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"x and y arrays are not of the same length."</span><span class="p">)</span>
 
     <span class="n">regs</span> <span class="o">=</span> <span class="n">SummationRegisters</span><span class="p">()</span>
     <span class="n">regs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -501,7 +501,7 @@
 <div class="viewcode-block" id="analyze_2D">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/image_analysis/index.html#apstools.utils.image_analysis.analyze_2D">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">analyze_2D</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Analyze 2-D (image) data.</span>
 
 <span class="sd">    Return result is a dictionary with the statistical results for a peak</span>
@@ -520,22 +520,22 @@
 
 <span class="sd">    This is the analysis::</span>
 
-<span class="sd">        {&#39;n&#39;: (5, 4),</span>
-<span class="sd">         &#39;centroid&#39;: (2.1628, 1.814),</span>
-<span class="sd">         &#39;sigma&#39;: (1.1192, 0.8695),</span>
-<span class="sd">         &#39;peak_position&#39;: (3, 2),</span>
-<span class="sd">         &#39;max_y&#39;: 10}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        {'n': (5, 4),</span>
+<span class="sd">         'centroid': (2.1628, 1.814),</span>
+<span class="sd">         'sigma': (1.1192, 0.8695),</span>
+<span class="sd">         'peak_position': (3, 2),</span>
+<span class="sd">         'max_y': 10}</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">axis_0</span> <span class="o">=</span> <span class="n">analyze_1D</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
     <span class="n">axis_1</span> <span class="o">=</span> <span class="n">analyze_1D</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">key_list</span> <span class="o">=</span> <span class="s2">&quot;n centroid sigma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">key_list</span> <span class="o">=</span> <span class="s2">"n centroid sigma"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">axis_0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">axis_1</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">}</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;x_at_max_y&quot;</span>
-    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;peak_position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">axis_0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">axis_1</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
-    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">axis_1</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">axis_0</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="s2">"x_at_max_y"</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">"peak_position"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">axis_0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">axis_1</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">"max_y"</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">axis_1</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">axis_0</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">results</span></div>
 
 

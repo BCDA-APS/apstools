@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -534,7 +534,7 @@ configure the <code class="docutils literal notranslate"><span class="pre">swait
 <p>Set the prefix for the EPICS IOC that provides the PVs we’ll use here.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">"gp:"</span>
 </pre></div>
 </div>
 </div>
@@ -542,9 +542,9 @@ configure the <code class="docutils literal notranslate"><span class="pre">swait
 <p>Connect to our motors and create the <em>noisy</em> detector.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">)</span>
-<span class="n">m2</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m2&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;m2&quot;</span><span class="p">)</span>
-<span class="n">noisy</span> <span class="o">=</span> <span class="n">UserCalcN</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;noisy&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"m1"</span><span class="p">)</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m2"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"m2"</span><span class="p">)</span>
+<span class="n">noisy</span> <span class="o">=</span> <span class="n">UserCalcN</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"noisy"</span><span class="p">)</span>
 
 <span class="n">m1</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">m2</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
@@ -575,7 +575,7 @@ configure the <code class="docutils literal notranslate"><span class="pre">swait
         <span class="mi">0</span><span class="p">,</span>
         <span class="n">num</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">LiveTable</span><span class="p">([</span><span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span> <span class="s2">&quot;noisy_val&quot;</span><span class="p">]),</span>
+    <span class="n">LiveTable</span><span class="p">([</span><span class="s2">"m1"</span><span class="p">,</span> <span class="s2">"m2"</span><span class="p">,</span> <span class="s2">"noisy_val"</span><span class="p">]),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -591,10 +591,10 @@ configure the <code class="docutils literal notranslate"><span class="pre">swait
 |         5 | 00:22:31.9 |    0.40000 |    0.80000 |
 |         6 | 00:22:33.0 |    0.00000 |    0.00000 |
 +-----------+------------+------------+------------+
-generator nscan [&#39;fcb9a1ad&#39;] (scan num: 1)
+generator nscan ['fcb9a1ad'] (scan num: 1)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;fcb9a1ad-1901-4955-96df-f2079f4edd1c&#39;,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('fcb9a1ad-1901-4955-96df-f2079f4edd1c',)
 </pre></div>
 </div>
 </div>

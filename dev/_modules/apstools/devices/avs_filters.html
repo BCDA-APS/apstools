@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.avs_filters</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">12-bank Filters from A-V-S</span>
 
 <span class="sd">Device uses PyDevice for attenuation calculation and filter configuration</span>
@@ -444,11 +444,11 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 <span class="sd">    prefix:</span>
-<span class="sd">      EPICS prefix required to communicate with filter IOC, ex: &quot;100idPyFilter:FL2:&quot;</span>
+<span class="sd">      EPICS prefix required to communicate with filter IOC, ex: "100idPyFilter:FL2:"</span>
 <span class="sd">    translation_motor:</span>
 <span class="sd">      The motor record PV controlling the lateral translation of the filter system</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormattedComponent</span> <span class="k">as</span> <span class="n">FCpt</span>
@@ -461,39 +461,39 @@
 <div class="viewcode-block" id="filter_index">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/avs_filters/index.html#apstools.devices.avs_filters.filter_index">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">filter_index</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    filter index; increasing index, increasing attenuation</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sortedIndex_RBV&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;sortedIndex&quot;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"sortedIndex_RBV"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"sortedIndex"</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterBusy"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="filter_atten">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/avs_filters/index.html#apstools.devices.avs_filters.filter_atten">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">filter_atten</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    filter attenuation positioner</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;attenuation_actual&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;attenuation&quot;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"attenuation_actual"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"attenuation"</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterBusy"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="filter_trans">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/avs_filters/index.html#apstools.devices.avs_filters.filter_trans">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">filter_trans</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    filter transmission positioner</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;transmission_RBV&quot;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;transmission&quot;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"transmission_RBV"</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"transmission"</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterBusy"</span><span class="p">)</span></div>
 
 
 
@@ -512,16 +512,16 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">index</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_index</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">attenuation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_atten</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">transmission</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_trans</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">translation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_translation}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_index</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">attenuation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_atten</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">transmission</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_trans</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">translation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{_translation}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
 
-    <span class="n">binary_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">bw_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig_BW&quot;</span><span class="p">)</span>
-    <span class="n">rbv_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">inMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;inMask_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">outMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;outMask_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">binary_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterConfig"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">bw_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterConfig_BW"</span><span class="p">)</span>
+    <span class="n">rbv_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterConfig_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">inMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"inMask_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">outMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"outMask_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 </pre></div>
 

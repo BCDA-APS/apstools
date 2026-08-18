@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -666,9 +666,9 @@ mongo query dictionary, used to filter the results
 </dl>
 <p>example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">copy_filtered_catalog</span><span class="p">(</span>
-    <span class="n">databroker</span><span class="o">.</span><span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">&quot;mongodb_config&quot;</span><span class="p">),</span>
-    <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;test1&quot;</span><span class="p">],</span>
-    <span class="p">{</span><span class="s1">&#39;plan_name&#39;</span><span class="p">:</span> <span class="s1">&#39;snapshot&#39;</span><span class="p">})</span>
+    <span class="n">databroker</span><span class="o">.</span><span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">"mongodb_config"</span><span class="p">),</span>
+    <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">"test1"</span><span class="p">],</span>
+    <span class="p">{</span><span class="s1">'plan_name'</span><span class="p">:</span> <span class="s1">'snapshot'</span><span class="p">})</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -836,17 +836,17 @@ Default: <code class="docutils literal notranslate"><span class="pre">True</span
 </dd>
 </dl>
 <p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;proposal_id&quot;</span><span class="p">)</span>
-<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;plan_name&quot;</span><span class="p">,</span> <span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;9idc&quot;</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="s2">&quot;2020-07&quot;</span><span class="p">)</span>
-<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;beamline_id&quot;</span><span class="p">,</span> <span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;9idc&quot;</span><span class="p">)</span>
-<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;beamline_id&quot;</span><span class="p">,</span>
-                    <span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;9idc&quot;</span><span class="p">,</span>
-                    <span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;plan_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Flyscan&#39;</span><span class="p">},</span>
-                    <span class="n">since</span><span class="o">=</span><span class="s2">&quot;2020&quot;</span><span class="p">,</span>
-                    <span class="n">until</span><span class="o">=</span><span class="s2">&quot;2020-06-21 21:51&quot;</span><span class="p">)</span>
-<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;8id&quot;</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="s2">&quot;2020-01&quot;</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="s2">&quot;2020-03&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"proposal_id"</span><span class="p">)</span>
+<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"plan_name"</span><span class="p">,</span> <span class="n">catalog_name</span><span class="o">=</span><span class="s2">"9idc"</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="s2">"2020-07"</span><span class="p">)</span>
+<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"beamline_id"</span><span class="p">,</span> <span class="n">catalog_name</span><span class="o">=</span><span class="s2">"9idc"</span><span class="p">)</span>
+<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"beamline_id"</span><span class="p">,</span>
+                    <span class="n">catalog_name</span><span class="o">=</span><span class="s2">"9idc"</span><span class="p">,</span>
+                    <span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s1">'plan_name'</span><span class="p">:</span> <span class="s1">'Flyscan'</span><span class="p">},</span>
+                    <span class="n">since</span><span class="o">=</span><span class="s2">"2020"</span><span class="p">,</span>
+                    <span class="n">until</span><span class="o">=</span><span class="s2">"2020-06-21 21:51"</span><span class="p">)</span>
+<span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">"8id"</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="s2">"2020-01"</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="s2">"2020-03"</span><span class="p">)</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;apstools_test&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">"apstools_test"</span><span class="p">)</span>
 <span class="o">=========</span> <span class="o">=====</span>
 <span class="n">plan_name</span> <span class="c1">#runs</span>
 <span class="o">=========</span> <span class="o">=====</span>
@@ -854,7 +854,7 @@ Default: <code class="docutils literal notranslate"><span class="pre">True</span
 <span class="n">scan</span>      <span class="mi">27</span>
 <span class="o">=========</span> <span class="o">=====</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">&quot;usaxs_test&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">quantify_md_key_use</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span><span class="s2">"usaxs_test"</span><span class="p">)</span>
 <span class="o">==========================</span> <span class="o">=====</span>
 <span class="n">plan_name</span>                  <span class="c1">#runs</span>
 <span class="o">==========================</span> <span class="o">=====</span>

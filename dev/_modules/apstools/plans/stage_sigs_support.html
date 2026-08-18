@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.plans.stage_sigs_support</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Support for ``stage_sigs``</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -465,7 +465,7 @@
 <span class="sd">        yield from bp.rel_scan([scaler], motor, start, finish, npts)</span>
 
 <span class="sd">    RE(my_plan(-1, 1, 11, ct=0.5, v=2))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -477,33 +477,33 @@
 
 <div class="viewcode-block" id="stage_sigs_wrapper">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/stage_sigs_support/index.html#apstools.plans.stage_sigs_support.stage_sigs_wrapper">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.9&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.9"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">stage_sigs_wrapper</span><span class="p">(</span><span class="n">user_plan</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Save stage_sigs from each device and restore after the user_plan.</span>
 
 <span class="sd">    The user_plan is free to modify the stage_sigs of each device</span>
 <span class="sd">    without further need to preserve original values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="n">preface</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">.stage_sigs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">preface</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">.stage_sigs: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">preface</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_restore</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">devices</span><span class="p">):</span>
             <span class="n">device</span><span class="o">.</span><span class="n">stage_sigs</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="n">device</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">display</span><span class="p">(</span><span class="s2">&quot;AFTER restore&quot;</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="s2">"AFTER restore"</span><span class="p">)</span>
 
     <span class="n">original</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">display</span><span class="p">(</span><span class="s2">&quot;ORIGINAL&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="s2">"ORIGINAL"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
         <span class="n">original</span><span class="p">[</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">display</span><span class="p">(</span><span class="s2">&quot;BEFORE plan&quot;</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="s2">"BEFORE plan"</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">user_plan</span>
-        <span class="n">display</span><span class="p">(</span><span class="s2">&quot;AFTER plan&quot;</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="s2">"AFTER plan"</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">_restore</span><span class="p">()</span></div>
 

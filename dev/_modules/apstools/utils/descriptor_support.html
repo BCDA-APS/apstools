@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.descriptor_support</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Parsing descriptor documents</span>
 <span class="sd">++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~get_stream_data_map</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -458,8 +458,8 @@
     <span class="n">descriptor</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">report_unknown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the names of the run&#39;s detector and motor signals.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Return the names of the run's detector and motor signals.</span>
 
 <span class="sd">    This function is used when processing the descriptor document of a run.</span>
 
@@ -470,51 +470,51 @@
 <span class="sd">    start_motors: list[str]</span>
 <span class="sd">        List of motors provided to the plan (reported in start document).</span>
 <span class="sd">    descriptor: dict</span>
-<span class="sd">        The bluesky run &#39;descriptor&#39; document published by the RunEngine.</span>
+<span class="sd">        The bluesky run 'descriptor' document published by the RunEngine.</span>
 <span class="sd">    report_unknown: bool</span>
 <span class="sd">        Should this function raise a KeyError if a signal is not found?</span>
 <span class="sd">        Default: ``False``</span>
 
 <span class="sd">    RETURNS</span>
 
-<span class="sd">    Dictionary with keys: &#39;detectors&#39;, &#39;motors&#39;, &#39;unassigned&#39;.</span>
+<span class="sd">    Dictionary with keys: 'detectors', 'motors', 'unassigned'.</span>
 <span class="sd">    Values are lists of signal names.</span>
 
 <span class="sd">    (new in release 1.7.4)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">assignments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">detectors</span><span class="o">=</span><span class="p">[],</span>
         <span class="n">motors</span><span class="o">=</span><span class="p">[],</span>
         <span class="c1"># By default, all data_keys are not assigned as motor or detector.</span>
-        <span class="n">unassigned</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;data_keys&quot;</span><span class="p">]),</span>
+        <span class="n">unassigned</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">descriptor</span><span class="p">[</span><span class="s2">"data_keys"</span><span class="p">]),</span>
     <span class="p">)</span>
 
     <span class="c1"># Look at the plan arguments for principle detectors and motors.</span>
-    <span class="n">hinted_keys</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hints&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">hinted_keys</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hints"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">keys</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">detectors</span><span class="o">=</span><span class="n">start_detectors</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="n">start_motors</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>  <span class="c1"># Cherry-pick any hinted or named parts.</span>
             <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">hinted_key_fields</span> <span class="o">=</span> <span class="n">hinted_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fields&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">hinted_key_fields</span> <span class="o">=</span> <span class="n">hinted_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fields"</span><span class="p">,</span> <span class="p">[])</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hinted_key_fields</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c1"># hinted fields take priority</span>
                 <span class="n">candidates</span> <span class="o">+=</span> <span class="n">hinted_key_fields</span>
 
-            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;object_keys&quot;</span><span class="p">,</span> <span class="p">{}):</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"object_keys"</span><span class="p">,</span> <span class="p">{}):</span>
                 <span class="c1"># The key might be an object which has one or more fields (like</span>
-                <span class="c1"># a motor or a scaler). The optional &#39;object_keys&#39; provides the</span>
+                <span class="c1"># a motor or a scaler). The optional 'object_keys' provides the</span>
                 <span class="c1"># field list for an object.</span>
-                <span class="n">candidates</span> <span class="o">+=</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;object_keys&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">candidates</span> <span class="o">+=</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">"object_keys"</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
 
-            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;data_keys&quot;</span><span class="p">]:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">"data_keys"</span><span class="p">]:</span>
                 <span class="c1"># Final test: is the key known, at all?</span>
                 <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">report_unknown</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> unknown in </span><span class="si">{</span><span class="n">part</span><span class="si">!r}</span><span class="s2"> list&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> unknown in </span><span class="si">{</span><span class="n">part</span><span class="si">!r}</span><span class="s2"> list"</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>  <span class="c1"># Reassign the candidates ...</span>
-                <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">assignments</span><span class="p">[</span><span class="s2">&quot;unassigned&quot;</span><span class="p">]:</span>  <span class="c1"># ... not already assigned.</span>
-                    <span class="n">assignments</span><span class="p">[</span><span class="s2">&quot;unassigned&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">assignments</span><span class="p">[</span><span class="s2">"unassigned"</span><span class="p">]:</span>  <span class="c1"># ... not already assigned.</span>
+                    <span class="n">assignments</span><span class="p">[</span><span class="s2">"unassigned"</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
                     <span class="n">assignments</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">assignments</span></div>

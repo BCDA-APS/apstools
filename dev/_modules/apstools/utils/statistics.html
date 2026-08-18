@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.statistics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Statistics</span>
 <span class="sd">====================================================</span>
 
@@ -447,7 +447,7 @@
 <span class="sd">    ~peak_full_width</span>
 <span class="sd">    ~xy_statistics</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
@@ -460,7 +460,7 @@
 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
 
 <span class="n">factor_fwhm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">FWHM :math:`=2\sqrt{2\ln{2}}\cdot\sigma_c`</span>
 
 <span class="sd">Conversion factor between full-width at half-maximum peak value and the computed</span>
@@ -468,13 +468,13 @@
 <span class="sd">:math:`\mu`, of the peak.</span>
 
 <span class="sd">.. seealso:: https://statproofbook.github.io/P/norm-fwhm.html</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="array_index">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.array_index">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">array_index</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the index for the first occurence of value in arr.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the index for the first occurence of value in arr."""</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span> <span class="o">==</span> <span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
 
 
@@ -482,7 +482,7 @@
 <div class="viewcode-block" id="peak_full_width">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.peak_full_width">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">peak_full_width</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Assess *apparent* FWHM by inspecting the data.</span>
 
 <span class="sd">    1. Set a goal of half-way between min and max y.</span>
@@ -497,13 +497,13 @@
 
 <span class="sd">    5. Compute FWHM as the positive difference between the two sides.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Quick, easy decision first:</span>
     <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
     <span class="n">goal</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># half-max</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;searching for apparent peak width: goal=</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"searching for apparent peak width: goal=</span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
 
     <span class="n">value</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">if</span> <span class="n">positive</span> <span class="k">else</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
     <span class="n">i_lo</span> <span class="o">=</span> <span class="n">array_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -511,21 +511,21 @@
 
     <span class="k">if</span> <span class="n">positive</span><span class="p">:</span>
         <span class="k">while</span> <span class="n">i_lo</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span><span class="p">[</span><span class="n">i_lo</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">goal</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">i_lo</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">while</span> <span class="n">i_hi</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y</span><span class="p">[</span><span class="n">i_hi</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">goal</span><span class="p">:</span>
             <span class="n">i_hi</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">while</span> <span class="n">i_lo</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span><span class="p">[</span><span class="n">i_lo</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">goal</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">i_lo</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">while</span> <span class="n">i_hi</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y</span><span class="p">[</span><span class="n">i_hi</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">goal</span><span class="p">:</span>
             <span class="n">i_hi</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i_lo</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_hi</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">interpolate_2_point</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear interpolation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Linear interpolation."""</span>
         <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">])</span>  <span class="c1"># take no chances</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">hi</span><span class="p">]</span>
         <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">hi</span><span class="p">]</span>
@@ -536,7 +536,7 @@
     <span class="n">x_hi</span> <span class="o">=</span> <span class="n">interpolate_2_point</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">i_hi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i_hi</span><span class="p">)</span>
     <span class="n">x_lo</span> <span class="o">=</span> <span class="n">interpolate_2_point</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">i_lo</span><span class="p">,</span> <span class="n">i_lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">fwhm</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_hi</span> <span class="o">-</span> <span class="n">x_lo</span><span class="p">)</span>  <span class="c1"># absolute value, take no chances</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found apparent FWHM: fwhm=</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fwhm</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Found apparent FWHM: fwhm=</span><span class="si">%f</span><span class="s2">"</span><span class="p">,</span> <span class="n">fwhm</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fwhm</span></div>
 
 
@@ -544,7 +544,7 @@
 <div class="viewcode-block" id="xy_statistics">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/statistics/index.html#apstools.utils.statistics.xy_statistics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">xy_statistics</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MMap</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Compute statistical measures of a 1-D array (or weighted array), using *numpy*.</span>
 
 <span class="sd">    Results are returned in :class:`~apstools.utils.mmap_dict.MMap` dictionary.</span>
@@ -612,8 +612,8 @@
 <span class="sd">    ==============  ======  ==============================================</span>
 <span class="sd">    ``sigma``       float   :math:`\sigma_c` : Standard error of :math:`\mu`, a statistical measure of the peak width.  See ``variance``.  [#variance]_</span>
 <span class="sd">    ``variance``    float   :math:`\sigma_c^2`  [#variance]_</span>
-<span class="sd">    ``x_at_max_y``  float   ``x`` value at maximum of :math:`\vec{y}` array.  For positive-going peaks, this is the &quot;peak position&quot;.</span>
-<span class="sd">    ``x_at_min_y``  float   ``x`` value at minimum of :math:`\vec{y}` array.  For negative-going peaks, this is the &quot;peak position&quot;.</span>
+<span class="sd">    ``x_at_max_y``  float   ``x`` value at maximum of :math:`\vec{y}` array.  For positive-going peaks, this is the "peak position".</span>
+<span class="sd">    ``x_at_min_y``  float   ``x`` value at minimum of :math:`\vec{y}` array.  For negative-going peaks, this is the "peak position".</span>
 <span class="sd">    ==============  ======  ==============================================</span>
 
 <span class="sd">    .. [#variance] variance: :math:`\sigma_c^2 = {{\sum_i^n{(x_i - \mu)^2 \cdot y_i}} / {\sum_i^n{y_i}}}`</span>
@@ -633,11 +633,11 @@
 <span class="sd">    ``stddev_intercept``    float   Standard deviation of intercept, from covariance matrix when fitting (x,y) to a straight line.</span>
 <span class="sd">    ``stddev_slope``        float   Standard deviation of slope, from covariance matrix when fitting (x,y) to a straight line.</span>
 <span class="sd">    ======================  ======  ==============================================</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Array x cannot be empty.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Array x cannot be empty."</span><span class="p">)</span>
 
     <span class="n">results</span> <span class="o">=</span> <span class="n">MMap</span><span class="p">(</span>
         <span class="n">max_x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
@@ -651,57 +651,57 @@
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unequal shapes: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unequal shapes: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;max_y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
-                <span class="s2">&quot;mean_y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
-                <span class="s2">&quot;median_y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="s2">&quot;min_y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
-                <span class="s2">&quot;range_y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
-                <span class="s2">&quot;stddev_y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+                <span class="s2">"max_y"</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                <span class="s2">"mean_y"</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                <span class="s2">"median_y"</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">"min_y"</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="s2">"range_y"</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="s2">"stddev_y"</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
             <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;x_at_min_y&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">array_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())],</span>
-                    <span class="s2">&quot;x_at_max_y&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">array_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">())],</span>
+                    <span class="s2">"x_at_min_y"</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">array_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())],</span>
+                    <span class="s2">"x_at_max_y"</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">array_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">())],</span>
                 <span class="p">}</span>
             <span class="p">)</span>
             <span class="c1"># Analyze with numpy</span>
             <span class="c1"># https://stackoverflow.com/a/2415343/1046449</span>
-            <span class="n">center_of_mass</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;centroid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">peak_full_width</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">center_of_mass</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"centroid"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">"fwhm"</span><span class="p">]</span> <span class="o">=</span> <span class="n">peak_full_width</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;variance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"variance"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
                     <span class="mf">0.0</span><span class="p">,</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">center_of_mass</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
                 <span class="p">)</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;variance&quot;</span><span class="p">])</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"sigma"</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"variance"</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot compute variance: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;variance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># define anyway</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cannot compute variance: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"variance"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># define anyway</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"sigma"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;correlation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"correlation"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
                 <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;intercept&quot;</span><span class="p">:</span> <span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="s2">&quot;slope&quot;</span><span class="p">:</span> <span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="s2">&quot;stddev_intercept&quot;</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
-                        <span class="s2">&quot;stddev_slope&quot;</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+                        <span class="s2">"intercept"</span><span class="p">:</span> <span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="s2">"slope"</span><span class="p">:</span> <span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="s2">"stddev_intercept"</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+                        <span class="s2">"stddev_slope"</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not compute covariance matrix: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Could not compute covariance matrix: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;centroid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">"centroid"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">"fwhm"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 
     <span class="k">return</span> <span class="n">results</span></div>
 

@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -536,8 +536,8 @@ spreadsheet (such as from Microsoft Excel or Libre Office).</p>
 with content as shown …</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span># example text command file
 <span class="linenos">2</span>
-<span class="linenos">3</span>step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
-<span class="linenos">4</span>other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+<span class="linenos">3</span>step_scan 5.07  8.3   0.0  "Water Blank, deionized"
+<span class="linenos">4</span>other_scan 5.07  8.3  0.0  "Water Blank, deionized"
 <span class="linenos">5</span>
 <span class="linenos">6</span># all comment lines will be ignored
 <span class="linenos">7</span>
@@ -546,7 +546,7 @@ with content as shown …</p>
 </div>
 <p>… can be summarized in a bluesky ipython session:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">"sample_example.txt"</span><span class="p">)</span>
 <span class="n">Command</span> <span class="n">file</span><span class="p">:</span> <span class="n">sample_example</span><span class="o">.</span><span class="n">xlsx</span>
 <span class="o">======</span> <span class="o">==========</span> <span class="o">===========================================================</span>
 <span class="n">line</span> <span class="c1"># action     parameters</span>
@@ -593,7 +593,7 @@ Use as many columns as you need, one column per argument.</p>
 </div>
 <p>This spreadsheet can be summarized in a bluesky ipython session:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.xlsx&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">"sample_example.xlsx"</span><span class="p">)</span>
 <span class="n">Command</span> <span class="n">file</span><span class="p">:</span> <span class="n">sample_example</span><span class="o">.</span><span class="n">xlsx</span>
 <span class="o">======</span> <span class="o">==================================================================</span> <span class="o">======================================</span>
 <span class="n">line</span> <span class="c1"># action                                                             parameters</span>
@@ -629,23 +629,23 @@ or <code class="docutils literal notranslate"><span class="pre">bluesky.simulato
 <p>Here are examples of those two actions (and a stub for an additional
 instrument procedure to make the example more realistic):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span><span class="w"> </span><span class="nf">step_scan</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
-<span class="linenos"> 2</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
-<span class="linenos"> 3</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_thickness&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
+<span class="linenos"> 2</span>        <span class="n">md</span><span class="p">[</span><span class="s2">"sample_title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
+<span class="linenos"> 3</span>        <span class="n">md</span><span class="p">[</span><span class="s2">"sample_thickness"</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
 <span class="linenos"> 4</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plan_stubs</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
 <span class="linenos"> 5</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span>
 <span class="linenos"> 6</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span>
 <span class="linenos"> 7</span>        <span class="p">)</span>
-<span class="linenos"> 8</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">&quot;scintillator&quot;</span><span class="p">)</span>
+<span class="linenos"> 8</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">"scintillator"</span><span class="p">)</span>
 <span class="linenos"> 9</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">scaler</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
 <span class="linenos">10</span>
 <span class="linenos">11</span><span class="k">def</span><span class="w"> </span><span class="nf">other_scan</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
-<span class="linenos">12</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
-<span class="linenos">13</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_thickness&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
+<span class="linenos">12</span>        <span class="n">md</span><span class="p">[</span><span class="s2">"sample_title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
+<span class="linenos">13</span>        <span class="n">md</span><span class="p">[</span><span class="s2">"sample_thickness"</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
 <span class="linenos">14</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plan_stubs</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
 <span class="linenos">15</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span>
 <span class="linenos">16</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span>
 <span class="linenos">17</span>        <span class="p">)</span>
-<span class="linenos">18</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">&quot;areadetector&quot;</span><span class="p">)</span>
+<span class="linenos">18</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">"areadetector"</span><span class="p">)</span>
 <span class="linenos">19</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">areadetector</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
 <span class="linenos">20</span>
 <span class="linenos">21</span><span class="k">def</span><span class="w"> </span><span class="nf">prepare_detector</span><span class="p">(</span><span class="n">detector_name</span><span class="p">):</span>
@@ -657,38 +657,38 @@ instrument procedure to make the example more realistic):</p>
 <p>Now, we replace <code class="xref py py-func docutils literal notranslate"><span class="pre">execute_command_list()</span></code>
 with our own definition to include those two actions:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span><span class="w"> </span><span class="nf">execute_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
-<span class="linenos"> 2</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;our custom execute_command_list&quot;&quot;&quot;</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="sd">"""our custom execute_command_list"""</span>
 <span class="linenos"> 3</span>    <span class="n">full_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">commands</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 <span class="linenos"> 6</span>        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 <span class="linenos"> 7</span>        <span class="k">return</span>
 <span class="linenos"> 8</span>
-<span class="linenos"> 9</span>    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="linenos"> 9</span>    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
 <span class="linenos">10</span>    <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">command_list_as_table</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
 <span class="linenos">11</span>    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 <span class="linenos">12</span>
 <span class="linenos">13</span>    <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
 <span class="linenos">14</span>        <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">raw_command</span> <span class="o">=</span> <span class="n">command</span>
-<span class="linenos">15</span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">15</span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"file line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">16</span>
 <span class="linenos">17</span>        <span class="n">_md</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="linenos">18</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;full_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_filename</span>
-<span class="linenos">19</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
-<span class="linenos">20</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;line_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-<span class="linenos">21</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
-<span class="linenos">22</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>    <span class="c1"># args is shorter than parameters, means the same thing here</span>
+<span class="linenos">18</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">"full_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_filename</span>
+<span class="linenos">19</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">"filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+<span class="linenos">20</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">"line_number"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<span class="linenos">21</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">"action"</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+<span class="linenos">22</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>    <span class="c1"># args is shorter than parameters, means the same thing here</span>
 <span class="linenos">23</span>
 <span class="linenos">24</span>        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>      <span class="c1"># overlay with user-supplied metadata</span>
 <span class="linenos">25</span>
 <span class="linenos">26</span>        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="linenos">27</span>        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
+<span class="linenos">27</span>        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">"step_scan"</span><span class="p">:</span>
 <span class="linenos">28</span>            <span class="k">yield from</span> <span class="n">step_scan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
-<span class="linenos">29</span>        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;other_scan&quot;</span><span class="p">:</span>
+<span class="linenos">29</span>        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">"other_scan"</span><span class="p">:</span>
 <span class="linenos">30</span>            <span class="k">yield from</span> <span class="n">other_scan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
 <span class="linenos">31</span>
 <span class="linenos">32</span>        <span class="k">else</span><span class="p">:</span>
-<span class="linenos">33</span>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">33</span>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"no handling for line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -724,7 +724,7 @@ any blocking code, no hardware should ever be changed by running
 this plan summary.</p>
 <p>To test our command file, run it through the
 <code class="xref py py-func docutils literal notranslate"><span class="pre">bluesky.simulators.summarize_plan()</span></code> function:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bluesky</span><span class="o">.</span><span class="n">simulators</span><span class="o">.</span><span class="n">summarize_plan</span><span class="p">(</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bluesky</span><span class="o">.</span><span class="n">simulators</span><span class="o">.</span><span class="n">summarize_plan</span><span class="p">(</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">"sample_example.txt"</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The output will be rather lengthy, if there are no errors.
@@ -738,32 +738,32 @@ line # action     parameters
 8      this       line, will, not, be, recognized, by, execute_command_list()
 ====== ========== ===========================================================
 
-file line 3: step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
+file line 3: step_scan 5.07  8.3   0.0  "Water Blank, deionized"
 sample_stage_x -&gt; 5.07
 sample_stage_y -&gt; 8.3
 =================================== Open Run ===================================
 m3 -&gt; 0.0
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 m3 -&gt; 0.5013927576601671
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 m3 -&gt; 1.0027855153203342
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 m3 -&gt; 1.5041782729805013
 </pre></div>
 </div>
 <p>and the last few lines:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>m3 -&gt; 178.99721448467966
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 m3 -&gt; 179.49860724233983
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 m3 -&gt; 180.0
-  Read [&#39;scaler&#39;, &#39;m3&#39;]
+  Read ['scaler', 'm3']
 ================================== Close Run ===================================
-file line 4: other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+file line 4: other_scan 5.07  8.3  0.0  "Water Blank, deionized"
 sample_stage_x -&gt; 5.07
 sample_stage_y -&gt; 8.3
 =================================== Open Run ===================================
-  Read [&#39;areadetector&#39;]
+  Read ['areadetector']
 ================================== Close Run ===================================
 file line 8: this line will not be recognized by execute_command_list()
 no handling for line 8: this line will not be recognized by execute_command_list()
@@ -785,7 +785,7 @@ no handling for line 8: this line will not be recognized by execute_command_list
 <span class="linenos"> 8</span>
 <span class="linenos"> 9</span><span class="c1"># load config from ~/.config/databroker/mongodb_config.yml</span>
 <span class="linenos">10</span><span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
-<span class="linenos">11</span><span class="n">db</span> <span class="o">=</span> <span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">&quot;mongodb_config&quot;</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">db</span> <span class="o">=</span> <span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">"mongodb_config"</span><span class="p">)</span>
 <span class="linenos">12</span>
 <span class="linenos">13</span><span class="c1"># Subscribe metadatastore to documents.</span>
 <span class="linenos">14</span><span class="c1"># If this is removed, data is not saved to metadatastore.</span>
@@ -824,13 +824,13 @@ for this procedure:</p>
 <h3>Run the command file<a class="headerlink" href="#run-the-command-file" title="Link to this heading">#</a></h3>
 <p>To run the command file, you need to pass this to an instance of the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">bluesky.RunEngine</span></code>, defined as <code class="docutils literal notranslate"><span class="pre">RE</span></code> above:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">"sample_example.txt"</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The output will be rather lengthy.
 Here are the first few lines of the output on my system (your hardware
 may be different so the exact data columns and values will vary):</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>In [11]: RE(APS_plans.run_command_file(&quot;sample_example.txt&quot;))
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>In [11]: RE(APS_plans.run_command_file("sample_example.txt"))
 Command file: sample_example.txt
 ====== ========== ===========================================================
 line # action     parameters
@@ -840,10 +840,10 @@ line # action     parameters
 8      this       line, will, not, be, recognized, by, execute_command_list()
 ====== ========== ===========================================================
 
-file line 3: step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
+file line 3: step_scan 5.07  8.3   0.0  "Water Blank, deionized"
 Transient Scan ID: 138     Time: 2019-07-04 16:52:15
-Persistent Unique Scan ID: &#39;f40d1c3c-8361-4efc-83f1-072fcd44c1b2&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: 'f40d1c3c-8361-4efc-83f1-072fcd44c1b2'
+New stream: 'primary'
 +-----------+------------+------------+------------+------------+------------+
 |   seq_num |       time |         m3 |      clock |         I0 |      scint |
 +-----------+------------+------------+------------+------------+------------+
@@ -868,28 +868,28 @@ New stream: &#39;primary&#39;
 |       359 | 16:56:58.5 |  179.50000 |    4000000 |          1 |          2 |
 |       360 | 16:56:59.2 |  180.00000 |    4000000 |          2 |          1 |
 +-----------+------------+------------+------------+------------+------------+
-generator scan [&#39;f40d1c3c&#39;] (scan num: 138)
+generator scan ['f40d1c3c'] (scan num: 138)
 
 
 
-file line 4: other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+file line 4: other_scan 5.07  8.3  0.0  "Water Blank, deionized"
 Transient Scan ID: 139     Time: 2019-07-04 16:56:59
-Persistent Unique Scan ID: &#39;1f093f56-3413-4e67-8a1b-27e71881b855&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: '1f093f56-3413-4e67-8a1b-27e71881b855'
+New stream: 'primary'
 +-----------+------------+
 |   seq_num |       time |
 +-----------+------------+
 |         1 | 16:56:59.7 |
 +-----------+------------+
-generator count [&#39;1f093f56&#39;] (scan num: 139)
+generator count ['1f093f56'] (scan num: 139)
 
 
 
 file line 8: this line will not be recognized by execute_command_list()
 no handling for line 8: this line will not be recognized by execute_command_list()
 Out[11]:
-(&#39;f40d1c3c-8361-4efc-83f1-072fcd44c1b2&#39;,
- &#39;1f093f56-3413-4e67-8a1b-27e71881b855&#39;)
+('f40d1c3c-8361-4efc-83f1-072fcd44c1b2',
+ '1f093f56-3413-4e67-8a1b-27e71881b855')
 
 In [12]:
 </pre></div>
@@ -942,14 +942,14 @@ in a second spreadsheet page.</p>
 will specify.  Call these plans from your <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> within an <code class="docutils literal notranslate"><span class="pre">elif</span></code> block,
 as shown in this example.  The example <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> converts the <code class="docutils literal notranslate"><span class="pre">Scan</span> <span class="pre">Type</span></code>
 into  lower case for simpler comparisons.  Your plan can be different if you choose.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">"step_scan"</span><span class="p">:</span>
     <span class="k">yield from</span> <span class="n">step_scan</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;energy_scan&quot;</span><span class="p">:</span>
+<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">"energy_scan"</span><span class="p">:</span>
     <span class="k">yield from</span> <span class="n">scan_energy</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;radiograph&quot;</span><span class="p">:</span>
+<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">"radiograph"</span><span class="p">:</span>
     <span class="k">yield from</span> <span class="n">AcquireImage</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The example plan saves all row parameters as metadata to the row’s action.

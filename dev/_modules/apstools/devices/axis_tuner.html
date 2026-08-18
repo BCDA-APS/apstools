@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.axis_tuner</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Axis Tuner</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -444,7 +444,7 @@
 
 <span class="sd">   ~AxisTunerException</span>
 <span class="sd">   ~AxisTunerMixin</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -460,18 +460,18 @@
 <div class="viewcode-block" id="AxisTunerException">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/axis_tuner/index.html#apstools.devices.axis_tuner.AxisTunerException">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AxisTunerException</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Exception during execution of `AxisTunerBase` subclass</span>
 
 <span class="sd">    .. index:: Ophyd Exception; AxisTunerException</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
 <div class="viewcode-block" id="AxisTunerMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/axis_tuner/index.html#apstools.devices.axis_tuner.AxisTunerMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AxisTunerMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Mixin class to provide tuning capabilities for an axis</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; AxisTunerMixin</span>
@@ -490,23 +490,23 @@
 <span class="sd">    such as::</span>
 
 <span class="sd">        def my_pre_tune_hook(axis):</span>
-<span class="sd">            yield from bps.mv(shutter, &quot;open&quot;)</span>
+<span class="sd">            yield from bps.mv(shutter, "open")</span>
 <span class="sd">        def my_post_tune_hook(axis):</span>
-<span class="sd">            yield from bps.mv(shutter, &quot;close&quot;)</span>
+<span class="sd">            yield from bps.mv(shutter, "close")</span>
 
 <span class="sd">        class TunableSynAxis(AxisTunerMixin, SynAxis): pass</span>
 
-<span class="sd">        myaxis = TunableSynAxis(name=&quot;myaxis&quot;)</span>
-<span class="sd">        mydet = SynGauss(&#39;mydet&#39;, myaxis, &#39;myaxis&#39;, center=0.21, Imax=0.98e5, sigma=0.127)</span>
+<span class="sd">        myaxis = TunableSynAxis(name="myaxis")</span>
+<span class="sd">        mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)</span>
 <span class="sd">        myaxis.tuner = TuneAxis([mydet], myaxis)</span>
 <span class="sd">        myaxis.pre_tune_method = my_pre_tune_hook</span>
 <span class="sd">        myaxis.post_tune_method = my_post_tune_hook</span>
 
 <span class="sd">        def tune_myaxis():</span>
-<span class="sd">            yield from myaxis.tune(md={&quot;plan_name&quot;: &quot;tune_myaxis&quot;})</span>
+<span class="sd">            yield from myaxis.tune(md={"plan_name": "tune_myaxis"})</span>
 
 <span class="sd">        RE(tune_myaxis())</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -518,31 +518,31 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">post_tune_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_post_tune_method</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_default_pre_tune_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;called before `tune()`&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> position before tuning: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""called before `tune()`"""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2"> position before tuning: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_default_post_tune_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;called after `tune()`&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> position after tuning: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""called after `tune()`"""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2"> position after tuning: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
 <div class="viewcode-block" id="AxisTunerMixin.tune">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/axis_tuner/index.html#apstools.devices.axis_tuner.AxisTunerMixin.tune">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuner</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Must define an axis tuner, none specified.&quot;</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;  Consider using apstools.plans.TuneAxis()&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">"Must define an axis tuner, none specified."</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">"  Consider using apstools.plans.TuneAxis()"</span>
             <span class="k">raise</span> <span class="n">AxisTunerException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuner</span><span class="o">.</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Must define an axis, none specified.&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">"Must define an axis, none specified."</span>
             <span class="k">raise</span> <span class="n">AxisTunerException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">md</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">md</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;purpose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;tuner&quot;</span>
-        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">md</span><span class="p">[</span><span class="s2">"purpose"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"tuner"</span>
+        <span class="n">md</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuner</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_tune_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

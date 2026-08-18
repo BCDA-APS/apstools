@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.acs_motors</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">ACS Motors</span>
 <span class="sd">==========</span>
 
@@ -449,7 +449,7 @@
 <span class="sd">    ~EpicsMotorWithRes</span>
 <span class="sd">    ~EpicsMotorWithResAndCNEN</span>
 <span class="sd">    ~EpicsMotorWithResAndCNENAndDial</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
@@ -464,69 +464,69 @@
 <div class="viewcode-block" id="EpicsMotorWithRes">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.EpicsMotorWithRes">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorWithRes</span><span class="p">(</span><span class="n">EpicsMotorResolutionMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds support for motor record resolution fields.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Adds support for motor record resolution fields."""</span></div>
 
 
 
 <div class="viewcode-block" id="EpicsMotorWithResAndCNEN">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.EpicsMotorWithResAndCNEN">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorWithResAndCNEN</span><span class="p">(</span><span class="n">EpicsMotorServoMixin</span><span class="p">,</span> <span class="n">EpicsMotorWithRes</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds &quot;servo&quot; enable/disable (CNEN) field.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Adds "servo" enable/disable (CNEN) field.</span>
 
 <span class="sd">    ACS support uses for steppers as well.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
 <div class="viewcode-block" id="EpicsMotorWithResAndCNENAndDial">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.EpicsMotorWithResAndCNENAndDial">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorWithResAndCNENAndDial</span><span class="p">(</span><span class="n">EpicsMotorDialMixin</span><span class="p">,</span> <span class="n">EpicsMotorWithResAndCNEN</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds support for motor record dial coordinates.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Adds support for motor record dial coordinates."""</span></div>
 
 
 
 <div class="viewcode-block" id="AcsMotorMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.AcsMotorMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AcsMotorMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Components used by EPICS database for ACS Motion Controller.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Components used by EPICS database for ACS Motion Controller."""</span>
 
-    <span class="n">eoffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:EOFFS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encoder offset (doesn&#39;t persist through power cycle)&quot;&quot;&quot;</span>
+    <span class="n">eoffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":EOFFS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Encoder offset (doesn't persist through power cycle)"""</span>
 
-    <span class="n">e_aoffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:E_AOFFS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Absolute encoder offset (persists through ACS power cycle)&quot;&quot;&quot;</span>
+    <span class="n">e_aoffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":E_AOFFS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Absolute encoder offset (persists through ACS power cycle)"""</span>
 
-    <span class="n">e2offs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:E2OFFS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Secondary encoder offset (doesn&#39;t persist through power cycle)&quot;&quot;&quot;</span>
+    <span class="n">e2offs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":E2OFFS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Secondary encoder offset (doesn't persist through power cycle)"""</span>
 
-    <span class="n">roffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:ROFFS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reference offset&quot;&quot;&quot;</span>
+    <span class="n">roffs</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":ROFFS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Reference offset"""</span>
 
-    <span class="n">stepf</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:STEPF&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Step factor (distance per [micro]step)&quot;&quot;&quot;</span>
+    <span class="n">stepf</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":STEPF"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Step factor (distance per [micro]step)"""</span>
 
-    <span class="n">efac</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:EFAC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encoder factor (distance per encoder count)&quot;&quot;&quot;</span>
+    <span class="n">efac</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":EFAC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Encoder factor (distance per encoder count)"""</span>
 
-    <span class="n">e2fac</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:E2FAC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Secondary encoder factor (distance per encoder count)&quot;&quot;&quot;</span>
+    <span class="n">e2fac</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":E2FAC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Secondary encoder factor (distance per encoder count)"""</span>
 
-    <span class="n">etype</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:E_TYPE&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encoder type&quot;&quot;&quot;</span>
+    <span class="n">etype</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":E_TYPE"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Encoder type"""</span>
 
-    <span class="n">e2type</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:E2_TYPE&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Secondary encoder type&quot;&quot;&quot;</span>
+    <span class="n">e2type</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":E2_TYPE"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Secondary encoder type"""</span>
 
-    <span class="n">homed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;:HOMED&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Homing status (using ACS algorithms)&quot;&quot;&quot;</span></div>
+    <span class="n">homed</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">":HOMED"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Homing status (using ACS algorithms)"""</span></div>
 
 
 
 <div class="viewcode-block" id="AcsMotor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/acs_motors/index.html#apstools.devices.acs_motors.AcsMotor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AcsMotor</span><span class="p">(</span><span class="n">AcsMotorMixin</span><span class="p">,</span> <span class="n">EpicsMotorWithResAndCNENAndDial</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;AcsMotionControl motor support.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""AcsMotionControl motor support."""</span></div>
 
 </pre></div>
 

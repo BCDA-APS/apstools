@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.synApps.scalcout</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Ophyd support for the EPICS scalcout record</span>
 
 <span class="sd">http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html</span>
@@ -450,7 +450,7 @@
 <span class="sd">    ~ScalcoutRecord</span>
 <span class="sd">    ~ScalcoutRecordNumberChannel</span>
 <span class="sd">    ~ScalcoutRecordStringChannel</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -465,13 +465,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordFloatFields</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSynAppsRecordEnableMixin</span>
 
-<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">&quot;A B C D E F G H I J K L&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">"A B C D E F G H I J K L"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="ScalcoutRecordNumberChannel">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecordNumberChannel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScalcoutRecordNumberChannel</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Number channel of an scalcout record: A-L</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps ScalcoutRecordNumberChannel</span>
@@ -479,10 +479,10 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~reset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ch</span> <span class="o">=</span> <span class="n">letter</span>
@@ -491,8 +491,8 @@
 <div class="viewcode-block" id="ScalcoutRecordNumberChannel.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecordNumberChannel.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 </div>
 
@@ -501,7 +501,7 @@
 <div class="viewcode-block" id="ScalcoutRecordStringChannel">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecordStringChannel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScalcoutRecordStringChannel</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    String channel of an scalcout record: AA-LL</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps ScalcoutRecordStringChannel</span>
@@ -509,10 +509,10 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~reset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.IN</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.IN</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ch</span> <span class="o">=</span> <span class="n">letter</span>
@@ -521,9 +521,9 @@
 <div class="viewcode-block" id="ScalcoutRecordStringChannel.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecordStringChannel.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span></div>
 </div>
 
 
@@ -531,9 +531,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_channels</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">nsym</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScalcoutRecordNumberChannel</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScalcoutRecordNumberChannel</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
         <span class="n">ssym</span> <span class="o">=</span> <span class="n">nsym</span> <span class="o">+</span> <span class="n">nsym</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">ssym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScalcoutRecordStringChannel</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">ssym</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">ssym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScalcoutRecordStringChannel</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">ssym</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">defn</span>
 
@@ -541,7 +541,7 @@
 <div class="viewcode-block" id="ScalcoutRecord">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecord">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScalcoutRecord</span><span class="p">(</span><span class="n">EpicsRecordFloatFields</span><span class="p">,</span> <span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS SynApps calc scalcout record support in ophyd</span>
 
 <span class="sd">    .. index:: Ophyd Device; synAppsScalcoutRecord</span>
@@ -551,38 +551,38 @@
 <span class="sd">        ~reset</span>
 
 <span class="sd">    :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">units</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.EGU&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".EGU"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CALC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">calculated_value_string</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SVAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".CALC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">calculated_value_string</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SVAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 
-    <span class="n">output_calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OCAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">output_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OVAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_value_string</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OSV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">output_pv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OUT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OOPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_execution_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ODLY&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_data_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DOPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">invalid_output_action</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.IVOA&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">invalid_output_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.IVOV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">event_to_issue</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OEVT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">output_calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OCAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">output_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OVAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_value_string</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OSV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">output_pv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OUT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OOPT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_execution_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".ODLY"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_data_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DOPT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">invalid_output_action</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".IVOA"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">invalid_output_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".IVOV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">event_to_issue</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OEVT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">output_pv_status</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OUTV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">calculation_valid</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CLCV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_calculation_valid</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OCLV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_delay_active</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DLYA&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">wait_for_completion</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.WAIT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">output_pv_status</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OUTV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">calculation_valid</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".CLCV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_calculation_valid</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OCLV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_delay_active</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DLYA"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">wait_for_completion</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".WAIT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="n">channels</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_channels</span><span class="p">(</span><span class="n">CHANNEL_LETTERS_LIST</span><span class="p">))</span>
 
-    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span> <span class="o">+</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span>
-        <span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
+    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span> <span class="o">+</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span>
+        <span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -591,21 +591,21 @@
 <div class="viewcode-block" id="ScalcoutRecord.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.ScalcoutRecord.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"E"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"5"</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"0"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">invalid_output_action</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">invalid_output_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
@@ -617,10 +617,10 @@
             <span class="n">channel</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">letter</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="p">(</span><span class="n">ScalcoutRecordNumberChannel</span><span class="p">,</span> <span class="n">ScalcoutRecordStringChannel</span><span class="p">)):</span>
                 <span class="n">channel</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
-            <span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="o">+</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="o">+</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span>
         <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
 </div>
 
 
@@ -628,14 +628,14 @@
 <div class="viewcode-block" id="UserScalcoutN">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.UserScalcoutN">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserScalcoutN</span><span class="p">(</span><span class="n">EpicsSynAppsRecordEnableMixin</span><span class="p">,</span> <span class="n">ScalcoutRecord</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single instance of the userStringCalcN database.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Single instance of the userStringCalcN database."""</span></div>
 
 
 
 <div class="viewcode-block" id="UserScalcoutDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.UserScalcoutDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserScalcoutDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of user scalcouts: ``$(P):userStringCalc$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps UserScalcoutDevice</span>
@@ -644,24 +644,24 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;userStringCalcEnable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">scalcout1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc1&quot;</span><span class="p">)</span>
-    <span class="n">scalcout2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc2&quot;</span><span class="p">)</span>
-    <span class="n">scalcout3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc3&quot;</span><span class="p">)</span>
-    <span class="n">scalcout4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc4&quot;</span><span class="p">)</span>
-    <span class="n">scalcout5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc5&quot;</span><span class="p">)</span>
-    <span class="n">scalcout6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc6&quot;</span><span class="p">)</span>
-    <span class="n">scalcout7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc7&quot;</span><span class="p">)</span>
-    <span class="n">scalcout8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc8&quot;</span><span class="p">)</span>
-    <span class="n">scalcout9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc9&quot;</span><span class="p">)</span>
-    <span class="n">scalcout10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">&quot;userStringCalc10&quot;</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"userStringCalcEnable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">scalcout1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc1"</span><span class="p">)</span>
+    <span class="n">scalcout2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc2"</span><span class="p">)</span>
+    <span class="n">scalcout3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc3"</span><span class="p">)</span>
+    <span class="n">scalcout4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc4"</span><span class="p">)</span>
+    <span class="n">scalcout5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc5"</span><span class="p">)</span>
+    <span class="n">scalcout6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc6"</span><span class="p">)</span>
+    <span class="n">scalcout7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc7"</span><span class="p">)</span>
+    <span class="n">scalcout8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc8"</span><span class="p">)</span>
+    <span class="n">scalcout9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc9"</span><span class="p">)</span>
+    <span class="n">scalcout10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserScalcoutN</span><span class="p">,</span> <span class="s2">"userStringCalc10"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserScalcoutDevice.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/scalcout/index.html#apstools.synApps.scalcout.UserScalcoutDevice.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># lgtm [py/similar-function]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout2</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout3</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -672,8 +672,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout8</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout9</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalcout10</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;scalcout</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;enable&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"scalcout</span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"enable"</span><span class="p">)</span></div>
 </div>
 
 

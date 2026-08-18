@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -543,7 +543,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">motor_start_preprocessor</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="s2">"motor"</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">"start"</span><span class="p">)</span>
 
 
 <span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor_start_preprocessor</span><span class="p">)</span>
@@ -558,19 +558,19 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span><span class="p">,</span> <span class="n">EpicsSignal</span>
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
-<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"gp:"</span>
+<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"motor"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
 <span class="c1"># define some extra motors to demonstrate #O &amp; #P lines</span>
-<span class="n">omega</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m2&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">chi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m3&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;chi&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m4&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">ttheta</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m5&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ttheta&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">atth</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m6&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;atth&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">mx</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m7&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mx&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">my</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m8&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">mz</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m9&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mz&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
-<span class="n">swait</span> <span class="o">=</span> <span class="n">UserCalcN</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;swait&quot;</span><span class="p">)</span>
-<span class="n">det</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="n">swait</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">)</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m2"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"omega"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">chi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m3"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"chi"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m4"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"phi"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">ttheta</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m5"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"ttheta"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">atth</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m6"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"atth"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">mx</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m7"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"mx"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">my</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m8"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"my"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m9"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"mz"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"motor"</span><span class="p">])</span>
+<span class="n">swait</span> <span class="o">=</span> <span class="n">UserCalcN</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"swait"</span><span class="p">)</span>
+<span class="n">det</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="n">swait</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">)</span>
 
 <span class="n">motor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">swait</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
@@ -585,12 +585,12 @@
     <span class="n">scale</span><span class="o">=</span><span class="mi">100_000</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.95</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;calc = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A: x = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B: center = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C: width = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D: scale = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E: noise= </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"calc = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A: x = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B: center = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"C: width = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D: scale = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"E: noise= </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -614,9 +614,9 @@ E: noise= 0.05133473921276364
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-11-25 10:47:31
-Persistent Unique Scan ID: &#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;
-New stream: &#39;label_start_motor&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: 'de507b9d-c75b-465b-94f7-a7797b983f44'
+New stream: 'label_start_motor'
+New stream: 'primary'
 +-----------+------------+------------+------------+
 |   seq_num |       time |      motor |        det |
 +-----------+------------+------------+------------+
@@ -662,10 +662,10 @@ New stream: &#39;primary&#39;
 |        40 | 10:47:48.2 |     1.1400 |    0.00000 |
 |        41 | 10:47:48.5 |     1.2000 |    0.00000 |
 +-----------+------------+------------+------------+
-generator scan [&#39;de507b9d&#39;] (scan num: 1)
+generator scan ['de507b9d'] (scan num: 1)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('de507b9d-c75b-465b-94f7-a7797b983f44',)
 </pre></div>
 </div>
 <img alt="../_images/f9c601a731fd67806ab5dd733a7bcf5b9339345f802c95e9aa795b6505d8d89a.png" src="../_images/f9c601a731fd67806ab5dd733a7bcf5b9339345f802c95e9aa795b6505d8d89a.png" />
@@ -686,8 +686,8 @@ generator scan [&#39;de507b9d&#39;] (scan num: 1)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
-  uid=&#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;
-  exit_status=&#39;success&#39;
+  uid='de507b9d-c75b-465b-94f7-a7797b983f44'
+  exit_status='success'
   2025-11-25 10:47:31.736 -- 2025-11-25 10:47:48.607
   Streams:
     * label_start_motor
@@ -705,7 +705,7 @@ generator scan [&#39;de507b9d&#39;] (scan num: 1)
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/apstools/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  &#39;dims&#39;: dict(self._ds.dims),
+  'dims': dict(self._ds.dims),
 </pre></div>
 </div>
 <div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
@@ -1233,17 +1233,17 @@ Data variables:
 <span class="kn">from</span><span class="w"> </span><span class="nn">databroker._drivers.msgpack</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlueskyMsgpackCatalog</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="n">DEMO_SPEC_FILE</span> <span class="o">=</span> <span class="s2">&quot;test_specdata.txt&quot;</span>
+<span class="n">DEMO_SPEC_FILE</span> <span class="o">=</span> <span class="s2">"test_specdata.txt"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">specfile_example</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">DEMO_SPEC_FILE</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;write one or more headers (scans) to a SPEC data file&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""write one or more headers (scans) to a SPEC data file"""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">databroker</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BlueskyRun</span><span class="p">):</span>
         <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">runs</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">BlueskyMsgpackCatalog</span><span class="p">,</span> <span class="n">BlueskyMongoCatalog</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must give run object or list of run objects.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Must give run object or list of run objects."</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide one or more runs.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must provide one or more runs."</span><span class="p">)</span>
 
     <span class="n">specwriter</span> <span class="o">=</span> <span class="n">SpecWriterCallback2</span><span class="p">()</span>
     <span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
@@ -1253,14 +1253,14 @@ Data variables:
         <span class="k">else</span><span class="p">:</span>
             <span class="n">run</span> <span class="o">=</span> <span class="n">uid</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">databroker</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BlueskyRun</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">run</span><span class="si">=}</span><span class="s2">, it is not a BlueskyRun object.&quot;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Skipping </span><span class="si">{</span><span class="n">run</span><span class="si">=}</span><span class="s2">, it is not a BlueskyRun object."</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="c1"># to get the raw document stream, need the v1 interface</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">catalog_object</span><span class="o">.</span><span class="n">v1</span><span class="p">[</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>  <span class="c1"># header</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">h</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
             <span class="n">specwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
         <span class="c1"># lines = specwriter.prepare_scan_contents()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Look at SPEC data file: </span><span class="si">{</span><span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Look at SPEC data file: </span><span class="si">{</span><span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1273,7 +1273,7 @@ Data variables:
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="n">spec1_dat</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;spec1.dat&quot;</span><span class="p">)</span>
+<span class="n">spec1_dat</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"spec1.dat"</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">spec1_dat</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># re-write the file</span>
     <span class="n">spec1_dat</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># delete the existing file</span>
 
@@ -1304,23 +1304,23 @@ Data variables:
 <span class=" -Color -Color-C66">#o0 atth  chi  motor  mx  my  mz  omega  phi</span>
 <span class=" -Color -Color-C66">#o1 ttheta</span>
 
-<span class=" -Color -Color-C66">#S 1  scan(detectors=[&#39;det&#39;], num=41, args=&#39;[&#39;motor&#39;, -1.2, 1.2]&#39;, per_step=&#39;None&#39;)</span>
+<span class=" -Color -Color-C66">#S 1  scan(detectors=['det'], num=41, args='['motor', -1.2, 1.2]', per_step='None')</span>
 <span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
 <span class=" -Color -Color-C66">#C Tue Nov 25 10:47:36 2025.  uid = de507b9d-c75b-465b-94f7-a7797b983f44</span>
 <span class=" -Color -Color-C66">#P0 0 0 1.2 0 0 0 0 0</span>
 <span class=" -Color -Color-C66">#P1 0</span>
-<span class=" -Color -Color-C66">#MD versions = {&#39;ophyd&#39;: &#39;1.11.0&#39;, &#39;bluesky&#39;: &#39;1.14.6&#39;}</span>
+<span class=" -Color -Color-C66">#MD versions = {'ophyd': '1.11.0', 'bluesky': '1.14.6'}</span>
 <span class=" -Color -Color-C66">#MD plan_type = generator</span>
 <span class=" -Color -Color-C66">#MD plan_name = scan</span>
-<span class=" -Color -Color-C66">#MD detectors = [&#39;det&#39;]</span>
-<span class=" -Color -Color-C66">#MD motors = [&#39;motor&#39;]</span>
+<span class=" -Color -Color-C66">#MD detectors = ['det']</span>
+<span class=" -Color -Color-C66">#MD motors = ['motor']</span>
 <span class=" -Color -Color-C66">#MD num_points = 41</span>
 <span class=" -Color -Color-C66">#MD num_intervals = 40</span>
-<span class=" -Color -Color-C66">#MD plan_args = {&#39;detectors&#39;: [&quot;EpicsSignal(read_pv=&#39;gp:userCalc1.VAL&#39;, name=&#39;det&#39;, timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv=&#39;gp:userCalc1.VAL&#39;, limits=False, put_complete=False)&quot;], &#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2], &#39;per_step&#39;: &#39;None&#39;}</span>
-<span class=" -Color -Color-C66">#MD hints = {&#39;dimensions&#39;: [[[&#39;motor&#39;], &#39;primary&#39;]]}</span>
+<span class=" -Color -Color-C66">#MD plan_args = {'detectors': ["EpicsSignal(read_pv='gp:userCalc1.VAL', name='det', timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv='gp:userCalc1.VAL', limits=False, put_complete=False)"], 'num': 41, 'args': ["EpicsMotor(prefix='gp:m1', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1.2, 1.2], 'per_step': 'None'}</span>
+<span class=" -Color -Color-C66">#MD hints = {'dimensions': [[['motor'], 'primary']]}</span>
 <span class=" -Color -Color-C66">#MD plan_pattern = inner_product</span>
 <span class=" -Color -Color-C66">#MD plan_pattern_module = bluesky.plan_patterns</span>
-<span class=" -Color -Color-C66">#MD plan_pattern_args = {&#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2]}</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_args = {'num': 41, 'args': ["EpicsMotor(prefix='gp:m1', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1.2, 1.2]}</span>
 <span class=" -Color -Color-C66">#N 5</span>
 <span class=" -Color -Color-C66">#L motor  Epoch  Epoch_float  motor_user_setpoint  det</span>
 -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">4.798788785934</span> -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">4.697096076314e-70</span>
@@ -1378,7 +1378,7 @@ Data variables:
 <p>The <code class="docutils literal notranslate"><span class="pre">cat</span></code> object allows us to access scans by UUID (or any shorter version that remains unique in the database).  We show an example but have commented it out since those runs do not exist in our temporary databroker catalog.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specfile_example(cat[&quot;37c188c0&quot;], filename=&quot;spec3.dat&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specfile_example(cat["37c188c0"], filename="spec3.dat")</span>
 </pre></div>
 </div>
 </div>
@@ -1389,8 +1389,8 @@ Data variables:
 <p>Suppose we have a list of scans where we know the UID of each one, we can build a list of headers and write a SPEC data file with that list.  Here, we have such a list of tuning scans.  We show an example but have commented it out since those runs do not exist in our temporary databroker catalog.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># runs = [cat[uid] for uid in &quot;957d83c c354fe37-e39f 42c&quot;.split()]</span>
-<span class="c1"># specfile_example(runs, filename=&quot;spec_tunes.dat&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># runs = [cat[uid] for uid in "957d83c c354fe37-e39f 42c".split()]</span>
+<span class="c1"># specfile_example(runs, filename="spec_tunes.dat")</span>
 </pre></div>
 </div>
 </div>
@@ -1405,20 +1405,20 @@ Data variables:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">databroker.queries</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 
-<span class="n">test_specdata_txt</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;test_specdata.txt&quot;</span><span class="p">)</span>
+<span class="n">test_specdata_txt</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"test_specdata.txt"</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">test_specdata_txt</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># will re-write the file</span>
     <span class="n">test_specdata_txt</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
 
 <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">&quot;2019-02-19 17:00&quot;</span><span class="p">))</span>
-<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="s2">&quot;2032-02-19 17:11:30&quot;</span><span class="p">))</span>
-<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;scan&quot;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">"2019-02-19 17:00"</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="s2">"2032-02-19 17:11:30"</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">plan_name</span><span class="o">=</span><span class="s2">"scan"</span><span class="p">))</span>
 
 <span class="n">runs</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
     <span class="n">run</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-    <span class="n">isodate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"start"</span><span class="p">][</span><span class="s2">"time"</span><span class="p">]</span>
+    <span class="n">isodate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">uid</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">isodate</span><span class="p">)</span>
 <span class="n">specfile_example</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">test_specdata_txt</span><span class="p">)</span>
 </pre></div>
@@ -1447,23 +1447,23 @@ Look at SPEC data file: test_specdata.txt
 <span class=" -Color -Color-C66">#o0 atth  chi  motor  mx  my  mz  omega  phi</span>
 <span class=" -Color -Color-C66">#o1 ttheta</span>
 
-<span class=" -Color -Color-C66">#S 1  scan(detectors=[&#39;det&#39;], num=41, args=&#39;[&#39;motor&#39;, -1.2, 1.2]&#39;, per_step=&#39;None&#39;)</span>
+<span class=" -Color -Color-C66">#S 1  scan(detectors=['det'], num=41, args='['motor', -1.2, 1.2]', per_step='None')</span>
 <span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
 <span class=" -Color -Color-C66">#C Tue Nov 25 10:47:36 2025.  uid = de507b9d-c75b-465b-94f7-a7797b983f44</span>
 <span class=" -Color -Color-C66">#P0 0 0 1.2 0 0 0 0 0</span>
 <span class=" -Color -Color-C66">#P1 0</span>
-<span class=" -Color -Color-C66">#MD versions = {&#39;ophyd&#39;: &#39;1.11.0&#39;, &#39;bluesky&#39;: &#39;1.14.6&#39;}</span>
+<span class=" -Color -Color-C66">#MD versions = {'ophyd': '1.11.0', 'bluesky': '1.14.6'}</span>
 <span class=" -Color -Color-C66">#MD plan_type = generator</span>
 <span class=" -Color -Color-C66">#MD plan_name = scan</span>
-<span class=" -Color -Color-C66">#MD detectors = [&#39;det&#39;]</span>
-<span class=" -Color -Color-C66">#MD motors = [&#39;motor&#39;]</span>
+<span class=" -Color -Color-C66">#MD detectors = ['det']</span>
+<span class=" -Color -Color-C66">#MD motors = ['motor']</span>
 <span class=" -Color -Color-C66">#MD num_points = 41</span>
 <span class=" -Color -Color-C66">#MD num_intervals = 40</span>
-<span class=" -Color -Color-C66">#MD plan_args = {&#39;detectors&#39;: [&quot;EpicsSignal(read_pv=&#39;gp:userCalc1.VAL&#39;, name=&#39;det&#39;, timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv=&#39;gp:userCalc1.VAL&#39;, limits=False, put_complete=False)&quot;], &#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2], &#39;per_step&#39;: &#39;None&#39;}</span>
-<span class=" -Color -Color-C66">#MD hints = {&#39;dimensions&#39;: [[[&#39;motor&#39;], &#39;primary&#39;]]}</span>
+<span class=" -Color -Color-C66">#MD plan_args = {'detectors': ["EpicsSignal(read_pv='gp:userCalc1.VAL', name='det', timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv='gp:userCalc1.VAL', limits=False, put_complete=False)"], 'num': 41, 'args': ["EpicsMotor(prefix='gp:m1', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1.2, 1.2], 'per_step': 'None'}</span>
+<span class=" -Color -Color-C66">#MD hints = {'dimensions': [[['motor'], 'primary']]}</span>
 <span class=" -Color -Color-C66">#MD plan_pattern = inner_product</span>
 <span class=" -Color -Color-C66">#MD plan_pattern_module = bluesky.plan_patterns</span>
-<span class=" -Color -Color-C66">#MD plan_pattern_args = {&#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2]}</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_args = {'num': 41, 'args': ["EpicsMotor(prefix='gp:m1', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1.2, 1.2]}</span>
 <span class=" -Color -Color-C66">#N 5</span>
 <span class=" -Color -Color-C66">#L motor  Epoch  Epoch_float  motor_user_setpoint  det</span>
 -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">4.798788785934</span> -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">4.697096076314e-70</span>

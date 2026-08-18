@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.aps_cycle</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">APS cycles</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~ApsCycleDM</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -457,19 +457,19 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
-<span class="n">YAML_CYCLE_FILE</span> <span class="o">=</span> <span class="n">_PATH</span> <span class="o">/</span> <span class="s2">&quot;aps_cycle_info.yml&quot;</span>
+<span class="n">YAML_CYCLE_FILE</span> <span class="o">=</span> <span class="n">_PATH</span> <span class="o">/</span> <span class="s2">"aps_cycle_info.yml"</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_ApsCycleDB</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Python representation of the APS run cycle schedule table.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_cycle_data</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cycle_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the name of the current APS run cycle.</span>
 
 <span class="sd">        By default, the name of the current run cycle (based on the</span>
@@ -484,21 +484,21 @@
 <span class="sd">        RETURNS</span>
 
 <span class="sd">        Returns cycle name (str) or ``None`` if timestamp is not in data table.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span> <span class="ow">or</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">span</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">span</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">ts</span> <span class="o">&lt;</span> <span class="n">span</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">span</span><span class="p">[</span><span class="s2">"start"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">ts</span> <span class="o">&lt;</span> <span class="n">span</span><span class="p">[</span><span class="s2">"end"</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">cycle</span>
         <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># not found</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_read_cycle_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read the list of APS run cycles from a local file.</span>
 
 <span class="sd">        The file is formatted in YAML after reformatting content received from</span>
 <span class="sd">        the APS Data Management package (*aps-dm-api*).  The YAML format is</span>
 <span class="sd">        easily updated and human-readable.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">_cycles_yml</span> <span class="o">=</span> <span class="n">YAML_CYCLE_FILE</span><span class="o">.</span><span class="n">open</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">_cycles</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_cycles_yml</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">BaseLoader</span><span class="p">)</span>
 
@@ -506,13 +506,13 @@
             <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">isodatetime</span><span class="p">))</span>
 
         <span class="n">db</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">run_name</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">iso2ts</span><span class="p">(</span><span class="n">span</span><span class="p">[</span><span class="s2">&quot;begin&quot;</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="n">iso2ts</span><span class="p">(</span><span class="n">span</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]))</span>
+            <span class="n">run_name</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">iso2ts</span><span class="p">(</span><span class="n">span</span><span class="p">[</span><span class="s2">"begin"</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="n">iso2ts</span><span class="p">(</span><span class="n">span</span><span class="p">[</span><span class="s2">"end"</span><span class="p">]))</span>
             <span class="k">for</span> <span class="n">run_name</span><span class="p">,</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">_cycles</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">db</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_write_cycle_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the list of APS run cycles to a local file.</span>
 
 <span class="sd">        The content of this file is received from the APS Data Management</span>
@@ -526,21 +526,21 @@
 
 <span class="sd">            from apstools.devices.aps_cycle import cycle_db</span>
 <span class="sd">            from apstools.utils import dm_setup</span>
-<span class="sd">            dm_setup(&quot;/path/to/dm.setup.sh&quot;)</span>
+<span class="sd">            dm_setup("/path/to/dm.setup.sh")</span>
 <span class="sd">            cycle_db._write_cycle_data()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">runs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bss_list_runs</span>
         <span class="k">if</span> <span class="n">runs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">cycle_data</span> <span class="o">=</span> <span class="n">runs</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+            <span class="n">cycle_data</span> <span class="o">=</span> <span class="n">runs</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"'"</span><span class="p">,</span> <span class="s1">'"'</span><span class="p">)</span>
             <span class="n">cycles</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cycle_data</span><span class="p">)</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">sorter</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">line</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">line</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
 
             <span class="n">db</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">line</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span> <span class="p">{</span>
-                    <span class="s2">&quot;begin&quot;</span><span class="p">:</span> <span class="n">line</span><span class="p">[</span><span class="s2">&quot;startTime&quot;</span><span class="p">],</span>
-                    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">line</span><span class="p">[</span><span class="s2">&quot;endTime&quot;</span><span class="p">],</span>
+                <span class="n">line</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="p">{</span>
+                    <span class="s2">"begin"</span><span class="p">:</span> <span class="n">line</span><span class="p">[</span><span class="s2">"startTime"</span><span class="p">],</span>
+                    <span class="s2">"end"</span><span class="p">:</span> <span class="n">line</span><span class="p">[</span><span class="s2">"endTime"</span><span class="p">],</span>
                 <span class="p">}</span>
                 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cycles</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">sorter</span><span class="p">)</span>
             <span class="p">}</span>
@@ -550,12 +550,12 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Allow caller to override default location.</span>
                 <span class="n">output_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">output_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">output_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">db</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_bss_list_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the full list of APS runs via a Data Management API or &#39;None&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the full list of APS runs via a Data Management API or 'None'."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ApsDbApiFactory</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">dm.common.exceptions.dmException</span><span class="w"> </span><span class="kn">import</span> <span class="n">DmException</span>
 
@@ -575,11 +575,11 @@
 <div class="viewcode-block" id="ApsCycleDM">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_cycle/index.html#apstools.devices.aps_cycle.ApsCycleDM">[docs]</a>
 <span class="nd">@versionchanged</span><span class="p">(</span>
-    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.8&quot;</span><span class="p">,</span>
-    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Provide cycle info empirically when not in data table. (Drop DM API.)&quot;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">"1.7.8"</span><span class="p">,</span>
+    <span class="n">reason</span><span class="o">=</span><span class="s2">"Provide cycle info empirically when not in data table. (Drop DM API.)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApsCycleDM</span><span class="p">(</span><span class="n">SynSignalRO</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get the APS cycle name from a local file (source: official APS schedule).</span>
 
 <span class="sd">    Previously, this info was available from the BSS API in the APS Data</span>
@@ -589,10 +589,10 @@
 <span class="sd">    .. index:: Ophyd Signal; ApsCycleDM</span>
 
 <span class="sd">    This signal is read-only.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">_cycle_ends</span> <span class="o">=</span> <span class="s2">&quot;1980&quot;</span>  <span class="c1"># force a read from DM on first get()</span>
-    <span class="n">_cycle_name</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">_cycle_ends</span> <span class="o">=</span> <span class="s2">"1980"</span>  <span class="c1"># force a read from DM on first get()</span>
+    <span class="n">_cycle_name</span> <span class="o">=</span> <span class="s2">"unknown"</span>
 
 <div class="viewcode-block" id="ApsCycleDM.get">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_cycle/index.html#apstools.devices.aps_cycle.ApsCycleDM.get">[docs]</a>
@@ -601,20 +601,20 @@
         <span class="n">cycle</span> <span class="o">=</span> <span class="n">cycle_db</span><span class="o">.</span><span class="n">get_cycle_name</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">cycle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># empirical</span>
             <span class="k">if</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
-                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-1&quot;</span>
-                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-05-01 00:00:00-05:00&quot;</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-1"</span>
+                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-05-01 00:00:00-05:00"</span>
             <span class="k">elif</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
-                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-2&quot;</span>
-                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-10-01 00:00:00-05:00&quot;</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-2"</span>
+                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-10-01 00:00:00-05:00"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-3&quot;</span>
-                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-01-01 00:00:00-06:00&quot;</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-3"</span>
+                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-01-01 00:00:00-06:00"</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_ends</span> <span class="o">=</span> <span class="n">dt_cycle_ends</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># official table from APS (via DM)</span>
-            <span class="k">if</span> <span class="n">now</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_ends</span><span class="p">:</span>
-                <span class="n">ts_cycle_end</span> <span class="o">=</span> <span class="n">cycle_db</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">cycle</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span>
-                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts_cycle_end</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">now</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_ends</span><span class="p">:</span>
+                <span class="n">ts_cycle_end</span> <span class="o">=</span> <span class="n">cycle_db</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">cycle</span><span class="p">][</span><span class="s2">"end"</span><span class="p">]</span>
+                <span class="n">dt_cycle_ends</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts_cycle_end</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_ends</span> <span class="o">=</span> <span class="n">dt_cycle_ends</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_name</span> <span class="o">=</span> <span class="n">cycle</span>

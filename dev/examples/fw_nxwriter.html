@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -533,12 +533,12 @@ $ <b>iocmgr.sh start GP gp</b>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalRO</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"gp:"</span>
 
 <span class="c1"># ophyd-level</span>
-<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;motor&quot;</span><span class="p">)</span>
-<span class="n">calc10</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;calc10&quot;</span><span class="p">)</span>
-<span class="n">sensor</span> <span class="o">=</span> <span class="n">EpicsSignalRO</span><span class="p">(</span><span class="n">calc10</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m10"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"motor"</span><span class="p">)</span>
+<span class="n">calc10</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc10"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"calc10"</span><span class="p">)</span>
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">EpicsSignalRO</span><span class="p">(</span><span class="n">calc10</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"sensor"</span><span class="p">)</span>
 <span class="n">motor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="n">sensor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 
@@ -576,7 +576,7 @@ file exists.)</p></li>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">NXWriter</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/nxwriter.h5&quot;</span><span class="p">)</span>
+<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/nxwriter.h5"</span><span class="p">)</span>
 
 <span class="n">nxwriter</span> <span class="o">=</span> <span class="n">NXWriter</span><span class="p">()</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
@@ -592,14 +592,14 @@ file exists.)</p></li>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">sensor</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2022-08-12 17:27:38
-Persistent Unique Scan ID: &#39;c888d282-1094-403b-baff-3781057ff087&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: 'c888d282-1094-403b-baff-3781057ff087'
+New stream: 'primary'
 +-----------+------------+------------+------------+
 |   seq_num |       time |      motor |     sensor |
 +-----------+------------+------------+------------+
@@ -609,11 +609,11 @@ New stream: &#39;primary&#39;
 |         4 | 17:27:41.5 |    0.25000 |    0.97433 |
 |         5 | 17:27:42.0 |    0.50000 |    0.57342 |
 +-----------+------------+------------+------------+
-generator scan [&#39;c888d282&#39;] (scan num: 1)
+generator scan ['c888d282'] (scan num: 1)
 
 
 
-h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
+h5_file.exists()=True  h5_file=PosixPath('/tmp/nxwriter.h5')
 </pre></div>
 </div>
 <img alt="../_images/12c168da0f8bab32b33e551260ad369cf16ae8535dc4f905d45e37af87465d44.png" src="../_images/12c168da0f8bab32b33e551260ad369cf16ae8535dc4f905d45e37af87465d44.png" />
@@ -624,7 +624,7 @@ h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">unix</span>
 
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">"punx tree </span><span class="si">{</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">"</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -633,181 +633,181 @@ h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>!!! WARNING: this program is not ready for distribution.
 
 /tmp/nxwriter.h5 : NeXus data file
-  @HDF5_Version = &quot;1.12.1&quot;
-  @NeXus_release = &quot;v2020.1&quot;
-  @creator = &quot;NXWriter&quot;
-  @default = &quot;entry&quot;
-  @file_name = &quot;/tmp/nxwriter.h5&quot;
-  @file_time = &quot;2022-08-12T17:27:42.294183&quot;
-  @h5py_version = &quot;3.7.0&quot;
+  @HDF5_Version = "1.12.1"
+  @NeXus_release = "v2020.1"
+  @creator = "NXWriter"
+  @default = "entry"
+  @file_name = "/tmp/nxwriter.h5"
+  @file_time = "2022-08-12T17:27:42.294183"
+  @h5py_version = "3.7.0"
   entry:NXentry
-    @NX_class = &quot;NXentry&quot;
-    @default = &quot;data&quot;
-    @target = &quot;/entry&quot;
+    @NX_class = "NXentry"
+    @default = "data"
+    @target = "/entry"
     duration:NX_FLOAT64[] = 
-      @units = &quot;s&quot;
-    end_time:NX_CHAR = b&#39;2022-08-12T17:27:42.139426&#39;
+      @units = "s"
+    end_time:NX_CHAR = b'2022-08-12T17:27:42.139426'
     entry_identifier --&gt; /entry/instrument/bluesky/metadata/run_start_uid
     plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
-    program_name:NX_CHAR = b&#39;bluesky&#39;
-    start_time:NX_CHAR = b&#39;2022-08-12T17:27:38.779351&#39;
-    title:NX_CHAR = b&#39;scan-S0001-c888d28&#39;
+    program_name:NX_CHAR = b'bluesky'
+    start_time:NX_CHAR = b'2022-08-12T17:27:38.779351'
+    title:NX_CHAR = b'scan-S0001-c888d28'
     data:NXdata
-      @NX_class = &quot;NXdata&quot;
-      @axes = [&quot;motor&quot;]
-      @signal = &quot;sensor&quot;
-      @target = &quot;/entry/data&quot;
+      @NX_class = "NXdata"
+      @axes = ["motor"]
+      @signal = "sensor"
+      @target = "/entry/data"
       EPOCH --&gt; /entry/instrument/bluesky/streams/primary/sensor/time
       motor --&gt; /entry/instrument/bluesky/streams/primary/motor/value
       motor_user_setpoint --&gt; /entry/instrument/bluesky/streams/primary/motor_user_setpoint/value
       sensor --&gt; /entry/instrument/bluesky/streams/primary/sensor/value
     instrument:NXinstrument
-      @NX_class = &quot;NXinstrument&quot;
-      @target = &quot;/entry/instrument&quot;
+      @NX_class = "NXinstrument"
+      @target = "/entry/instrument"
       bluesky:NXnote
-        @NX_class = &quot;NXnote&quot;
-        @target = &quot;/entry/instrument/bluesky&quot;
+        @NX_class = "NXnote"
+        @target = "/entry/instrument/bluesky"
         plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
         uid --&gt; /entry/instrument/bluesky/metadata/run_start_uid
         metadata:NXnote
-          @NX_class = &quot;NXnote&quot;
-          @target = &quot;/entry/instrument/bluesky/metadata&quot;
-          detectors:NX_CHAR = b&#39;- sensor\n&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/detectors&quot;
-            @text_format = &quot;yaml&quot;
-          hints:NX_CHAR = b&#39;dimensions:\n- !!python/tuple\n  - - motor\n  - primary\n&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/hints&quot;
-            @text_format = &quot;yaml&quot;
-          motors:NX_CHAR = b&#39;!!python/tuple\n- motor\n&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/motors&quot;
-            @text_format = &quot;yaml&quot;
+          @NX_class = "NXnote"
+          @target = "/entry/instrument/bluesky/metadata"
+          detectors:NX_CHAR = b'- sensor\n'
+            @target = "/entry/instrument/bluesky/metadata/detectors"
+            @text_format = "yaml"
+          hints:NX_CHAR = b'dimensions:\n- !!python/tuple\n  - - motor\n  - primary\n'
+            @target = "/entry/instrument/bluesky/metadata/hints"
+            @text_format = "yaml"
+          motors:NX_CHAR = b'!!python/tuple\n- motor\n'
+            @target = "/entry/instrument/bluesky/metadata/motors"
+            @text_format = "yaml"
           num_intervals:NX_INT64[] = 
-            @target = &quot;/entry/instrument/bluesky/metadata/num_intervals&quot;
+            @target = "/entry/instrument/bluesky/metadata/num_intervals"
           num_points:NX_INT64[] = 
-            @target = &quot;/entry/instrument/bluesky/metadata/num_points&quot;
-          plan_args:NX_CHAR = b&quot;args:\n- EpicsMotor(prefix=&#39;gp:m10&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- -0.5\n- 0.5\ndetectors:\n- EpicsSignalRO(read_pv=&#39;gp:userCalc10.VAL&#39;, name=&#39;sensor&#39;, timestamp=1660343258.421057,\n  auto_monitor=False, string=False)\nnum: 5\nper_step: None\n&quot;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_args&quot;
-            @text_format = &quot;yaml&quot;
-          plan_name:NX_CHAR = b&#39;scan&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_name&quot;
-          plan_pattern:NX_CHAR = b&#39;inner_product&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern&quot;
-          plan_pattern_args:NX_CHAR = b&quot;args:\n- EpicsMotor(prefix=&#39;gp:m10&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- -0.5\n- 0.5\nnum: 5\n&quot;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern_args&quot;
-            @text_format = &quot;yaml&quot;
-          plan_pattern_module:NX_CHAR = b&#39;bluesky.plan_patterns&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern_module&quot;
-          plan_type:NX_CHAR = b&#39;generator&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/plan_type&quot;
-          run_start_uid:NX_CHAR = b&#39;c888d282-1094-403b-baff-3781057ff087&#39;
-            @long_name = &quot;bluesky run uid&quot;
-            @target = &quot;/entry/instrument/bluesky/metadata/run_start_uid&quot;
-          versions:NX_CHAR = b&#39;bluesky: 1.8.3\nophyd: 1.6.4\n&#39;
-            @target = &quot;/entry/instrument/bluesky/metadata/versions&quot;
-            @text_format = &quot;yaml&quot;
+            @target = "/entry/instrument/bluesky/metadata/num_points"
+          plan_args:NX_CHAR = b"args:\n- EpicsMotor(prefix='gp:m10', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback',\n  'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity',\n  'acceleration', 'motor_egu'])\n- -0.5\n- 0.5\ndetectors:\n- EpicsSignalRO(read_pv='gp:userCalc10.VAL', name='sensor', timestamp=1660343258.421057,\n  auto_monitor=False, string=False)\nnum: 5\nper_step: None\n"
+            @target = "/entry/instrument/bluesky/metadata/plan_args"
+            @text_format = "yaml"
+          plan_name:NX_CHAR = b'scan'
+            @target = "/entry/instrument/bluesky/metadata/plan_name"
+          plan_pattern:NX_CHAR = b'inner_product'
+            @target = "/entry/instrument/bluesky/metadata/plan_pattern"
+          plan_pattern_args:NX_CHAR = b"args:\n- EpicsMotor(prefix='gp:m10', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback',\n  'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity',\n  'acceleration', 'motor_egu'])\n- -0.5\n- 0.5\nnum: 5\n"
+            @target = "/entry/instrument/bluesky/metadata/plan_pattern_args"
+            @text_format = "yaml"
+          plan_pattern_module:NX_CHAR = b'bluesky.plan_patterns'
+            @target = "/entry/instrument/bluesky/metadata/plan_pattern_module"
+          plan_type:NX_CHAR = b'generator'
+            @target = "/entry/instrument/bluesky/metadata/plan_type"
+          run_start_uid:NX_CHAR = b'c888d282-1094-403b-baff-3781057ff087'
+            @long_name = "bluesky run uid"
+            @target = "/entry/instrument/bluesky/metadata/run_start_uid"
+          versions:NX_CHAR = b'bluesky: 1.8.3\nophyd: 1.6.4\n'
+            @target = "/entry/instrument/bluesky/metadata/versions"
+            @text_format = "yaml"
         streams:NXnote
-          @NX_class = &quot;NXnote&quot;
-          @target = &quot;/entry/instrument/bluesky/streams&quot;
+          @NX_class = "NXnote"
+          @target = "/entry/instrument/bluesky/streams"
           primary:NXnote
-            @NX_class = &quot;NXnote&quot;
-            @target = &quot;/entry/instrument/bluesky/streams/primary&quot;
-            @uid = &quot;c808bd42-27b4-4498-819d-2279f9516608&quot;
+            @NX_class = "NXnote"
+            @target = "/entry/instrument/bluesky/streams/primary"
+            @uid = "c808bd42-27b4-4498-819d-2279f9516608"
             motor:NXdata
-              @NX_class = &quot;NXdata&quot;
-              @axes = [&quot;time&quot;]
-              @signal = &quot;value&quot;
-              @signal_type = &quot;positioner&quot;
-              @target = &quot;/entry/instrument/bluesky/streams/primary/motor&quot;
+              @NX_class = "NXdata"
+              @axes = ["time"]
+              @signal = "value"
+              @signal_type = "positioner"
+              @target = "/entry/instrument/bluesky/streams/primary/motor"
               EPOCH:NX_FLOAT64[5] = [1660343259.975937, 1660343260.576943, 1660343261.078024, 1660343261.579225, 1660343262.080634]
-                @long_name = &quot;epoch time (s)&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/EPOCH&quot;
-                @units = &quot;s&quot;
+                @long_name = "epoch time (s)"
+                @target = "/entry/instrument/bluesky/streams/primary/motor/EPOCH"
+                @units = "s"
               time:NX_FLOAT64[5] = [0.0, 0.601006031036377, 1.1020870208740234, 1.603288173675537, 2.1046972274780273]
-                @long_name = &quot;time since first data (s)&quot;
+                @long_name = "time since first data (s)"
                 @start_time = 1660343259.975937
-                @start_time_iso = &quot;2022-08-12T17:27:39.975937&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/time&quot;
-                @units = &quot;s&quot;
+                @start_time_iso = "2022-08-12T17:27:39.975937"
+                @target = "/entry/instrument/bluesky/streams/primary/motor/time"
+                @units = "s"
               value:NX_FLOAT64[5] = [-0.5, -0.25, 0.0, 0.25, 0.5]
-                @long_name = &quot;motor&quot;
+                @long_name = "motor"
                 @lower_ctrl_limit = -32000.0
                 @precision = 5
-                @signal_type = &quot;positioner&quot;
-                @source = &quot;PV:gp:m10.RBV&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/value&quot;
-                @units = &quot;degrees&quot;
+                @signal_type = "positioner"
+                @source = "PV:gp:m10.RBV"
+                @target = "/entry/instrument/bluesky/streams/primary/motor/value"
+                @units = "degrees"
                 @upper_ctrl_limit = 32000.0
             motor_user_setpoint:NXdata
-              @NX_class = &quot;NXdata&quot;
-              @axes = [&quot;time&quot;]
-              @signal = &quot;value&quot;
-              @signal_type = &quot;other&quot;
-              @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint&quot;
+              @NX_class = "NXdata"
+              @axes = ["time"]
+              @signal = "value"
+              @signal_type = "other"
+              @target = "/entry/instrument/bluesky/streams/primary/motor_user_setpoint"
               EPOCH:NX_FLOAT64[5] = [1660343258.784328, 1660343260.169698, 1660343260.644624, 1660343261.141399, 1660343261.645333]
-                @long_name = &quot;epoch time (s)&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/EPOCH&quot;
-                @units = &quot;s&quot;
+                @long_name = "epoch time (s)"
+                @target = "/entry/instrument/bluesky/streams/primary/motor_user_setpoint/EPOCH"
+                @units = "s"
               time:NX_FLOAT64[5] = [0.0, 1.3853700160980225, 1.8602960109710693, 2.3570709228515625, 2.8610050678253174]
-                @long_name = &quot;time since first data (s)&quot;
+                @long_name = "time since first data (s)"
                 @start_time = 1660343258.784328
-                @start_time_iso = &quot;2022-08-12T17:27:38.784328&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/time&quot;
-                @units = &quot;s&quot;
+                @start_time_iso = "2022-08-12T17:27:38.784328"
+                @target = "/entry/instrument/bluesky/streams/primary/motor_user_setpoint/time"
+                @units = "s"
               value:NX_FLOAT64[5] = [-0.5, -0.25, 0.0, 0.25, 0.5]
-                @long_name = &quot;motor_user_setpoint&quot;
+                @long_name = "motor_user_setpoint"
                 @lower_ctrl_limit = -32000.0
                 @precision = 5
-                @signal_type = &quot;other&quot;
-                @source = &quot;PV:gp:m10.VAL&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/value&quot;
-                @units = &quot;degrees&quot;
+                @signal_type = "other"
+                @source = "PV:gp:m10.VAL"
+                @target = "/entry/instrument/bluesky/streams/primary/motor_user_setpoint/value"
+                @units = "degrees"
                 @upper_ctrl_limit = 32000.0
             sensor:NXdata
-              @NX_class = &quot;NXdata&quot;
-              @axes = [&quot;time&quot;]
-              @signal = &quot;value&quot;
-              @signal_type = &quot;detector&quot;
-              @target = &quot;/entry/instrument/bluesky/streams/primary/sensor&quot;
+              @NX_class = "NXdata"
+              @axes = ["time"]
+              @signal = "value"
+              @signal_type = "detector"
+              @target = "/entry/instrument/bluesky/streams/primary/sensor"
               EPOCH:NX_FLOAT64[5] = [1660343260.021116, 1660343260.521089, 1660343261.021125, 1660343261.521131, 1660343262.021114]
-                @long_name = &quot;epoch time (s)&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/EPOCH&quot;
-                @units = &quot;s&quot;
+                @long_name = "epoch time (s)"
+                @target = "/entry/instrument/bluesky/streams/primary/sensor/EPOCH"
+                @units = "s"
               time:NX_FLOAT64[5] = [0.0, 0.4999730587005615, 1.0000090599060059, 1.5000150203704834, 1.9999980926513672]
-                @long_name = &quot;time since first data (s)&quot;
+                @long_name = "time since first data (s)"
                 @start_time = 1660343260.021116
-                @start_time_iso = &quot;2022-08-12T17:27:40.021116&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/time&quot;
-                @units = &quot;s&quot;
+                @start_time_iso = "2022-08-12T17:27:40.021116"
+                @target = "/entry/instrument/bluesky/streams/primary/sensor/time"
+                @units = "s"
               value:NX_FLOAT64[5] = [0.6937666895551995, 0.44727244983596554, 0.07127489127946898, 0.9743343251697566, 0.5734187838559548]
-                @long_name = &quot;sensor&quot;
+                @long_name = "sensor"
                 @lower_ctrl_limit = 0.0
                 @precision = 5
-                @signal_type = &quot;detector&quot;
-                @source = &quot;PV:gp:userCalc10.VAL&quot;
-                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;
-                @units = &quot;&quot;
+                @signal_type = "detector"
+                @source = "PV:gp:userCalc10.VAL"
+                @target = "/entry/instrument/bluesky/streams/primary/sensor/value"
+                @units = ""
                 @upper_ctrl_limit = 0.0
       detectors:NXnote
-        @NX_class = &quot;NXnote&quot;
-        @target = &quot;/entry/instrument/detectors&quot;
+        @NX_class = "NXnote"
+        @target = "/entry/instrument/detectors"
         sensor:NXdetector
-          @NX_class = &quot;NXdetector&quot;
-          @target = &quot;/entry/instrument/detectors/sensor&quot;
+          @NX_class = "NXdetector"
+          @target = "/entry/instrument/detectors/sensor"
           data --&gt; /entry/instrument/bluesky/streams/primary/sensor
       positioners:NXnote
-        @NX_class = &quot;NXnote&quot;
-        @target = &quot;/entry/instrument/positioners&quot;
+        @NX_class = "NXnote"
+        @target = "/entry/instrument/positioners"
         motor:NXpositioner
-          @NX_class = &quot;NXpositioner&quot;
-          @target = &quot;/entry/instrument/positioners/motor&quot;
+          @NX_class = "NXpositioner"
+          @target = "/entry/instrument/positioners/motor"
           value --&gt; /entry/instrument/bluesky/streams/primary/motor
       source:NXsource
-        @NX_class = &quot;NXsource&quot;
-        @target = &quot;/entry/instrument/source&quot;
-        name:NX_CHAR = b&#39;Bluesky framework&#39;
-          @short_name = &quot;bluesky&quot;
-        probe:NX_CHAR = b&#39;x-ray&#39;
-        type:NX_CHAR = b&#39;Synchrotron X-ray Source&#39;
+        @NX_class = "NXsource"
+        @target = "/entry/instrument/source"
+        name:NX_CHAR = b'Bluesky framework'
+          @short_name = "bluesky"
+        probe:NX_CHAR = b'x-ray'
+        type:NX_CHAR = b'Synchrotron X-ray Source'
 </pre></div>
 </div>
 </div>
@@ -835,22 +835,22 @@ the <code class="docutils literal notranslate"><span class="pre">receiver</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replay</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
 
-<span class="c1"># This example uses &#39;cat&#39; as defined above.  You use this next line:</span>
-<span class="c1"># cat = databroker.databroker[&quot;YOUR_CATALOG_NAME&quot;]</span>
+<span class="c1"># This example uses 'cat' as defined above.  You use this next line:</span>
+<span class="c1"># cat = databroker.databroker["YOUR_CATALOG_NAME"]</span>
 
-<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/db_export.h5&quot;</span><span class="p">)</span>
+<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/db_export.h5"</span><span class="p">)</span>
 <span class="n">scan_id</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># TODO: you choose</span>
 
 <span class="n">nxwriter</span> <span class="o">=</span> <span class="n">NXWriter</span><span class="p">()</span>
 <span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">h5_file</span><span class="p">)</span>
 <span class="n">nxwriter</span><span class="o">.</span><span class="n">warn_on_missing_content</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="n">replay</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="p">[</span><span class="n">scan_id</span><span class="p">],</span> <span class="n">nxwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/db_export.h5&#39;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h5_file.exists()=True  h5_file=PosixPath('/tmp/db_export.h5')
 </pre></div>
 </div>
 </div>

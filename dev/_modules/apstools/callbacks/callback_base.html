@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.callbacks.callback_base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Base Class for File Writer Callbacks</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~FileWriterCallbackBase</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -458,7 +458,7 @@
 <div class="viewcode-block" id="FileWriterCallbackBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FileWriterCallbackBase</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for filewriter callbacks.</span>
 
 <span class="sd">    .. index:: Bluesky Callback; FileWriterCallbackBase</span>
@@ -498,16 +498,16 @@
 <span class="sd">       ~resource</span>
 <span class="sd">       ~start</span>
 <span class="sd">       ~stop</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">file_extension</span> <span class="o">=</span> <span class="s2">&quot;dat&quot;</span>
+    <span class="n">file_extension</span> <span class="o">=</span> <span class="s2">"dat"</span>
     <span class="n">_file_name</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_file_path</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># convention: methods written in alphabetical order</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize: clear and reset.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize: clear and reset."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xref</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">bulk_events</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_events</span><span class="p">,</span>
@@ -522,16 +522,16 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.receiver">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.receiver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        bluesky callback (handles a stream of documents)</span>
 
 <span class="sd">        .. index:: Bluesky Callback; FileWriterCallbackBase.receiver</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xref</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;unexpected key </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"unexpected key </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">doc_timestamp</span> <span class="o">=</span> <span class="n">ts</span>
             <span class="n">handler</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
@@ -542,9 +542,9 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.clear">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.clear">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        delete any saved data from the cache and reinitialize</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -583,15 +583,15 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.get_hklpy_configurations">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.get_hklpy_configurations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_hklpy_configurations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer details (from hklpy) in RE descriptor documents.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Diffractometer details (from hklpy) in RE descriptor documents."""</span>
         <span class="n">configurations</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># zero, one, or more diffractometers are possible</span>
-        <span class="k">for</span> <span class="n">diffractometer_name</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span> <span class="p">{}):</span>
-            <span class="n">record</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;configuration&quot;</span><span class="p">][</span><span class="n">diffractometer_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="n">attrs</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">diffractometer_name</span><span class="si">}</span><span class="s2">_orientation_attrs&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">diffractometer_name</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"configuration"</span><span class="p">,</span> <span class="p">{}):</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"configuration"</span><span class="p">][</span><span class="n">diffractometer_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">diffractometer_name</span><span class="si">}</span><span class="s2">_orientation_attrs"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">configurations</span><span class="p">[</span><span class="n">diffractometer_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="c1"># empty when no orientation_attrs</span>
-                    <span class="n">attr</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">diffractometer_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="n">attr</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">diffractometer_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
                     <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span>
                 <span class="p">}</span>
         <span class="k">return</span> <span class="n">configurations</span></div>
@@ -600,7 +600,7 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.make_file_name">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        generate a file name to be used as default</span>
 
 <span class="sd">        default format: {ymd}-{hms}-S{scan_id}-{short_uid}.{ext}</span>
@@ -610,36 +610,36 @@
 <span class="sd">        * hms = {hour:02d}{minute:02d}{second:02d}</span>
 
 <span class="sd">        override in subclass to change</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
         <span class="c1"># fmt: off</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">-%H%M%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;-S</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y%m</span><span class="si">%d</span><span class="s1">-%H%M%S'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"-S</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="c1"># fmt: on</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="ow">or</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="ow">or</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span> <span class="o">/</span> <span class="n">fname</span></div>
 
 
 <div class="viewcode-block" id="FileWriterCallbackBase.writer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.writer">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        print summary of run as diagnostic</span>
 
 <span class="sd">        override this method in subclass to write a file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># logger.debug(&quot;acquisitions: %s&quot;, yaml.dump(self.acquisitions))</span>
+<span class="sd">        """</span>
+        <span class="c1"># logger.debug("acquisitions: %s", yaml.dump(self.acquisitions))</span>
 
         <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file_name</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;print to console&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;suggested file name: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"print to console"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"suggested file name: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;key value&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;plan_name scan_id exit_status start_time stop_reason stop_time uid&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"key value"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">"plan_name scan_id exit_status start_time stop_reason stop_time uid"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
@@ -647,59 +647,59 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">trim</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
             <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">length</span><span class="p">:</span>
-                <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span>
             <span class="k">return</span> <span class="n">text</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;metadata_key value&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"metadata_key value"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">trim</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;stream num_vars num_values&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"stream num_vars num_values"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">streams</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;expecting only one descriptor in stream </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"expecting only one descriptor in stream </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s2">"data"</span><span class="p">]</span>
                 <span class="n">num_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
                 <span class="c1"># get the key (symbol) of first data object</span>
                 <span class="n">symbol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">num_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">num_values</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">num_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">symbol</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
+                    <span class="n">num_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">symbol</span><span class="p">][</span><span class="s2">"data"</span><span class="p">])</span>
                 <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">num_values</span><span class="p">))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;external_key type value&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"external_key type value"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;_document_type_&quot;</span><span class="p">],</span> <span class="n">trim</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="s2">"_document_type_"</span><span class="p">],</span> <span class="n">trim</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;elapsed scan time: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"elapsed scan time: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span></div>
 
 
     <span class="c1"># - - - - - - - - - - - - - - -</span>
 
 <div class="viewcode-block" id="FileWriterCallbackBase.bulk_events">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.bulk_events">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.0&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;use EventPage instead&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.0"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"use EventPage instead"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bulk_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deprecated. Use EventPage instead.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Deprecated. Use EventPage instead."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;not handled yet&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"not handled yet"</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FileWriterCallbackBase.datum">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.datum">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Like an event, but for data recorded outside of bluesky.</span>
 
 <span class="sd">        Example::</span>
@@ -711,32 +711,32 @@
 <span class="sd">            HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf</span>
 <span class="sd">            point_number    : 0</span>
 <span class="sd">            resource        : 621caa0f-70f1-4e3d-8718-b5123d434502</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># stash the whole thing (sort this out in the writer)</span>
-        <span class="n">ext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;datum_id&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-        <span class="n">ext</span><span class="p">[</span><span class="s2">&quot;_document_type_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;datum&quot;</span></div>
+        <span class="n">ext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">"datum_id"</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="n">ext</span><span class="p">[</span><span class="s2">"_document_type_"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"datum"</span></div>
 
 
 <div class="viewcode-block" id="FileWriterCallbackBase.descriptor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.descriptor">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        description of the data stream to be acquired</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.descriptor_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_stream_data_map</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="n">stream</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-        <span class="n">uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span>
+        <span class="n">stream</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"uid"</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">stream</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">streams</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">streams</span><span class="p">[</span><span class="n">stream</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">streams</span><span class="p">[</span><span class="n">stream</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">stream</span> <span class="o">==</span> <span class="s2">&quot;primary&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">stream</span> <span class="o">==</span> <span class="s2">"primary"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span> <span class="o">=</span> <span class="n">get_stream_data_map</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">,</span>
@@ -745,22 +745,22 @@
 
         <span class="k">if</span> <span class="n">uid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{})</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">uid</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data_keys&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="c1"># logger.debug(&quot;entry %s: %s&quot;, k, entry)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">uid</span><span class="p">][</span><span class="s2">"data"</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"data_keys"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># logger.debug("entry %s: %s", k, entry)</span>
             <span class="n">dd</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dtype&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="p">[])</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;lower_ctrl_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lower_ctrl_limit&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;upper_ctrl_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;upper_ctrl_limit&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;object_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;object_name&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># entry data goes here</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># entry time stamps here</span>
-            <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;external&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="c1"># logger.debug(&quot;dd %s: %s&quot;, k, data[k])</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="s2">"local"</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"dtype"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"dtype"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"shape"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"shape"</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"units"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"lower_ctrl_limit"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lower_ctrl_limit"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"upper_ctrl_limit"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"upper_ctrl_limit"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"precision"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"precision"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"object_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"object_name"</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># entry data goes here</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># entry time stamps here</span>
+            <span class="n">dd</span><span class="p">[</span><span class="s2">"external"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"external"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="c1"># logger.debug("dd %s: %s", k, data[k])</span>
 
         <span class="c1"># Gather any available diffractometer configurations.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diffractometers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_hklpy_configurations</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span></div>
@@ -769,58 +769,58 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.event">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.event">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        a single &quot;row&quot; of data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        a single "row" of data</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="c1"># uid = doc[&quot;uid&quot;]</span>
-        <span class="n">descriptor_uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">]</span>
-        <span class="c1"># seq_num = doc[&quot;seq_num&quot;]</span>
+        <span class="c1"># uid = doc["uid"]</span>
+        <span class="n">descriptor_uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"descriptor"</span><span class="p">]</span>
+        <span class="c1"># seq_num = doc["seq_num"]</span>
 
         <span class="c1"># gather the data by streams</span>
         <span class="n">descriptor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">descriptor_uid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">descriptor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;entry key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found in descriptor of </span><span class="si">{</span><span class="n">descriptor</span><span class="p">[</span><span class="s1">&#39;stream&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"entry key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found in descriptor of </span><span class="si">{</span><span class="n">descriptor</span><span class="p">[</span><span class="s1">'stream'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">])</span></div>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">"timestamps"</span><span class="p">][</span><span class="n">k</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="FileWriterCallbackBase.resource">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.resource">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        like a descriptor, but for data recorded outside of bluesky</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># stash the whole thing (sort this out in the writer)</span>
-        <span class="n">ext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-        <span class="n">ext</span><span class="p">[</span><span class="s2">&quot;_document_type_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;resource&quot;</span></div>
+        <span class="n">ext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">"uid"</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="n">ext</span><span class="p">[</span><span class="s2">"_document_type_"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"resource"</span></div>
 
 
 <div class="viewcode-block" id="FileWriterCallbackBase.start">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        beginning of a run, clear cache and collect metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">plan_name</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plan_name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plan_name</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plan_name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scan_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;positioners&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"scan_id"</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"uid"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"detectors"</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"positioners"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"motors"</span><span class="p">,</span> <span class="p">[])</span>
 
         <span class="c1"># gather the metadata</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="s2">&quot;scan_id time uid&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="s2">"scan_id time uid"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
                 <span class="k">continue</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span></div>
 
@@ -828,14 +828,14 @@
 <div class="viewcode-block" id="FileWriterCallbackBase.stop">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/callback_base/index.html#apstools.callbacks.callback_base.FileWriterCallbackBase.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        end of the run, end collection and initiate the ``writer()`` method</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exit_status</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;exit_status&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stop_reason</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="s2">&quot;not available&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_status</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"exit_status"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_reason</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"reason"</span><span class="p">,</span> <span class="s2">"not available"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span></div>

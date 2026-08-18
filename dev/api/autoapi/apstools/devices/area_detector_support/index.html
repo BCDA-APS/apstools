@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -712,27 +712,27 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
-<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''ADSimDetector'''</span>
 
-    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">"cam1:"</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">"image1:"</span><span class="p">)</span>
     <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
         <span class="n">AD_EpicsFileNameHDF5Plugin</span><span class="p">,</span>
-        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="s2">"HDF1:"</span><span class="p">,</span>
         <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">"Pva1:"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -764,28 +764,28 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
-<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''ADSimDetector'''</span>
 
-    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">"cam1:"</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">"image1:"</span><span class="p">)</span>
     <span class="n">jpeg1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
         <span class="n">AD_EpicsFileNameHDF5Plugin</span><span class="p">,</span>
-        <span class="s2">&quot;JPEG1:&quot;</span><span class="p">,</span>
+        <span class="s2">"JPEG1:"</span><span class="p">,</span>
         <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">"Pva1:"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -901,28 +901,28 @@ naming template (and other items) to ophyd after staging.</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
-<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''ADSimDetector'''</span>
 
-    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">"cam1:"</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">"image1:"</span><span class="p">)</span>
     <span class="n">tiff1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
         <span class="n">AD_EpicsFileNameTIFFPlugin</span><span class="p">,</span>
-        <span class="s2">&quot;TIFF1:&quot;</span><span class="p">,</span>
+        <span class="s2">"TIFF1:"</span><span class="p">,</span>
         <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">)</span>
+    <span class="n">pva</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PvaPlugin</span><span class="p">,</span> <span class="s2">"Pva1:"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1137,7 +1137,7 @@ the <code class="docutils literal notranslate"><span class="pre">AD_FrameType_sc
 fields of the EPICS <code class="docutils literal notranslate"><span class="pre">mbbo</span></code> record that you will be using.</p>
 <p>see: <a class="reference external" href="https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb">https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb</a></p>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_setup_FrameType</span><span class="p">(</span><span class="s2">&quot;2bmbPG3:&quot;</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;DataExchange&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AD_setup_FrameType</span><span class="p">(</span><span class="s2">"2bmbPG3:"</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">"DataExchange"</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">

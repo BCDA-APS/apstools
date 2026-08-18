@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -534,10 +534,10 @@
 <span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
-<span class="n">detector</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc8&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;detector&quot;</span><span class="p">)</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"gp:"</span>
+<span class="n">detector</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc8"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"detector"</span><span class="p">)</span>
 <span class="n">detector</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
-<span class="n">shutter</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
+<span class="n">shutter</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"shutter"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -612,7 +612,7 @@ that is likly a bug in one of the ophyd objects methods or the plan.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Our custom exception.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Our custom exception."""</span>
 </pre></div>
 </div>
 </div>
@@ -624,17 +624,17 @@ that is likly a bug in one of the ophyd objects methods or the plan.</p>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"By request, the plan will terminate."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -647,11 +647,11 @@ that is likly a bug in one of the ophyd objects methods or the plan.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start my_plan(), with terminate=False.
-Before count(), shutter.state=&#39;open&#39;.
-After my_plan(), shutter.state=&#39;close&#39;.
+Before count(), shutter.state='open'.
+After my_plan(), shutter.state='close'.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;1dbae8de-1ac2-4fbb-9fcc-e7340d98e0a7&#39;,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('1dbae8de-1ac2-4fbb-9fcc-e7340d98e0a7',)
 </pre></div>
 </div>
 </div>
@@ -672,7 +672,7 @@ MyException: Requested terminate=True
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>  <span class="c1"># caution: not recommended</span>
     <span class="n">RE</span><span class="p">(</span><span class="n">my_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -683,15 +683,15 @@ By request, the plan will terminate.
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Run aborted
 Traceback (most recent call last):
-  File &quot;/home/prjemian/Documents/projects/Bluesky/bluesky/src/bluesky/run_engine.py&quot;, line 1605, in _run
+  File "/home/prjemian/Documents/projects/Bluesky/bluesky/src/bluesky/run_engine.py", line 1605, in _run
     msg = self._plan_stack[-1].send(resp)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;/tmp/ipykernel_194270/1968779660.py&quot;, line 7, in my_plan
-    raise MyException(f&quot;Requested {terminate=}&quot;)
+  File "/tmp/ipykernel_194270/1968779660.py", line 7, in my_plan
+    raise MyException(f"Requested {terminate=}")
 MyException: Requested terminate=True
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found an exception: Requested terminate=True  shutter.state=&#39;open&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found an exception: Requested terminate=True  shutter.state='open'
 </pre></div>
 </div>
 </div>
@@ -705,9 +705,9 @@ MyException: Requested terminate=True
 <p><strong>Q</strong>: How to handle Python Exceptions?</p>
 <p>As shown above, <em>exceptions</em> are Python’s way of interrupting program execution when some condition has been detected.  Consider this simplification of our bluesky plan:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If an exception is raised (for whatever reason) when opening the shutter or counting, the call to close the shutter will not happen and the shutter will remain open.</p>
@@ -716,14 +716,14 @@ MyException: Requested terminate=True
 <h3>Python’s <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> clause<a class="headerlink" href="#python-s-try-except-else-finally-clause" title="Link to this heading">#</a></h3>
 <p>Consider this <code class="docutils literal notranslate"><span class="pre">problematic()</span></code> function which will raise an exception:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">problematic</span><span class="p">():</span>
-    <span class="k">raise</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">&quot;example of raising an exception&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">"example of raising an exception"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We can handle it with a <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clause, so that program flow can continue:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">problematic</span><span class="p">()</span>
 <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>More Reading</strong></p>
@@ -775,32 +775,32 @@ there is some <a class="reference external" href="https://youtu.be/iKzOBWOHGFE?s
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"close_the_shutter()"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"By request, the plan will terminate."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>This code is functionally equivalent to:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 <span class="k">finally</span><span class="p">:</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="always-wrap-the-plan-not-the-re">
@@ -812,12 +812,12 @@ there is some <a class="reference external" href="https://youtu.be/iKzOBWOHGFE?s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrap_the_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start wrap_the_plan()&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Start wrap_the_plan()"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -832,13 +832,13 @@ there is some <a class="reference external" href="https://youtu.be/iKzOBWOHGFE?s
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
 Start my_plan(), with terminate=False.
-Before count(), shutter.state=&#39;open&#39;.
-After my_plan(), shutter.state=&#39;open&#39;.
+Before count(), shutter.state='open'.
+After my_plan(), shutter.state='open'.
 close_the_shutter()
-Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+Finish wrap_the_plan()  shutter.state='close'
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;a96675f4-8c04-461a-adeb-e062798c1280&#39;,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('a96675f4-8c04-461a-adeb-e062798c1280',)
 </pre></div>
 </div>
 </div>
@@ -855,8 +855,8 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
 Start my_plan(), with terminate=True.
 By request, the plan will terminate.
 close_the_shutter()
-Stopped by the error: Requested terminate=True  shutter.state=&#39;close&#39;
-Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+Stopped by the error: Requested terminate=True  shutter.state='close'
+Finish wrap_the_plan()  shutter.state='close'
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
@@ -872,19 +872,19 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_except_plan</span><span class="p">(</span><span class="n">ex</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_except_plan(): </span><span class="si">{</span><span class="n">ex</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"my_except_plan(): </span><span class="si">{</span><span class="n">ex</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">my_else_plan</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_else_plan(): plan completed successfully! </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"my_else_plan(): plan completed successfully! </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"close_the_shutter()"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">contingency_decorator</span><span class="p">(</span>
@@ -893,23 +893,23 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
     <span class="n">final_plan</span><span class="o">=</span><span class="n">close_the_shutter</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"By request, the plan will terminate."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>This code is functionally equivalent to:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
@@ -917,7 +917,7 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 <span class="k">finally</span><span class="p">:</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="cell docutils container">
@@ -929,14 +929,14 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
 Start my_plan(), with terminate=False.
-Before count(), shutter.state=&#39;open&#39;.
-After my_plan(), shutter.state=&#39;open&#39;.
-my_else_plan(): plan completed successfully! shutter.state=&#39;open&#39;
+Before count(), shutter.state='open'.
+After my_plan(), shutter.state='open'.
+my_else_plan(): plan completed successfully! shutter.state='open'
 close_the_shutter()
-Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+Finish wrap_the_plan()  shutter.state='close'
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;31978648-ac39-425d-b70a-74fdfdb7948a&#39;,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('31978648-ac39-425d-b70a-74fdfdb7948a',)
 </pre></div>
 </div>
 </div>
@@ -951,10 +951,10 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
 Start my_plan(), with terminate=True.
 By request, the plan will terminate.
-my_except_plan(): ex=MyException(&#39;Requested terminate=True&#39;), shutter.state=&#39;open&#39;
+my_except_plan(): ex=MyException('Requested terminate=True'), shutter.state='open'
 close_the_shutter()
-Stopped by the error: Requested terminate=True  shutter.state=&#39;close&#39;
-Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+Stopped by the error: Requested terminate=True  shutter.state='close'
+Finish wrap_the_plan()  shutter.state='close'
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
@@ -971,12 +971,12 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">countdown</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Countdown from </span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Countdown from </span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">while</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">t</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;countdown complete.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"countdown complete."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1013,17 +1013,17 @@ countdown complete.
 <span class="k">def</span><span class="w"> </span><span class="nf">blink_shutter_thread</span><span class="p">():</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="mf">2.3</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): waiting for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): waiting for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
     <span class="n">t</span> <span class="o">=</span> <span class="mf">3.2</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): closing the shutter for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): closing the shutter for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
     <span class="n">shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): opening the shutter&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): opening the shutter"</span><span class="p">)</span>
     <span class="n">shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): ending&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): ending"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1048,7 +1048,7 @@ Suspension occurred at 2024-08-17 09:45:07.
 Justification for this suspension:
 Signal shutter_pss_state is low
 5.81s  blink_shutter(): opening the shutter
-6.08s  blink_shutter(): endingSuspender SuspendBoolLow(Signal(name=&#39;shutter_pss_state&#39;, parent=&#39;shutter&#39;, value=1, timestamp=1723905911.1114528), sleep=5, pre_plan=None, post_plan=None, tripped_message=) reports a return to nominal conditions. Will sleep for 5 seconds and then release suspension at 2024-08-17 09:45:16.
+6.08s  blink_shutter(): endingSuspender SuspendBoolLow(Signal(name='shutter_pss_state', parent='shutter', value=1, timestamp=1723905911.1114528), sleep=5, pre_plan=None, post_plan=None, tripped_message=) reports a return to nominal conditions. Will sleep for 5 seconds and then release suspension at 2024-08-17 09:45:16.
 </pre></div>
 </div>
 </div>
@@ -1072,14 +1072,14 @@ Signal shutter_pss_state is low
         <span class="k">yield from</span> <span class="n">countdown</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
 
     <span class="n">blink_shutter_thread</span><span class="p">()</span>  <span class="c1"># operate the shutter in the background</span>
     <span class="k">yield from</span> <span class="n">_plan</span><span class="p">()</span>  <span class="c1"># run the countdown plan with the shutter suspender</span>
 
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">  total execution time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">  total execution time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1092,7 +1092,7 @@ Signal shutter_pss_state is low
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shutter.state=&#39;open&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shutter.state='open'
 Countdown from t=10
 t=10
 t=9
@@ -1105,7 +1105,7 @@ t=3
 t=2
 t=1
 countdown complete.
-shutter.state=&#39;close&#39;  total execution time: 21.79 s
+shutter.state='close'  total execution time: 21.79 s
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
@@ -1119,27 +1119,27 @@ shutter.state=&#39;close&#39;  total execution time: 21.79 s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">abort_run_engine_to_idle</span><span class="p">(</span><span class="n">reason</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Programmatically aborting the RunEngine: </span><span class="si">{</span><span class="n">reason</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RE returning to idle (after the pause and error message).&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Programmatically aborting the RunEngine: </span><span class="si">{</span><span class="n">reason</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"RE returning to idle (after the pause and error message)."</span><span class="p">)</span>
     <span class="c1"># clear out any remaining tasks</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">clear_checkpoint</span><span class="p">()</span>
     <span class="c1"># pause that triggers automatic RE.abort()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
-    <span class="c1"># RE.state will be &quot;idle&quot;</span>
+    <span class="c1"># RE.state will be "idle"</span>
 
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan AND the RE will terminate.&quot;</span><span class="p">)</span>
-        <span class="k">yield from</span> <span class="n">abort_run_engine_to_idle</span><span class="p">(</span><span class="s2">&quot;On request.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"By request, the plan AND the RE will terminate."</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">abort_run_engine_to_idle</span><span class="p">(</span><span class="s2">"On request."</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1149,8 +1149,8 @@ shutter.state=&#39;close&#39;  total execution time: 21.79 s
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;caught </span><span class="si">{</span><span class="n">exinfo</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">RE</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"caught </span><span class="si">{</span><span class="n">exinfo</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">RE</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1158,14 +1158,14 @@ shutter.state=&#39;close&#39;  total execution time: 21.79 s
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
 Start my_plan(), with terminate=True.
 By request, the plan AND the RE will terminate.
-Programmatically aborting the RunEngine: reason=&#39;On request.&#39;.
+Programmatically aborting the RunEngine: reason='On request.'.
 RE returning to idle (after the pause and error message).
 Pausing...
 close_the_shutter()
-Stopped by the error:   shutter.state=&#39;open&#39;
-Finish wrap_the_plan()  shutter.state=&#39;open&#39;
-caught exinfo=RunEngineInterrupted(&quot;\nYour RunEngine is entering a paused state. These are your options for changing\nthe state of the RunEngine:\n\nRE.resume()    Resume the plan.\nRE.abort()     Perform cleanup, then kill plan. Mark exit_stats=&#39;aborted&#39;.\nRE.stop()      Perform cleanup, then kill plan. Mark exit_status=&#39;success&#39;.\nRE.halt()      Emergency Stop: Do not perform cleanup --- just stop.\n&quot;)
-RE.state=&#39;idle&#39;
+Stopped by the error:   shutter.state='open'
+Finish wrap_the_plan()  shutter.state='open'
+caught exinfo=RunEngineInterrupted("\nYour RunEngine is entering a paused state. These are your options for changing\nthe state of the RunEngine:\n\nRE.resume()    Resume the plan.\nRE.abort()     Perform cleanup, then kill plan. Mark exit_stats='aborted'.\nRE.stop()      Perform cleanup, then kill plan. Mark exit_status='success'.\nRE.halt()      Emergency Stop: Do not perform cleanup --- just stop.\n")
+RE.state='idle'
 </pre></div>
 </div>
 </div>
@@ -1199,14 +1199,14 @@ RE.state=&#39;idle&#39;
 <h4>Restore to previous values<a class="headerlink" href="#restore-to-previous-values" title="Link to this heading">#</a></h4>
 <p>To implement this feature, you’ll need to collect the values of the items to be restored before the plan is run and then restore those items after the plan finishes.  Consider <code class="docutils literal notranslate"><span class="pre">wrap_the_plan()</span></code> above, the two print statements are positioned at exactly the places we need to collect and restore, respectively:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrap_the_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start wrap_the_plan()&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Start wrap_the_plan()"</span><span class="p">)</span>
     <span class="n">safe_settings</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">collect_safe_settings</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">restore_safe_settings</span><span class="p">(</span><span class="n">safe_settings</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In this case, <code class="docutils literal notranslate"><span class="pre">safe_settings</span></code> is some Python structure (list, dictionary, class instance) with the values defined by the context.  Here, it is a dictionary with the ophyd objects used as the dictionary’s keys:</p>
@@ -1219,7 +1219,7 @@ RE.state=&#39;idle&#39;
         <span class="n">settings</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">position</span>
     <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="p">[</span><span class="n">amp1</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span> <span class="n">mono</span><span class="o">.</span><span class="n">feedback</span><span class="p">,</span> <span class="n">heater</span><span class="o">.</span><span class="n">setpoint</span><span class="p">]:</span>
         <span class="n">settings</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="n">settings</span><span class="p">[</span><span class="n">heater</span><span class="o">.</span><span class="n">power</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>  <span class="c1"># override</span>
+    <span class="n">settings</span><span class="p">[</span><span class="n">heater</span><span class="o">.</span><span class="n">power</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"off"</span>  <span class="c1"># override</span>
     <span class="k">return</span> <span class="n">settings</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">restore_safe_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
@@ -1236,18 +1236,18 @@ RE.state=&#39;idle&#39;
 <h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
 <p>Started with a plan:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Added <code class="docutils literal notranslate"><span class="pre">finalize_decorator</span></code> (or <code class="docutils literal notranslate"><span class="pre">contingency_decorator</span></code>) to ensure the shutter would always be closed after the plan:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -1257,7 +1257,7 @@ RE.state=&#39;idle&#39;
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Report the exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Report the exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">restore_safe_settings</span><span class="p">(</span><span class="n">safe_settings</span><span class="p">)</span>
 </pre></div>
 </div>

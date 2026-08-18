@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.synth_pseudo_voigt</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Synthetic pseudo-Voigt function</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -448,10 +448,10 @@
 
 <span class="sd">    from apstools.devices import SynPseudoVoigt</span>
 <span class="sd">    from ophyd.sim import motor</span>
-<span class="sd">    det = SynPseudoVoigt(&#39;det&#39;, motor, &#39;motor&#39;,</span>
+<span class="sd">    det = SynPseudoVoigt('det', motor, 'motor',</span>
 <span class="sd">        center=0, eta=0.5, scale=1, sigma=1, bkg=0)</span>
 
-<span class="sd">    # scan the &quot;det&quot; peak with the &quot;motor&quot; positioner</span>
+<span class="sd">    # scan the "det" peak with the "motor" positioner</span>
 <span class="sd">    # RE(bp.scan([det], motor, -2, 2, 41))</span>
 
 
@@ -462,20 +462,20 @@
 <span class="sd">    import numpy as np</span>
 <span class="sd">    from apstools.devices import SynPseudoVoigt</span>
 <span class="sd">    synthetic_pseudovoigt = SynPseudoVoigt(</span>
-<span class="sd">        &#39;synthetic_pseudovoigt&#39;, m1, &#39;m1&#39;,</span>
+<span class="sd">        'synthetic_pseudovoigt', m1, 'm1',</span>
 <span class="sd">        center=-1.5 + 0.5*np.random.uniform(),</span>
 <span class="sd">        eta=0.2 + 0.5*np.random.uniform(),</span>
 <span class="sd">        sigma=0.001 + 0.05*np.random.uniform(),</span>
 <span class="sd">        scale=1e5,</span>
 <span class="sd">        bkg=0.01*np.random.uniform())</span>
 
-<span class="sd">    # scan the &quot;synthetic_pseudovoigt&quot; peak with the &quot;m1&quot; positioner</span>
+<span class="sd">    # scan the "synthetic_pseudovoigt" peak with the "m1" positioner</span>
 <span class="sd">    # RE(bp.scan([synthetic_pseudovoigt], m1, -2, 0, 219))</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~SynPseudoVoigt</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">ophyd.sim</span>
@@ -484,7 +484,7 @@
 <div class="viewcode-block" id="SynPseudoVoigt">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/synth_pseudo_voigt/index.html#apstools.devices.synth_pseudo_voigt.SynPseudoVoigt">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SynPseudoVoigt</span><span class="p">(</span><span class="n">ophyd</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">SynSignal</span><span class="p">):</span>  <span class="c1"># lgtm [py/missing-call-to-init]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate a point on a pseudo-Voigt based on the value of a motor.</span>
 
 <span class="sd">    .. index:: Ophyd Signal; SynPseudoVoigt</span>
@@ -517,12 +517,12 @@
 <span class="sd">    bkg *float* :</span>
 <span class="sd">        (optional)</span>
 <span class="sd">        bkg &gt;= 0 : constant background, default=0</span>
-<span class="sd">    noise ``&quot;poisson&quot;`` or ``&quot;uniform&quot;`` or ``None`` :</span>
+<span class="sd">    noise ``"poisson"`` or ``"uniform"`` or ``None`` :</span>
 <span class="sd">        Add noise to the result.</span>
 <span class="sd">    noise_multiplier *float* :</span>
-<span class="sd">        Only relevant for &#39;uniform&#39; noise. Multiply the random amount of</span>
-<span class="sd">        noise by &#39;noise_multiplier&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Only relevant for 'uniform' noise. Multiply the random amount of</span>
+<span class="sd">        noise by 'noise_multiplier'</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="c1"># fmt: off</span>
@@ -541,13 +541,13 @@
         <span class="c1"># fmt: on</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">eta</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">eta</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;eta=</span><span class="si">{}</span><span class="s2"> must be between 0 and 1&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eta</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"eta=</span><span class="si">{}</span><span class="s2"> must be between 0 and 1"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eta</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;scale must be &gt;= 1&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"scale must be &gt;= 1"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be &gt; 0&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"sigma must be &gt; 0"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bkg</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bkg must be &gt;= 0&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"bkg must be &gt;= 0"</span><span class="p">)</span>
 
         <span class="c1"># remember these terms for later access by user</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -571,7 +571,7 @@
             <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pvoigt</span><span class="p">():</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">motor</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">motor_field</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">motor</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">motor_field</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span>
             <span class="n">g_max</span> <span class="o">=</span> <span class="n">f_gaussian</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>  <span class="c1"># peak normalization</span>
             <span class="n">l_max</span> <span class="o">=</span> <span class="n">f_lorentzian</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
             <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span>
@@ -580,9 +580,9 @@
             <span class="k">if</span> <span class="n">eta</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">)</span> <span class="o">*</span> <span class="n">f_gaussian</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span> <span class="o">/</span> <span class="n">g_max</span>
             <span class="n">v</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">==</span> <span class="s2">&quot;poisson&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">==</span> <span class="s2">"poisson"</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">==</span> <span class="s2">"uniform"</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_multiplier</span>
             <span class="k">return</span> <span class="n">v</span>
 
@@ -591,15 +591,15 @@
 <div class="viewcode-block" id="SynPseudoVoigt.randomize_parameters">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/synth_pseudo_voigt/index.html#apstools.devices.synth_pseudo_voigt.SynPseudoVoigt.randomize_parameters">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">randomize_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set random parameters. -1 &lt;= center &lt; 1, 0.001 &lt;= sigma &lt; 0.051, 95k &lt;= scale &lt;= 105k</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="o">+</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.95</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span> <span class="o">=</span> <span class="n">bkg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="s2">&quot;poisson&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="s2">"poisson"</span></div>
 </div>
 
 

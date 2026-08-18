@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -452,13 +452,13 @@
 <div class="viewcode-block" id="mesh_list_grid_scan">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/xpcs_mesh/index.html#apstools.plans.xpcs_mesh.mesh_list_grid_scan">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mesh_list_grid_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">number_of_collection_points</span><span class="p">,</span> <span class="n">snake_axes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">per_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Scan over a multi-dimensional mesh, collecting a total of *n* points; each motor is on an independent trajectory.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    detectors: list</span>
-<span class="sd">        list of &#39;readable&#39; objects</span>
+<span class="sd">        list of 'readable' objects</span>
 <span class="sd">    args: list</span>
 <span class="sd">        patterned like (``motor1, position_list1,``</span>
 <span class="sd">                        ``motor2, position_list2,``</span>
@@ -466,19 +466,19 @@
 <span class="sd">                        ``...,``</span>
 <span class="sd">                        ``motorN, position_listN``)</span>
 
-<span class="sd">        The first motor is the &quot;slowest&quot;, the outer loop. ``position_list``&#39;s</span>
+<span class="sd">        The first motor is the "slowest", the outer loop. ``position_list``'s</span>
 <span class="sd">        are lists of positions, all lists must have the same length. Motors</span>
-<span class="sd">        can be any &#39;settable&#39; object (motor, temp controller, etc.).</span>
+<span class="sd">        can be any 'settable' object (motor, temp controller, etc.).</span>
 <span class="sd">    number_of_collection_points: int</span>
 <span class="sd">        The total number of collection points that must be collected within the</span>
 <span class="sd">        grid until the scan is ready to stop.</span>
 <span class="sd">    snake_axes: boolean or iterable, optional</span>
 <span class="sd">        which axes should be snaked, either ``False`` (do not snake any axes),</span>
-<span class="sd">        ``True`` (snake all axes) or a list of axes to snake. &quot;Snaking&quot; an axis</span>
+<span class="sd">        ``True`` (snake all axes) or a list of axes to snake. "Snaking" an axis</span>
 <span class="sd">        is defined as following snake-like, winding trajectory instead of a</span>
 <span class="sd">        simple left-to-right trajectory.The elements of the list are motors</span>
 <span class="sd">        that are listed in `args`. The list must not contain the slowest</span>
-<span class="sd">        (first) motor, since it can&#39;t be snaked.</span>
+<span class="sd">        (first) motor, since it can't be snaked.</span>
 <span class="sd">    per_step: callable, optional</span>
 <span class="sd">        hook for customizing action of inner loop (messages per step).</span>
 <span class="sd">        See docstring of :func:`bluesky.plan_stubs.one_nd_step` (the default)</span>
@@ -491,7 +491,7 @@
 <span class="sd">    :func:`bluesky.plans.rel_list_grid_scan`</span>
 <span class="sd">    :func:`bluesky.plans.list_scan`</span>
 <span class="sd">    :func:`bluesky.plans.rel_list_scan`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">full_cycler</span> <span class="o">=</span> <span class="n">plan_patterns</span><span class="o">.</span><span class="n">outer_list_product</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">snake_axes</span><span class="p">)</span>
 
@@ -503,20 +503,20 @@
         <span class="n">motor_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">motors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor</span><span class="p">)</span>
     <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos_list</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span><span class="p">,</span> <span class="n">pos_list</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">args</span><span class="p">)),</span>
-        <span class="s2">&quot;extents&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">pos_list</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pos_list</span><span class="p">)]</span> <span class="k">for</span> <span class="n">motor</span><span class="p">,</span> <span class="n">pos_list</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">args</span><span class="p">)),</span>
-        <span class="s2">&quot;snake_axes&quot;</span><span class="p">:</span> <span class="n">snake_axes</span><span class="p">,</span>
-        <span class="s2">&quot;plan_args&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;detectors&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">detectors</span><span class="p">)),</span> <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="n">md_args</span><span class="p">,</span> <span class="s2">&quot;per_step&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">per_step</span><span class="p">)},</span>
-        <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="s2">&quot;list_grid_scan&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;plan_pattern&quot;</span><span class="p">:</span> <span class="s2">&quot;outer_list_product&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;plan_pattern_args&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">md_args</span><span class="p">,</span> <span class="n">snake_axes</span><span class="o">=</span><span class="n">snake_axes</span><span class="p">),</span>
-        <span class="s2">&quot;plan_pattern_module&quot;</span><span class="p">:</span> <span class="n">plan_patterns</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-        <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">motor_names</span><span class="p">),</span>
-        <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"shape"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos_list</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span><span class="p">,</span> <span class="n">pos_list</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">args</span><span class="p">)),</span>
+        <span class="s2">"extents"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">pos_list</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pos_list</span><span class="p">)]</span> <span class="k">for</span> <span class="n">motor</span><span class="p">,</span> <span class="n">pos_list</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">args</span><span class="p">)),</span>
+        <span class="s2">"snake_axes"</span><span class="p">:</span> <span class="n">snake_axes</span><span class="p">,</span>
+        <span class="s2">"plan_args"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"detectors"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">detectors</span><span class="p">)),</span> <span class="s2">"args"</span><span class="p">:</span> <span class="n">md_args</span><span class="p">,</span> <span class="s2">"per_step"</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">per_step</span><span class="p">)},</span>
+        <span class="s2">"plan_name"</span><span class="p">:</span> <span class="s2">"list_grid_scan"</span><span class="p">,</span>
+        <span class="s2">"plan_pattern"</span><span class="p">:</span> <span class="s2">"outer_list_product"</span><span class="p">,</span>
+        <span class="s2">"plan_pattern_args"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">md_args</span><span class="p">,</span> <span class="n">snake_axes</span><span class="o">=</span><span class="n">snake_axes</span><span class="p">),</span>
+        <span class="s2">"plan_pattern_module"</span><span class="p">:</span> <span class="n">plan_patterns</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="s2">"motors"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">motor_names</span><span class="p">),</span>
+        <span class="s2">"hints"</span><span class="p">:</span> <span class="p">{},</span>
     <span class="p">}</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;hints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;dimensions&quot;</span><span class="p">,</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">],</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">])</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"hints"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dimensions"</span><span class="p">,</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">"fields"</span><span class="p">],</span> <span class="s2">"primary"</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">])</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
         <span class="o">...</span>
 
@@ -529,7 +529,7 @@
 <div class="viewcode-block" id="mesh_scan_nd">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/xpcs_mesh/index.html#apstools.plans.xpcs_mesh.mesh_scan_nd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mesh_scan_nd</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">cycler</span><span class="p">,</span> <span class="n">number_of_collection_points</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">per_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Scan over an arbitrary N-dimensional trajectory.</span>
 
 <span class="sd">    Parameters</span>
@@ -557,21 +557,21 @@
 <span class="sd">    &gt;&gt;&gt; from cycler import cycler</span>
 <span class="sd">    &gt;&gt;&gt; cy = cycler(motor1, [1, 2, 3]) * cycler(motor2, [4, 5, 6])</span>
 <span class="sd">    &gt;&gt;&gt; scan_nd([sensor], cy)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;detectors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">det</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">detectors</span><span class="p">],</span>
-        <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">motor</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">cycler</span><span class="o">.</span><span class="n">keys</span><span class="p">],</span>
-        <span class="s2">&quot;num_points&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycler</span><span class="p">),</span>
-        <span class="s2">&quot;num_intervals&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycler</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">&quot;plan_args&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;detectors&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">detectors</span><span class="p">)),</span> <span class="s2">&quot;cycler&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">cycler</span><span class="p">),</span> <span class="s2">&quot;per_step&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">per_step</span><span class="p">)},</span>
-        <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="s2">&quot;scan_nd&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"detectors"</span><span class="p">:</span> <span class="p">[</span><span class="n">det</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">detectors</span><span class="p">],</span>
+        <span class="s2">"motors"</span><span class="p">:</span> <span class="p">[</span><span class="n">motor</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">cycler</span><span class="o">.</span><span class="n">keys</span><span class="p">],</span>
+        <span class="s2">"num_points"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycler</span><span class="p">),</span>
+        <span class="s2">"num_intervals"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycler</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"plan_args"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"detectors"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">detectors</span><span class="p">)),</span> <span class="s2">"cycler"</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">cycler</span><span class="p">),</span> <span class="s2">"per_step"</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">per_step</span><span class="p">)},</span>
+        <span class="s2">"plan_name"</span><span class="p">:</span> <span class="s2">"scan_nd"</span><span class="p">,</span>
+        <span class="s2">"hints"</span><span class="p">:</span> <span class="p">{},</span>
     <span class="p">}</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">motor</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">],</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">cycler</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">motor</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">"fields"</span><span class="p">],</span> <span class="s2">"primary"</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">cycler</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
-        <span class="c1"># Not all motors provide a &#39;fields&#39; hint, so we have to skip it.</span>
+        <span class="c1"># Not all motors provide a 'fields' hint, so we have to skip it.</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># We know that hints exists. Either:</span>
@@ -579,9 +579,9 @@
         <span class="c1">#  - the user did not pass it in and we got the default {}</span>
         <span class="c1"># If the user supplied hints includes a dimension entry, do not</span>
         <span class="c1"># change it, else set it to the one generated above</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;hints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;dimensions&quot;</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"hints"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dimensions"</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">)</span>
 
-    <span class="n">predeclare</span> <span class="o">=</span> <span class="n">per_step</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BLUESKY_PREDECLARE&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">predeclare</span> <span class="o">=</span> <span class="n">per_step</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"BLUESKY_PREDECLARE"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">per_step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">per_step</span> <span class="o">=</span> <span class="n">bps</span><span class="o">.</span><span class="n">one_nd_step</span>
     <span class="k">else</span><span class="p">:</span>
@@ -607,21 +607,21 @@
 
         <span class="k">if</span> <span class="n">sig</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">bps</span><span class="o">.</span><span class="n">one_nd_step</span><span class="p">):</span>
             <span class="k">pass</span>
-        <span class="k">elif</span> <span class="n">_verify_step</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_cache&quot;</span><span class="p">]):</span>
+        <span class="k">elif</span> <span class="n">_verify_step</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="p">[</span><span class="s2">"detectors"</span><span class="p">,</span> <span class="s2">"step"</span><span class="p">,</span> <span class="s2">"pos_cache"</span><span class="p">]):</span>
             <span class="c1"># check other signature for back-compatibility</span>
             <span class="k">pass</span>
 
-        <span class="k">elif</span> <span class="n">_verify_step</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">]):</span>
+        <span class="k">elif</span> <span class="n">_verify_step</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="p">[</span><span class="s2">"detectors"</span><span class="p">,</span> <span class="s2">"motor"</span><span class="p">,</span> <span class="s2">"step"</span><span class="p">]):</span>
             <span class="c1"># Accept this signature for back-compat reasons (because</span>
             <span class="c1"># inner_product_scan was renamed scan).</span>
             <span class="n">dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">cycler</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">dims</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Signature of per_step assumes 1D trajectory but </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2"> motors are specified.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Signature of per_step assumes 1D trajectory but </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2"> motors are specified."</span><span class="p">)</span>
             <span class="p">(</span><span class="n">motor</span><span class="p">,)</span> <span class="o">=</span> <span class="n">cycler</span><span class="o">.</span><span class="n">keys</span>
             <span class="n">user_per_step</span> <span class="o">=</span> <span class="n">per_step</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">adapter</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pos_cache</span><span class="p">):</span>
-                <span class="c1"># one_nd_step &#39;step&#39; parameter is a dict; one_id_step &#39;step&#39;</span>
+                <span class="c1"># one_nd_step 'step' parameter is a dict; one_id_step 'step'</span>
                 <span class="c1"># parameter is a value</span>
                 <span class="p">(</span><span class="n">step</span><span class="p">,)</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
                 <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">user_per_step</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">step</span><span class="p">))</span>
@@ -629,10 +629,10 @@
             <span class="n">per_step</span> <span class="o">=</span> <span class="n">adapter</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;per_step must be a callable with the signature </span><span class="se">\n</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;&lt;Signature (detectors, step, pos_cache)&gt; or &quot;</span>
-                <span class="s2">&quot;&lt;Signature (detectors, motor, step)&gt;. </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;per_step signature received: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+                <span class="s2">"per_step must be a callable with the signature </span><span class="se">\n</span><span class="s2"> "</span>
+                <span class="s2">"&lt;Signature (detectors, step, pos_cache)&gt; or "</span>
+                <span class="s2">"&lt;Signature (detectors, motor, step)&gt;. </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"per_step signature received: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
             <span class="p">)</span>
     <span class="n">pos_cache</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># where last position is stashed</span>
     <span class="n">cycler</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">merge_cycler</span><span class="p">(</span><span class="n">cycler</span><span class="p">)</span>
@@ -641,11 +641,11 @@
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span> <span class="o">+</span> <span class="n">motors</span><span class="p">)</span>
     <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scan_until_completion</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Scanning until the total number of required collection points is achieved</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">predeclare</span><span class="p">:</span>
-            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">motors</span><span class="p">,</span> <span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">motors</span><span class="p">,</span> <span class="o">*</span><span class="n">detectors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"primary"</span><span class="p">)</span>
 
         <span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">cycle</span><span class="p">(</span><span class="n">cycler</span><span class="p">):</span>

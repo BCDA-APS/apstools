@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.tracking_signal</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Tracking Signal for Device coordination</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~TrackingSignal</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signal</span>
 
@@ -451,27 +451,27 @@
 <div class="viewcode-block" id="TrackingSignal">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/tracking_signal/index.html#apstools.devices.tracking_signal.TrackingSignal">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TrackingSignal</span><span class="p">(</span><span class="n">Signal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Non-EPICS signal for use when coordinating Device actions.</span>
 
 <span class="sd">    .. index:: Ophyd Signal; TrackingSignal</span>
 
 <span class="sd">    Signal to decide if undulator will be tracked while changing the</span>
 <span class="sd">    monochromator energy.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TrackingSignal.check_value">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/tracking_signal/index.html#apstools.devices.tracking_signal.TrackingSignal.check_value">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">check_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Check if the value is a boolean.</span>
 
 <span class="sd">        RAISES</span>
 
 <span class="sd">        ValueError</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;tracking is boolean, it can only be True or False.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"tracking is boolean, it can only be True or False."</span><span class="p">)</span></div>
 </div>
 
 

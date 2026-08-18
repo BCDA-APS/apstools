@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.scaler_support</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Scaler support</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~use_EPICS_scaler_channels</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">epics</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsScaler</span>
@@ -456,16 +456,16 @@
 <div class="viewcode-block" id="use_EPICS_scaler_channels">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/scaler_support/index.html#apstools.devices.scaler_support.use_EPICS_scaler_channels">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">use_EPICS_scaler_channels</span><span class="p">(</span><span class="n">scaler</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    configure scaler for only the channels with names assigned in EPICS</span>
 
 <span class="sd">    Note: For `ScalerCH`, use `scaler.select_channels(None)` instead of this code.</span>
 <span class="sd">    (Applies only to `ophyd.scaler.ScalerCH` in releases after 2019-02-27.)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="n">EpicsScaler</span><span class="p">):</span>
         <span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">scaler</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
-            <span class="n">_nam</span> <span class="o">=</span> <span class="n">epics</span><span class="o">.</span><span class="n">caget</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scaler</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.NM</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">_nam</span> <span class="o">=</span> <span class="n">epics</span><span class="o">.</span><span class="n">caget</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">scaler</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.NM</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_nam</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
         <span class="n">scaler</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="n">read_attrs</span>
@@ -479,9 +479,9 @@
             <span class="k">if</span> <span class="n">nm_pv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">nm_pv</span><span class="o">.</span><span class="n">chname</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
                 <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
-                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">&quot;.chname&quot;</span><span class="p">)</span>
-                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">&quot;.preset&quot;</span><span class="p">)</span>
-                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">&quot;.gate&quot;</span><span class="p">)</span>
+                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">".chname"</span><span class="p">)</span>
+                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">".preset"</span><span class="p">)</span>
+                <span class="n">configuration_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s2">".gate"</span><span class="p">)</span>
         <span class="n">scaler</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="n">read_attrs</span>
         <span class="n">scaler</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">configuration_attrs</span> <span class="o">=</span> <span class="n">configuration_attrs</span></div>
 

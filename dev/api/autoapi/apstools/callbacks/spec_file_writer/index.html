@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -615,16 +615,16 @@
 <p>Execution of this plan (with <code class="docutils literal notranslate"><span class="pre">RE(myPlan())</span></code>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myPlan</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">()</span>
-    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">&quot;this is a start document comment&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">)</span>
-    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">&quot;this is a descriptor document comment&quot;</span><span class="p">,</span> <span class="s2">&quot;descriptor&quot;</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="n">bps</span><span class="o">.</span><span class="n">Msg</span><span class="p">(</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">)</span>
+    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">"this is a start document comment"</span><span class="p">,</span> <span class="s2">"start"</span><span class="p">)</span>
+    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">"this is a descriptor document comment"</span><span class="p">,</span> <span class="s2">"descriptor"</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">bps</span><span class="o">.</span><span class="n">Msg</span><span class="p">(</span><span class="s1">'checkpoint'</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">([</span><span class="n">scaler</span><span class="p">])</span>
-    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">&quot;this is an event document comment after the first read&quot;</span><span class="p">)</span>
+    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">"this is an event document comment after the first read"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="n">bps</span><span class="o">.</span><span class="n">Msg</span><span class="p">(</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">bps</span><span class="o">.</span><span class="n">Msg</span><span class="p">(</span><span class="s1">'checkpoint'</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">([</span><span class="n">scaler</span><span class="p">])</span>
-    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">&quot;this is an event document comment after the second read&quot;</span><span class="p">)</span>
-    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">&quot;this is a stop document comment&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">)</span>
+    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">"this is an event document comment after the second read"</span><span class="p">)</span>
+    <span class="n">spec_comment</span><span class="p">(</span><span class="s2">"this is a stop document comment"</span><span class="p">,</span> <span class="s2">"stop"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">close_run</span><span class="p">()</span>
 </pre></div>
 </div>

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.callbacks.doc_collector</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Document Collector</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -444,7 +444,7 @@
 
 <span class="sd">   ~DocumentCollectorCallback</span>
 <span class="sd">   ~document_contents_callback</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -455,19 +455,19 @@
 <div class="viewcode-block" id="document_contents_callback">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/doc_collector/index.html#apstools.callbacks.doc_collector.document_contents_callback">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">document_contents_callback</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    prints document contents -- use for diagnosing a document stream</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="DocumentCollectorCallback">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/doc_collector/index.html#apstools.callbacks.doc_collector.DocumentCollectorCallback">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DocumentCollectorCallback</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Bluesky callback to collect *all* documents from most-recent plan</span>
 
 <span class="sd">    .. index:: Bluesky Callback; DocumentCollectorCallback</span>
@@ -482,11 +482,11 @@
 <span class="sd">        ...</span>
 <span class="sd">        RE(some_plan())</span>
 <span class="sd">        print(doc_collector.uids)</span>
-<span class="sd">        print(doc_collector.documents[&quot;stop&quot;])</span>
+<span class="sd">        print(doc_collector.documents["stop"])</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">data_event_names</span> <span class="o">=</span> <span class="s2">&quot;descriptor event resource datum bulk_events&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">data_event_names</span> <span class="o">=</span> <span class="s2">"descriptor event resource datum bulk_events"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">documents</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># key: name, value: document</span>
@@ -495,27 +495,27 @@
 <div class="viewcode-block" id="DocumentCollectorCallback.receiver">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/doc_collector/index.html#apstools.callbacks.doc_collector.DocumentCollectorCallback.receiver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">document</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;keep all documents from recent plan in memory&quot;&quot;&quot;</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;datum_id&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""keep all documents from recent plan in memory"""</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"uid"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"datum_id"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;No uid in &#39;</span><span class="si">{}</span><span class="s2">&#39; document&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">"No uid in '</span><span class="si">{}</span><span class="s2">' document"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> document  uid=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> document  uid=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"start"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">documents</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">document</span><span class="p">}</span>
         <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_event_names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"stop"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">document</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;exit status: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">document</span><span class="p">[</span><span class="s2">&quot;exit_status&quot;</span><span class="p">])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"exit status: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">document</span><span class="p">[</span><span class="s2">"exit_status"</span><span class="p">])</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_event_names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;#documents=</span><span class="si">%d</span><span class="s2">:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">item</span><span class="p">]))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"#documents=</span><span class="si">%d</span><span class="s2">:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">item</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;custom_callback encountered: </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span>
+            <span class="n">txt</span> <span class="o">=</span> <span class="s2">"custom_callback encountered: </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">document</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>

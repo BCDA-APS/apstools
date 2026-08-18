@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.simulated_controllers</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Simulate process controllers as positioners using EPICS records.</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~SimulatedSwaitControllerPositioner</span>
 <span class="sd">    ~SimulatedTransformControllerPositioner</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
@@ -457,7 +457,7 @@
 <div class="viewcode-block" id="SimulatedSwaitControllerPositioner">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SimulatedSwaitControllerPositioner</span><span class="p">(</span><span class="n">PVPositionerSoftDoneWithStop</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Simulated process controller as positioner with EPICS swait record.</span>
 
 <span class="sd">    The swait record completes the feedback loop, computing</span>
@@ -466,9 +466,9 @@
 <span class="sd">    Example with ``swait`` record::</span>
 
 <span class="sd">        controller = SimulatedSwaitControllerPositioner(</span>
-<span class="sd">            &quot;&quot;,</span>
-<span class="sd">            name=&quot;controller&quot;,</span>
-<span class="sd">            loop_pv=&quot;gp:userCalc1&quot;,</span>
+<span class="sd">            "",</span>
+<span class="sd">            name="controller",</span>
+<span class="sd">            loop_pv="gp:userCalc1",</span>
 <span class="sd">        )</span>
 <span class="sd">        controller.wait_for_connection()</span>
 <span class="sd">        controller.setup(25)</span>
@@ -476,18 +476,18 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~setup</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">loop</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">SwaitRecord</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{loop_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">SwaitRecord</span><span class="p">,</span> <span class="s2">"</span><span class="si">{loop_pv}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_pv</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must supply a value for &#39;loop_pv&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must supply a value for 'loop_pv'."</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">loop_pv</span> <span class="o">=</span> <span class="n">loop_pv</span>
 
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;readback_pv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.VAL&quot;</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;setpoint_pv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.B&quot;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"readback_pv"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.VAL"</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"setpoint_pv"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.B"</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -496,15 +496,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">setpoint</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;controller&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"controller"</span><span class="p">,</span>
         <span class="n">noise</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">period</span><span class="o">=</span><span class="s2">&quot;1 second&quot;</span><span class="p">,</span>
+        <span class="n">period</span><span class="o">=</span><span class="s2">"1 second"</span><span class="p">,</span>
         <span class="n">max_change</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">tolerance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Configure the swait record as a process controller.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
 
         <span class="n">swait</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span>
@@ -520,7 +520,7 @@
         <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
         <span class="n">swait</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">swait</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">setpoint</span><span class="p">)</span>  <span class="c1"># preset initial value</span>
-        <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;A+max(-D,min(D,(B-A)))+C*(RNDM-0.5)&quot;</span><span class="p">)</span></div>
+        <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"A+max(-D,min(D,(B-A)))+C*(RNDM-0.5)"</span><span class="p">)</span></div>
 </div>
 
 
@@ -528,16 +528,16 @@
 <div class="viewcode-block" id="SimulatedTransformControllerPositioner">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/simulated_controllers/index.html#apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SimulatedTransformControllerPositioner</span><span class="p">(</span><span class="n">PVPositionerSoftDoneWithStop</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Simulated process controller as positioner with EPICS transform record.</span>
 
 <span class="sd">    The transform record completes the feedback loop, computing the next</span>
-<span class="sd">    simulated controller reading and reporting if the readback is &quot;in position&quot;.</span>
+<span class="sd">    simulated controller reading and reporting if the readback is "in position".</span>
 
 <span class="sd">    Example with ``transform`` record::</span>
 
 <span class="sd">        controller = SimulatedTransformControllerPositioner(</span>
-<span class="sd">            &quot;&quot;, name=&quot;controller&quot;, loop_pv=&quot;gp:userTran1&quot;,</span>
+<span class="sd">            "", name="controller", loop_pv="gp:userTran1",</span>
 <span class="sd">        )</span>
 <span class="sd">        controller.wait_for_connection()</span>
 <span class="sd">        controller.setup(25)</span>
@@ -545,18 +545,18 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~setup</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">loop</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">TransformRecord</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{loop_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">TransformRecord</span><span class="p">,</span> <span class="s2">"</span><span class="si">{loop_pv}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_pv</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_pv</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must supply a value for &#39;loop_pv&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must supply a value for 'loop_pv'."</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">loop_pv</span> <span class="o">=</span> <span class="n">loop_pv</span>
 
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;readback_pv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.H&quot;</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;setpoint_pv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.B&quot;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"readback_pv"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.H"</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"setpoint_pv"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loop_pv</span><span class="si">}</span><span class="s2">.B"</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -567,15 +567,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">setpoint</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;controller&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"controller"</span><span class="p">,</span>
         <span class="n">noise</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">period</span><span class="o">=</span><span class="s2">&quot;1 second&quot;</span><span class="p">,</span>
+        <span class="n">period</span><span class="o">=</span><span class="s2">"1 second"</span><span class="p">,</span>
         <span class="n">max_change</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">tolerance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Configure the transform record as a process controller.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
 
@@ -585,37 +585,37 @@
 
         <span class="n">transform</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;last readback&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"last readback"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">setpoint</span><span class="p">)</span>  <span class="c1"># readback</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;setpoint&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"setpoint"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">setpoint</span><span class="p">)</span>  <span class="c1"># setpoint</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;noise level&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"noise level"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;max_change&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"max_change"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">max_change</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;following error&quot;</span><span class="p">)</span>
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;B-A&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"following error"</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"B-A"</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;max(-D,min(D,E))&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"step"</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"max(-D,min(D,E))"</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;noise&quot;</span><span class="p">)</span>
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;C*(RNDM-0.5)&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"noise"</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"C*(RNDM-0.5)"</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;readback&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"readback"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">setpoint</span><span class="p">)</span>  <span class="c1"># preset initial value</span>
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;A+F+G&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"A+F+G"</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">I</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;tolerance&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">I</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"tolerance"</span><span class="p">)</span>
         <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">I</span><span class="o">.</span><span class="n">current_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
 
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">J</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;in position&quot;</span><span class="p">)</span>
-        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">J</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;abs(H-B)&lt;=I&quot;</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">J</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"in position"</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">J</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"abs(H-B)&lt;=I"</span><span class="p">)</span>
 
         <span class="n">transform</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 

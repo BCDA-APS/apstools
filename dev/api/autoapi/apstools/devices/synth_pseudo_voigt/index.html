@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -616,10 +616,10 @@
 <div class="code-block-caption"><span class="caption-text">Simple example of SynPseudoVoigt().</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SynPseudoVoigt</span>
 <span class="linenos">2</span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor</span>
-<span class="linenos">3</span><span class="n">det</span> <span class="o">=</span> <span class="n">SynPseudoVoigt</span><span class="p">(</span><span class="s1">&#39;det&#39;</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="s1">&#39;motor&#39;</span><span class="p">,</span>
+<span class="linenos">3</span><span class="n">det</span> <span class="o">=</span> <span class="n">SynPseudoVoigt</span><span class="p">(</span><span class="s1">'det'</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="s1">'motor'</span><span class="p">,</span>
 <span class="linenos">4</span>    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="linenos">5</span>
-<span class="linenos">6</span><span class="c1"># scan the &quot;det&quot; peak with the &quot;motor&quot; positioner</span>
+<span class="linenos">6</span><span class="c1"># scan the "det" peak with the "motor" positioner</span>
 <span class="linenos">7</span><span class="c1"># RE(bp.scan([det], motor, -2, 2, 41))</span>
 </pre></div>
 </div>
@@ -629,14 +629,14 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SynPseudoVoigt</span>
 <span class="linenos"> 3</span><span class="n">synthetic_pseudovoigt</span> <span class="o">=</span> <span class="n">SynPseudoVoigt</span><span class="p">(</span>
-<span class="linenos"> 4</span>    <span class="s1">&#39;synthetic_pseudovoigt&#39;</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span>
+<span class="linenos"> 4</span>    <span class="s1">'synthetic_pseudovoigt'</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="s1">'m1'</span><span class="p">,</span>
 <span class="linenos"> 5</span>    <span class="n">center</span><span class="o">=-</span><span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
 <span class="linenos"> 6</span>    <span class="n">eta</span><span class="o">=</span><span class="mf">0.2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
 <span class="linenos"> 7</span>    <span class="n">sigma</span><span class="o">=</span><span class="mf">0.001</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
 <span class="linenos"> 8</span>    <span class="n">scale</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
 <span class="linenos"> 9</span>    <span class="n">bkg</span><span class="o">=</span><span class="mf">0.01</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">())</span>
 <span class="linenos">10</span>
-<span class="linenos">11</span><span class="c1"># scan the &quot;synthetic_pseudovoigt&quot; peak with the &quot;m1&quot; positioner</span>
+<span class="linenos">11</span><span class="c1"># scan the "synthetic_pseudovoigt" peak with the "m1" positioner</span>
 <span class="linenos">12</span><span class="c1"># RE(bp.scan([synthetic_pseudovoigt], m1, -2, 0, 219))</span>
 </pre></div>
 </div>

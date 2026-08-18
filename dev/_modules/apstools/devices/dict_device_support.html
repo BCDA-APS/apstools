@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.dict_device_support</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">DictionaryDevice</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -447,7 +447,7 @@
 
 <span class="sd">    ~dict_device_factory</span>
 <span class="sd">    ~make_dict_device</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
@@ -460,25 +460,25 @@
 <div class="viewcode-block" id="dict_device_factory">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.dict_device_factory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dict_device_factory</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{}):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a DictionaryDevice class using the supplied dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">component_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">fc</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;DictionaryDevice&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Device</span><span class="p">,),</span> <span class="n">component_dict</span><span class="p">)</span>
+    <span class="n">fc</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">"DictionaryDevice"</span><span class="p">,</span> <span class="p">(</span><span class="n">Device</span><span class="p">,),</span> <span class="n">component_dict</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fc</span></div>
 
 
 
 <div class="viewcode-block" id="make_dict_device">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/dict_device_support/index.html#apstools.devices.dict_device_support.make_dict_device">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.4&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">make_dict_device</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ddev&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.4"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_dict_device</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"ddev"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Make recordable DictionaryDevice instance from dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">standardize</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make obj look like .read()&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Make obj look like .read()"""</span>
         <span class="n">d_new</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># new timestamps will be the same</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -486,7 +486,7 @@
             <span class="c1"># Same structure as from Signal.read()?</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="s2">&quot;value timestamp&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+                <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="s2">"value timestamp"</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
             <span class="p">):</span>
                 <span class="c1"># looks like v is from .read(), accept it</span>
                 <span class="n">d_new</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
@@ -497,11 +497,11 @@
         <span class="k">return</span> <span class="n">d_new</span>
 
     <span class="n">obj</span> <span class="o">=</span> <span class="n">standardize</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="n">kv</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">ddev</span> <span class="o">=</span> <span class="n">dict_device_factory</span><span class="p">(</span><span class="n">kv</span><span class="p">)(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">kv</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">ddev</span> <span class="o">=</span> <span class="n">dict_device_factory</span><span class="p">(</span><span class="n">kv</span><span class="p">)(</span><span class="s2">""</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="c1"># set the timestamps to what was read</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">getattr</span><span class="p">(</span><span class="n">ddev</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">ddev</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s2">"timestamp"</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">"timestamp"</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">ddev</span></div>
 
 

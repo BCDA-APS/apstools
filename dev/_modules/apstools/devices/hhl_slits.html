@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -445,7 +445,7 @@
 <div class="viewcode-block" id="HHLSlits">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_slits/index.html#apstools.devices.hhl_slits.HHLSlits">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HHLSlits</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    High Heat Load Slit.</span>
 
 <span class="sd">    There are no independent parts to move, so each axis only has center and size.</span>
@@ -455,22 +455,22 @@
 <span class="sd">    The motor parameters listed below specify which motor records</span>
 <span class="sd">    control which axis. The last piece of the PV prefix will be</span>
 <span class="sd">    removed, and the motor number added on. For example, if the prefix</span>
-<span class="sd">    is &quot;255ida:slits:US:&quot;, and the pitch motor is &quot;255ida:slits:m3&quot;,</span>
-<span class="sd">    then *pitch_motor* should be &quot;m3&quot;.</span>
+<span class="sd">    is "255ida:slits:US:", and the pitch motor is "255ida:slits:m3",</span>
+<span class="sd">    then *pitch_motor* should be "m3".</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 <span class="sd">    prefix:</span>
-<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: &quot;25ida:slits:US:&quot;</span>
+<span class="sd">      EPICS prefix required to communicate with HHL Slit IOC, ex: "25ida:slits:US:"</span>
 <span class="sd">    pitch_motor:</span>
-<span class="sd">      The motor record suffix controlling the real pitch motor, ex &quot;m3&quot;</span>
+<span class="sd">      The motor record suffix controlling the real pitch motor, ex "m3"</span>
 <span class="sd">    yaw_motor:</span>
-<span class="sd">      The motor record suffix controlling the real yaw motor, ex &quot;m4&quot;</span>
+<span class="sd">      The motor record suffix controlling the real yaw motor, ex "m4"</span>
 <span class="sd">    horizontal_motor:</span>
-<span class="sd">      The motor record suffix controlling the real horizontal motor, ex: &quot;m1&quot;</span>
+<span class="sd">      The motor record suffix controlling the real horizontal motor, ex: "m1"</span>
 <span class="sd">    diagonal_motor:</span>
-<span class="sd">      The motor record suffix controlling the real diagonal motor, ex: &quot;m2&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">      The motor record suffix controlling the real diagonal motor, ex: "m2"</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -483,8 +483,8 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="c1"># Determine the prefix for the motors</span>
-        <span class="n">pieces</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">motor_prefix</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pieces</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">pieces</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_prefix</span> <span class="o">=</span> <span class="s2">":"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pieces</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_pitch_motor</span> <span class="o">=</span> <span class="n">pitch_motor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yaw_motor</span> <span class="o">=</span> <span class="n">yaw_motor</span>
@@ -496,19 +496,19 @@
 <div class="viewcode-block" id="HHLSlits.SlitAxis">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/hhl_slits/index.html#apstools.devices.hhl_slits.HHLSlits.SlitAxis">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">SlitAxis</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-        <span class="n">center</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;Center&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"Size"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"Center"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 
     <span class="c1"># Individual slit directions</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SlitAxis</span><span class="p">,</span> <span class="s2">"v"</span><span class="p">)</span>
 
     <span class="c1"># Real motors that directly control the slits</span>
-    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_pitch_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_yaw_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_horizontal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
-    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_diagonal_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+    <span class="n">pitch</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_pitch_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">yaw</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_yaw_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_horizontal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span>
+    <span class="n">diagonal</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">"</span><span class="si">{motor_prefix}</span><span class="s2">:</span><span class="si">{_diagonal_motor}</span><span class="s2">"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"motors"</span><span class="p">})</span></div>
 
 </pre></div>
 

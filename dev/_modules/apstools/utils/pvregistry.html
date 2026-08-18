@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.pvregistry</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">EPICS PV Registry</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -445,7 +445,7 @@
 <span class="sd">   ~findbyname</span>
 <span class="sd">   ~findbypv</span>
 <span class="sd">   ~PVRegistry</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
@@ -465,12 +465,12 @@
 <div class="viewcode-block" id="PVRegistry">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.PVRegistry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PVRegistry</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Cross-reference EPICS PVs with ophyd EpicsSignalBase objects.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Search ophyd objects for PV or ophyd names.</span>
 
 <span class="sd">        The rebuild starts with the IPython console namespace</span>
@@ -480,7 +480,7 @@
 <span class="sd">        PARAMETERS</span>
 
 <span class="sd">        ns *dict* or `None`: namespace dictionary</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pvdb</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span> <span class="o">=</span> <span class="kc">None</span>
@@ -490,17 +490,17 @@
         <span class="c1"># kickoff the registration process</span>
         <span class="c1"># fmt: off</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">&quot;Cross-referencing EPICS PVs with Python objects &amp; ophyd symbols&quot;</span>
+            <span class="s2">"Cross-referencing EPICS PVs with Python objects &amp; ophyd symbols"</span>
         <span class="p">)</span>
         <span class="c1"># fmt: on</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ophyd_epicsobject_walker</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ophyd_epicsobject_walker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Walk through the parent object for ophyd Devices &amp; EpicsSignals.</span>
 
 <span class="sd">        This function is used to rebuild the ``self._pvdb`` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -518,80 +518,80 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">EpicsSignalBase</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_signal_processor</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span><span class="p">])</span>
                 <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                     <span class="c1"># fmt: off</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                        <span class="s2">&quot;Exception while examining key &#39;</span><span class="si">%s</span><span class="s2">&#39;: (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">exc</span>
+                        <span class="s2">"Exception while examining key '</span><span class="si">%s</span><span class="s2">': (</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">exc</span>
                     <span class="p">)</span>
                     <span class="c1"># fmt: on</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">Device</span><span class="p">):</span>
-                <span class="c1"># print(&quot;Device&quot;, v.name)</span>
+                <span class="c1"># print("Device", v.name)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span> <span class="o">=</span> <span class="n">_nm_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_known_device_names</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_known_device_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_ophyd_epicsobject_walker</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ref_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor used by ``_ophyd_epicsobject_walker()``&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Accessor used by ``_ophyd_epicsobject_walker()``"""</span>
         <span class="k">return</span> <span class="n">parent</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ref_object_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor used by ``_ophyd_epicsobject_walker()``&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Accessor used by ``_ophyd_epicsobject_walker()``"""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">obj</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="c1"># fmt: off</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Exception while getting object &#39;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&#39;: (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span><span class="p">),</span> <span class="n">key</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span>
+                <span class="s2">"Exception while getting object '</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">': (</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+                <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span><span class="p">),</span> <span class="n">key</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="c1"># fmt: on</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_register_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">pv</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a signal with the given mode.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Register a signal with the given mode."""</span>
         <span class="n">fdn</span> <span class="o">=</span> <span class="n">full_dotted_name</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fdn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pvdb</span><span class="p">[</span><span class="n">pv</span><span class="p">][</span><span class="n">mode</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pvdb</span><span class="p">[</span><span class="n">pv</span><span class="p">][</span><span class="n">mode</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fdn</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_signal_processor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a signal&#39;s read &amp; write PVs.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_register_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">_read_pv</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">&quot;_write_pv&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_register_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">_write_pv</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Register a signal's read &amp; write PVs."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">_read_pv</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">"_write_pv"</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_register_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">_write_pv</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">"W"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PVRegistry.search_by_mode">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.PVRegistry.search_by_mode">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">search_by_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pvname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;R&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for PV in specified mode.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Incorrect mode given (</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.  Must be either `R` or `W`.&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">search_by_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pvname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"R"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Search for PV in specified mode."""</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"R"</span><span class="p">,</span> <span class="s2">"W"</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Incorrect mode given (</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.  Must be either `R` or `W`."</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pvdb</span><span class="p">[</span><span class="n">pvname</span><span class="p">][</span><span class="n">mode</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="PVRegistry.search">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.PVRegistry.search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pvname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for PV in both read &amp; write modes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Search for PV in both read &amp; write modes."""</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">read</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">search_by_mode</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">),</span>
-            <span class="n">write</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">search_by_mode</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">),</span>
+            <span class="n">read</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">search_by_mode</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">),</span>
+            <span class="n">write</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">search_by_mode</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="s2">"W"</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PVRegistry.ophyd_search">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.PVRegistry.ophyd_search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ophyd_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for ophyd object by ophyd name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Search for ophyd object by ophyd name."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_odb</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">oname</span><span class="p">)</span></div>
 </div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_pv_registry</span><span class="p">(</span><span class="n">force_rebuild</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check if need to build/rebuild the PV registry.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -604,7 +604,7 @@
 <span class="sd">        *dict* or `None` :</span>
 <span class="sd">        Namespace dictionary of Python objects.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_findpv_registry</span>
     <span class="k">if</span> <span class="n">_findpv_registry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">force_rebuild</span><span class="p">:</span>
         <span class="n">_findpv_registry</span> <span class="o">=</span> <span class="n">PVRegistry</span><span class="p">(</span><span class="n">ns</span><span class="o">=</span><span class="n">ns</span><span class="p">)</span>
@@ -613,9 +613,9 @@
 
 <div class="viewcode-block" id="findbyname">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbyname">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.5.0&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.5.0"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">findbyname</span><span class="p">(</span><span class="n">oname</span><span class="p">,</span> <span class="n">force_rebuild</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Find the ophyd (dotted name) object associated with the given ophyd name.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -638,9 +638,9 @@
 
 <span class="sd">    EXAMPLE::</span>
 
-<span class="sd">        In [45]: findbyname(&quot;adsimdet_cam_acquire&quot;)</span>
-<span class="sd">        Out[45]: &#39;adsimdet.cam.acquire&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        In [45]: findbyname("adsimdet_cam_acquire")</span>
+<span class="sd">        Out[45]: 'adsimdet.cam.acquire'</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_get_pv_registry</span><span class="p">(</span><span class="n">force_rebuild</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">ophyd_search</span><span class="p">(</span><span class="n">oname</span><span class="p">)</span></div>
 
 
@@ -648,7 +648,7 @@
 <div class="viewcode-block" id="findbypv">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/pvregistry/index.html#apstools.utils.pvregistry.findbypv">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">findbypv</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">force_rebuild</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Find all ophyd objects associated with the given EPICS PV.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -673,13 +673,13 @@
 
 <span class="sd">    EXAMPLE::</span>
 
-<span class="sd">        In [45]: findbypv(&quot;ad:cam1:Acquire&quot;)</span>
-<span class="sd">        Out[45]: {&#39;read&#39;: [], &#39;write&#39;: [&#39;adsimdet.cam.acquire&#39;]}</span>
+<span class="sd">        In [45]: findbypv("ad:cam1:Acquire")</span>
+<span class="sd">        Out[45]: {'read': [], 'write': ['adsimdet.cam.acquire']}</span>
 
-<span class="sd">        In [46]: findbypv(&quot;ad:cam1:Acquire_RBV&quot;)</span>
-<span class="sd">        Out[46]: {&#39;read&#39;: [&#39;adsimdet.cam.acquire&#39;], &#39;write&#39;: []}</span>
+<span class="sd">        In [46]: findbypv("ad:cam1:Acquire_RBV")</span>
+<span class="sd">        Out[46]: {'read': ['adsimdet.cam.acquire'], 'write': []}</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_get_pv_registry</span><span class="p">(</span><span class="n">force_rebuild</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span></div>
 
 

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.labjack</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">LabJack Data Acquisition (DAQ)</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -472,9 +472,9 @@
 
 <span class="sd">    class MyBeamline(Device):</span>
 <span class="sd">        ...</span>
-<span class="sd">        gas_flow = Cpt(labjack.AnalogInput, &quot;LabJackT7_1:Ai5&quot;)</span>
+<span class="sd">        gas_flow = Cpt(labjack.AnalogInput, "LabJackT7_1:Ai5")</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -489,49 +489,49 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..synApps</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordOutputFields</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;AnalogOutput&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AnalogInput&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DigitalIO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;WaveformDigitizer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;make_digitizer_waveforms&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;WaveformGenerator&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LabJackBase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LabJackT4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LabJackT7&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LabJackT7Pro&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LabJackT8&quot;</span><span class="p">,</span>
+    <span class="s2">"AnalogOutput"</span><span class="p">,</span>
+    <span class="s2">"AnalogInput"</span><span class="p">,</span>
+    <span class="s2">"DigitalIO"</span><span class="p">,</span>
+    <span class="s2">"WaveformDigitizer"</span><span class="p">,</span>
+    <span class="s2">"make_digitizer_waveforms"</span><span class="p">,</span>
+    <span class="s2">"WaveformGenerator"</span><span class="p">,</span>
+    <span class="s2">"LabJackBase"</span><span class="p">,</span>
+    <span class="s2">"LabJackT4"</span><span class="p">,</span>
+    <span class="s2">"LabJackT7"</span><span class="p">,</span>
+    <span class="s2">"LabJackT7Pro"</span><span class="p">,</span>
+    <span class="s2">"LabJackT8"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">KIND_CONFIG_OR_NORMAL</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="sd">&quot;&quot;&quot;Alternative for ``Kind.config | Kind.normal``.&quot;&quot;&quot;</span>
+<span class="sd">"""Alternative for ``Kind.config | Kind.normal``."""</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Input</span><span class="p">(</span><span class="n">EpicsRecordInputFields</span><span class="p">,</span> <span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic input record.</span>
+<span class="w">    </span><span class="sd">"""A generic input record.</span>
 
 <span class="sd">    Similar to synApps input records but with some changes. The .PROC</span>
 <span class="sd">    field is used as a trigger. This way, even if the .SCAN field is</span>
 <span class="sd">    set to passive, the record will still update before being read.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">final_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PROC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">final_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Output</span><span class="p">(</span><span class="n">EpicsRecordOutputFields</span><span class="p">,</span> <span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic output record.</span>
+<span class="w">    </span><span class="sd">"""A generic output record.</span>
 
 <span class="sd">    Intended to be sub-classed into different output types.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BinaryOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A binary input on the labjack.</span>
+<span class="w">    </span><span class="sd">"""A binary input on the labjack.</span>
 
 <span class="sd">    Similar to a common EPICS input without the OVAL record.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">output_value</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -539,14 +539,14 @@
 <div class="viewcode-block" id="AnalogOutput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.AnalogOutput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AnalogOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An analog output on a labjack device.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""An analog output on a labjack device."""</span></div>
 
 
 
 <div class="viewcode-block" id="AnalogInput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.AnalogInput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AnalogInput</span><span class="p">(</span><span class="n">Input</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An analog input on a labjack device.</span>
+<span class="w">    </span><span class="sd">"""An analog input on a labjack device.</span>
 
 <span class="sd">    It is based on the synApps input record, but with LabJack specific</span>
 <span class="sd">    signals added.</span>
@@ -556,32 +556,32 @@
 <span class="sd">    likely just the most recently polled value from the device. This</span>
 <span class="sd">    can be useful if the .SCAN field is set to passive.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">differential</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">Diff</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">Diff</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">high</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">HOPR</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">low</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">LOPR</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">HOPR</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">LOPR</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="n">temperature_units</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">TempUnits</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">TempUnits</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">resolution</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">Resolution</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">resolution</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">Resolution</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="nb">range</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">Range</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">Range</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">Mode</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.base_prefix}</span><span class="s2">Enable</span><span class="si">{self.ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">Mode</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.base_prefix}</span><span class="s2">Enable</span><span class="si">{self.ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">base_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;0123456789&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"0123456789"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ch_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -592,10 +592,10 @@
 <div class="viewcode-block" id="DigitalIO">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.DigitalIO">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DigitalIO</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A digital input/output channel on the labjack.</span>
+<span class="w">    </span><span class="sd">"""A digital input/output channel on the labjack.</span>
 
 <span class="sd">    Because of the how the records are structured in EPICS, the prefix</span>
-<span class="sd">    must not include the &quot;Bi{N}&quot; portion of the prefix. Instead, the</span>
+<span class="sd">    must not include the "Bi{N}" portion of the prefix. Instead, the</span>
 <span class="sd">    prefix should be prefix for the whole labjack</span>
 <span class="sd">    (e.g. ``LabJackT7_1:``), and the channel number should be provided</span>
 <span class="sd">    using the *ch_num* property. So for the digital I/O with its input</span>
@@ -603,18 +603,18 @@
 
 <span class="sd">    .. code:: python</span>
 
-<span class="sd">        dio3 = DigitalIO(&quot;LabJackT7_1:&quot;, name=&quot;dio3&quot;, ch_num=3)</span>
+<span class="sd">        dio3 = DigitalIO("LabJackT7_1:", name="dio3", ch_num=3)</span>
 
 <span class="sd">    This will create signals for the input (``Bi3``), output</span>
 <span class="sd">    (``Bo3``), and direction (``Bd3``) records.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">ch_num</span><span class="p">:</span> <span class="nb">int</span>
 
-    <span class="nb">input</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">Bi</span><span class="si">{ch_num}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">BinaryOutput</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">Bo</span><span class="si">{ch_num}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">direction</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">Bd</span><span class="si">{ch_num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">Bi</span><span class="si">{ch_num}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">BinaryOutput</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">Bo</span><span class="si">{ch_num}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">Bd</span><span class="si">{ch_num}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">ch_num</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ch_num</span> <span class="o">=</span> <span class="n">ch_num</span>
@@ -625,7 +625,7 @@
 <div class="viewcode-block" id="WaveformDigitizer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.WaveformDigitizer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WaveformDigitizer</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A feature of the Labjack devices that allows waveform capture.</span>
+<span class="w">    </span><span class="sd">"""A feature of the Labjack devices that allows waveform capture.</span>
 
 <span class="sd">    By itself, this device does not include any actual data. It should</span>
 <span class="sd">    be sub-classed for the individual T-series devices to use</span>
@@ -636,32 +636,32 @@
 <span class="sd">    .. code:: python</span>
 
 <span class="sd">        class T7Digitizer(WaveformDigitizer):</span>
-<span class="sd">            waveforms = DCpt(make_digitizer_waveforms(14), kind=&quot;normal&quot;)</span>
+<span class="sd">            waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigNumPoints&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">first_chan</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigFirstChan&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">num_chans</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigNumChans&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">timebase_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigTimeWF&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
-    <span class="n">current_point</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigCurrentPoint&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
-    <span class="n">dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigDwell&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">dwell_actual</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigDwellActual&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
-    <span class="n">total_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigTotalTime&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
-    <span class="n">resolution</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigResolution&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">settling_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigSettlingTime&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">ext_trigger</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigExtTrigger&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
-    <span class="n">ext_clock</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigExtClock&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
-    <span class="n">auto_restart</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigAutoRestart&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">run</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigRun&quot;</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
-    <span class="n">read_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveDigReadWF&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
+    <span class="n">num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigNumPoints"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">first_chan</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigFirstChan"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">num_chans</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigNumChans"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">timebase_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigTimeWF"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="n">current_point</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigCurrentPoint"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigDwell"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">dwell_actual</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigDwellActual"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigTotalTime"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="n">resolution</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigResolution"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">settling_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigSettlingTime"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">ext_trigger</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigExtTrigger"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">ext_clock</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigExtClock"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">auto_restart</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigAutoRestart"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigRun"</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">read_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveDigReadWF"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="make_digitizer_waveforms">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.make_digitizer_waveforms">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_digitizer_waveforms</span><span class="p">(</span><span class="n">num_ais</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a dictionary with volt waveforms for the digitizer.</span>
+<span class="w">    </span><span class="sd">"""Create a dictionary with volt waveforms for the digitizer.</span>
 
 <span class="sd">    For use with an ophyd DynamicDeviceComponent.</span>
 
@@ -673,10 +673,10 @@
 <span class="sd">    num_ais</span>
 <span class="sd">      How many analog inputs to include for this Labjack device.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_ais</span><span class="p">):</span>
-        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;wf</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;WaveDigVoltWF</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">"wf</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"WaveDigVoltWF</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">return</span> <span class="n">defn</span></div>
 
 
@@ -684,54 +684,54 @@
 <div class="viewcode-block" id="WaveformGenerator">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.WaveformGenerator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WaveformGenerator</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A feature of the Labjack devices that generates output waveforms.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A feature of the Labjack devices that generates output waveforms."""</span>
 
-    <span class="n">external_trigger</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenExtTrigger&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">external_clock</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenExtClock&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">continuous</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenContinuous&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">run</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenRun&quot;</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">external_trigger</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenExtTrigger"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">external_clock</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenExtClock"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">continuous</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenContinuous"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenRun"</span><span class="p">,</span> <span class="n">trigger_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
 
     <span class="c1"># These signals give a readback based on whether user-defined or</span>
     <span class="c1"># internal waves are used</span>
-    <span class="n">num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenNumPoints&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">current_point</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenCurrentPoint&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenFrequency&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
-    <span class="n">dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenDwell&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
-    <span class="n">dwell_actual</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenDwellActual&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
-    <span class="n">total_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenTotalTime&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenNumPoints"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">current_point</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenCurrentPoint"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenFrequency"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenDwell"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">dwell_actual</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenDwellActual"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenTotalTime"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
 
     <span class="c1"># Settings for user-defined waveforms</span>
-    <span class="n">user_num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserNumPoints&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">user_time_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserTimeWF&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
-    <span class="n">user_dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserDwell&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">user_frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserFrequency&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">user_num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserNumPoints"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">user_time_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserTimeWF"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">user_dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserDwell"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">user_frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserFrequency"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
 
     <span class="c1"># Settings for internal waveforms</span>
-    <span class="n">internal_num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenIntNumPoints&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">internal_time_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenIntTimeWF&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
-    <span class="n">internal_dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenIntDwell&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">internal_frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenIntFrequency&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">internal_num_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenIntNumPoints"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">internal_time_waveform</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenIntTimeWF"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>  <span class="c1"># normal</span>
+    <span class="n">internal_dwell</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenIntDwell"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">internal_frequency</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenIntFrequency"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
 
     <span class="c1"># Waveform specific settings</span>
-    <span class="n">user_waveform_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserWF0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">internal_waveform_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenInternalWF0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">enable_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenEnable0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">type_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenType0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">pulse_width_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenPulseWidth0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">amplitude_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenAmplitude0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">offset_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenOffset0&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">user_waveform_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenUserWF1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">internal_waveform_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;WaveGenInternalWF1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
-    <span class="n">enable_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenEnable1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">type_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenType1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">pulse_width_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenPulseWidth1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">amplitude_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenAmplitude1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
-    <span class="n">offset_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaveGenOffset1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span></div>
+    <span class="n">user_waveform_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserWF0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">internal_waveform_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenInternalWF0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">enable_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenEnable0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">type_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenType0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">pulse_width_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenPulseWidth0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">amplitude_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenAmplitude0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">offset_0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenOffset0"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">user_waveform_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenUserWF1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">internal_waveform_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"WaveGenInternalWF1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>  <span class="c1"># omitted</span>
+    <span class="n">enable_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenEnable1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">type_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenType1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">pulse_width_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenPulseWidth1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">amplitude_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenAmplitude1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span>
+    <span class="n">offset_1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"WaveGenOffset1"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># config</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_analog_inputs</span><span class="p">(</span><span class="n">num_ais</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a dictionary with analog input device definitions.</span>
+<span class="w">    </span><span class="sd">"""Create a dictionary with analog input device definitions.</span>
 
 <span class="sd">    For use with an ophyd DynamicDeviceComponent.</span>
 
@@ -740,15 +740,15 @@
 <span class="sd">    num_ais</span>
 <span class="sd">      How many analog inputs to create.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_ais</span><span class="p">):</span>
-        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ai</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnalogInput</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Ai</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">"ai</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnalogInput</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Ai</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">return</span> <span class="n">defn</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_analog_outputs</span><span class="p">(</span><span class="n">num_aos</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a dictionary with analog output device definitions.</span>
+<span class="w">    </span><span class="sd">"""Create a dictionary with analog output device definitions.</span>
 
 <span class="sd">    For use with an ophyd DynamicDeviceComponent.</span>
 
@@ -757,15 +757,15 @@
 <span class="sd">    num_aos</span>
 <span class="sd">      How many analog outputs to create.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_aos</span><span class="p">):</span>
-        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ao</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnalogOutput</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Ao</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">"ao</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnalogOutput</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Ao</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">return</span> <span class="n">defn</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_digital_ios</span><span class="p">(</span><span class="n">num_dios</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a dictionary with digital I/O device definitions.</span>
+<span class="w">    </span><span class="sd">"""Create a dictionary with digital I/O device definitions.</span>
 
 <span class="sd">    For use with an ophyd DynamicDeviceComponent.</span>
 
@@ -774,23 +774,23 @@
 <span class="sd">    num_dios</span>
 <span class="sd">      How many digital I/Os to create.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_dios</span><span class="p">):</span>
-        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;dio</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">DigitalIO</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ch_num</span><span class="o">=</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">defn</span><span class="p">[</span><span class="sa">f</span><span class="s2">"dio</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">DigitalIO</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ch_num</span><span class="o">=</span><span class="n">n</span><span class="p">))</span>
     <span class="c1"># Add the digital word outputs</span>
-    <span class="n">defn</span><span class="p">[</span><span class="s2">&quot;dio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;DIOIn&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
-    <span class="n">defn</span><span class="p">[</span><span class="s2">&quot;fio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;FIOIn&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
-    <span class="n">defn</span><span class="p">[</span><span class="s2">&quot;eio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;EIOIn&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
-    <span class="n">defn</span><span class="p">[</span><span class="s2">&quot;cio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;CIOIn&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
-    <span class="n">defn</span><span class="p">[</span><span class="s2">&quot;mio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;MIOIn&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
+    <span class="n">defn</span><span class="p">[</span><span class="s2">"dio"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"DIOIn"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
+    <span class="n">defn</span><span class="p">[</span><span class="s2">"fio"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"FIOIn"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
+    <span class="n">defn</span><span class="p">[</span><span class="s2">"eio"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"EIOIn"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
+    <span class="n">defn</span><span class="p">[</span><span class="s2">"cio"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"CIOIn"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
+    <span class="n">defn</span><span class="p">[</span><span class="s2">"mio"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"MIOIn"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">normal</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">defn</span>
 
 
 <div class="viewcode-block" id="LabJackBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LabJackBase</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A labjack T-series data acquisition unit (DAQ).</span>
+<span class="w">    </span><span class="sd">"""A labjack T-series data acquisition unit (DAQ).</span>
 
 <span class="sd">    To use the individual components separately, consider using the</span>
 <span class="sd">    corresponding devices in the list below.</span>
@@ -818,7 +818,7 @@
 <span class="sd">    be done by calling the ``.read()`` method. However, it is unlikely</span>
 <span class="sd">    that the goal is also to trigger the digitizer and generator</span>
 <span class="sd">    during this read. For this reason, **the digitizer and generator</span>
-<span class="sd">    have kind=&quot;omitted&quot;**. To trigger the digitizer or generator, they</span>
+<span class="sd">    have kind="omitted"**. To trigger the digitizer or generator, they</span>
 <span class="sd">    can be used as separate devices:</span>
 
 <span class="sd">    .. code:: python</span>
@@ -832,26 +832,26 @@
 <span class="sd">        # Same thing for the waveform generator</span>
 <span class="sd">        lj.waveform_generator.trigger().wait()</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">model_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ModelName&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">firmware_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;FirmwareVersion&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">serial_number</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;SerialNumber&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">device_temperature</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DeviceTemperature&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">ljm_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;LJMVersion&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">driver_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DriverVersion&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">last_error_message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;LastErrorMessage&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">poll_sleep_ms</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;PollSleepMS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">poll_time_ms</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;PollTimeMS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
-    <span class="n">analog_in_settling_time_all</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;AiAllSettlingUS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">analog_in_resolution_all</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;AiAllResolution&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">analog_in_sampling_rate</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;AiSamplingRate&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">device_reset</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DeviceReset&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ModelName"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">firmware_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"FirmwareVersion"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">serial_number</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"SerialNumber"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">device_temperature</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"DeviceTemperature"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">ljm_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"LJMVersion"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">driver_version</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"DriverVersion"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">last_error_message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"LastErrorMessage"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">poll_sleep_ms</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"PollSleepMS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">poll_time_ms</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"PollTimeMS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
+    <span class="n">analog_in_settling_time_all</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"AiAllSettlingUS"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">analog_in_resolution_all</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"AiAllResolution"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">analog_in_sampling_rate</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"AiSamplingRate"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">device_reset</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"DeviceReset"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span>
 
     <span class="c1"># Common sub-devices (all labjacks have 2 analog outputs)</span>
     <span class="c1"># NB: Analog inputs/digital I/Os are on a per-model basis</span>
     <span class="n">analog_outputs</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_analog_outputs</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
-    <span class="n">waveform_generator</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformGenerator</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
+    <span class="n">waveform_generator</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformGenerator</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
 
 
 
@@ -865,12 +865,12 @@
 <div class="viewcode-block" id="LabJackT4.WaveformDigitizer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT4.WaveformDigitizer">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">WaveformDigitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span></div>
+        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span></div>
 
 
     <span class="n">analog_inputs</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_analog_inputs</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
     <span class="n">digital_ios</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digital_ios</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
-    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
+    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Kind</span><span class="o">.</span><span class="n">omitted</span><span class="p">)</span></div>
 
 
 
@@ -884,12 +884,12 @@
 <div class="viewcode-block" id="LabJackT7.WaveformDigitizer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT7.WaveformDigitizer">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">WaveformDigitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span></div>
+        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span></div>
 
 
     <span class="n">analog_inputs</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_analog_inputs</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
     <span class="n">digital_ios</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digital_ios</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
-    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span></div>
 
 
 
@@ -903,12 +903,12 @@
 <div class="viewcode-block" id="LabJackT7Pro.WaveformDigitizer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">WaveformDigitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span></div>
+        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span></div>
 
 
     <span class="n">analog_inputs</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_analog_inputs</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
     <span class="n">digital_ios</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digital_ios</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
-    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span></div>
 
 
 
@@ -922,12 +922,12 @@
 <div class="viewcode-block" id="LabJackT8.WaveformDigitizer">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/labjack/index.html#apstools.devices.labjack.LabJackT8.WaveformDigitizer">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">WaveformDigitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span></div>
+        <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span></div>
 
 
     <span class="n">analog_inputs</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_analog_inputs</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
     <span class="n">digital_ios</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digital_ios</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">KIND_CONFIG_OR_NORMAL</span><span class="p">)</span>
-    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+    <span class="n">waveform_digitizer</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span></div>
 
 </pre></div>
 

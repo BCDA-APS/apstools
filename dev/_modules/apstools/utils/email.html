@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.email</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">email Support</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~EmailNotifications</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">smtplib</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">email.mime.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIMEText</span>
@@ -454,7 +454,7 @@
 <div class="viewcode-block" id="EmailNotifications">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/email/index.html#apstools.utils.email.EmailNotifications">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EmailNotifications</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    send email notifications when requested</span>
 
 <span class="sd">    .. index:: apstools Utility; EmailNotifications</span>
@@ -469,13 +469,13 @@
 <span class="sd">        # setup</span>
 <span class="sd">        from apstools.utils import EmailNotifications</span>
 
-<span class="sd">        SENDER_EMAIL = &quot;instrument_user@email.host.tld&quot;</span>
+<span class="sd">        SENDER_EMAIL = "instrument_user@email.host.tld"</span>
 
 <span class="sd">        email_notices = EmailNotifications(SENDER_EMAIL)</span>
 <span class="sd">        email_notices.add_addresses(</span>
 <span class="sd">            # This list receives email when send() is called.</span>
-<span class="sd">            &quot;joe.user@goodmail.com&quot;,</span>
-<span class="sd">            &quot;instrument_team@email.host.tld&quot;,</span>
+<span class="sd">            "joe.user@goodmail.com",</span>
+<span class="sd">            "instrument_team@email.host.tld",</span>
 <span class="sd">            # others?</span>
 <span class="sd">        )</span>
 
@@ -483,16 +483,16 @@
 
 <span class="sd">        if feedback_limits_approached:</span>
 <span class="sd">            # send emails to list</span>
-<span class="sd">            subject = &quot;Feedback problem&quot;</span>
-<span class="sd">            message = &quot;Feedback is very close to its limits.&quot;</span>
+<span class="sd">            subject = "Feedback problem"</span>
+<span class="sd">            message = "Feedback is very close to its limits."</span>
 <span class="sd">            email_notices.send(subject, message)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">notify_on_feedback</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">sender</span> <span class="ow">or</span> <span class="s2">&quot;nobody@localhost&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">smtp_host</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">sender</span> <span class="ow">or</span> <span class="s2">"nobody@localhost"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smtp_host</span> <span class="o">=</span> <span class="s2">"localhost"</span>
 
 <div class="viewcode-block" id="EmailNotifications.add_addresses">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/email/index.html#apstools.utils.email.EmailNotifications.add_addresses">[docs]</a>
@@ -503,11 +503,11 @@
 
     <span class="nd">@run_in_thread</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;send ``message`` to all addresses&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""send ``message`` to all addresses"""</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-        <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;Subject&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
-        <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span>
-        <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;To&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">)</span>
+        <span class="n">msg</span><span class="p">[</span><span class="s2">"Subject"</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
+        <span class="n">msg</span><span class="p">[</span><span class="s2">"From"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span>
+        <span class="n">msg</span><span class="p">[</span><span class="s2">"To"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smtp_host</span><span class="p">)</span>
         <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
         <span class="n">s</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>

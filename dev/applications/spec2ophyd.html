@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -531,26 +531,26 @@ CNT005 = EPICS_SC  0  5      1 0x000     I000  I000
 </section>
 <section id="output">
 <h3>output<a class="headerlink" href="#output" title="Link to this heading">#</a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mx = EpicsMotor(&#39;9idcLAX:m58:c0:m2&#39;, name=&#39;mx&#39;, labels=(&#39;motor&#39;,))
-my = EpicsMotor(&#39;9idcLAX:m58:c0:m3&#39;, name=&#39;my&#39;, labels=(&#39;motor&#39;,))
-msx = EpicsMotor(&#39;9idcLAX:m58:c1:m1&#39;, name=&#39;msx&#39;, labels=(&#39;motor&#39;,))
-msy = EpicsMotor(&#39;9idcLAX:m58:c1:m2&#39;, name=&#39;msy&#39;, labels=(&#39;motor&#39;,))
-art = EpicsMotor(&#39;9idcLAX:m58:c1:m3&#39;, name=&#39;art&#39;, labels=(&#39;motor&#39;,))  # ART50-100
-uslvcen = EpicsMotor(&#39;9idcLAX:m58:c2:m5&#39;, name=&#39;uslvcen&#39;, labels=(&#39;motor&#39;,))  # uslitvercen
-uslhcen = EpicsMotor(&#39;9idcLAX:m58:c2:m6&#39;, name=&#39;uslhcen&#39;, labels=(&#39;motor&#39;,))  # uslithorcen
-gslout = EpicsMotor(&#39;9idcLAX:mxv:c0:m3&#39;, name=&#39;gslout&#39;, labels=(&#39;motor&#39;,))  # GSlit_outb # read_mode=7
-gslinb = EpicsMotor(&#39;9idcLAX:mxv:c0:m4&#39;, name=&#39;gslinb&#39;, labels=(&#39;motor&#39;,))  # GSlit_inb # read_mode=7
-gsltop = EpicsMotor(&#39;9idcLAX:mxv:c0:m5&#39;, name=&#39;gsltop&#39;, labels=(&#39;motor&#39;,))  # GSlit_top # read_mode=7
-gslbot = EpicsMotor(&#39;9idcLAX:mxv:c0:m6&#39;, name=&#39;gslbot&#39;, labels=(&#39;motor&#39;,))  # GSlit_bot # read_mode=7
-# Macro Motor: SpecMotor(mne=&#39;en&#39;, config_line=&#39;11&#39;, macro_prefix=&#39;kohzuE&#39;) # read_mode=7
-InbMS = EpicsMotor(&#39;9ida:m43&#39;, name=&#39;InbMS&#39;, labels=(&#39;motor&#39;,))  # MonoSl_inb
-c0 = ScalerCH(&#39;9idcLAX:vsc:c0&#39;, name=&#39;c0&#39;, labels=(&#39;detectors&#39;,))
-# counter: sec = SpecCounter(mne=&#39;sec&#39;, config_line=&#39;0&#39;, name=&#39;seconds&#39;, unit=&#39;0&#39;, chan=&#39;0&#39;, pvname=9idcLAX:vsc:c0.S1)
-# counter: I0 = SpecCounter(mne=&#39;I0&#39;, config_line=&#39;1&#39;, unit=&#39;0&#39;, chan=&#39;1&#39;, pvname=9idcLAX:vsc:c0.S2)
-# counter: I00 = SpecCounter(mne=&#39;I00&#39;, config_line=&#39;2&#39;, unit=&#39;0&#39;, chan=&#39;2&#39;, pvname=9idcLAX:vsc:c0.S3)
-# counter: upd2 = SpecCounter(mne=&#39;upd2&#39;, config_line=&#39;3&#39;, name=&#39;photodiode&#39;, unit=&#39;0&#39;, chan=&#39;3&#39;, pvname=9idcLAX:vsc:c0.S4)
-# counter: trd = SpecCounter(mne=&#39;trd&#39;, config_line=&#39;4&#39;, name=&#39;TR_diode&#39;, unit=&#39;0&#39;, chan=&#39;4&#39;, pvname=9idcLAX:vsc:c0.S5)
-# counter: I000 = SpecCounter(mne=&#39;I000&#39;, config_line=&#39;5&#39;, unit=&#39;0&#39;, chan=&#39;5&#39;, pvname=9idcLAX:vsc:c0.S6)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mx = EpicsMotor('9idcLAX:m58:c0:m2', name='mx', labels=('motor',))
+my = EpicsMotor('9idcLAX:m58:c0:m3', name='my', labels=('motor',))
+msx = EpicsMotor('9idcLAX:m58:c1:m1', name='msx', labels=('motor',))
+msy = EpicsMotor('9idcLAX:m58:c1:m2', name='msy', labels=('motor',))
+art = EpicsMotor('9idcLAX:m58:c1:m3', name='art', labels=('motor',))  # ART50-100
+uslvcen = EpicsMotor('9idcLAX:m58:c2:m5', name='uslvcen', labels=('motor',))  # uslitvercen
+uslhcen = EpicsMotor('9idcLAX:m58:c2:m6', name='uslhcen', labels=('motor',))  # uslithorcen
+gslout = EpicsMotor('9idcLAX:mxv:c0:m3', name='gslout', labels=('motor',))  # GSlit_outb # read_mode=7
+gslinb = EpicsMotor('9idcLAX:mxv:c0:m4', name='gslinb', labels=('motor',))  # GSlit_inb # read_mode=7
+gsltop = EpicsMotor('9idcLAX:mxv:c0:m5', name='gsltop', labels=('motor',))  # GSlit_top # read_mode=7
+gslbot = EpicsMotor('9idcLAX:mxv:c0:m6', name='gslbot', labels=('motor',))  # GSlit_bot # read_mode=7
+# Macro Motor: SpecMotor(mne='en', config_line='11', macro_prefix='kohzuE') # read_mode=7
+InbMS = EpicsMotor('9ida:m43', name='InbMS', labels=('motor',))  # MonoSl_inb
+c0 = ScalerCH('9idcLAX:vsc:c0', name='c0', labels=('detectors',))
+# counter: sec = SpecCounter(mne='sec', config_line='0', name='seconds', unit='0', chan='0', pvname=9idcLAX:vsc:c0.S1)
+# counter: I0 = SpecCounter(mne='I0', config_line='1', unit='0', chan='1', pvname=9idcLAX:vsc:c0.S2)
+# counter: I00 = SpecCounter(mne='I00', config_line='2', unit='0', chan='2', pvname=9idcLAX:vsc:c0.S3)
+# counter: upd2 = SpecCounter(mne='upd2', config_line='3', name='photodiode', unit='0', chan='3', pvname=9idcLAX:vsc:c0.S4)
+# counter: trd = SpecCounter(mne='trd', config_line='4', name='TR_diode', unit='0', chan='4', pvname=9idcLAX:vsc:c0.S5)
+# counter: I000 = SpecCounter(mne='I000', config_line='5', unit='0', chan='5', pvname=9idcLAX:vsc:c0.S6)
 </pre></div>
 </div>
 </section>

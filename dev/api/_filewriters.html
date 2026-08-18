@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -891,20 +891,20 @@ value of the attribute.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">template_examples</span> <span class="o">=</span> <span class="p">[</span>
 <span class="linenos"> 2</span>    <span class="c1"># *constant* template</span>
 <span class="linenos"> 3</span>    <span class="c1"># define a constant array in a new NXdata group</span>
-<span class="linenos"> 4</span>    <span class="p">[</span><span class="s2">&quot;/entry/example:NXdata/array=&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+<span class="linenos"> 4</span>    <span class="p">[</span><span class="s2">"/entry/example:NXdata/array="</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
 <span class="linenos"> 5</span>
 <span class="linenos"> 6</span>    <span class="c1"># *attribute* template</span>
-<span class="linenos"> 7</span>    <span class="c1"># set the example group &quot;signal&quot; attribute</span>
+<span class="linenos"> 7</span>    <span class="c1"># set the example group "signal" attribute</span>
 <span class="linenos"> 8</span>    <span class="c1">#   (new array is the default plottable data)</span>
-<span class="linenos"> 9</span>    <span class="p">[</span><span class="s2">&quot;/entry/example/@signal&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
+<span class="linenos"> 9</span>    <span class="p">[</span><span class="s2">"/entry/example/@signal"</span><span class="p">,</span> <span class="s2">"array"</span><span class="p">],</span>
 <span class="linenos">10</span>
 <span class="linenos">11</span>    <span class="c1"># *link* template</span>
-<span class="linenos">12</span>    <span class="c1"># link the new array into a new NXnote group as field &quot;x&quot;</span>
-<span class="linenos">13</span>    <span class="p">[</span><span class="s2">&quot;/entry/example/array&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/example/note:NXnote/x&quot;</span><span class="p">],</span>
+<span class="linenos">12</span>    <span class="c1"># link the new array into a new NXnote group as field "x"</span>
+<span class="linenos">13</span>    <span class="p">[</span><span class="s2">"/entry/example/array"</span><span class="p">,</span> <span class="s2">"/entry/example/note:NXnote/x"</span><span class="p">],</span>
 <span class="linenos">14</span><span class="p">]</span>
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="n">md</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">17</span>    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;NeXus/HDF5 template support example&quot;</span><span class="p">,</span>
+<span class="linenos">17</span>    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"NeXus/HDF5 template support example"</span><span class="p">,</span>
 <span class="linenos">18</span>
 <span class="linenos">19</span>    <span class="c1"># encode the Python dictionary as a JSON string</span>
 <span class="linenos">20</span>    <span class="n">nxwriter</span><span class="o">.</span><span class="n">template_key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">template_examples</span><span class="p">),</span>
@@ -914,17 +914,17 @@ value of the attribute.</p>
 <p>The templates in this example add this structure to the <code class="docutils literal notranslate"><span class="pre">/entry</span></code> group in the
 HDF5 file:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>/entry:NXentry
-<span class="linenos"> 2</span>    @NX_class = &quot;NXentry&quot;
+<span class="linenos"> 2</span>    @NX_class = "NXentry"
 <span class="linenos"> 3</span>    ...
 <span class="linenos"> 4</span>    example:NXdata
-<span class="linenos"> 5</span>        @NX_class = &quot;NXdata&quot;
-<span class="linenos"> 6</span>        @signal = &quot;array&quot;
-<span class="linenos"> 7</span>        @target = &quot;/entry/example&quot;
+<span class="linenos"> 5</span>        @NX_class = "NXdata"
+<span class="linenos"> 6</span>        @signal = "array"
+<span class="linenos"> 7</span>        @target = "/entry/example"
 <span class="linenos"> 8</span>        array:NX_INT64[3] = [1, 2, 3]
-<span class="linenos"> 9</span>            @target = &quot;/entry/example/array&quot;
+<span class="linenos"> 9</span>            @target = "/entry/example/array"
 <span class="linenos">10</span>        note:NXnote
-<span class="linenos">11</span>            @NX_class = &quot;NXnote&quot;
-<span class="linenos">12</span>            @target = &quot;/entry/example/note&quot;
+<span class="linenos">11</span>            @NX_class = "NXnote"
+<span class="linenos">12</span>            @target = "/entry/example/note"
 <span class="linenos">13</span>            x --&gt; /entry/example/array
 </pre></div>
 </div>
@@ -962,38 +962,38 @@ as shown in this example:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>  metadata:NXnote
 <span class="linenos"> 2</span>    @NX_class = NXnote
 <span class="linenos"> 3</span>    @target = /entry/instrument/bluesky/metadata
-<span class="linenos"> 4</span>    beamline_id:NX_CHAR = b&#39;APS USAXS 9-ID-C&#39;
+<span class="linenos"> 4</span>    beamline_id:NX_CHAR = b'APS USAXS 9-ID-C'
 <span class="linenos"> 5</span>      @target = /entry/instrument/bluesky/metadata/beamline_id
-<span class="linenos"> 6</span>    datetime:NX_CHAR = b&#39;2019-05-02 17:45:33.904824&#39;
+<span class="linenos"> 6</span>    datetime:NX_CHAR = b'2019-05-02 17:45:33.904824'
 <span class="linenos"> 7</span>      @target = /entry/instrument/bluesky/metadata/datetime
-<span class="linenos"> 8</span>    detectors:NX_CHAR = b&#39;- I0_USAXS\n&#39;
+<span class="linenos"> 8</span>    detectors:NX_CHAR = b'- I0_USAXS\n'
 <span class="linenos"> 9</span>      @target = /entry/instrument/bluesky/metadata/detectors
 <span class="linenos">10</span>      @text_format = yaml
-<span class="linenos">11</span>    hints:NX_CHAR = b&#39;dimensions:\n- - - m_stage_r\n  - primary\n&#39;
+<span class="linenos">11</span>    hints:NX_CHAR = b'dimensions:\n- - - m_stage_r\n  - primary\n'
 <span class="linenos">12</span>      @target = /entry/instrument/bluesky/metadata/hints
 <span class="linenos">13</span>      @text_format = yaml
-<span class="linenos">14</span>    login_id:NX_CHAR = b&#39;usaxs@usaxscontrol.xray.aps.anl.gov&#39;
+<span class="linenos">14</span>    login_id:NX_CHAR = b'usaxs@usaxscontrol.xray.aps.anl.gov'
 <span class="linenos">15</span>      @target = /entry/instrument/bluesky/metadata/login_id
-<span class="linenos">16</span>    motors:NX_CHAR = b&#39;- m_stage_r\n&#39;
+<span class="linenos">16</span>    motors:NX_CHAR = b'- m_stage_r\n'
 <span class="linenos">17</span>      @target = /entry/instrument/bluesky/metadata/motors
 <span class="linenos">18</span>      @text_format = yaml
 <span class="linenos">19</span>    pid:NX_INT64[] =
 <span class="linenos">20</span>      @target = /entry/instrument/bluesky/metadata/pid
-<span class="linenos">21</span>    plan_name:NX_CHAR = b&#39;tune_mr&#39;
+<span class="linenos">21</span>    plan_name:NX_CHAR = b'tune_mr'
 <span class="linenos">22</span>      @target = /entry/instrument/bluesky/metadata/plan_name
-<span class="linenos">23</span>    plan_type:NX_CHAR = b&#39;generator&#39;
+<span class="linenos">23</span>    plan_type:NX_CHAR = b'generator'
 <span class="linenos">24</span>      @target = /entry/instrument/bluesky/metadata/plan_type
-<span class="linenos">25</span>    proposal_id:NX_CHAR = b&#39;testing Bluesky installation&#39;
+<span class="linenos">25</span>    proposal_id:NX_CHAR = b'testing Bluesky installation'
 <span class="linenos">26</span>      @target = /entry/instrument/bluesky/metadata/proposal_id
-<span class="linenos">27</span>    purpose:NX_CHAR = b&#39;tuner&#39;
+<span class="linenos">27</span>    purpose:NX_CHAR = b'tuner'
 <span class="linenos">28</span>      @target = /entry/instrument/bluesky/metadata/purpose
 <span class="linenos">29</span>    run_start_uid:NX_CHAR = 2ffe4d87-9f0c-464a-9d14-213ec71afaf7
 <span class="linenos">30</span>      @long_name = bluesky run uid
 <span class="linenos">31</span>      @target = /entry/instrument/bluesky/metadata/run_start_uid
-<span class="linenos">32</span>    tune_md:NX_CHAR = b&quot;initial_position: 8.824977\ntime_iso8601: &#39;2019-05-02 17:45:33.923544&#39;\nwidth: -0.004\n&quot;
+<span class="linenos">32</span>    tune_md:NX_CHAR = b"initial_position: 8.824977\ntime_iso8601: '2019-05-02 17:45:33.923544'\nwidth: -0.004\n"
 <span class="linenos">33</span>      @target = /entry/instrument/bluesky/metadata/tune_md
 <span class="linenos">34</span>      @text_format = yaml
-<span class="linenos">35</span>    tune_parameters:NX_CHAR = b&#39;initial_position: 8.824977\nnum: 31\npeak_choice: com\nwidth: -0.004\nx_axis: m_stage_r\ny_axis: I0_USAXS\n&#39;
+<span class="linenos">35</span>    tune_parameters:NX_CHAR = b'initial_position: 8.824977\nnum: 31\npeak_choice: com\nwidth: -0.004\nx_axis: m_stage_r\ny_axis: I0_USAXS\n'
 <span class="linenos">36</span>      @target = /entry/instrument/bluesky/metadata/tune_parameters
 <span class="linenos">37</span>      @text_format = yaml
 <span class="linenos">38</span>    uid --&gt; /entry/instrument/bluesky/run_start_uid
@@ -1033,17 +1033,17 @@ Here, we show the tree structure for one signal (<code class="docutils literal n
 <span class="linenos"> 8</span>      @signal = value
 <span class="linenos"> 9</span>      @signal_type = detector
 <span class="linenos">10</span>      @target = /entry/instrument/bluesky/streams/primary/I0_USAXS
-<span class="linenos">11</span>      EPOCH:NX_FLOAT64[31] = [1556837134.972796, 1556837135.589462, 1556837135.989462, &#39;...&#39;, 1556837147.656129]
+<span class="linenos">11</span>      EPOCH:NX_FLOAT64[31] = [1556837134.972796, 1556837135.589462, 1556837135.989462, '...', 1556837147.656129]
 <span class="linenos">12</span>        @long_name = epoch time (s)
 <span class="linenos">13</span>        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/EPOCH
 <span class="linenos">14</span>        @units = s
-<span class="linenos">15</span>      time:NX_FLOAT64[31] = [0.0, 0.6166660785675049, 1.0166659355163574, &#39;...&#39;, 12.683332920074463]
+<span class="linenos">15</span>      time:NX_FLOAT64[31] = [0.0, 0.6166660785675049, 1.0166659355163574, '...', 12.683332920074463]
 <span class="linenos">16</span>        @long_name = time since first data (s)
 <span class="linenos">17</span>        @start_time = 1556837134.972796
 <span class="linenos">18</span>        @start_time_iso = 2019-05-02T17:45:34.972796
 <span class="linenos">19</span>        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/time
 <span class="linenos">20</span>        @units = s
-<span class="linenos">21</span>      value:NX_FLOAT64[31] = [127.0, 126.0, 127.0, &#39;...&#39;, 127.0]
+<span class="linenos">21</span>      value:NX_FLOAT64[31] = [127.0, 126.0, 127.0, '...', 127.0]
 <span class="linenos">22</span>        @long_name = I0_USAXS
 <span class="linenos">23</span>        @lower_ctrl_limit = 0.0
 <span class="linenos">24</span>        @precision = 0
@@ -1143,25 +1143,25 @@ NeXus structure is completed by making links to data from either
 <span class="linenos"> 27</span>        plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
 <span class="linenos"> 28</span>        uid --&gt; /entry/instrument/bluesky/metadata/run_start_uid
 <span class="linenos"> 29</span>        metadata:NXnote
-<span class="linenos"> 30</span>          APSTOOLS_VERSION:NX_CHAR = b&#39;1.1.0&#39;
-<span class="linenos"> 31</span>          BLUESKY_VERSION:NX_CHAR = b&#39;1.5.2&#39;
-<span class="linenos"> 32</span>          EPICS_CA_MAX_ARRAY_BYTES:NX_CHAR = b&#39;1280000&#39;
-<span class="linenos"> 33</span>          EPICS_HOST_ARCH:NX_CHAR = b&#39;linux-x86_64&#39;
-<span class="linenos"> 34</span>          OPHYD_VERSION:NX_CHAR = b&#39;1.3.3&#39;
-<span class="linenos"> 35</span>          beamline_id:NX_CHAR = b&#39;APS USAXS 9-ID-C&#39;
-<span class="linenos"> 36</span>          datetime:NX_CHAR = b&#39;2019-05-02 17:45:33.904824&#39;
-<span class="linenos"> 37</span>          detectors:NX_CHAR = b&#39;- I0_USAXS\n&#39;
-<span class="linenos"> 38</span>          hints:NX_CHAR = b&#39;dimensions:\n- - - m_stage_r\n  - primary\n&#39;
-<span class="linenos"> 39</span>          login_id:NX_CHAR = b&#39;usaxs@usaxscontrol.xray.aps.anl.gov&#39;
-<span class="linenos"> 40</span>          motors:NX_CHAR = b&#39;- m_stage_r\n&#39;
+<span class="linenos"> 30</span>          APSTOOLS_VERSION:NX_CHAR = b'1.1.0'
+<span class="linenos"> 31</span>          BLUESKY_VERSION:NX_CHAR = b'1.5.2'
+<span class="linenos"> 32</span>          EPICS_CA_MAX_ARRAY_BYTES:NX_CHAR = b'1280000'
+<span class="linenos"> 33</span>          EPICS_HOST_ARCH:NX_CHAR = b'linux-x86_64'
+<span class="linenos"> 34</span>          OPHYD_VERSION:NX_CHAR = b'1.3.3'
+<span class="linenos"> 35</span>          beamline_id:NX_CHAR = b'APS USAXS 9-ID-C'
+<span class="linenos"> 36</span>          datetime:NX_CHAR = b'2019-05-02 17:45:33.904824'
+<span class="linenos"> 37</span>          detectors:NX_CHAR = b'- I0_USAXS\n'
+<span class="linenos"> 38</span>          hints:NX_CHAR = b'dimensions:\n- - - m_stage_r\n  - primary\n'
+<span class="linenos"> 39</span>          login_id:NX_CHAR = b'usaxs@usaxscontrol.xray.aps.anl.gov'
+<span class="linenos"> 40</span>          motors:NX_CHAR = b'- m_stage_r\n'
 <span class="linenos"> 41</span>          pid:NX_INT64[] = [ ... ]
-<span class="linenos"> 42</span>          plan_name:NX_CHAR = b&#39;tune_mr&#39;
-<span class="linenos"> 43</span>          plan_type:NX_CHAR = b&#39;generator&#39;
-<span class="linenos"> 44</span>          proposal_id:NX_CHAR = b&#39;testing Bluesky installation&#39;
-<span class="linenos"> 45</span>          purpose:NX_CHAR = b&#39;tuner&#39;
+<span class="linenos"> 42</span>          plan_name:NX_CHAR = b'tune_mr'
+<span class="linenos"> 43</span>          plan_type:NX_CHAR = b'generator'
+<span class="linenos"> 44</span>          proposal_id:NX_CHAR = b'testing Bluesky installation'
+<span class="linenos"> 45</span>          purpose:NX_CHAR = b'tuner'
 <span class="linenos"> 46</span>          run_start_uid:NX_CHAR = 2ffe4d87-9f0c-464a-9d14-213ec71afaf7
-<span class="linenos"> 47</span>          tune_md:NX_CHAR = b&quot;initial_position: 8.824977\ntime_iso8601: &#39;2019-05-02 17:45:33.923544&#39;\nwidth: -0.004\n&quot;
-<span class="linenos"> 48</span>          tune_parameters:NX_CHAR = b&#39;initial_position: 8.824977\nnum: 31\npeak_choice: com\nwidth: -0.004\nx_axis: m_stage_r\ny_axis: I0_USAXS\n&#39;
+<span class="linenos"> 47</span>          tune_md:NX_CHAR = b"initial_position: 8.824977\ntime_iso8601: '2019-05-02 17:45:33.923544'\nwidth: -0.004\n"
+<span class="linenos"> 48</span>          tune_parameters:NX_CHAR = b'initial_position: 8.824977\nnum: 31\npeak_choice: com\nwidth: -0.004\nx_axis: m_stage_r\ny_axis: I0_USAXS\n'
 <span class="linenos"> 49</span>          uid --&gt; /entry/instrument/bluesky/run_start_uid
 <span class="linenos"> 50</span>        streams:NXnote
 <span class="linenos"> 51</span>          baseline:NXnote
@@ -1180,9 +1180,9 @@ NeXus structure is completed by making links to data from either
 <span class="linenos"> 64</span>            aps_global_feedback:NXdata
 <span class="linenos"> 65</span>              EPOCH:NX_FLOAT64[2] = [ ... ]
 <span class="linenos"> 66</span>              time:NX_FLOAT64[2] = [ ... ]
-<span class="linenos"> 67</span>              value:NX_CHAR[3,3] = [&quot;Off&quot;, &quot;Off&quot;]
-<span class="linenos"> 68</span>              value_end:NX_CHAR = b&#39;Off&#39;
-<span class="linenos"> 69</span>              value_start:NX_CHAR = b&#39;Off&#39;
+<span class="linenos"> 67</span>              value:NX_CHAR[3,3] = ["Off", "Off"]
+<span class="linenos"> 68</span>              value_end:NX_CHAR = b'Off'
+<span class="linenos"> 69</span>              value_start:NX_CHAR = b'Off'
 <span class="linenos"> 70</span>            # many baseline groups omitted for brevity
 <span class="linenos"> 71</span>          primary:NXnote
 <span class="linenos"> 72</span>            I0_USAXS:NXdata
@@ -1276,22 +1276,22 @@ NeXus structure is completed by making links to data from either
 <p>EXAMPLE : use as writer from Databroker:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecWriterCallback2</span>
 <span class="n">specwriter</span> <span class="o">=</span> <span class="n">SpecWriterCallback2</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;a123456&quot;</span><span class="p">]):</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">"a123456"</span><span class="p">]):</span>
     <span class="n">specwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Look at SPEC data file: &quot;</span> <span class="o">+</span> <span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Look at SPEC data file: "</span> <span class="o">+</span> <span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>EXAMPLE : use as writer from Databroker with customizations:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecWriterCallback2</span>
 
 <span class="c1"># write into file: /tmp/cerium.spec</span>
-<span class="n">specwriter</span> <span class="o">=</span> <span class="n">SpecWriterCallback2</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;/tmp/cerium.spec&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;abcd123&quot;</span><span class="p">]):</span>
+<span class="n">specwriter</span> <span class="o">=</span> <span class="n">SpecWriterCallback2</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">"/tmp/cerium.spec"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">"abcd123"</span><span class="p">]):</span>
     <span class="n">specwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
 
 <span class="c1"># write into file: /tmp/barium.dat</span>
-<span class="n">specwriter</span><span class="o">.</span><span class="n">newfile</span><span class="p">(</span><span class="s2">&quot;/tmp/barium.dat&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">&quot;b46b63d4&quot;</span><span class="p">]):</span>
+<span class="n">specwriter</span><span class="o">.</span><span class="n">newfile</span><span class="p">(</span><span class="s2">"/tmp/barium.dat"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">db</span><span class="p">[</span><span class="s2">"b46b63d4"</span><span class="p">]):</span>
     <span class="n">specwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1301,18 +1301,18 @@ NeXus structure is completed by making links to data from either
 <span class="linenos"> 3</span>#D Fri Nov 17 13:51:41 2017
 <span class="linenos"> 4</span>#C BlueSky  user = mintadmin  host = mint-vm
 <span class="linenos"> 5</span>
-<span class="linenos"> 6</span>#S 233  scan(detectors=[&#39;synthetic_pseudovoigt&#39;], num=20, motor=[&#39;m1&#39;], start=-1.65, stop=-1.25, per_step=None)
+<span class="linenos"> 6</span>#S 233  scan(detectors=['synthetic_pseudovoigt'], num=20, motor=['m1'], start=-1.65, stop=-1.25, per_step=None)
 <span class="linenos"> 7</span>#D Fri Nov 17 11:58:56 2017
 <span class="linenos"> 8</span>#C Fri Nov 17 11:58:56 2017.  plan_type = generator
 <span class="linenos"> 9</span>#C Fri Nov 17 11:58:56 2017.  uid = ddb81ac5-f3ee-4219-b047-c1196d08a5c1
 <span class="linenos">10</span>#MD beamline_id = developer__YOUR_BEAMLINE_HERE
 <span class="linenos">11</span>#MD login_id = mintadmin@mint-vm
-<span class="linenos">12</span>#MD motors = [&#39;m1&#39;]
+<span class="linenos">12</span>#MD motors = ['m1']
 <span class="linenos">13</span>#MD num_intervals = 19
 <span class="linenos">14</span>#MD num_points = 20
 <span class="linenos">15</span>#MD pid = 7133
 <span class="linenos">16</span>#MD plan_pattern = linspace
-<span class="linenos">17</span>#MD plan_pattern_args = {&#39;start&#39;: -1.65, &#39;stop&#39;: -1.25, &#39;num&#39;: 20}
+<span class="linenos">17</span>#MD plan_pattern_args = {'start': -1.65, 'stop': -1.25, 'num': 20}
 <span class="linenos">18</span>#MD plan_pattern_module = numpy
 <span class="linenos">19</span>#MD proposal_id = None
 <span class="linenos">20</span>#N 20

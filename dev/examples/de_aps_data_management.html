@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -584,13 +584,13 @@ proposal and/or ESAF numbers, …</p>
 <code class="docutils literal notranslate"><span class="pre">experiment</span></code> to be used for the user’s data collection.  Bluesky should remember
 this name so that the user does not need to supply for any of their data
 collection activities.  For example:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signal</span>
-<span class="n">dm_experiment</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_experiment&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">dm_experiment</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"dm_experiment"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="start-a-daq-if-needed">
@@ -600,13 +600,13 @@ collection activities.  For example:</p>
 copy new files to the DM experiment.  For example:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dm_get_experiment_datadir_active_daq</span><span class="p">,</span> <span class="n">dm_start_daq</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
 
     <span class="c1"># local directory tree to monitor</span>
-    <span class="n">data_directory</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/data/&quot;</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="s2">"/some/path/to/data/"</span>
     <span class="c1"># DM experiment subdirectory for upload</span>
-    <span class="n">dm_daq_directory</span> <span class="o">=</span> <span class="s2">&quot;something&quot;</span>
+    <span class="n">dm_daq_directory</span> <span class="o">=</span> <span class="s2">"something"</span>
     <span class="n">daq</span> <span class="o">=</span> <span class="n">dm_get_experiment_datadir_active_daq</span><span class="p">(</span>
         <span class="n">dm_experiment_name</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">daq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -616,11 +616,11 @@ copy new files to the DM experiment.  For example:</p>
             <span class="n">destDirectory</span><span class="o">=</span><span class="n">dm_daq_directory</span>
         <span class="p">)</span>
     <span class="c1"># remember this for later</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_daq_id</span><span class="p">,</span> <span class="n">daq</span><span class="p">[</span><span class="s2">&quot;id])</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_daq_id</span><span class="p">,</span> <span class="n">daq</span><span class="p">[</span><span class="s2">"id])</span>
 </pre></div>
 </div>
 <p>where</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">dm_daq_id</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_daq_id&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">dm_daq_id</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"dm_daq_id"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Quickly, this can become more complicated if more than one DAQ is needed.</p>
@@ -634,15 +634,15 @@ workflow) that processes the data.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dm_upload</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_user</span><span class="p">(</span>
-    <span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">upload_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">upload_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
 
     <span class="c1"># upload a file</span>
     <span class="c1"># DM experiment subdirectory for upload</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">upload_file</span><span class="p">)</span>
-    <span class="n">dm_upload_directory</span> <span class="o">=</span> <span class="s2">&quot;something&quot;</span>
+    <span class="n">dm_upload_directory</span> <span class="o">=</span> <span class="s2">"something"</span>
     <span class="n">dm_upload</span><span class="p">(</span>
         <span class="n">dm_experiment_name</span><span class="p">,</span>
         <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="p">),</span>  <span class="c1"># the directory name</span>
@@ -669,10 +669,10 @@ executed and how the workflow will interact.</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">DM_WorkflowConnector</span>
 
     <span class="c1"># ... later, in the bluesky plan ...</span>
-    <span class="c1"># REPLACE &quot;dm_workflow&quot; with the name of the workflow to be used.</span>
+    <span class="c1"># REPLACE "dm_workflow" with the name of the workflow to be used.</span>
     <span class="c1"># This could be a keyword argument to the plan!</span>
     <span class="c1"># The reporting settings could also be user-selectable keyword arguments.</span>
-    <span class="n">dm_workflow</span> <span class="o">=</span> <span class="n">DM_WorkflowConnector</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_workflow&quot;</span><span class="p">)</span>
+    <span class="n">dm_workflow</span> <span class="o">=</span> <span class="n">DM_WorkflowConnector</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"dm_workflow"</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
         <span class="n">dm_workflow</span><span class="o">.</span><span class="n">concise_reporting</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># True: for less details</span>
         <span class="n">dm_workflow</span><span class="o">.</span><span class="n">reporting_period</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span>  <span class="c1"># for periodic reports (s)</span>

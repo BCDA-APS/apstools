@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.measComp_tc32_support</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Measurement Computing TC-32 Thermocouple reader</span>
 <span class="sd">++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 
@@ -461,7 +461,7 @@
 <span class="sd">   ~Tc32BinaryOutput</span>
 <span class="sd">   ~Tc32ThermocoupleChannel</span>
 <span class="sd">   ~_channels</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -471,21 +471,21 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalWithRBV</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormattedComponent</span> <span class="k">as</span> <span class="n">FC</span>
 
-<span class="n">BI_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Bi</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
-<span class="n">BO_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Bo</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">)]</span>  <span class="c1"># note Bo31 is not writable</span>
-<span class="n">TC_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Ti</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">)]</span>
+<span class="n">BI_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Bi</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">BO_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Bo</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">)]</span>  <span class="c1"># note Bo31 is not writable</span>
+<span class="n">TC_CHANNEL_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Ti</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">)]</span>
 
 
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.14&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">_MC_TC32_BaseClass</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for I/O interface classes below.</span>
 
 <span class="sd">    Enables a common :func:`apstools.devices.measComp_tc32_support._channels()`</span>
 <span class="sd">    function to work for all the interfaces.</span>
 
 <span class="sd">    Users will not need to call this class directly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">R</span>
@@ -494,58 +494,58 @@
 
 <div class="viewcode-block" id="Tc32BinaryInput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/measComp_tc32_support/index.html#apstools.devices.measComp_tc32_support.Tc32BinaryInput">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.14&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Tc32BinaryInput</span><span class="p">(</span><span class="n">_MC_TC32_BaseClass</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Binary input channel of a MeasComp TC-32 device.</span>
 
 <span class="sd">    * EPICS support: ``measComp/Db/measCompBinaryIn.template``</span>
 <span class="sd">    * Users will not need to call this class directly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">bit</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}{self.R}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span></div>
+    <span class="n">bit</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}{self.R}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Tc32BinaryOutput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/measComp_tc32_support/index.html#apstools.devices.measComp_tc32_support.Tc32BinaryOutput">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.14&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Tc32BinaryOutput</span><span class="p">(</span><span class="n">_MC_TC32_BaseClass</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Binary output channel of a MeasComp TC-32 device.</span>
 
 <span class="sd">    * EPICS support: ``measComp/Db/measCompBinaryOut.template``</span>
 <span class="sd">    * Users will not need to call this class directly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">bit</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self.R}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span></div>
+    <span class="n">bit</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self.R}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Tc32ThermocoupleChannel">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/measComp_tc32_support/index.html#apstools.devices.measComp_tc32_support.Tc32ThermocoupleChannel">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.14&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Tc32ThermocoupleChannel</span><span class="p">(</span><span class="n">_MC_TC32_BaseClass</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Thermocouple channel of a MeasComp TC-32 device.</span>
 
 <span class="sd">    * EPICS support: ``measComp/Db/measCompTemperatureIn.template``</span>
 <span class="sd">    * Users will not need to call this class directly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}{self.R}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="nb">filter</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}{self.R}</span><span class="s2">Filter&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">open_detect</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}{self.R}</span><span class="s2">OpenTCDetect&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}{self.R}</span><span class="s2">Scale&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">thermocouple_type</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self.R}</span><span class="s2">TCType&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}{self.R}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}{self.R}</span><span class="s2">Filter"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">open_detect</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}{self.R}</span><span class="s2">OpenTCDetect"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}{self.R}</span><span class="s2">Scale"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">thermocouple_type</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self.R}</span><span class="s2">TCType"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_channels</span><span class="p">(</span><span class="n">dev_class</span><span class="p">,</span> <span class="n">channel_list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the channels for the I/O interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create the channels for the I/O interface."""</span>
     <span class="c1"># fmt: off</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">chan</span><span class="p">:</span> <span class="p">(</span><span class="n">dev_class</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
+        <span class="n">chan</span><span class="p">:</span> <span class="p">(</span><span class="n">dev_class</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"R"</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
         <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channel_list</span>
     <span class="p">}</span>
     <span class="c1"># fmt: on</span>
@@ -554,11 +554,11 @@
 
 <div class="viewcode-block" id="MeasCompTc32">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/measComp_tc32_support/index.html#apstools.devices.measComp_tc32_support.MeasCompTc32">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.14&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MeasCompTc32</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Measurement Computing TC-32 32-channel Thermocouple reader.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">binary_inputs</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_channels</span><span class="p">(</span><span class="n">Tc32BinaryInput</span><span class="p">,</span> <span class="n">BI_CHANNEL_LIST</span><span class="p">))</span>
     <span class="n">binary_outputs</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_channels</span><span class="p">(</span><span class="n">Tc32BinaryOutput</span><span class="p">,</span> <span class="n">BO_CHANNEL_LIST</span><span class="p">))</span>

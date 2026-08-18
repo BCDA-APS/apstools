@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.callbacks.scan_signal_statistics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Collect statistics on the first detector used in 1-D scans.</span>
 <span class="sd">===========================================================</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~SignalStatsCallback</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -457,9 +457,9 @@
 
 <div class="viewcode-block" id="SignalStatsCallback">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback">[docs]</a>
-<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.10&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Add compute() method; refactor stop() to use it.&quot;</span><span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.10"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Add compute() method; refactor stop() to use it."</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SignalStatsCallback</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Callback: Collect peak (&amp; other) statistics during a scan.</span>
 
 <span class="sd">    Subscribe the ``receiver()`` method. Use with step scan plans such as</span>
@@ -507,46 +507,46 @@
 <span class="sd">        ~_data</span>
 <span class="sd">        ~_scanning</span>
 <span class="sd">        ~_registers</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">data_stream</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;primary&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;RunEngine document with signals to to watch.&quot;&quot;&quot;</span>
+    <span class="n">data_stream</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"primary"</span>
+<span class="w">    </span><span class="sd">"""RunEngine document with signals to to watch."""</span>
 
     <span class="n">feature</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the peak feature used for alignment (e.g. ``&quot;centroid&quot;``).  Set by the caller.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Name of the peak feature used for alignment (e.g. ``"centroid"``).  Set by the caller."""</span>
 
     <span class="n">reporting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;If ``True`` (default), call the ``report()`` method when a ``stop`` document is received.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""</span>
 
     <span class="n">_reported</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Has ``report()`` been called since the last ``clear()``?&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Has ``report()`` been called since the last ``clear()``?"""</span>
 
     <span class="n">_scanning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Is a run *in progress*?&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Is a run *in progress*?"""</span>
 
     <span class="n">_registers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Deprecated**: Use &#39;analysis&#39; instead, will remove in next major release.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    **Deprecated**: Use 'analysis' instead, will remove in next major release.</span>
 
 <span class="sd">    Dictionary (keyed on Signal name) of ``SummationRegister()`` objects.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">_data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Arrays of x &amp; y data&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Arrays of x &amp; y data"""</span>
 
     <span class="n">analysis</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dictionary of statistical array analyses.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dictionary of statistical array analyses."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;_motor&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># not initialized</span>
+        <span class="k">if</span> <span class="s2">"_motor"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># not initialized</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;motors=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="si">!r}</span><span class="s2">,  detectors=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="si">!r}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"motors=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="si">!r}</span><span class="s2">,  detectors=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="si">!r}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)"</span>
 
 <div class="viewcode-block" id="SignalStatsCallback.clear">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear the internal memory for the next run.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Clear the internal memory for the next run."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reported</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -561,31 +561,31 @@
 <div class="viewcode-block" id="SignalStatsCallback.descriptor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receives &#39;descriptor&#39; documents from the RunEngine.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Receives 'descriptor' documents from the RunEngine."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.descriptor_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_stream_data_map</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="c1"># Remember now, to match with later events.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_descriptor_uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_descriptor_uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"uid"</span><span class="p">]</span>
 
         <span class="n">data_map</span> <span class="o">=</span> <span class="n">get_stream_data_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No detector signals available.  No statistics.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"detectors"</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No detector signals available.  No statistics."</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No motor signals available.  No statistics.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"motors"</span><span class="p">,</span> <span class="p">[]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No motor signals available.  No statistics."</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="c1"># Pick the first motor signal.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span> <span class="o">=</span> <span class="n">data_map</span><span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span> <span class="o">=</span> <span class="n">data_map</span><span class="p">[</span><span class="s2">"motors"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># Get the signals for each detector object(s)</span>
-        <span class="k">for</span> <span class="n">y_name</span> <span class="ow">in</span> <span class="n">data_map</span><span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">y_name</span> <span class="ow">in</span> <span class="n">data_map</span><span class="p">[</span><span class="s2">"detectors"</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">y_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_names</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_y_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_name</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">y_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -598,18 +598,18 @@
 <div class="viewcode-block" id="SignalStatsCallback.event">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receives &#39;event&#39; documents from the RunEngine.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Receives 'event' documents from the RunEngine."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_descriptor_uid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"descriptor"</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_descriptor_uid</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="c1"># Collect the data for the signals.</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">yname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_names</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">yname</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="n">yname</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_registers</span><span class="p">[</span><span class="n">yname</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># deprecated, for removal</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">yname</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
 
@@ -617,38 +617,38 @@
 <div class="viewcode-block" id="SignalStatsCallback.receiver">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">document</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Client method used to subscribe to the RunEngine.&quot;&quot;&quot;</span>
-        <span class="n">handlers</span> <span class="o">=</span> <span class="s2">&quot;start stop descriptor event&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">"""Client method used to subscribe to the RunEngine."""</span>
+        <span class="n">handlers</span> <span class="o">=</span> <span class="s2">"start stop descriptor event"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">:</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)(</span><span class="n">document</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: unhandled document type: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">: unhandled document type: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SignalStatsCallback.report">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print a table with the collected statistics for each signal.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Print a table with the collected statistics for each signal."""</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">x_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span>
         <span class="n">y_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">            n centroid x_at_max_y</span>
 <span class="s2">            fwhm variance sigma</span>
 <span class="s2">            min_x mean_x max_x</span>
 <span class="s2">            min_y mean_y max_y</span>
 <span class="s2">            success reasons</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="s2">        """</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
         <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;statistic value&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">]</span>
-        <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Motor: </span><span class="si">{</span><span class="n">x_name</span><span class="si">!r}</span><span class="s2">  Detector: </span><span class="si">{</span><span class="n">y_name</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"statistic value"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">]</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Motor: </span><span class="si">{</span><span class="n">x_name</span><span class="si">!r}</span><span class="s2">  Detector: </span><span class="si">{</span><span class="n">y_name</span><span class="si">!r}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  Feature: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">feature</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  Feature: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">feature</span><span class="si">!r}</span><span class="s2">"</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reported</span> <span class="o">=</span> <span class="kc">True</span></div>
@@ -657,18 +657,18 @@
 <div class="viewcode-block" id="SignalStatsCallback.start">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receives &#39;start&#39; documents from the RunEngine.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Receives 'start' documents from the RunEngine."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="c1"># These command arguments might each have many signals.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"detectors"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">"motors"</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SignalStatsCallback.compute">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.compute">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute XY statistics from accumulated data.</span>
+<span class="w">        </span><span class="sd">"""Compute XY statistics from accumulated data.</span>
 
 <span class="sd">        Can be called mid-run (before the stop document) to populate</span>
 <span class="sd">        ``self.analysis`` with the current statistics.  This is used by</span>
@@ -676,14 +676,14 @@
 <span class="sd">        the run closes.</span>
 
 <span class="sd">        (new in release 1.7.10)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">xy_statistics</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No XY statistics: no X axis name found.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No XY statistics: no X axis name found."</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No XY statistics: no Y axis names found.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No XY statistics: no Y axis names found."</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_name</span><span class="p">):</span>
             <span class="k">return</span>
@@ -697,7 +697,7 @@
 <div class="viewcode-block" id="SignalStatsCallback.stop">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/callbacks/scan_signal_statistics/index.html#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receives &#39;stop&#39; documents from the RunEngine.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Receives 'stop' documents from the RunEngine."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scanning</span> <span class="o">=</span> <span class="kc">False</span>

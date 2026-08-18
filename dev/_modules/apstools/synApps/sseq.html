@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.synApps.sseq</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Ophyd support for the EPICS sseq (string sequence) record</span>
 
 
@@ -448,7 +448,7 @@
 <span class="sd">    ~SseqRecord</span>
 <span class="sd">    ~UserStringSequenceDevice</span>
 <span class="sd">    ~UserStringSequenceN</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -462,50 +462,50 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordDeviceCommonAll</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSynAppsRecordEnableMixin</span>
 
-<span class="n">STEP_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;step</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>  <span class="c1"># step1, step2, step10</span>
+<span class="n">STEP_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"step</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>  <span class="c1"># step1, step2, step10</span>
 
 
 <div class="viewcode-block" id="sseqRecordStep">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.sseqRecordStep">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">sseqRecordStep</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps sseq single step of an sseq record.</span>
 
-<span class="sd">    Step of a synApps sseq record: 1..10  (note: for 10, the PVs use &quot;A&quot;)</span>
+<span class="sd">    Step of a synApps sseq record: 1..10  (note: for 10, the PVs use "A")</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps sseqRecordStep</span>
 
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~reset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.DOL</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_pv_valid</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.DOL</span><span class="si">{self._step}</span><span class="s2">V&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">delay</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.DLY</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">string_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.STR</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">numeric_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.DO</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">output_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.LNK</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_pv_valid</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.LNK</span><span class="si">{self._step}</span><span class="s2">V&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.DOL</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_pv_valid</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.DOL</span><span class="si">{self._step}</span><span class="s2">V"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">delay</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.DLY</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">string_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.STR</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">numeric_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.DO</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">output_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.LNK</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_pv_valid</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.LNK</span><span class="si">{self._step}</span><span class="s2">V"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">waiting_completion</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.WTG</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">wait_completion</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.WAIT</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">wait_error</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.WERR</span><span class="si">{self._step}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">waiting_completion</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.WTG</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">wait_completion</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.WAIT</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">wait_error</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.WERR</span><span class="si">{self._step}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="s2">&quot;_123456789A&quot;</span>  <span class="c1"># step #10 (1-based) is called &quot;A&quot;</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="s2">"_123456789A"</span>  <span class="c1"># step #10 (1-based) is called "A"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_step</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="sseqRecordStep.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.sseqRecordStep.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numeric_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># EPICS will set string_value from this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wait_completion</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;NoWait&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wait_completion</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"NoWait"</span><span class="p">)</span></div>
 </div>
 
 
@@ -514,14 +514,14 @@
     <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">step_list</span><span class="p">:</span>
         <span class="n">step_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sseqRecordStep</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step_number</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sseqRecordStep</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"step"</span><span class="p">:</span> <span class="n">step_number</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">defn</span>
 
 
 <div class="viewcode-block" id="SseqRecord">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.SseqRecord">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SseqRecord</span><span class="p">(</span><span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps sseq record support in ophyd</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps SseqRecord</span>
@@ -532,46 +532,46 @@
 <span class="sd">        ~reset</span>
 
 <span class="sd">    :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/sseqRecord.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">busy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">_abort</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ABORT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">busy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">_abort</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".ABORT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
-    <span class="n">selection_link</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SELL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">selection_mask</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SELM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">selection_number</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SELN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">selection_link</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SELL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">selection_mask</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SELM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">selection_number</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SELN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="n">steps</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_steps</span><span class="p">(</span><span class="n">STEP_LIST</span><span class="p">))</span>
 
 <div class="viewcode-block" id="SseqRecord.abort">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.SseqRecord.abort">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        .ABORT is a push button.  Send a 1 to the PV to &quot;push&quot; it.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        .ABORT is a push button.  Send a 1 to the PV to "push" it.</span>
 
 <span class="sd">        Push this button without a timeout from the .put() method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_abort</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_complete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SseqRecord.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.SseqRecord.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selection_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selection_mask</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;All&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection_mask</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"All"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selection_number</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
             <span class="n">step</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span> <span class="n">ch</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">sseqRecordStep</span><span class="p">):</span>
                 <span class="n">step</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steps_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">component_names</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steps.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">STEP_LIST</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span><span class="p">[</span><span class="s2">"fields"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"steps_</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">component_names</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"steps.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">STEP_LIST</span><span class="p">]</span></div>
 </div>
 
 
@@ -579,14 +579,14 @@
 <div class="viewcode-block" id="UserStringSequenceN">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.UserStringSequenceN">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserStringSequenceN</span><span class="p">(</span><span class="n">EpicsSynAppsRecordEnableMixin</span><span class="p">,</span> <span class="n">SseqRecord</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single instance of the userStringSeqN database.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Single instance of the userStringSeqN database."""</span></div>
 
 
 
 <div class="viewcode-block" id="UserStringSequenceDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.UserStringSequenceDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserStringSequenceDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of userStringSeqs: ``$(P):userStringSeq$(N)``</span>
 
 <span class="sd">    Note: This will connect more than 1,000 EpicsSignal objects!</span>
@@ -596,26 +596,26 @@
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~reset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;userStringSeqEnable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">sseq1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq1&quot;</span><span class="p">)</span>
-    <span class="n">sseq2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq2&quot;</span><span class="p">)</span>
-    <span class="n">sseq3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq3&quot;</span><span class="p">)</span>
-    <span class="n">sseq4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq4&quot;</span><span class="p">)</span>
-    <span class="n">sseq5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq5&quot;</span><span class="p">)</span>
-    <span class="n">sseq6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq6&quot;</span><span class="p">)</span>
-    <span class="n">sseq7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq7&quot;</span><span class="p">)</span>
-    <span class="n">sseq8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq8&quot;</span><span class="p">)</span>
-    <span class="n">sseq9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq9&quot;</span><span class="p">)</span>
-    <span class="n">sseq10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">&quot;userStringSeq10&quot;</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"userStringSeqEnable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">sseq1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq1"</span><span class="p">)</span>
+    <span class="n">sseq2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq2"</span><span class="p">)</span>
+    <span class="n">sseq3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq3"</span><span class="p">)</span>
+    <span class="n">sseq4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq4"</span><span class="p">)</span>
+    <span class="n">sseq5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq5"</span><span class="p">)</span>
+    <span class="n">sseq6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq6"</span><span class="p">)</span>
+    <span class="n">sseq7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq7"</span><span class="p">)</span>
+    <span class="n">sseq8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq8"</span><span class="p">)</span>
+    <span class="n">sseq9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq9"</span><span class="p">)</span>
+    <span class="n">sseq10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserStringSequenceN</span><span class="p">,</span> <span class="s2">"userStringSeq10"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserStringSequenceDevice.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.UserStringSequenceDevice.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># lgtm [py/similar-function]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sseq&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"sseq"</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_names</span></div>
@@ -626,18 +626,18 @@
 <div class="viewcode-block" id="EditStringSequence">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/sseq/index.html#apstools.synApps.sseq.EditStringSequence">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EditStringSequence</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps sseq support to quickly re-arrange steps.</span>
 
 <span class="sd">    See the ``editSseq_more`` GUI screen for assistance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">record_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ES:recordName&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">command</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ES:command&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">message_acknowledge</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ES:OperAck&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;ES:message&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-    <span class="n">alert</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;ES:Alert&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ES:Debug&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">record_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ES:recordName"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ES:command"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">message_acknowledge</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ES:OperAck"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"ES:message"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+    <span class="n">alert</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"ES:Alert"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ES:Debug"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 

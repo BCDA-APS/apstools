@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.aps_data_management</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Connect with APS Data Management workflows.</span>
 
 <span class="sd">Example::</span>
@@ -446,11 +446,11 @@
 
 <span class="sd">    RE = bluesky.RunEngine()</span>
 
-<span class="sd">    dm_workflow = DM_WorkflowConnector(name=&quot;dm_workflow&quot;, labels=[&quot;DM&quot;])</span>
+<span class="sd">    dm_workflow = DM_WorkflowConnector(name="dm_workflow", labels=["DM"])</span>
 <span class="sd">    RE(</span>
 <span class="sd">        dm_workflow.run_as_plan(</span>
-<span class="sd">            workflow=&quot;example-01&quot;,</span>
-<span class="sd">            filePath=&quot;/home/beams/S1IDTEST/.bashrc&quot;</span>
+<span class="sd">            workflow="example-01",</span>
+<span class="sd">            filePath="/home/beams/S1IDTEST/.bashrc"</span>
 <span class="sd">        )</span>
 <span class="sd">    )</span>
 
@@ -460,11 +460,11 @@
 
 <span class="sd">    ~DM_WorkflowConnector</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">    DM_WorkflowConnector</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="s2">"""</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
@@ -475,23 +475,23 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">NOT_AVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;-n/a-&quot;</span>
-<span class="n">NOT_RUN_YET</span> <span class="o">=</span> <span class="s2">&quot;not_run&quot;</span>
+<span class="n">NOT_AVAILABLE</span> <span class="o">=</span> <span class="s2">"-n/a-"</span>
+<span class="n">NOT_RUN_YET</span> <span class="o">=</span> <span class="s2">"not_run"</span>
 <span class="n">POLLING_PERIOD_S</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">REPORT_PERIOD_DEFAULT</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">REPORT_PERIOD_MIN</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">STARTING</span> <span class="o">=</span> <span class="s2">&quot;running&quot;</span>
+<span class="n">STARTING</span> <span class="o">=</span> <span class="s2">"running"</span>
 <span class="n">TIMEOUT_DEFAULT</span> <span class="o">=</span> <span class="mi">180</span>  <span class="c1"># TODO: Consider removing/renaming the timeout feature</span>
 
 
 <div class="viewcode-block" id="DM_WorkflowConnector">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DM_WorkflowConnector</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Support for the APS Data Management tools.</span>
 
 <span class="sd">    The DM workflow dictionary of arguments (``workflow_args``) needs special</span>
-<span class="sd">    attention.  Python&#39;s ``dict`` structure is not compatible with MongoDB.  In</span>
+<span class="sd">    attention.  Python's ``dict`` structure is not compatible with MongoDB.  In</span>
 <span class="sd">    turn, ophyd does not support it. A custom plan can choose how to use the</span>
 <span class="sd">    ``workflow_args`` dictionary:</span>
 
@@ -503,8 +503,8 @@
 <span class="sd">        from apstools.plans import write_stream</span>
 
 <span class="sd">        yield from write_stream(</span>
-<span class="sd">            [make_dict_device(workflow_args, name=&quot;kwargs&quot;)],</span>
-<span class="sd">            &quot;workflow_args&quot;</span>
+<span class="sd">            [make_dict_device(workflow_args, name="kwargs")],</span>
+<span class="sd">            "workflow_args"</span>
 <span class="sd">        )</span>
 
 <span class="sd">    .. autosummary::</span>
@@ -519,13 +519,13 @@
 <span class="sd">        ~workflows</span>
 <span class="sd">        ~put_if_different</span>
 <span class="sd">        ~_update_processing_data</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">job</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># DM processing job (must update during workflow execution)</span>
     <span class="n">_api</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># DM processing API</span>
 
-    <span class="n">owner</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">workflow</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">owner</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">workflow</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
     <span class="n">workflow_args</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">job_id</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">NOT_RUN_YET</span><span class="p">)</span>
@@ -535,31 +535,31 @@
     <span class="n">stage_id</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">NOT_RUN_YET</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">NOT_RUN_YET</span><span class="p">)</span>
 
-    <span class="n">polling_period</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">POLLING_PERIOD_S</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">reporting_period</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">REPORT_PERIOD_DEFAULT</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">concise_reporting</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">polling_period</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">POLLING_PERIOD_S</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">reporting_period</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">REPORT_PERIOD_DEFAULT</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">concise_reporting</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default representation of class instance.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Default representation of class instance."""</span>
         <span class="c1"># fmt: off</span>
-        <span class="n">innards</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;owner=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-        <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, workflow=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="n">innards</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"owner='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">'"</span>
+        <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", workflow='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow_args</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">"</span>
         <span class="c1"># fmt: on</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="n">NOT_RUN_YET</span><span class="p">:</span>
-            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="n">run_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_time</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">run_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, </span><span class="si">{</span><span class="n">run_time</span><span class="si">=:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, stage_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
-        <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, status=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">innards</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", </span><span class="si">{</span><span class="n">run_time</span><span class="si">=:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", stage_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
+        <span class="n">innards</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", status=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">innards</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Constructor."""</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Must provide value for &#39;name&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">"Must provide value for 'name'."</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">workflow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -570,7 +570,7 @@
 <div class="viewcode-block" id="DM_WorkflowConnector.put_if_different">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.put_if_different">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Put ophyd signal only if new value is different.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Put ophyd signal only if new value is different."""</span>
         <span class="k">if</span> <span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
             <span class="n">signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -578,29 +578,29 @@
 <div class="viewcode-block" id="DM_WorkflowConnector.getJob">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.getJob">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">getJob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current processing job object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the current processing job object."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">getProcessingJobById</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_processing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        (internal) Called periodically (while process runs) to update self.job.</span>
 
 <span class="sd">        Also updates certain ophyd signals.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="n">NOT_RUN_YET</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getJob</span><span class="p">()</span>
 
         <span class="n">rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">getDictRep</span><span class="p">()</span>
-        <span class="c1"># self.put_if_different(self.exit_status, rep.get(&quot;exitStatus&quot;, NOT_AVAILABLE))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_time</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;runTime&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stage&quot;</span><span class="p">,</span> <span class="n">NOT_AVAILABLE</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="n">NOT_AVAILABLE</span><span class="p">))</span>
+        <span class="c1"># self.put_if_different(self.exit_status, rep.get("exitStatus", NOT_AVAILABLE))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_time</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"runTime"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stage"</span><span class="p">,</span> <span class="n">NOT_AVAILABLE</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"status"</span><span class="p">,</span> <span class="n">NOT_AVAILABLE</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">api</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Local copy of DM Processing API object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Local copy of DM Processing API object."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcApiFactory</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -609,21 +609,21 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">idle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Is DM Processing idle?&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="n">NOT_RUN_YET</span><span class="p">,</span> <span class="s2">&quot;done&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Is DM Processing idle?"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="n">NOT_RUN_YET</span><span class="p">,</span> <span class="s2">"done"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DM_WorkflowConnector.report_status">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.report_status">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">report_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Status report.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Status report."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">concise_reporting</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span>
-            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:"</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="k">if</span> <span class="n">t_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; elapsed: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_offset</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">s&quot;</span>
+                <span class="n">t</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" elapsed: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_offset</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">s"</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
@@ -633,21 +633,21 @@
 
 <div class="viewcode-block" id="DM_WorkflowConnector.start_workflow">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.start_workflow">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">start_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_DEFAULT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">TIMEOUT_DEFAULT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Kickoff a DM workflow with optional reporting timeout.</span>
 
 <span class="sd">        The reporting process will continue until the workflow ends or the</span>
 <span class="sd">        timeout period is exceeded.  It does not affect the actual workflow.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_thread</span>
 
-        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
             <span class="n">workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">workflow</span> <span class="o">=</span> <span class="n">workflow</span>
-        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Must define a workflow name.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Must define a workflow name."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">put_if_different</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="p">,</span> <span class="n">workflow</span><span class="p">)</span>
 
         <span class="n">wfargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_args</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -670,16 +670,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">report_status</span><span class="p">(</span><span class="n">t_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_cleanup</span><span class="p">():</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Call when DM workflow finishes.&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">"""Call when DM workflow finishes."""</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span>
-            <span class="k">if</span> <span class="s2">&quot;_report_deadline&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">"_report_deadline"</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_deadline</span>
 
         <span class="nd">@run_in_thread</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">_run_DM_workflow_thread</span><span class="p">():</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;run DM workflow: </span><span class="si">%s</span><span class="s2"> with reporting time limit=</span><span class="si">%s</span><span class="s2"> s&quot;</span><span class="p">,</span>
+                <span class="s2">"run DM workflow: </span><span class="si">%s</span><span class="s2"> with reporting time limit=</span><span class="si">%s</span><span class="s2"> s"</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
                 <span class="n">timeout</span><span class="p">,</span>
             <span class="p">)</span>
@@ -688,31 +688,31 @@
                 <span class="n">workflowName</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span>
                 <span class="n">argsDict</span><span class="o">=</span><span class="n">wfargs</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DM workflow started: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DM workflow started: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="c1"># wait for workflow to finish</span>
             <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-            <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;done failed timeout&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">"done failed timeout"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_update_processing_data</span><span class="p">()</span>
-                <span class="k">if</span> <span class="s2">&quot;_report_deadline&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_deadline</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">"_report_deadline"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_deadline</span><span class="p">:</span>
                     <span class="n">_reporter</span><span class="p">()</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polling_period</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
             <span class="n">_cleanup</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Final workflow status: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;done failed&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Final workflow status: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">"done failed"</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">report_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"timeout"</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="c1"># fmt: off</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Workflow </span><span class="si">%s</span><span class="s2"> timeout in </span><span class="si">%s</span><span class="s2"> s.&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()),</span> <span class="n">timeout</span>
+                <span class="s2">"Workflow </span><span class="si">%s</span><span class="s2"> timeout in </span><span class="si">%s</span><span class="s2"> s."</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()),</span> <span class="n">timeout</span>
             <span class="p">)</span>
             <span class="c1"># raise TimeoutError(</span>
-            <span class="c1">#     f&quot;Workflow {self.workflow.get()!r}&quot;</span>
-            <span class="c1">#     f&quot; did not finish in {timeout} s.&quot;</span>
+            <span class="c1">#     f"Workflow {self.workflow.get()!r}"</span>
+            <span class="c1">#     f" did not finish in {timeout} s."</span>
             <span class="c1"># )</span>
             <span class="c1"># fmt: on</span>
 
@@ -729,19 +729,19 @@
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.run_as_plan">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_as_plan</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">workflow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">workflow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">wait</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">TIMEOUT_DEFAULT</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the DM workflow as a bluesky plan.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run the DM workflow as a bluesky plan."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
 
-        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">workflow</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
             <span class="n">workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">start_workflow</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;plan: workflow started&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"plan: workflow started"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
             <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">idle</span><span class="p">:</span>
                 <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polling_period</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
@@ -749,58 +749,58 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">processing_jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The list of DM processsing jobs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The list of DM processsing jobs."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">listProcessingJobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">workflows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the list of workflows.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the list of workflows."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">listWorkflows</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
 <div class="viewcode-block" id="DM_WorkflowConnector.report_processing_stages">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_data_management/index.html#apstools.devices.aps_data_management.DM_WorkflowConnector.report_processing_stages">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">report_processing_stages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Print a table about each stage of the workflow process.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">pyRestTable</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">job</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="n">wf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">]</span>
-        <span class="n">stage_keys</span> <span class="o">=</span> <span class="s2">&quot;status runTime exitStatus stdOut stdErr&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">wf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s2">"workflow"</span><span class="p">]</span>
+        <span class="n">stage_keys</span> <span class="o">=</span> <span class="s2">"status runTime exitStatus stdOut stdErr"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;stage_id process processTime&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">stage_keys</span>
-        <span class="k">for</span> <span class="n">stage_id</span><span class="p">,</span> <span class="n">dstage</span> <span class="ow">in</span> <span class="n">wf</span><span class="p">[</span><span class="s2">&quot;stages&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">childProcesses</span> <span class="o">=</span> <span class="n">dstage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;childProcesses&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">"stage_id process processTime"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">stage_keys</span>
+        <span class="k">for</span> <span class="n">stage_id</span><span class="p">,</span> <span class="n">dstage</span> <span class="ow">in</span> <span class="n">wf</span><span class="p">[</span><span class="s2">"stages"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">childProcesses</span> <span class="o">=</span> <span class="n">dstage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"childProcesses"</span><span class="p">,</span> <span class="p">{</span><span class="s2">""</span><span class="p">:</span> <span class="p">{}})</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">childProcesses</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">stage_id</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
 
-                <span class="n">status</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"status"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">processTime</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">submitTime</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;submitTime&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
-                    <span class="n">endTime</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;endTime&quot;</span><span class="p">,</span> <span class="n">submitTime</span><span class="p">)</span>  <span class="c1"># might be unknown</span>
+                    <span class="n">submitTime</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"submitTime"</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+                    <span class="n">endTime</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"endTime"</span><span class="p">,</span> <span class="n">submitTime</span><span class="p">)</span>  <span class="c1"># might be unknown</span>
                     <span class="n">processTime</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">submitTime</span><span class="p">,</span> <span class="mi">999999</span><span class="p">))</span>
                 <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">processTime</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
                 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">stage_keys</span><span class="p">:</span>
-                    <span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;runTime&quot;</span><span class="p">):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"runTime"</span><span class="p">):</span>
                         <span class="n">value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;stdOut&quot;</span><span class="p">,</span> <span class="s2">&quot;stdErr&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"stdOut"</span><span class="p">,</span> <span class="s2">"stdErr"</span><span class="p">):</span>
                         <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()[:</span><span class="n">truncate</span><span class="p">]</span>
                     <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                 <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wf</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot; workflow=</span><span class="si">{</span><span class="n">wf</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot; id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][:</span><span class="mi">8</span><span class="p">]</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot; elapsed=</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">wf</span><span class="p">[</span><span class="s1">'description'</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">" workflow=</span><span class="si">{</span><span class="n">wf</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">" id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job</span><span class="p">[</span><span class="s1">'id'</span><span class="p">][:</span><span class="mi">8</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">" elapsed=</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span></div>
 </div>
 

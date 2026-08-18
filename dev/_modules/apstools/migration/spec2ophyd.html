@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -438,7 +438,7 @@
   <h1>Source code for apstools.migration.spec2ophyd</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">read SPEC config file and convert to ophyd setup commands</span>
 
 <span class="sd">output of ophyd configuration to stdout</span>
@@ -463,23 +463,23 @@
 <span class="sd">    -h, --help      show this help message and exit</span>
 <span class="sd">    -v, --version   print version number and exit</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
 
-<span class="n">KNOWN_DEVICES</span> <span class="o">=</span> <span class="s2">&quot;PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">KNOWN_DEVICES</span> <span class="o">=</span> <span class="s2">"PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="Spec2ophydBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.Spec2ophydBase">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec2ophydBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">str_keys</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">mne</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">mne</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">""</span>
 
 <div class="viewcode-block" id="Spec2ophydBase.obj_keys_to_list">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.Spec2ophydBase.obj_keys_to_list">[docs]</a>
@@ -488,42 +488,42 @@
         <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="s2">&quot;mne&quot;</span> <span class="ow">in</span> <span class="n">keys</span>
-            <span class="ow">and</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">keys</span>
-            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;mne&quot;</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+            <span class="s2">"mne"</span> <span class="ow">in</span> <span class="n">keys</span>
+            <span class="ow">and</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">keys</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"mne"</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">)</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mne</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="p">):</span>
-            <span class="n">keys</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>  <span class="c1"># redundant, do not show</span>
+            <span class="n">keys</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"name"</span><span class="p">))</span>  <span class="c1"># redundant, do not show</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">='</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">items</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj_keys_to_list</span><span class="p">()</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span></div>
 
 
 
 <div class="viewcode-block" id="SpecDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecDevice">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpecDevice</span><span class="p">(</span><span class="n">Spec2ophydBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    SPEC configuration of a device, e.g. multi-channel motor controller</span>
 
-<span class="sd">    SPEC &quot;devices&quot; are components which counters or motors to controllers</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    SPEC "devices" are components which counters or motors to controllers</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_text</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;parse the line from the SPEC config file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""parse the line from the SPEC config file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">config_text</span>
         <span class="c1"># VM_EPICS_M1    = 9idcLAX:m58:c0: 8</span>
-        <span class="n">nm</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">nm</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nm</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">prefix</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
@@ -531,54 +531,54 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ophyd_device</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">&quot;config_line name index, prefix num_channels&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">"config_line name index, prefix num_channels"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
 
 
 
 <div class="viewcode-block" id="ItemNameBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.ItemNameBase">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ItemNameBase</span><span class="p">(</span><span class="n">Spec2ophydBase</span><span class="p">):</span>
     <span class="n">ignore</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">str_keys</span> <span class="o">=</span> <span class="s2">&quot;mne config_line name&quot;</span>
+    <span class="n">str_keys</span> <span class="o">=</span> <span class="s2">"mne config_line name"</span>
 
 <div class="viewcode-block" id="ItemNameBase.item_name_value">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.ItemNameBase.item_name_value">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">item_name_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span></div>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 <div class="viewcode-block" id="ItemNameBase.ophyd_config">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.ItemNameBase.ophyd_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ophyd_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> # FIXME: not valid ophyd&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> # FIXME: not valid ophyd"</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="SpecSignal">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecSignal">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpecSignal</span><span class="p">(</span><span class="n">ItemNameBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    SPEC configuration of a single EPICS PV</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">pvname</span><span class="p">,</span> <span class="n">config_text</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;data provided by caller&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""data provided by caller"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">config_text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mne</span> <span class="o">=</span> <span class="n">mne</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nm</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="n">pvname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">=</span> <span class="s2">&quot;EpicsSignal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">=</span> <span class="s2">"EpicsSignal"</span>
 
-        <span class="n">lr</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">"="</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pop_word</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">int_result</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
             <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">line</span><span class="p">[</span><span class="n">pos</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">int_result</span><span class="p">:</span>
                 <span class="n">l</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
@@ -590,38 +590,38 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">&quot;mne config_line name pvname signal_name&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">"mne config_line name pvname signal_name"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="SpecSignal.setDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecSignal.setDevice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;EPICS_PV&quot;</span><span class="p">):</span>
-            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;VM_EPICS_PV&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"EPICS_PV"</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"VM_EPICS_PV"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">device_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">ophyd_device</span> <span class="o">=</span> <span class="s2">&quot;EpicsSignal&quot;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NONE&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ophyd_device</span> <span class="o">=</span> <span class="s2">"EpicsSignal"</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"NONE"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="SpecSignal.ophyd_config">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecSignal.ophyd_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ophyd_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="si">}</span><span class="s2">(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pvname</span><span class="si">}</span><span class="s2">&#39;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">&#39;, labels=(&#39;detectors&#39;,))&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="si">}</span><span class="s2">('</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pvname</span><span class="si">}</span><span class="s2">', name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">', labels=('detectors',))"</span>
         <span class="n">suffix</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s2">&quot;misc_par_1&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">:</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;misc_par_1&quot;</span><span class="p">)</span>
-            <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsSignal(&#39;</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">&#39;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">&#39;, labels=(&#39;detectors&#39;,))&quot;</span>
+        <span class="k">if</span> <span class="s2">"misc_par_1"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"misc_par_1"</span><span class="p">)</span>
+            <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsSignal('</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">', name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">', labels=('detectors',))"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mne</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  # </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  # </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;# NONE: &quot;</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">"# NONE: "</span> <span class="o">+</span> <span class="n">s</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; # </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" # </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">return</span> <span class="n">s</span></div>
 </div>
 
@@ -629,24 +629,24 @@
 
 <div class="viewcode-block" id="SpecMotor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecMotor">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpecMotor</span><span class="p">(</span><span class="n">ItemNameBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    SPEC configuration of a motor channel</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_text</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;parse the line from the SPEC config file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""parse the line from the SPEC config file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">config_text</span>
         <span class="c1"># Motor    ctrl steps sign slew base backl accel nada  flags   mne  name</span>
         <span class="c1"># MOT002 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my</span>
         <span class="c1"># MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap</span>
-        <span class="n">lr</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config_line</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;MOT&quot;</span><span class="p">))</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">config_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">"="</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_line</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"MOT"</span><span class="p">))</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pop_word</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">int_result</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
             <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">line</span><span class="p">[</span><span class="n">pos</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">int_result</span><span class="p">:</span>
                 <span class="n">l</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
@@ -667,57 +667,57 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mac_parms</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">macro_prefix</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">&quot;mne config_line name macro_prefix mac_parms&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">"mne config_line name macro_prefix mac_parms"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj_keys_to_list</span><span class="p">()</span>
-        <span class="n">txt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">&quot;pvname&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">&quot;ctrl&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;=None&quot;</span><span class="p">):</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">"pvname"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">"ctrl"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"=None"</span><span class="p">):</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
 
 <div class="viewcode-block" id="SpecMotor.setDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecMotor.setDevice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;EPICS_M2&quot;</span><span class="p">):</span>
-            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;VM_EPICS_M1&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"EPICS_M2"</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"VM_EPICS_M1"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">device_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">uc_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;EPICS_M2:&quot;</span><span class="p">)</span> <span class="p">:]</span>
-                <span class="n">unit</span><span class="p">,</span> <span class="n">chan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">uc_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)))</span>
+                <span class="n">uc_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"EPICS_M2:"</span><span class="p">)</span> <span class="p">:]</span>
+                <span class="n">unit</span><span class="p">,</span> <span class="n">chan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">uc_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">m</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;MAC_MOT&quot;</span><span class="p">):</span>
-            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PSE_MAC_MOT&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">m</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"MAC_MOT"</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"PSE_MAC_MOT"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">device_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">uc_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;MAC_MOT:&quot;</span><span class="p">)</span> <span class="p">:]</span>
-                <span class="n">unit</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mac_parms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">uc_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)))</span>
+                <span class="n">uc_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"MAC_MOT:"</span><span class="p">)</span> <span class="p">:]</span>
+                <span class="n">unit</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mac_parms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">uc_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">macro_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span>
                 <span class="c1"># TODO: what else?</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NONE&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"NONE"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="SpecMotor.ophyd_config">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecMotor.ophyd_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ophyd_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsMotor(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pvname</span><span class="si">}</span><span class="s2">&#39;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">&#39;, labels=(&#39;motor&#39;,))&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsMotor('</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pvname</span><span class="si">}</span><span class="s2">', name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">', labels=('motor',))"</span>
         <span class="n">suffix</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s2">&quot;misc_par_1&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="p">:</span>
-            <span class="c1"># suffix = self.motpar.pop(&quot;misc_par_1&quot;)</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="p">[</span><span class="s2">&quot;misc_par_1&quot;</span><span class="p">]</span>
-            <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsMotor(&#39;</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">&#39;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">&#39;, labels=(&#39;motor&#39;,))&quot;</span>
+        <span class="k">if</span> <span class="s2">"misc_par_1"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="p">:</span>
+            <span class="c1"># suffix = self.motpar.pop("misc_par_1")</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="p">[</span><span class="s2">"misc_par_1"</span><span class="p">]</span>
+            <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsMotor('</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">', name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">', labels=('motor',))"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">macro_prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# Macro Motor: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"# Macro Motor: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_line</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"# </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_line</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mne</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  # </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  # </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; # </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" # </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">return</span> <span class="n">s</span></div>
 </div>
 
@@ -725,32 +725,32 @@
 
 <div class="viewcode-block" id="SpecCounter">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecCounter">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpecCounter</span><span class="p">(</span><span class="n">ItemNameBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    SPEC configuration of a counter channel</span>
 
-<span class="sd">    In SPEC&#39;s config file, a single PV signal is described as a counter,</span>
+<span class="sd">    In SPEC's config file, a single PV signal is described as a counter,</span>
 <span class="sd">    attached to an EPICS_PV (as described by a VM_EPICS_PV device).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_text</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;parse the line from the SPEC config file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""parse the line from the SPEC config file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">config_text</span>
         <span class="c1"># # Counter   ctrl unit chan scale flags    mne  name</span>
         <span class="c1"># CNT000 = EPICS_SC  0  0 10000000 0x001      sec  seconds</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">pop_word</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">int_result</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
             <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">line</span><span class="p">[</span><span class="n">pos</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">int_result</span><span class="p">:</span>
                 <span class="n">l</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span>
 
         <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">config_text</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config_line</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;CNT&quot;</span><span class="p">))</span>
-        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>  <span class="c1"># ignore &quot;=&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_line</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"CNT"</span><span class="p">))</span>
+        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>  <span class="c1"># ignore "="</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chan</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">pop_word</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -760,59 +760,59 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reported_pvs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">&quot;mne config_line name unit chan&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">str_keys</span> <span class="o">=</span> <span class="s2">"mne config_line name unit chan"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj_keys_to_list</span><span class="p">()</span>
-        <span class="n">txt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">&quot;pvname&quot;</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">"pvname"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">txt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">&quot;ctrl&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_name_value</span><span class="p">(</span><span class="s2">"ctrl"</span><span class="p">))</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
 
 <div class="viewcode-block" id="SpecCounter.setDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecCounter.setDevice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setDevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;EPICS_SC&quot;</span><span class="p">):</span>
-            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;VM_EPICS_SC&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"EPICS_SC"</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"VM_EPICS_SC"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">device_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">]</span>
                 <span class="c1"># scalers are goofy,</span>
                 <span class="c1"># SPEC uses 0-based numbering,</span>
                 <span class="c1"># scaler uses 1-based</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;EPICS_PV&quot;</span><span class="p">):</span>
-            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;VM_EPICS_PV&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">.S</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"EPICS_PV"</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"VM_EPICS_PV"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">device_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">ophyd_device</span> <span class="o">=</span> <span class="s2">&quot;EpicsSignal&quot;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NONE&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ophyd_device</span> <span class="o">=</span> <span class="s2">"EpicsSignal"</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"NONE"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="SpecCounter.ophyd_config">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecCounter.ophyd_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ophyd_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# counter: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"# counter: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">suffix</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s2">&quot;misc_par_1&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">:</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;misc_par_1&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"misc_par_1"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"misc_par_1"</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">prefix</span>
-                <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsSignal(&quot;</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">&#39;, name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">&#39;, labels=(&#39;detectors&#39;,)&quot;</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
+                <span class="n">pvname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2"> = EpicsSignal("</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">pvname</span><span class="si">}</span><span class="s2">', name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mne</span><span class="si">}</span><span class="s2">', labels=('detectors',)"</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="s2">")"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_line</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"# </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_line</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; # </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cntpar</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" # </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">return</span> <span class="n">s</span></div>
 </div>
 
@@ -820,11 +820,11 @@
 
 <div class="viewcode-block" id="SpecConfig">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.SpecConfig">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpecConfig</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    SPEC configuration</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">config_file</span>
@@ -847,14 +847,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">config_file</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span>
         <span class="n">motor</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">counter</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line_number</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()):</span>
                 <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
-                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"#"</span><span class="p">):</span>
                     <span class="k">continue</span>
 
-                <span class="n">word0</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">word0</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">"="</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">word0</span> <span class="ow">in</span> <span class="n">KNOWN_DEVICES</span><span class="p">:</span>
                     <span class="n">device</span> <span class="o">=</span> <span class="n">SpecDevice</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">:</span>
@@ -863,18 +863,18 @@
                     <span class="n">device</span><span class="o">.</span><span class="n">config_line</span> <span class="o">=</span> <span class="n">line_number</span>
                     <span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">[</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">[</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">word0</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;CNTPAR:&quot;</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="n">word0</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"CNTPAR:"</span><span class="p">):</span>
                     <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># most recent item</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">SpecSignal</span><span class="p">,</span> <span class="n">SpecCounter</span><span class="p">)):</span>
-                        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;CNTPAR:&quot;</span><span class="p">)</span> <span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"CNTPAR:"</span><span class="p">)</span> <span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
                         <span class="n">item</span><span class="o">.</span><span class="n">cntpar</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">word0</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;MOTPAR:&quot;</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="n">word0</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"MOTPAR:"</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">motor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;MOTPAR:&quot;</span><span class="p">)</span> <span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"MOTPAR:"</span><span class="p">)</span> <span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
                         <span class="n">motor</span><span class="o">.</span><span class="n">motpar</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;CNT\d*&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"CNT\d*"</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">counter</span> <span class="o">=</span> <span class="n">SpecCounter</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">counter</span><span class="o">.</span><span class="n">ctrl</span> <span class="o">==</span> <span class="s2">&quot;EPICS_PV&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">counter</span><span class="o">.</span><span class="n">ctrl</span> <span class="o">==</span> <span class="s2">"EPICS_PV"</span><span class="p">:</span>
                         <span class="c1"># fmt: off</span>
                         <span class="n">signal</span> <span class="o">=</span> <span class="n">SpecSignal</span><span class="p">(</span>
                             <span class="n">counter</span><span class="o">.</span><span class="n">mne</span><span class="p">,</span> <span class="n">counter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -886,21 +886,21 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">counter</span><span class="o">.</span><span class="n">setDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">counter</span><span class="o">.</span><span class="n">pvname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                            <span class="n">pvname</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">pvname</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                             <span class="k">if</span> <span class="n">pvname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalers</span><span class="p">:</span>
-                                <span class="n">mne</span> <span class="o">=</span> <span class="n">pvname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="n">mne</span> <span class="o">=</span> <span class="n">pvname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                                 <span class="n">scaler</span> <span class="o">=</span> <span class="n">SpecSignal</span><span class="p">(</span><span class="n">mne</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">pvname</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-                                <span class="n">scaler</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">=</span> <span class="s2">&quot;ScalerCH&quot;</span>
+                                <span class="n">scaler</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">=</span> <span class="s2">"ScalerCH"</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">scalers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scaler</span><span class="p">)</span>
 
                         <span class="k">if</span> <span class="n">counter</span><span class="o">.</span><span class="n">pvname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="n">scaler</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">scaler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_pv_in_collection</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="n">scaler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_pv_in_collection</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
                         <span class="k">if</span> <span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="c1"># clock = scaler.channels.chan01.s</span>
-                            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">.channels.chan</span><span class="si">%02d</span><span class="s2">.s&quot;</span>
+                            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">.channels.chan</span><span class="si">%02d</span><span class="s2">.s"</span>
                             <span class="n">reassignment</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span>
                                 <span class="n">counter</span><span class="o">.</span><span class="n">mne</span><span class="p">,</span>
                                 <span class="n">scaler</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -908,7 +908,7 @@
                             <span class="p">)</span>
                             <span class="n">counter</span> <span class="o">=</span> <span class="n">reassignment</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;MOT\d*&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"MOT\d*"</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">motor</span> <span class="o">=</span> <span class="n">SpecMotor</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                     <span class="n">motor</span><span class="o">.</span><span class="n">setDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor</span><span class="p">)</span>
@@ -920,28 +920,28 @@
 
 <div class="viewcode-block" id="create_ophyd_setup">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.create_ophyd_setup">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_ophyd_setup</span><span class="p">(</span><span class="n">spec_config</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ophyd commands from SPEC config file&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'"""'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"ophyd commands from SPEC config file"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file: </span><span class="si">{</span><span class="n">spec_config</span><span class="o">.</span><span class="n">config_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"file: </span><span class="si">{</span><span class="n">spec_config</span><span class="o">.</span><span class="n">config_file</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CAUTION: Review the object names below before using them!&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Some names may not be valid python identifiers&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    or may be reserved (such as ``time`` or ``del``)&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    or may be vulnerable to re-definition because&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    they are short or common.&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&quot;&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"CAUTION: Review the object names below before using them!"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"    Some names may not be valid python identifiers"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"    or may be reserved (such as ``time`` or ``del``)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"    or may be vulnerable to re-definition because"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"    they are short or common."</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'"""'</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;from ophyd import EpicsMotor, EpicsSignal&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;from ophyd.scaler import ScalerCH&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"from ophyd import EpicsMotor, EpicsSignal"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"from ophyd.scaler import ScalerCH"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">spec_config</span><span class="o">.</span><span class="n">collection</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">&quot;ophyd_config&quot;</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">ophyd_config</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">&quot;signal_name&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">device</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">==</span> <span class="s2">&quot;ScalerCH&quot;</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.select_channels(None)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">"ophyd_config"</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">ophyd_config</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">"signal_name"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">device</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">==</span> <span class="s2">"ScalerCH"</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.select_channels(None)"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span></div>
 
@@ -949,9 +949,9 @@
 
 <div class="viewcode-block" id="get_apstools_version">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.get_apstools_version">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_apstools_version</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the version string from the parent package.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the version string from the parent package."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
     <span class="k">return</span> <span class="n">__version__</span></div>
@@ -960,9 +960,9 @@
 
 <div class="viewcode-block" id="get_options">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/migration/spec2ophyd/index.html#apstools.migration.spec2ophyd.get_options">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_options</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle command line arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Handle command line arguments."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -975,14 +975,14 @@
     <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;version&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;print version number and exit&quot;</span><span class="p">,</span>
+        <span class="s2">"-v"</span><span class="p">,</span>
+        <span class="s2">"--version"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"version"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"print version number and exit"</span><span class="p">,</span>
         <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;configFileName&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;SPEC config file name&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"configFileName"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"SPEC config file name"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span></div>
 
@@ -998,7 +998,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 
 <span class="c1"># -----------------------------------------------------------------------------</span>

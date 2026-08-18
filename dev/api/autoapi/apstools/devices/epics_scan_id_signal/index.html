@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -621,7 +621,7 @@
 <p>Use an EPICS PV as the source of the RunEngine’s <code class="docutils literal notranslate"><span class="pre">scan_id</span></code>.</p>
 <p>Uses a writable EPICS integer PV (such as longout record).</p>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">EpicsScanIdDevice</span><span class="p">(</span><span class="s2">&quot;ioc:scan_id:longout&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scan_id&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">EpicsScanIdDevice</span><span class="p">(</span><span class="s2">"ioc:scan_id:longout"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"scan_id"</span><span class="p">)</span>
 <span class="c1"># ...</span>
 <span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">({},</span> <span class="n">scan_id_source</span><span class="o">=</span><span class="n">scan_id</span><span class="o">.</span><span class="n">cb_scan_id_source</span><span class="p">)</span>
 </pre></div>

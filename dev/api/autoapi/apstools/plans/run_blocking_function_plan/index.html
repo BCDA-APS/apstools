@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -644,13 +644,13 @@ The incrementer resets to zero at 100,000:</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.synApps</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_incrementer_swait</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
 
-<span class="n">swait</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="s2">&quot;ioc:userCalc1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;swait&quot;</span><span class="p">)</span>
+<span class="n">swait</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="s2">"ioc:userCalc1"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"swait"</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">start_incrementer</span><span class="p">():</span>
     <span class="k">yield from</span> <span class="n">run_blocking_function</span><span class="p">(</span>
         <span class="n">setup_incrementer_swait</span><span class="p">,</span>
         <span class="n">swait</span><span class="p">,</span>
-        <span class="n">scan</span><span class="o">=</span><span class="s2">&quot;0.1 second&quot;</span><span class="p">,</span>
+        <span class="n">scan</span><span class="o">=</span><span class="s2">"0.1 second"</span><span class="p">,</span>
         <span class="n">limit</span><span class="o">=</span><span class="mi">100_000</span>
     <span class="p">)</span>
 

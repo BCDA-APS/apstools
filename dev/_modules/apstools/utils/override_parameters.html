@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.override_parameters</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">OverrideParameters</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -455,13 +455,13 @@
 <span class="sd">and then register the parameter name, such as this example::</span>
 
 <span class="sd">    from override_params import overrides</span>
-<span class="sd">    overrides.register(&quot;minimum_step&quot;)</span>
+<span class="sd">    overrides.register("minimum_step")</span>
 
 <span class="sd">Then later::</span>
 
-<span class="sd">    minstep = overrides.pick(&quot;minimum_step&quot;, 45e-6)</span>
+<span class="sd">    minstep = overrides.pick("minimum_step", 45e-6)</span>
 
-<span class="sd">In the user&#39;s configuration file that will override</span>
+<span class="sd">In the user's configuration file that will override</span>
 <span class="sd">the value of ``45e-6`` (such as can be loaded via</span>
 <span class="sd">``%run -i user.py``), import the `overrides``</span>
 <span class="sd">object (from the ``override_params`` module)::</span>
@@ -470,7 +470,7 @@
 
 <span class="sd">and then override the attribute(s) as desired::</span>
 
-<span class="sd">    overrides.set(&quot;minimum_step&quot;, 1.0e-5)</span>
+<span class="sd">    overrides.set("minimum_step", 1.0e-5)</span>
 
 <span class="sd">With this override in place, the ``minstep`` value</span>
 <span class="sd">(from :meth:`~apstools.utils.OverrideParameters.pick()`)</span>
@@ -490,7 +490,7 @@
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~OverrideParameters</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
@@ -498,9 +498,9 @@
 
 <div class="viewcode-block" id="OverrideParameters">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.5.2&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.5.2"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">OverrideParameters</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Define parameters that can be overridden from a user configuration file.</span>
 
 <span class="sd">    NOTE: This is a pure Python object, not using ophyd.</span>
@@ -513,7 +513,7 @@
 <span class="sd">       ~reset_all</span>
 <span class="sd">       ~set</span>
 <span class="sd">       ~summary</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># ALWAYS use ``overrides.undefined`` for comparisons and resets.</span>
@@ -523,23 +523,23 @@
 <div class="viewcode-block" id="OverrideParameters.register">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.register">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Register a new parameter name to be supported by user overrides.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">undefined</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_known</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown parameter </span><span class="si">{</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2">.  First call register().&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown parameter </span><span class="si">{</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2">.  First call register()."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OverrideParameters.set">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.set">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Define an override value for a known parameter.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_known</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
@@ -547,9 +547,9 @@
 <div class="viewcode-block" id="OverrideParameters.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Remove an override value for a known parameter.  (sets it to undefined)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_known</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">undefined</span></div>
 
@@ -557,9 +557,9 @@
 <div class="viewcode-block" id="OverrideParameters.reset_all">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.reset_all">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Remove override values for all known parameters. (sets all to undefined)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">parm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">parm</span><span class="p">)</span></div>
 
@@ -567,9 +567,9 @@
 <div class="viewcode-block" id="OverrideParameters.pick">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.pick">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return either the override parameter value if defined, or the default.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">undefined</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">default</span>
@@ -579,17 +579,17 @@
 <div class="viewcode-block" id="OverrideParameters.summary">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/override_parameters/index.html#apstools.utils.override_parameters.OverrideParameters.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return a pandas DataFrame with all overrides.</span>
 
 <span class="sd">        Parameter names that have no override value will be reported</span>
 <span class="sd">        as ``--undefined--``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">parm</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parm</span><span class="p">)</span>
-            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="n">parm</span><span class="p">,</span> <span class="s2">&quot;--undefined--&quot;</span><span class="p">))</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="n">parm</span><span class="p">,</span> <span class="s2">"--undefined--"</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">values</span><span class="p">))</span></div>
 </div>
 

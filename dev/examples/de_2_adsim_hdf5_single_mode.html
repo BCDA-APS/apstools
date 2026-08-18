@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -530,7 +530,7 @@
 user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 </pre><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
 </pre></div>
 </div>
 </div>
@@ -560,8 +560,8 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 <span class="c1"># These paths are specific to how this IOC is implemented.</span>
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -569,11 +569,11 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <p>Next, define some structures that we will use when constructing the detector object.  The <code class="docutils literal notranslate"><span class="pre">IMAGE_DIR</span></code> describes our default choice for where to store image files.  We can change this at run time by changing thearea detector file writer’s  <code class="docutils literal notranslate"><span class="pre">FilePath</span></code> PV (before starting image acquisition).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>  <span class="c1"># our choice for file arrangement</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"example/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>  <span class="c1"># our choice for file arrangement</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 </pre></div>
 </div>
 </div>
@@ -615,7 +615,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TheDetectorCam</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add settings for staging.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Add settings for staging."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -625,8 +625,8 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
                 <span class="n">acquire_period</span><span class="o">=</span><span class="mf">0.015</span><span class="p">,</span>  <span class="c1"># a wee bit longer than acquire_time</span>
                 <span class="n">num_images</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">num_exposures</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Exp./image</span>
-                <span class="n">wait_for_plugins</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">&quot;Enable&quot;</span><span class="p">,</span>
+                <span class="n">wait_for_plugins</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">"Enable"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 </pre></div>
@@ -645,7 +645,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomHDF5Plugin</span><span class="p">(</span><span class="n">FileStoreHDF5SingleIterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure the HDF5Plugin for AD single mode.</span>
 
 <span class="sd">    The `FileStoreHDF5SingleIterativeWrite` mixin class provides:</span>
@@ -653,40 +653,40 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <span class="sd">    * ``stage()`` - prepare device PVs before data acquisition</span>
 <span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
 <span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">&quot;Disable&quot;</span><span class="p">,</span>
-                <span class="n">auto_increment</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">auto_save</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">blocking_callbacks</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span>
-                <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;zlib&quot;</span><span class="p">,</span>
-                <span class="n">lazy_open</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">store_perform</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span>
+                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">"Disable"</span><span class="p">,</span>
+                <span class="n">auto_increment</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">auto_save</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">blocking_callbacks</span><span class="o">=</span><span class="s2">"No"</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="s2">"zlib"</span><span class="p">,</span>
+                <span class="n">lazy_open</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">store_perform</span><span class="o">=</span><span class="s2">"No"</span><span class="p">,</span>
                 <span class="n">zlevel</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="c1"># capture is not used with Single mode</span>
         <span class="c1"># parent.cam.array_callbacks is staged once in the cam</span>
         <span class="c1"># create_directory must be set before file_path, which is set before staging</span>
-        <span class="n">remove_these</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">remove_these</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">            capture</span>
 <span class="s2">            array_counter</span>
 <span class="s2">            parent.cam.array_callbacks</span>
 <span class="s2">            create_directory</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="s2">        """</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">remove_these</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Again, do not press the Capture button in the HDF plugin</span>
-        <span class="k">if</span> <span class="s2">&quot;capture&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Do not use capture with file_write_mode=&#39;Single&#39;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"capture"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"Do not use capture with file_write_mode='Single'"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"capture"</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -701,19 +701,19 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
 
 <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">TheDetectorCam</span><span class="p">}})</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">TheDetectorCam</span><span class="p">}})</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">CustomHDF5Plugin</span><span class="p">,</span>
-            <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
-            <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"class"</span><span class="p">:</span> <span class="n">CustomHDF5Plugin</span><span class="p">,</span>
+            <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+            <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
 
-<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
+<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"adsimdet"</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -735,7 +735,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <p>We must configure <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code> so the HDF5 plugin (by its attribute name <code class="docutils literal notranslate"><span class="pre">hdf1</span></code>) will be called during <code class="docutils literal notranslate"><span class="pre">adsimdet.read()</span></code>, as used by data acquisition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"hdf1"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -767,25 +767,25 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;cam.acquire&#39;, 0), (&#39;cam.image_mode&#39;, 1)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('cam.acquire', 0), ('cam.image_mode', 1)])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adsimdet.cam.stage_sigs[&quot;num_images&quot;] = 1  # default is 1</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adsimdet.cam.stage_sigs["num_images"] = 1  # default is 1</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;acquire_time&#39;, 0.01),
-             (&#39;acquire_period&#39;, 0.015),
-             (&#39;num_images&#39;, 1),
-             (&#39;num_exposures&#39;, 1),
-             (&#39;wait_for_plugins&#39;, &#39;Yes&#39;),
-             (&#39;array_callbacks&#39;, &#39;Enable&#39;)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('acquire_time', 0.01),
+             ('acquire_period', 0.015),
+             ('num_images', 1),
+             ('num_exposures', 1),
+             ('wait_for_plugins', 'Yes'),
+             ('array_callbacks', 'Enable')])
 </pre></div>
 </div>
 </div>
@@ -797,18 +797,18 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;enable&#39;, 1),
-             (&#39;blocking_callbacks&#39;, &#39;No&#39;),
-             (&#39;auto_increment&#39;, &#39;Yes&#39;),
-             (&#39;auto_save&#39;, &#39;Yes&#39;),
-             (&#39;num_capture&#39;, 0),
-             (&#39;file_template&#39;, &#39;%s%s_%6.6d.h5&#39;),
-             (&#39;file_write_mode&#39;, &#39;Single&#39;),
-             (&#39;array_callbacks&#39;, &#39;Disable&#39;),
-             (&#39;compression&#39;, &#39;zlib&#39;),
-             (&#39;lazy_open&#39;, &#39;Yes&#39;),
-             (&#39;store_perform&#39;, &#39;No&#39;),
-             (&#39;zlevel&#39;, 6)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([('enable', 1),
+             ('blocking_callbacks', 'No'),
+             ('auto_increment', 'Yes'),
+             ('auto_save', 'Yes'),
+             ('num_capture', 0),
+             ('file_template', '%s%s_%6.6d.h5'),
+             ('file_write_mode', 'Single'),
+             ('array_callbacks', 'Disable'),
+             ('compression', 'zlib'),
+             ('lazy_open', 'Yes'),
+             ('store_perform', 'No'),
+             ('zlevel', 6)])
 </pre></div>
 </div>
 </div>
@@ -835,8 +835,8 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
 
-<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>  <span class="c1"># or use your own catalog: databroker.catalog[&quot;CATALOG_NAME&quot;]</span>
-<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">]</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>  <span class="c1"># or use your own catalog: databroker.catalog["CATALOG_NAME"]</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">"training"</span><span class="p">]</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -853,7 +853,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bp</span>
 
-<span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector, Single mode, HDF5 file&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)))</span>
+<span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Area Detector, Single mode, HDF5 file"</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">"image"</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -873,8 +873,8 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
-  uid=&#39;cb88d205-05e8-4084-bba3-d25ae3050832&#39;
-  exit_status=&#39;success&#39;
+  uid='cb88d205-05e8-4084-bba3-d25ae3050832'
+  exit_status='success'
   2024-08-25 14:11:24.761 -- 2024-08-25 14:11:24.873
   Streams:
     * primary
@@ -899,7 +899,7 @@ for an important bugfix relating to how databroker will read these HDF5 files.</
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  &#39;dims&#39;: dict(self._ds.dims),
+  'dims': dict(self._ds.dims),
 </pre></div>
 </div>
 <div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
@@ -1313,15 +1313,15 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resource({&#39;path_semantics&#39;: &#39;posix&#39;,
- &#39;resource_kwargs&#39;: {&#39;filename&#39;: &#39;e62f3883-f168-4aab-acd9&#39;,
-                     &#39;frame_per_point&#39;: 1,
-                     &#39;template&#39;: &#39;%s%s_%6.6d.h5&#39;},
- &#39;resource_path&#39;: &#39;tmp/docker_ioc/iocad/tmp/example/2024/08/25&#39;,
- &#39;root&#39;: &#39;/&#39;,
- &#39;run_start&#39;: &#39;cb88d205-05e8-4084-bba3-d25ae3050832&#39;,
- &#39;spec&#39;: &#39;AD_HDF5_SINGLE&#39;,
- &#39;uid&#39;: &#39;46397c99-1930-457c-955c-75fde2b9fb38&#39;})
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resource({'path_semantics': 'posix',
+ 'resource_kwargs': {'filename': 'e62f3883-f168-4aab-acd9',
+                     'frame_per_point': 1,
+                     'template': '%s%s_%6.6d.h5'},
+ 'resource_path': 'tmp/docker_ioc/iocad/tmp/example/2024/08/25',
+ 'root': '/',
+ 'run_start': 'cb88d205-05e8-4084-bba3-d25ae3050832',
+ 'spec': 'AD_HDF5_SINGLE',
+ 'uid': '46397c99-1930-457c-955c-75fde2b9fb38'})
 </pre></div>
 </div>
 </div>
@@ -1331,20 +1331,20 @@ Attributes:
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_name</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span>
-    <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;template&quot;</span><span class="p">]</span>
+    <span class="n">rsrc</span><span class="p">[</span><span class="s2">"resource_kwargs"</span><span class="p">][</span><span class="s2">"template"</span><span class="p">]</span>
     <span class="o">%</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
-        <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;filename&quot;</span><span class="p">],</span>
-        <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;frame_per_point&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">'root'</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">'resource_path'</span><span class="p">]</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span>
+        <span class="n">rsrc</span><span class="p">[</span><span class="s2">"resource_kwargs"</span><span class="p">][</span><span class="s2">"filename"</span><span class="p">],</span>
+        <span class="n">rsrc</span><span class="p">[</span><span class="s2">"resource_kwargs"</span><span class="p">][</span><span class="s2">"frame_per_point"</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>file_name.exists()=True
-file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f168-4aab-acd9_000000.h5&#39;)
+file_name=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f168-4aab-acd9_000000.h5')
 </pre></div>
 </div>
 </div>
@@ -1356,14 +1356,14 @@ file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_full_file_name_local</span>
 
 <span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">local_file_name</span> <span class="o">==</span> <span class="n">file_name</span>  <span class="c1"># compare the two names</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>local_file_name.exists()=True
-local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f168-4aab-acd9_000000.h5&#39;)
+local_file_name=PosixPath('/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f168-4aab-acd9_000000.h5')
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
@@ -1382,7 +1382,7 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">unix</span>
 
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">"punx tree </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">"</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1392,16 +1392,16 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 
 /tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f3883-f168-4aab-acd9_000000.h5 : NeXus data file
   entry:NXentry
-    @NX_class = &quot;NXentry&quot;
+    @NX_class = "NXentry"
     data:NXdata
-      @NX_class = &quot;NXdata&quot;
+      @NX_class = "NXdata"
       data:NX_UINT8[1024,1024] = __array
         __array = [
-            [8, 12, 17, &#39;...&#39;, 19]
-            [12, 18, 15, &#39;...&#39;, 17]
-            [18, 8, 8, &#39;...&#39;, 19]
+            [8, 12, 17, '...', 19]
+            [12, 18, 15, '...', 17]
+            [18, 8, 8, '...', 19]
             ...
-            [7, 13, 14, &#39;...&#39;, 26]
+            [7, 13, 14, '...', 26]
           ]
         @NDArrayDimBinning = [1 1]
         @NDArrayDimOffset = [0 0]
@@ -1409,39 +1409,39 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
         @NDArrayNumDims = 2
         @signal = 1
     instrument:NXinstrument
-      @NX_class = &quot;NXinstrument&quot;
+      @NX_class = "NXinstrument"
       NDAttributes:NXcollection
-        @NX_class = &quot;NXcollection&quot;
-        @hostname = &quot;arf.jemian.org&quot;
+        @NX_class = "NXcollection"
+        @hostname = "arf.jemian.org"
         NDArrayEpicsTSSec:NX_UINT32 = 1093461084
-          @NDAttrDescription = &quot;The NDArray EPICS timestamp seconds past epoch&quot;
-          @NDAttrName = &quot;NDArrayEpicsTSSec&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The NDArray EPICS timestamp seconds past epoch"
+          @NDAttrName = "NDArrayEpicsTSSec"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayEpicsTSnSec:NX_UINT32 = 812043985
-          @NDAttrDescription = &quot;The NDArray EPICS timestamp nanoseconds&quot;
-          @NDAttrName = &quot;NDArrayEpicsTSnSec&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The NDArray EPICS timestamp nanoseconds"
+          @NDAttrName = "NDArrayEpicsTSnSec"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayTimeStamp:NX_FLOAT64 = 1093461084.7844021
-          @NDAttrDescription = &quot;The timestamp of the NDArray as float64&quot;
-          @NDAttrName = &quot;NDArrayTimeStamp&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The timestamp of the NDArray as float64"
+          @NDAttrName = "NDArrayTimeStamp"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
         NDArrayUniqueId:NX_INT32 = 3242
-          @NDAttrDescription = &quot;The unique ID of the NDArray&quot;
-          @NDAttrName = &quot;NDArrayUniqueId&quot;
-          @NDAttrSource = &quot;Driver&quot;
-          @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+          @NDAttrDescription = "The unique ID of the NDArray"
+          @NDAttrName = "NDArrayUniqueId"
+          @NDAttrSource = "Driver"
+          @NDAttrSourceType = "NDAttrSourceDriver"
       detector:NXdetector
-        @NX_class = &quot;NXdetector&quot;
+        @NX_class = "NXdetector"
         data:NX_UINT8[1024,1024] = __array
           __array = [
-              [8, 12, 17, &#39;...&#39;, 19]
-              [12, 18, 15, &#39;...&#39;, 17]
-              [18, 8, 8, &#39;...&#39;, 19]
+              [8, 12, 17, '...', 19]
+              [12, 18, 15, '...', 17]
+              [18, 8, 8, '...', 19]
               ...
-              [7, 13, 14, &#39;...&#39;, 26]
+              [7, 13, 14, '...', 26]
             ]
           @NDArrayDimBinning = [1 1]
           @NDArrayDimOffset = [0 0]
@@ -1449,12 +1449,12 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
           @NDArrayNumDims = 2
           @signal = 1
         NDAttributes:NXcollection
-          @NX_class = &quot;NXcollection&quot;
+          @NX_class = "NXcollection"
           ColorMode:NX_INT32 = 0
-            @NDAttrDescription = &quot;Color mode&quot;
-            @NDAttrName = &quot;ColorMode&quot;
-            @NDAttrSource = &quot;Driver&quot;
-            @NDAttrSourceType = &quot;NDAttrSourceDriver&quot;
+            @NDAttrDescription = "Color mode"
+            @NDAttrName = "ColorMode"
+            @NDAttrSource = "Driver"
+            @NDAttrSourceType = "NDAttrSourceDriver"
       performance
 </pre></div>
 </div>
@@ -1486,23 +1486,23 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 <span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">()</span>
 <span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
 <span class="c1"># or use your own catalog like this example:</span>
-<span class="c1"># cat = databroker.catalog[&quot;training&quot;]</span>
+<span class="c1"># cat = databroker.catalog["training"]</span>
 <span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
 
-<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">"ad:"</span>
 
 <span class="c1"># These paths are specific to how this IOC is implemented.</span>
-<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp"</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/docker_ioc/iocad/tmp"</span><span class="p">)</span>
 
-<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>  <span class="c1"># our choice for file arrangement</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">"example/%Y/%m/</span><span class="si">%d</span><span class="s2">"</span>  <span class="c1"># our choice for file arrangement</span>
 
 <span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/"</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TheDetectorCam</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add settings for staging.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Add settings for staging."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1512,14 +1512,14 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
                 <span class="n">acquire_period</span><span class="o">=</span><span class="mf">0.015</span><span class="p">,</span>  <span class="c1"># a wee bit longer than acquire_time</span>
                 <span class="n">num_images</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">num_exposures</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Exp./image</span>
-                <span class="n">wait_for_plugins</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">&quot;Enable&quot;</span><span class="p">,</span>
+                <span class="n">wait_for_plugins</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">"Enable"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomHDF5Plugin</span><span class="p">(</span><span class="n">FileStoreHDF5SingleIterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configure the HDF5Plugin for AD single mode.</span>
 
 <span class="sd">    The `FileStoreHDF5SingleIterativeWrite` mixin class provides:</span>
@@ -1527,63 +1527,63 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 <span class="sd">    * ``stage()`` - prepare device PVs before data acquisition</span>
 <span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
 <span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">&quot;Disable&quot;</span><span class="p">,</span>
-                <span class="n">auto_increment</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">auto_save</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">blocking_callbacks</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span>
-                <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;zlib&quot;</span><span class="p">,</span>
-                <span class="n">lazy_open</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-                <span class="n">store_perform</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span>
+                <span class="n">array_callbacks</span><span class="o">=</span><span class="s2">"Disable"</span><span class="p">,</span>
+                <span class="n">auto_increment</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">auto_save</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">blocking_callbacks</span><span class="o">=</span><span class="s2">"No"</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="s2">"zlib"</span><span class="p">,</span>
+                <span class="n">lazy_open</span><span class="o">=</span><span class="s2">"Yes"</span><span class="p">,</span>
+                <span class="n">store_perform</span><span class="o">=</span><span class="s2">"No"</span><span class="p">,</span>
                 <span class="n">zlevel</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="c1"># capture is not used with Single mode</span>
         <span class="c1"># parent.cam.array_callbacks is staged once in the cam</span>
         <span class="c1"># create_directory must be set before file_path, which is set before staging</span>
-        <span class="n">remove_these</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">remove_these</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">            capture</span>
 <span class="s2">            array_counter</span>
 <span class="s2">            parent.cam.array_callbacks</span>
 <span class="s2">            create_directory</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="s2">        """</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">remove_these</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Again, do not press the Capture button in the HDF plugin</span>
-        <span class="k">if</span> <span class="s2">&quot;capture&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Do not use capture with file_write_mode=&#39;Single&#39;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"capture"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"Do not use capture with file_write_mode='Single'"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"capture"</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>
 
 
 <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">TheDetectorCam</span><span class="p">}})</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">TheDetectorCam</span><span class="p">}})</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">CustomHDF5Plugin</span><span class="p">,</span>
-            <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
-            <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"class"</span><span class="p">:</span> <span class="n">CustomHDF5Plugin</span><span class="p">,</span>
+            <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+            <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
-<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
 
-<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
+<span class="n">adsimdet</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"adsimdet"</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="n">plugins</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"hdf1"</span><span class="p">)</span>
 <span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">NUM_FRAMES</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_frames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM_FRAMES</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">"num_frames"</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM_FRAMES</span>
 
 <span class="c1"># this step is needed for ophyd</span>
 <span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -1592,8 +1592,8 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 <span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
     <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span>
     <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector, Single mode, HDF5 file&quot;</span><span class="p">,</span>
-        <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">"Area Detector, Single mode, HDF5 file"</span><span class="p">,</span>
+        <span class="n">purpose</span><span class="o">=</span><span class="s2">"image"</span><span class="p">)</span>
     <span class="p">)</span>
 <span class="p">)</span>
 

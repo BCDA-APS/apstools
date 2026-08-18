@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -636,19 +636,19 @@
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyEpicsMotor</span><span class="p">(</span><span class="n">EpicsDescriptionMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span> <span class="k">pass</span>
 
-<span class="n">m1</span> <span class="o">=</span> <span class="n">MyEpicsMotor</span><span class="p">(</span><span class="s1">&#39;xxx:m1&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">MyEpicsMotor</span><span class="p">(</span><span class="s1">'xxx:m1'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'m1'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>more ideas:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TunableSynAxis</span><span class="p">(</span><span class="n">AxisTunerMixin</span><span class="p">,</span> <span class="n">SynAxis</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;synthetic axis that can be tuned&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''synthetic axis that can be tuned'''</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TunableEpicsMotor</span><span class="p">(</span><span class="n">AxisTunerMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;EpicsMotor that can be tuned&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''EpicsMotor that can be tuned'''</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorWithDescription</span><span class="p">(</span><span class="n">EpicsDescriptionMixin</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;EpicsMotor with description field&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''EpicsMotor with description field'''</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorWithMore</span><span class="p">(</span>
     <span class="n">EpicsDescriptionMixin</span><span class="p">,</span>
@@ -656,14 +656,14 @@
     <span class="n">EpicsMotorRawMixin</span><span class="p">,</span>
     <span class="n">EpicsMotor</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    EpicsMotor with more fields</span>
 
 <span class="sd">    * description (``desc``)</span>
 <span class="sd">    * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)</span>
 <span class="sd">    * dial coordinates (``dial``)</span>
 <span class="sd">    * raw coordinates (``raw``)</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 </pre></div>
 </div>
 <dl class="py attribute">

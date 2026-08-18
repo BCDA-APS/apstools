@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.xia_pf4</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">XIA PF4 Filters</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -448,7 +448,7 @@
 <span class="sd">   ~Pf4FilterCommon</span>
 <span class="sd">   ~Pf4FilterBank</span>
 <span class="sd">   ~DualPf4FilterBox</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -460,7 +460,7 @@
 <div class="viewcode-block" id="Pf4FilterBank">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterBank">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pf4FilterBank</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A single module of XIA PF4 filters (4-blades).</span>
 
 <span class="sd">    .. index:: Ophyd Device; Pf4FilterBank</span>
@@ -468,24 +468,24 @@
 <span class="sd">    EXAMPLES::</span>
 
 
-<span class="sd">        pf4B = Pf4FilterBank(&quot;ioc:pf4:&quot;, name=&quot;pf4B&quot;, bank=&quot;B&quot;)</span>
+<span class="sd">        pf4B = Pf4FilterBank("ioc:pf4:", name="pf4B", bank="B")</span>
 
 <span class="sd">        # -or-</span>
 
 <span class="sd">        class MyTriplePf4(Pf4FilterCommon):</span>
-<span class="sd">            A = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;A&quot;)</span>
-<span class="sd">            B = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;B&quot;)</span>
-<span class="sd">            C = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;C&quot;)</span>
+<span class="sd">            A = Component(Pf4FilterBank, "", bank="A")</span>
+<span class="sd">            B = Component(Pf4FilterBank, "", bank="B")</span>
+<span class="sd">            C = Component(Pf4FilterBank, "", bank="C")</span>
 
-<span class="sd">        pf4 = MyTriplePf4(&quot;ioc:pf4:&quot;, name=&quot;pf4&quot;)</span>
+<span class="sd">        pf4 = MyTriplePf4("ioc:pf4:", name="pf4")</span>
 
 <span class="sd">    :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/pf4bank.db</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">fPos</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">fPos</span><span class="si">{_bank}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">bank</span><span class="si">{_bank}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">bitFlag</span><span class="si">{_bank}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">transmission</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">trans</span><span class="si">{_bank}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">fPos</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">fPos</span><span class="si">{_bank}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">bank</span><span class="si">{_bank}</span><span class="s2">"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">bitFlag</span><span class="si">{_bank}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">transmission</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">trans</span><span class="si">{_bank}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bank</span> <span class="o">=</span> <span class="n">bank</span>
@@ -496,7 +496,7 @@
 <div class="viewcode-block" id="Pf4FilterCommon">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterCommon">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pf4FilterCommon</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    XIA PF4 filters - common support.</span>
 
 <span class="sd">    .. index:: Ophyd Device; Pf4FilterCommon</span>
@@ -507,60 +507,60 @@
 <span class="sd">    EXAMPLE::</span>
 
 <span class="sd">        class MyTriplePf4(Pf4FilterCommon):</span>
-<span class="sd">            A = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;A&quot;)</span>
-<span class="sd">            B = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;B&quot;)</span>
-<span class="sd">            C = Component(Pf4FilterBank, &quot;&quot;, bank=&quot;C&quot;)</span>
+<span class="sd">            A = Component(Pf4FilterBank, "", bank="A")</span>
+<span class="sd">            B = Component(Pf4FilterBank, "", bank="B")</span>
+<span class="sd">            C = Component(Pf4FilterBank, "", bank="C")</span>
 
-<span class="sd">        pf4 = MyTriplePf4(&quot;ioc:pf4:&quot;, name=&quot;pf4&quot;)</span>
+<span class="sd">        pf4 = MyTriplePf4("ioc:pf4:", name="pf4")</span>
 
 <span class="sd">    :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/pf4common.db</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;trans&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">inverse_transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;invTrans&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"trans"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">inverse_transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"invTrans"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 
-    <span class="n">thickness_Al_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterAl&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">thickness_Ti_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterTi&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">thickness_glass_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterGlass&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">thickness_Al_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterAl"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">thickness_Ti_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterTi"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">thickness_glass_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterGlass"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;E:local&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;displayEnergy&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"E:local"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"displayEnergy"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;useMono&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"useMono"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Pf4FilterSingle">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterSingle">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pf4FilterSingle</span><span class="p">(</span><span class="n">Pf4FilterCommon</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;XIA PF4 Filter: one set of 4 filters (A).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""XIA PF4 Filter: one set of 4 filters (A)."""</span>
 
-    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span></div>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"A"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Pf4FilterDual">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterDual">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pf4FilterDual</span><span class="p">(</span><span class="n">Pf4FilterSingle</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;XIA PF4 Filter: two sets of 4 filters (A, B).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""XIA PF4 Filter: two sets of 4 filters (A, B)."""</span>
 
-    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span></div>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"B"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Pf4FilterTriple">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.Pf4FilterTriple">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pf4FilterTriple</span><span class="p">(</span><span class="n">Pf4FilterDual</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;XIA PF4 Filter: three sets of 4 filters (A, B, C).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""XIA PF4 Filter: three sets of 4 filters (A, B, C)."""</span>
 
-    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span></div>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"C"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="DualPf4FilterBox">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/xia_pf4/index.html#apstools.devices.xia_pf4.DualPf4FilterBox">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DualPf4FilterBox</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    LEGACY (use Pf4FilterDual now): Dual (Al, Ti) Xia PF4 filter boxes</span>
 
 <span class="sd">    Support from synApps (using Al, Ti foils)</span>
@@ -569,27 +569,27 @@
 
 <span class="sd">    EXAMPLE::</span>
 
-<span class="sd">        pf4 = DualPf4FilterBox(&quot;2bmb:pf4:&quot;, name=&quot;pf4&quot;)</span>
-<span class="sd">        pf4_AlTi = DualPf4FilterBox(&quot;9idcRIO:pf4:&quot;, name=&quot;pf4_AlTi&quot;)</span>
+<span class="sd">        pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")</span>
+<span class="sd">        pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">fPosA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;fPosA&quot;</span><span class="p">)</span>
-    <span class="n">fPosB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;fPosB&quot;</span><span class="p">)</span>
-    <span class="n">bankA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;bankA&quot;</span><span class="p">)</span>
-    <span class="n">bankB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;bankB&quot;</span><span class="p">)</span>
-    <span class="n">bitFlagA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;bitFlagA&quot;</span><span class="p">)</span>
-    <span class="n">bitFlagB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;bitFlagB&quot;</span><span class="p">)</span>
-    <span class="n">transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;trans&quot;</span><span class="p">)</span>
-    <span class="n">transmission_a</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;transA&quot;</span><span class="p">)</span>
-    <span class="n">transmission_b</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;transB&quot;</span><span class="p">)</span>
-    <span class="n">inverse_transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;invTrans&quot;</span><span class="p">)</span>
-    <span class="n">thickness_Al_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterAl&quot;</span><span class="p">)</span>
-    <span class="n">thickness_Ti_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterTi&quot;</span><span class="p">)</span>
-    <span class="n">thickness_glass_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterGlass&quot;</span><span class="p">)</span>
-    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;E:local&quot;</span><span class="p">)</span>
-    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;displayEnergy&quot;</span><span class="p">)</span>
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;useMono&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">fPosA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"fPosA"</span><span class="p">)</span>
+    <span class="n">fPosB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"fPosB"</span><span class="p">)</span>
+    <span class="n">bankA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"bankA"</span><span class="p">)</span>
+    <span class="n">bankB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"bankB"</span><span class="p">)</span>
+    <span class="n">bitFlagA</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"bitFlagA"</span><span class="p">)</span>
+    <span class="n">bitFlagB</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"bitFlagB"</span><span class="p">)</span>
+    <span class="n">transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"trans"</span><span class="p">)</span>
+    <span class="n">transmission_a</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"transA"</span><span class="p">)</span>
+    <span class="n">transmission_b</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"transB"</span><span class="p">)</span>
+    <span class="n">inverse_transmission</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"invTrans"</span><span class="p">)</span>
+    <span class="n">thickness_Al_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterAl"</span><span class="p">)</span>
+    <span class="n">thickness_Ti_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterTi"</span><span class="p">)</span>
+    <span class="n">thickness_glass_mm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"filterGlass"</span><span class="p">)</span>
+    <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"E:local"</span><span class="p">)</span>
+    <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"displayEnergy"</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"useMono"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 

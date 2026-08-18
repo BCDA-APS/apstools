@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -449,14 +449,14 @@
 
 <div class="viewcode-block" id="run_blocking_function">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/run_blocking_function_plan/index.html#apstools.plans.run_blocking_function_plan.run_blocking_function">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.3&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.3"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_blocking_function</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Run a blocking function as a bluesky plan, in a thread.</span>
 
 <span class="sd">    The ``run_blocking_function()`` is a bluesky plan which</span>
 <span class="sd">    runs ``function(*args, **kwargs)`` in a thread so it does</span>
-<span class="sd">    not block the RunEngine&#39;s background operations.</span>
+<span class="sd">    not block the RunEngine's background operations.</span>
 
 <span class="sd">    .. note: Any result(s) returned from ``function``</span>
 <span class="sd">       will be ignored.</span>
@@ -471,7 +471,7 @@
 <span class="sd">    EXAMPLE:</span>
 
 <span class="sd">    This example creates a bluesky plan named ``start_incrementer()``</span>
-<span class="sd">    which configures a synApps &quot;userCalc&quot; as an automated</span>
+<span class="sd">    which configures a synApps "userCalc" as an automated</span>
 <span class="sd">    10Hz incrementer.</span>
 <span class="sd">    Configuration is made by calling the *blocking* function</span>
 <span class="sd">    :func:`~apstools.synApps.swait.setup_incrementer_swait`.</span>
@@ -484,13 +484,13 @@
 <span class="sd">        from apstools.synApps import setup_incrementer_swait</span>
 <span class="sd">        import bluesky.plan_stubs as bps</span>
 
-<span class="sd">        swait = SwaitRecord(&quot;ioc:userCalc1&quot;, name=&quot;swait&quot;)</span>
+<span class="sd">        swait = SwaitRecord("ioc:userCalc1", name="swait")</span>
 
 <span class="sd">        def start_incrementer():</span>
 <span class="sd">            yield from run_blocking_function(</span>
 <span class="sd">                setup_incrementer_swait,</span>
 <span class="sd">                swait,</span>
-<span class="sd">                scan=&quot;0.1 second&quot;,</span>
+<span class="sd">                scan="0.1 second",</span>
 <span class="sd">                limit=100_000</span>
 <span class="sd">            )</span>
 
@@ -499,13 +499,13 @@
 
 <span class="sd">    .. note: This function is a convenience adapter to execute</span>
 <span class="sd">       functions that are not bluesky generator functions, plans.</span>
-<span class="sd">       It&#39;s best not to use this as a decorator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">       It's best not to use this as a decorator.</span>
+<span class="sd">    """</span>
 
     <span class="nd">@run_in_thread</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">internal</span><span class="p">():</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">() result=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">() result=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
     <span class="n">thread</span> <span class="o">=</span> <span class="n">internal</span><span class="p">()</span>
     <span class="k">while</span> <span class="n">thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>

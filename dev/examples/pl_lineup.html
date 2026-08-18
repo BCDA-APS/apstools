@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -531,7 +531,7 @@ hardware is required.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">best_effort</span>
@@ -558,18 +558,18 @@ hardware is required.</p>
 <p>Create a simulated mover and a Gaussian detector signal centred at <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">-0.5</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">SoftPositioner</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">SoftPositioner</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"m1"</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 <span class="n">noisy</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span>
-    <span class="s2">&quot;noisy&quot;</span><span class="p">,</span>
+    <span class="s2">"noisy"</span><span class="p">,</span>
     <span class="n">m1</span><span class="p">,</span>
-    <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
+    <span class="s2">"m1"</span><span class="p">,</span>
     <span class="n">center</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">Imax</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
     <span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">noise</span><span class="o">=</span><span class="s2">&quot;poisson&quot;</span><span class="p">,</span>
+    <span class="n">noise</span><span class="o">=</span><span class="s2">"poisson"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">noisy</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+<span class="n">noisy</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">"hinted"</span>
 </pre></div>
 </div>
 </div>
@@ -588,8 +588,8 @@ written as the <code class="docutils literal notranslate"><span class="pre">&quo
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2026-03-27 11:08:23
-Persistent Unique Scan ID: &#39;36cb71fa-7b53-4df6-8cc6-a50941f7c8a5&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: '36cb71fa-7b53-4df6-8cc6-a50941f7c8a5'
+New stream: 'primary'
 +-----------+------------+------------+
 |   seq_num |       time |      noisy |
 +-----------+------------+------------+
@@ -650,12 +650,12 @@ New stream: &#39;primary&#39;
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        41 | 11:08:24.9 |          0 |
-New stream: &#39;signal_stats&#39;
+New stream: 'signal_stats'
 +-----------+------------+------------+
-Plan lineup2 [&#39;36cb71fa&#39;] (scan num: 1)
+Plan lineup2 ['36cb71fa'] (scan num: 1)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: &#39;m1&#39;  Detector: &#39;noisy&#39;  Feature: &#39;centroid&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: 'm1'  Detector: 'noisy'  Feature: 'centroid'
 ========== ======================
 statistic  value                 
 ========== ======================
@@ -677,8 +677,8 @@ m1 moved to centroid: -0.5001502569553784
 
 
 Transient Scan ID: 2     Time: 2026-03-27 11:08:25
-Persistent Unique Scan ID: &#39;4cd1e16c-301e-431f-88b6-c8bca8fda6b6&#39;
-New stream: &#39;primary&#39;
+Persistent Unique Scan ID: '4cd1e16c-301e-431f-88b6-c8bca8fda6b6'
+New stream: 'primary'
 +-----------+------------+------------+
 |   seq_num |       time |      noisy |
 +-----------+------------+------------+
@@ -739,12 +739,12 @@ New stream: &#39;primary&#39;
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|        40 | 11:08:27.0 |          1 |
 |        41 | 11:08:27.1 |          2 |
-New stream: &#39;signal_stats&#39;
+New stream: 'signal_stats'
 +-----------+------------+------------+
-Plan lineup2 [&#39;4cd1e16c&#39;] (scan num: 2)
+Plan lineup2 ['4cd1e16c'] (scan num: 2)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: &#39;m1&#39;  Detector: &#39;noisy&#39;  Feature: &#39;centroid&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Motor: 'm1'  Detector: 'noisy'  Feature: 'centroid'
 ========== =====================
 statistic  value                
 ========== =====================
@@ -765,8 +765,8 @@ max_y      100382
 m1 moved to centroid: -0.5002225420758496
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;36cb71fa-7b53-4df6-8cc6-a50941f7c8a5&#39;,
- &#39;4cd1e16c-301e-431f-88b6-c8bca8fda6b6&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>('36cb71fa-7b53-4df6-8cc6-a50941f7c8a5',
+ '4cd1e16c-301e-431f-88b6-c8bca8fda6b6')
 </pre></div>
 </div>
 <img alt="../_images/b3739e0874753eb8a468f9cfb7cf97873dce6f925fadd1178a462f1b56ffbd26.png" src="../_images/b3739e0874753eb8a468f9cfb7cf97873dce6f925fadd1178a462f1b56ffbd26.png" />
@@ -784,8 +784,8 @@ markers are added automatically when <code class="docutils literal notranslate">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plotxy</span>
 
 <span class="c1"># Plot the coarse scan first, then overlay the fine scan.</span>
-<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;noisy&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;lineup2() — coarse and fine scans&quot;</span><span class="p">)</span>
-<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;noisy&quot;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"m1"</span><span class="p">,</span> <span class="s2">"noisy"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"lineup2() — coarse and fine scans"</span><span class="p">)</span>
+<span class="n">plotxy</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"m1"</span><span class="p">,</span> <span class="s2">"noisy"</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1378,8 +1378,8 @@ Data variables: (12/25)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">center</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>  <span class="c1"># known centre of the simulated Gaussian</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># known sigma</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak centre: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">   m1 position: </span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alignment successful: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">center</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Peak centre: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">   m1 position: </span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Alignment successful: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">center</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sigma</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sigma</span>
 </pre></div>
 </div>

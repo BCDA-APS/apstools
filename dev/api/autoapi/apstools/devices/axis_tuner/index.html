@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -653,20 +653,20 @@ setting detector parameters, or other actions.</p>
 an axis object such as <cite>EpicsMotor</cite> or <cite>SynAxis</cite>,
 such as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_pre_tune_hook</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_post_tune_hook</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TunableSynAxis</span><span class="p">(</span><span class="n">AxisTunerMixin</span><span class="p">,</span> <span class="n">SynAxis</span><span class="p">):</span> <span class="k">pass</span>
 
-<span class="n">myaxis</span> <span class="o">=</span> <span class="n">TunableSynAxis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;myaxis&quot;</span><span class="p">)</span>
-<span class="n">mydet</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span><span class="s1">&#39;mydet&#39;</span><span class="p">,</span> <span class="n">myaxis</span><span class="p">,</span> <span class="s1">&#39;myaxis&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mf">0.21</span><span class="p">,</span> <span class="n">Imax</span><span class="o">=</span><span class="mf">0.98e5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.127</span><span class="p">)</span>
+<span class="n">myaxis</span> <span class="o">=</span> <span class="n">TunableSynAxis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"myaxis"</span><span class="p">)</span>
+<span class="n">mydet</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span><span class="s1">'mydet'</span><span class="p">,</span> <span class="n">myaxis</span><span class="p">,</span> <span class="s1">'myaxis'</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mf">0.21</span><span class="p">,</span> <span class="n">Imax</span><span class="o">=</span><span class="mf">0.98e5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.127</span><span class="p">)</span>
 <span class="n">myaxis</span><span class="o">.</span><span class="n">tuner</span> <span class="o">=</span> <span class="n">TuneAxis</span><span class="p">([</span><span class="n">mydet</span><span class="p">],</span> <span class="n">myaxis</span><span class="p">)</span>
 <span class="n">myaxis</span><span class="o">.</span><span class="n">pre_tune_method</span> <span class="o">=</span> <span class="n">my_pre_tune_hook</span>
 <span class="n">myaxis</span><span class="o">.</span><span class="n">post_tune_method</span> <span class="o">=</span> <span class="n">my_post_tune_hook</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">tune_myaxis</span><span class="p">():</span>
-    <span class="k">yield from</span> <span class="n">myaxis</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="s2">&quot;tune_myaxis&quot;</span><span class="p">})</span>
+    <span class="k">yield from</span> <span class="n">myaxis</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">"plan_name"</span><span class="p">:</span> <span class="s2">"tune_myaxis"</span><span class="p">})</span>
 
 <span class="n">RE</span><span class="p">(</span><span class="n">tune_myaxis</span><span class="p">())</span>
 </pre></div>

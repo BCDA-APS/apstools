@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,22 +436,22 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.apsu_controls_subnet</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">APS-U controls are on private subnets.  Check and advise as applicable.</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~warn_if_not_aps_controls_subnet</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="n">APSU_CONTROLS_SUBNET</span> <span class="o">=</span> <span class="s2">&quot;10.54.&quot;</span>
-<span class="n">APSU_XRAY_SUBNET</span> <span class="o">=</span> <span class="s2">&quot;.xray.aps.anl.gov&quot;</span>
+<span class="n">APSU_CONTROLS_SUBNET</span> <span class="o">=</span> <span class="s2">"10.54."</span>
+<span class="n">APSU_XRAY_SUBNET</span> <span class="o">=</span> <span class="s2">".xray.aps.anl.gov"</span>
 
 
 <div class="viewcode-block" id="warn_if_not_aps_controls_subnet">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/apsu_controls_subnet/index.html#apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">warn_if_not_aps_controls_subnet</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    APS-U controls are on private subnets.  Check and advise as applicable.</span>
 
 <span class="sd">    Call this function early in the startup procedure. It could explain easily</span>
@@ -459,7 +459,7 @@
 
 <span class="sd">    For workstations on subnets that do not match the criteria, this function</span>
 <span class="sd">    should not post any warnings.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -469,10 +469,10 @@
         <span class="n">host_ip_addr</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">host_ip_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">APSU_CONTROLS_SUBNET</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Your APS workstation (</span><span class="si">{</span><span class="n">host_name</span><span class="si">}</span><span class="s2">) has IP </span><span class="si">{</span><span class="n">host_ip_addr</span><span class="si">!r}</span><span class="s2">.&quot;</span>
-                <span class="s2">&quot;  If you experience EPICS connection timeouts,&quot;</span>
-                <span class="s2">&quot; consider switching to a workstation on the controls subnet&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot; which has an IP starting with </span><span class="si">{</span><span class="n">APSU_CONTROLS_SUBNET</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Your APS workstation (</span><span class="si">{</span><span class="n">host_name</span><span class="si">}</span><span class="s2">) has IP </span><span class="si">{</span><span class="n">host_ip_addr</span><span class="si">!r}</span><span class="s2">."</span>
+                <span class="s2">"  If you experience EPICS connection timeouts,"</span>
+                <span class="s2">" consider switching to a workstation on the controls subnet"</span>
+                <span class="sa">f</span><span class="s2">" which has an IP starting with </span><span class="si">{</span><span class="n">APSU_CONTROLS_SUBNET</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
 </pre></div>

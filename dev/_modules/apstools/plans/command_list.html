@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.plans.command_list</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">nscan plan</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -451,7 +451,7 @@
 <span class="sd">   ~register_command_handler</span>
 <span class="sd">   ~run_command_file</span>
 <span class="sd">   ~summarize_command_file</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
@@ -469,29 +469,29 @@
 <div class="viewcode-block" id="CommandFileReadError">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.CommandFileReadError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CommandFileReadError</span><span class="p">(</span><span class="ne">IOError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Exception when reading a command file.</span>
 
 <span class="sd">    .. index:: Bluesky Exception; CommandFileReadError</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
 <div class="viewcode-block" id="command_list_as_table">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.command_list_as_table">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">command_list_as_table</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">show_raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    format a command list as a pyRestTable.Table object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;line #&quot;</span><span class="p">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;parameters&quot;</span><span class="p">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"line #"</span><span class="p">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"action"</span><span class="p">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">show_raw</span><span class="p">:</span>  <span class="c1"># only the developer might use this</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;raw input&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">"raw input"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
         <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">line_number</span><span class="p">,</span> <span class="n">raw_command</span> <span class="o">=</span> <span class="n">command</span>
-        <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">line_number</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">))]</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">line_number</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">))]</span>
         <span class="k">if</span> <span class="n">show_raw</span><span class="p">:</span>
             <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">raw_command</span><span class="p">))</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
@@ -501,9 +501,9 @@
 
 <div class="viewcode-block" id="execute_command_list">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.execute_command_list">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">execute_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    plan: execute the command list</span>
 
 <span class="sd">    .. index:: Bluesky Plan; execute_command_list</span>
@@ -521,8 +521,8 @@
 <span class="sd">    filename</span>
 <span class="sd">        *str* :</span>
 <span class="sd">        Name of input text file.  Can be relative or absolute path,</span>
-<span class="sd">        such as &quot;actions.txt&quot;, &quot;../sample.txt&quot;, or</span>
-<span class="sd">        &quot;/path/to/overnight.txt&quot;.</span>
+<span class="sd">        such as "actions.txt", "../sample.txt", or</span>
+<span class="sd">        "/path/to/overnight.txt".</span>
 <span class="sd">    commands</span>
 <span class="sd">        *[command]* :</span>
 <span class="sd">        List of command tuples for use in ``execute_command_list()``</span>
@@ -557,53 +557,53 @@
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">full_filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">commands</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
         <span class="k">return</span>
 
-    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
     <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">command_list_as_table</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
         <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">raw_command</span> <span class="o">=</span> <span class="n">command</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"file line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">_md</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;full_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;line_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"full_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"line_number"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"action"</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
         <span class="c1"># note: args is shorter than parameters, means the same thing here</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>
 
         <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>  <span class="c1"># overlay with user-supplied metadata</span>
 
         <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;tune_optics&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">"tune_optics"</span><span class="p">:</span>
             <span class="c1"># example: yield from tune_optics(md=_md)</span>
             <span class="c1"># fmt: off</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;This is an example.  action=</span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">.&quot;</span>
-                <span class="s2">&quot;  Must define your own execute_command_list() function&quot;</span>
+                <span class="sa">f</span><span class="s2">"This is an example.  action=</span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">."</span>
+                <span class="s2">"  Must define your own execute_command_list() function"</span>
             <span class="p">)</span>
             <span class="c1"># fmt: on</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
             <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"no handling for line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_command_list">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.get_command_list">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    return command list from either text or Excel file</span>
 
 <span class="sd">    SEE ALSO</span>
@@ -617,34 +617,34 @@
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">full_filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">full_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"file not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">commands</span> <span class="o">=</span> <span class="n">parse_Excel_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">utils</span><span class="o">.</span><span class="n">ExcelReadError</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">commands</span> <span class="o">=</span> <span class="n">parse_text_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CommandFileReadError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;could not read </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> as command list file: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CommandFileReadError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"could not read </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> as command list file: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">commands</span></div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_HandlerRegistrar</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Internal use, allows redefinition of execute_command_list().</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">command</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="parse_Excel_command_file">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.parse_Excel_command_file">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_Excel_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    parse an Excel spreadsheet with commands, return as command list</span>
 
 <span class="sd">    TEXT view of spreadsheet (Excel file line numbers shown)::</span>
@@ -661,8 +661,8 @@
 <span class="sd">    filename</span>
 <span class="sd">        *str* :</span>
 <span class="sd">        Name of input Excel spreadsheet file.  Can be relative or absolute path,</span>
-<span class="sd">        such as &quot;actions.xslx&quot;, &quot;../sample.xslx&quot;, or</span>
-<span class="sd">        &quot;/path/to/overnight.xslx&quot;.</span>
+<span class="sd">        such as "actions.xslx", "../sample.xslx", or</span>
+<span class="sd">        "/path/to/overnight.xslx".</span>
 
 <span class="sd">    RETURNS</span>
 
@@ -684,7 +684,7 @@
 <span class="sd">        ~run_command_file</span>
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">full_filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">full_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
@@ -710,9 +710,9 @@
 
 <div class="viewcode-block" id="parse_text_command_file">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.parse_text_command_file">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_text_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    parse a text file with commands, return as command list</span>
 
 <span class="sd">    * The text file is interpreted line-by-line.</span>
@@ -733,7 +733,7 @@
 
 <span class="sd">        # action  sx  sy  thickness   sample name</span>
 <span class="sd">        FlyScan 0   0   0   blank</span>
-<span class="sd">        FlyScan 5   2   0   &quot;empty container&quot;</span>
+<span class="sd">        FlyScan 5   2   0   "empty container"</span>
 
 <span class="sd">        # action  sx  sy  thickness   sample name</span>
 <span class="sd">        SAXS 0 0 0 blank</span>
@@ -746,8 +746,8 @@
 <span class="sd">    filename</span>
 <span class="sd">        *str* :</span>
 <span class="sd">        Name of input text file.  Can be relative or absolute path,</span>
-<span class="sd">        such as &quot;actions.txt&quot;, &quot;../sample.txt&quot;, or</span>
-<span class="sd">        &quot;/path/to/overnight.txt&quot;.</span>
+<span class="sd">        such as "actions.txt", "../sample.txt", or</span>
+<span class="sd">        "/path/to/overnight.txt".</span>
 
 <span class="sd">    RETURNS</span>
 
@@ -770,17 +770,17 @@
 <span class="sd">        ~run_command_file</span>
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">full_filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">full_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="n">buf</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
     <span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">raw_command</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
         <span class="n">row</span> <span class="o">=</span> <span class="n">raw_command</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">row</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">or</span> <span class="n">row</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"#"</span><span class="p">):</span>
             <span class="k">continue</span>  <span class="c1"># comment or blank</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># command line</span>
             <span class="n">action</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">split_quoted_line</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
@@ -792,9 +792,9 @@
 
 <div class="viewcode-block" id="register_command_handler">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.register_command_handler">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">register_command_handler</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Define the function called to execute the command list</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -816,16 +816,16 @@
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">COMMAND_LIST_REGISTRY</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="n">handler</span> <span class="ow">or</span> <span class="n">execute_command_list</span></div>
 
 
 
 <div class="viewcode-block" id="run_command_file">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.run_command_file">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    plan: execute a list of commands from a text or Excel file</span>
 
 <span class="sd">    .. index:: Bluesky Plan; run_command_file</span>
@@ -843,7 +843,7 @@
 <span class="sd">        ~summarize_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">command_file</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
     <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
     <span class="n">commands</span> <span class="o">=</span> <span class="n">get_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -853,9 +853,9 @@
 
 <div class="viewcode-block" id="summarize_command_file">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/command_list/index.html#apstools.plans.command_list.summarize_command_file">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1.7&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.1.7"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">summarize_command_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    print the command list from a text or Excel file</span>
 
 <span class="sd">    SEE ALSO</span>
@@ -867,9 +867,9 @@
 <span class="sd">        ~run_command_file</span>
 <span class="sd">        ~parse_Excel_command_file</span>
 <span class="sd">        ~parse_text_command_file</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">commands</span> <span class="o">=</span> <span class="n">get_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">command_list_as_table</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span></div>
 
 

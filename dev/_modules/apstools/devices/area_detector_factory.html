@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.area_detector_factory</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Area Detector Factory</span>
 <span class="sd">+++++++++++++++++++++</span>
 
@@ -453,7 +453,7 @@
 <span class="sd">the most basic features)::</span>
 
 <span class="sd">    from apstools.devices import ad_creator</span>
-<span class="sd">    det = ad_creator(&quot;ad:&quot;, name=&quot;det&quot;, class_name=&quot;MySimpleAD&quot;, [&quot;cam&quot;,])</span>
+<span class="sd">    det = ad_creator("ad:", name="det", class_name="MySimpleAD", ["cam",])</span>
 
 <span class="sd">EXAMPLE 2: CUSTOM CAM &amp; IMAGING</span>
 
@@ -463,11 +463,11 @@
 <span class="sd">    from apstools.devices import ad_creator</span>
 
 <span class="sd">    det = ad_creator(</span>
-<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name=&quot;MySimDetector&quot;,</span>
+<span class="sd">        "ad:", name="det", class_name="MySimDetector",</span>
 <span class="sd">        plugins=[</span>
-<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: SimDetectorCam}},</span>
-<span class="sd">            &quot;image&quot;,</span>
-<span class="sd">            &quot;pva&quot;,</span>
+<span class="sd">            {"cam": {"class": SimDetectorCam}},</span>
+<span class="sd">            "image",</span>
+<span class="sd">            "pva",</span>
 <span class="sd">        ],</span>
 <span class="sd">    )</span>
 
@@ -480,11 +480,11 @@
 <span class="sd">    from apstools.devices import ad_creator</span>
 
 <span class="sd">    det = ad_creator(</span>
-<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name&quot;MyEiger&quot;,</span>
+<span class="sd">        "ad:", name="det", class_name"MyEiger",</span>
 <span class="sd">        plugins=[</span>
-<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: EigerDetectorCam}},</span>
-<span class="sd">            &quot;image&quot;,</span>
-<span class="sd">            {&quot;hdf1&quot;: {&quot;write_path_template&quot;: &quot;/&quot;}},</span>
+<span class="sd">            {"cam": {"class": EigerDetectorCam}},</span>
+<span class="sd">            "image",</span>
+<span class="sd">            {"hdf1": {"write_path_template": "/"}},</span>
 <span class="sd">        ],</span>
 <span class="sd">    )</span>
 
@@ -499,19 +499,19 @@
 <span class="sd">    from apstools.devices import ad_creator, PLUGIN_DEFAULTS</span>
 
 <span class="sd">    plugin_defaults = PLUGIN_DEFAULTS.copy()</span>
-<span class="sd">    plugin_defaults[&quot;hdf1&quot;].pop(&quot;read_path_template&quot;, None)</span>
-<span class="sd">    plugin_defaults[&quot;hdf1&quot;].pop(&quot;write_path_template&quot;, None)</span>
+<span class="sd">    plugin_defaults["hdf1"].pop("read_path_template", None)</span>
+<span class="sd">    plugin_defaults["hdf1"].pop("write_path_template", None)</span>
 
 <span class="sd">    det = ad_creator(</span>
-<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name&quot;MyEiger&quot;,</span>
+<span class="sd">        "ad:", name="det", class_name"MyEiger",</span>
 <span class="sd">        plugins=[</span>
-<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: EigerDetectorCam}},</span>
-<span class="sd">            &quot;image&quot;,</span>
-<span class="sd">            {&quot;hdf1&quot;: {&quot;class&quot;: HDF5Plugin_V34}},</span>
+<span class="sd">            {"cam": {"class": EigerDetectorCam}},</span>
+<span class="sd">            "image",</span>
+<span class="sd">            {"hdf1": {"class": HDF5Plugin_V34}},</span>
 <span class="sd">        ],</span>
 <span class="sd">        plugin_defaults=plugin_defaults,</span>
 <span class="sd">    )</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
@@ -537,155 +537,155 @@
 
 <span class="n">PLUGIN_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># some of the common plugins</span>
     <span class="c1"># gets image from the detector</span>
-    <span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">,</span>
+    <span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"cam1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># for imaging</span>
-    <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;image1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ImagePlugin_V34</span><span class="p">,</span>
+    <span class="s2">"image"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"image1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ImagePlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;pva&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PvaPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"pva"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Pva1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PvaPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># signal handling</span>
-    <span class="s2">&quot;attr1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Attr1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">AttrPlotPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"attr1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Attr1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">AttrPlotPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;badpix1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;BadPix1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">BadPixelPlugin</span><span class="p">,</span>  <span class="c1"># Not in ophyd.  Yet.</span>
+    <span class="s2">"badpix1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"BadPix1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">BadPixelPlugin</span><span class="p">,</span>  <span class="c1"># Not in ophyd.  Yet.</span>
         <span class="c1"># new in apstools release 1.7.3</span>
     <span class="p">},</span>
-    <span class="s2">&quot;cb1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CB1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CircularBuffPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"cb1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"CB1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CircularBuffPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;cc1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CC1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"cc1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"CC1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;cc2&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CC2:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"cc2"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"CC2:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;codec1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Codec1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CodecPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"codec1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Codec1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CodecPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;fft1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;FFT1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">FFTPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"fft1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"FFT1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">FFTPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;gather1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Gather1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">GatherNPlugin_V31</span><span class="p">,</span>
+    <span class="s2">"gather1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Gather1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">GatherNPlugin_V31</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;overlay1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Over1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">OverlayPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"overlay1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Over1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">OverlayPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;process1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Proc1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ProcessPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"process1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Proc1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ProcessPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;roi1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"roi1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"ROI1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;roi2&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI2:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"roi2"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"ROI2:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;roi3&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI3:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"roi3"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"ROI3:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;roi4&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI4:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"roi4"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"ROI4:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;roistat1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROIStat1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIStatPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"roistat1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"ROIStat1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIStatPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;scatter1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Scatter1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ScatterPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"scatter1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Scatter1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ScatterPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;stats1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"stats1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Stats1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;stats2&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats2:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"stats2"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Stats2:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;stats3&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats3:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"stats3"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Stats3:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;stats4&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats4:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"stats4"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Stats4:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;stats5&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats5:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"stats5"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Stats5:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;transform1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Trans1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">TransformPlugin_V34</span><span class="p">,</span>
+    <span class="s2">"transform1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Trans1:"</span><span class="p">,</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">TransformPlugin_V34</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># file writers</span>
-    <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
-        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
+        <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"HDF1:"</span><span class="p">,</span>
+        <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;jpeg1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">AD_EpicsFileNameJPEGPlugin</span><span class="p">,</span>
-        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;JPEG1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"jpeg1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">AD_EpicsFileNameJPEGPlugin</span><span class="p">,</span>
+        <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"JPEG1:"</span><span class="p">,</span>
+        <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;magick1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">MagickPlugin_V34</span><span class="p">,</span>
-        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Magick1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"magick1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">MagickPlugin_V34</span><span class="p">,</span>
+        <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"Magick1:"</span><span class="p">,</span>
+        <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;netcdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">NetCDFPlugin_V34</span><span class="p">,</span>
-        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;netCDF1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"netcdf1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">NetCDFPlugin_V34</span><span class="p">,</span>
+        <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"netCDF1:"</span><span class="p">,</span>
+        <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s2">&quot;tiff1&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">AD_EpicsFileNameTIFFPlugin</span><span class="p">,</span>
-        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;TIFF1:&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"tiff1"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"class"</span><span class="p">:</span> <span class="n">AD_EpicsFileNameTIFFPlugin</span><span class="p">,</span>
+        <span class="s2">"read_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"suffix"</span><span class="p">:</span> <span class="s2">"TIFF1:"</span><span class="p">,</span>
+        <span class="s2">"write_path_template"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Default plugin configuration dictionary.</span>
 
 <span class="sd">These defaults could be replaced by a caller individually or in total.  For</span>
-<span class="sd">example, the ``&quot;class&quot;`` could be replaced by a newer, version-specific class.</span>
+<span class="sd">example, the ``"class"`` could be replaced by a newer, version-specific class.</span>
 <span class="sd">Another use case is to remove an existing set of defaults.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 
 <div class="viewcode-block" id="ad_class_factory">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_class_factory">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.0"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">ad_class_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_defaults</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Build an Area Detector class with specified plugins.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -698,7 +698,7 @@
 <span class="sd">    plugins list :</span>
 <span class="sd">        Description of the plugins used.  The list consists</span>
 <span class="sd">        of either strings or dictionaries.</span>
-<span class="sd">        (default: ``[&quot;cam&quot;]`` -- Just the camera plugin.)</span>
+<span class="sd">        (default: ``["cam"]`` -- Just the camera plugin.)</span>
 <span class="sd">    plugin_defaults object :</span>
 <span class="sd">        Plugin configuration dictionary.</span>
 <span class="sd">        (default: ``None``, PLUGIN_DEFAULTS will be used.)</span>
@@ -711,11 +711,11 @@
 <span class="sd">    from ophyd) will only support the most general features of the detector</span>
 <span class="sd">    hardware::</span>
 
-<span class="sd">        plugins=[&quot;cam&quot;, &quot;image&quot;, &quot;pva&quot;]</span>
+<span class="sd">        plugins=["cam", "image", "pva"]</span>
 
 <span class="sd">    This is a shorthand for::</span>
 
-<span class="sd">        plugins=[{&quot;cam&quot;: {}}, {&quot;image&quot;: {}}, {&quot;pva&quot;: {}}]</span>
+<span class="sd">        plugins=[{"cam": {}}, {"image": {}}, {"pva": {}}]</span>
 
 <span class="sd">    EXAMPLE 2: CUSTOM CAM CLASS</span>
 
@@ -725,7 +725,7 @@
 <span class="sd">    plugin. All these dictionaries are empty, signifying all defaults are</span>
 <span class="sd">    acceptable.</span>
 
-<span class="sd">    For the ADSimDetector, replace the string ``&quot;cam&quot;`` with a dictionary</span>
+<span class="sd">    For the ADSimDetector, replace the string ``"cam"`` with a dictionary</span>
 <span class="sd">    that replaces the default camera class.  Other detectors will have their</span>
 <span class="sd">    own camera class that provides access to the specific features of that</span>
 <span class="sd">    detector.</span>
@@ -736,19 +736,19 @@
 
 <span class="sd">        from apstools.devices import SimDetectorCam_V34</span>
 
-<span class="sd">        plugins=[{&quot;cam&quot;: {&quot;class&quot;: SimDetectorCam_V34}}, &quot;image&quot;, &quot;pva&quot;]</span>
+<span class="sd">        plugins=[{"cam": {"class": SimDetectorCam_V34}}, "image", "pva"]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">bases</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bases</span> <span class="o">=</span> <span class="n">DEFAULT_DETECTOR_BASES</span>
     <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"cam"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">plugin_defaults</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plugin_defaults</span> <span class="o">=</span> <span class="n">PLUGIN_DEFAULTS</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a list.  Received </span><span class="si">{</span><span class="n">plugins</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must be a list.  Received </span><span class="si">{</span><span class="n">plugins</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin_defaults</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a dict.  Received </span><span class="si">{</span><span class="n">plugin_defaults</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must be a dict.  Received </span><span class="si">{</span><span class="n">plugin_defaults</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">attributes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
@@ -759,22 +759,22 @@
             <span class="n">key</span> <span class="o">=</span> <span class="n">spec</span>
             <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown plugin configuration: </span><span class="si">{</span><span class="n">spec</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown plugin configuration: </span><span class="si">{</span><span class="n">spec</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">plugin_defaults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># default settings for this key</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># settings supplied by the caller</span>
-        <span class="k">if</span> <span class="s2">&quot;class&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must define &#39;class&#39;: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;suffix&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must define &#39;suffix&#39;: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">component_class</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"class"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must define 'class': </span><span class="si">{</span><span class="n">kwargs</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"suffix"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must define 'suffix': </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">component_class</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># Convert text class into object, such as:</span>
-            <span class="c1">#    &quot;apstools.devices.area_detector_support.SimDetectorCam_V34&quot;</span>
+            <span class="c1">#    "apstools.devices.area_detector_support.SimDetectorCam_V34"</span>
             <span class="n">component_class</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">component_class</span><span class="p">)</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;suffix&quot;</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"suffix"</span><span class="p">)</span>
 
-        <span class="c1"># if &quot;write_path_template&quot; in defaults</span>
+        <span class="c1"># if "write_path_template" in defaults</span>
         <span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">component_class</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attributes</span><span class="p">)</span></div>
@@ -783,7 +783,7 @@
 
 <div class="viewcode-block" id="ad_creator">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/area_detector_factory/index.html#apstools.devices.area_detector_factory.ad_creator">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.0"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">ad_creator</span><span class="p">(</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -796,7 +796,7 @@
     <span class="n">validate_ports</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create an area detector object from a custom class.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -807,7 +807,7 @@
 <span class="sd">        Name of the ophyd object.</span>
 <span class="sd">    class_name str :</span>
 <span class="sd">        Name of the class to be created.</span>
-<span class="sd">        (default: ``&quot;ADclass_HEX7&quot;`` where HEX is a random</span>
+<span class="sd">        (default: ``"ADclass_HEX7"`` where HEX is a random</span>
 <span class="sd">        7-digit hexadecimal string)</span>
 <span class="sd">    plugins list :</span>
 <span class="sd">        Description of the plugins used.</span>
@@ -823,7 +823,7 @@
 <span class="sd">        (default: ``None``, PLUGIN_DEFAULTS will be used.)</span>
 <span class="sd">    validate_ports bool :</span>
 <span class="sd">        When True (default), call ``.validate_asyn_ports()``. This call will</span>
-<span class="sd">        wait for PV connections. Set &#39;False&#39; to skip this test on startup.</span>
+<span class="sd">        wait for PV connections. Set 'False' to skip this test on startup.</span>
 
 <span class="sd">        If assigned plugin ports are used but no ophyd plugin class is provided,</span>
 <span class="sd">        an ophyd exception will be raised when the detector tries to take an</span>
@@ -833,8 +833,8 @@
 <span class="sd">    kwargs dict :</span>
 <span class="sd">        Any additional keyword arguments for the new class definition.</span>
 <span class="sd">        (default: ``{}``)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;ADclass_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="sd">    """</span>
+    <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">"ADclass_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">ad_class</span> <span class="o">=</span> <span class="n">ad_class_factory</span><span class="p">(</span>
         <span class="n">class_name</span><span class="p">,</span>
         <span class="n">bases</span><span class="p">,</span>

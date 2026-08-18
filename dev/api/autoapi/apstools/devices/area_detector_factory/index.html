@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -629,7 +629,7 @@
 <p>Just the camera plugin (uses <a class="reference external" href="https://blueskyproject.io/ophyd/user/explanations/area-detector.html#custom-plugins-or-cameras">CamBase</a>,
 the most basic features):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
-<span class="n">det</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;MySimpleAD&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">,])</span>
+<span class="n">det</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span><span class="s2">"ad:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="s2">"MySimpleAD"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"cam"</span><span class="p">,])</span>
 </pre></div>
 </div>
 <p>EXAMPLE 2: CUSTOM CAM &amp; IMAGING</p>
@@ -638,11 +638,11 @@ the most basic features):</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
 
 <span class="n">det</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span>
-    <span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;MySimDetector&quot;</span><span class="p">,</span>
+    <span class="s2">"ad:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="s2">"MySimDetector"</span><span class="p">,</span>
     <span class="n">plugins</span><span class="o">=</span><span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam</span><span class="p">}},</span>
-        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pva&quot;</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">SimDetectorCam</span><span class="p">}},</span>
+        <span class="s2">"image"</span><span class="p">,</span>
+        <span class="s2">"pva"</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
@@ -654,11 +654,11 @@ the Bluesky databroker use the same filesystem mount <code class="docutils liter
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
 
 <span class="n">det</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span>
-    <span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="s2">&quot;MyEiger&quot;</span><span class="p">,</span>
+    <span class="s2">"ad:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">,</span> <span class="n">class_name</span><span class="s2">"MyEiger"</span><span class="p">,</span>
     <span class="n">plugins</span><span class="o">=</span><span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">EigerDetectorCam</span><span class="p">}},</span>
-        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
-        <span class="p">{</span><span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">EigerDetectorCam</span><span class="p">}},</span>
+        <span class="s2">"image"</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"write_path_template"</span><span class="p">:</span> <span class="s2">"/"</span><span class="p">}},</span>
     <span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
@@ -672,15 +672,15 @@ support and switch to the plugin class from ophyd:</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span><span class="p">,</span> <span class="n">PLUGIN_DEFAULTS</span>
 
 <span class="n">plugin_defaults</span> <span class="o">=</span> <span class="n">PLUGIN_DEFAULTS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">plugin_defaults</span><span class="p">[</span><span class="s2">&quot;hdf1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;read_path_template&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-<span class="n">plugin_defaults</span><span class="p">[</span><span class="s2">&quot;hdf1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;write_path_template&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">plugin_defaults</span><span class="p">[</span><span class="s2">"hdf1"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"read_path_template"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">plugin_defaults</span><span class="p">[</span><span class="s2">"hdf1"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"write_path_template"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 <span class="n">det</span> <span class="o">=</span> <span class="n">ad_creator</span><span class="p">(</span>
-    <span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="s2">&quot;MyEiger&quot;</span><span class="p">,</span>
+    <span class="s2">"ad:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"det"</span><span class="p">,</span> <span class="n">class_name</span><span class="s2">"MyEiger"</span><span class="p">,</span>
     <span class="n">plugins</span><span class="o">=</span><span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">EigerDetectorCam</span><span class="p">}},</span>
-        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
-        <span class="p">{</span><span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5Plugin_V34</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">EigerDetectorCam</span><span class="p">}},</span>
+        <span class="s2">"image"</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">"hdf1"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">HDF5Plugin_V34</span><span class="p">}},</span>
     <span class="p">],</span>
     <span class="n">plugin_defaults</span><span class="o">=</span><span class="n">plugin_defaults</span><span class="p">,</span>
 <span class="p">)</span>
@@ -730,11 +730,11 @@ of either strings or dictionaries.
 <p>All defaults are acceptable.  In this case, the <code class="docutils literal notranslate"><span class="pre">cam</span></code> (<code class="docutils literal notranslate"><span class="pre">CamBase</span></code>
 from ophyd) will only support the most general features of the detector
 hardware:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="s2">&quot;pva&quot;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="s2">"cam"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"pva"</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This is a shorthand for:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="s2">&quot;pva&quot;</span><span class="p">:</span> <span class="p">{}}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="o">=</span><span class="p">[{</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="s2">"image"</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="s2">"pva"</span><span class="p">:</span> <span class="p">{}}]</span>
 </pre></div>
 </div>
 <p>EXAMPLE 2: CUSTOM CAM CLASS</p>
@@ -752,7 +752,7 @@ imported or defined.  Do not use quotations around
 <code class="docutils literal notranslate"><span class="pre">SimDetectorCam_V34</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
 
-<span class="n">plugins</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}},</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="s2">&quot;pva&quot;</span><span class="p">]</span>
+<span class="n">plugins</span><span class="o">=</span><span class="p">[{</span><span class="s2">"cam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">}},</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"pva"</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>

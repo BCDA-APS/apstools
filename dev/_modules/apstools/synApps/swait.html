@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,13 +436,13 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.synApps.swait</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Ophyd support for the EPICS synApps swait record</span>
 
 <span class="sd">EXAMPLES::</span>
 
 <span class="sd">    import apstools.synApps</span>
-<span class="sd">    calcs = apstools.synApps.UserCalcsDevice(&quot;xxx:&quot;, name=&quot;calcs&quot;)</span>
+<span class="sd">    calcs = apstools.synApps.UserCalcsDevice("xxx:", name="calcs")</span>
 
 <span class="sd">    calc1 = calcs.calc1</span>
 <span class="sd">    apstools.synApps.setup_random_number_swait(calc1)</span>
@@ -464,7 +464,7 @@
 <span class="sd">    ~setup_incrementer_swait</span>
 
 <span class="sd">:see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -479,25 +479,25 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordDeviceCommonAll</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSynAppsRecordEnableMixin</span>
 
-<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">&quot;A B C D E F G H I J K L&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">CHANNEL_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">"A B C D E F G H I J K L"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="SwaitRecordChannel">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.SwaitRecordChannel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SwaitRecordChannel</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps synApps swait record: single channel [A-L]</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps SwaitRecordChannel</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self._ch_letter}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.IN</span><span class="si">{self._ch_letter}</span><span class="s2">N&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">input_trigger</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.IN</span><span class="si">{self._ch_letter}</span><span class="s2">P&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.</span><span class="si">{self._ch_letter}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.IN</span><span class="si">{self._ch_letter}</span><span class="s2">N"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">input_trigger</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">.IN</span><span class="si">{self._ch_letter}</span><span class="s2">P"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
     <span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;input_value&quot;</span><span class="p">,</span>
+        <span class="s2">"input_value"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ch_letter</span> <span class="o">=</span> <span class="n">letter</span>
@@ -506,10 +506,10 @@
 <div class="viewcode-block" id="SwaitRecordChannel.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.SwaitRecordChannel.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_trigger</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_trigger</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Yes"</span><span class="p">)</span></div>
 </div>
 
 
@@ -517,14 +517,14 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_swait_channels</span><span class="p">(</span><span class="n">channel_list</span><span class="p">):</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channel_list</span><span class="p">:</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">SwaitRecordChannel</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">SwaitRecordChannel</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">defn</span>
 
 
 <div class="viewcode-block" id="SwaitRecord">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.SwaitRecord">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SwaitRecord</span><span class="p">(</span><span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps swait record: used as ``$(P):userCalc$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps SwaitRecord</span>
@@ -533,26 +533,26 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">high_operating_range</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.HOPR&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">low_operating_range</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.LOPR&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">high_operating_range</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".HOPR"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">low_operating_range</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".LOPR"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CALC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">calculated_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">calculation</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".CALC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">output_link_pv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OUTN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_location_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DOLN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_location_data</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DOLD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_data_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DOPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">output_link_pv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OUTN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_location_name</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DOLN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_location_data</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DOLD"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_data_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DOPT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OOPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">output_execution_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ODLY&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">event_to_issue</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OEVT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OOPT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">output_execution_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".ODLY"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">event_to_issue</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OEVT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span>
-    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">)</span>
+    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
 
     <span class="n">channels</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_swait_channels</span><span class="p">(</span><span class="n">CHANNEL_LETTERS_LIST</span><span class="p">))</span>
 
@@ -563,28 +563,28 @@
 <div class="viewcode-block" id="SwaitRecord.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.SwaitRecord.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"0"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"5"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_location_data</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_location_name</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_data_option</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Use VAL&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_location_name</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_data_option</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Use VAL"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"0"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_execution_delay</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_execute_option</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Every Time&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_link_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_execute_option</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Every Time"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_link_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">:</span>
             <span class="n">channel</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">letter</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">SwaitRecordChannel</span><span class="p">):</span>
                 <span class="n">channel</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;channels.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"channels.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHANNEL_LETTERS_LIST</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;calculated_value&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"calculated_value"</span><span class="p">)</span></div>
 </div>
 
 
@@ -592,14 +592,14 @@
 <div class="viewcode-block" id="UserCalcN">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.UserCalcN">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserCalcN</span><span class="p">(</span><span class="n">EpicsSynAppsRecordEnableMixin</span><span class="p">,</span> <span class="n">SwaitRecord</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single instance of the userCalcN database.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">"""Single instance of the userCalcN database."""</span></div>
 
 
 
 <div class="viewcode-block" id="UserCalcsDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.UserCalcsDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserCalcsDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of userCalcs: ``$(P):userCalc$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps UserCalcsDevice</span>
@@ -608,24 +608,24 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;userCalcEnable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">calc1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc1&quot;</span><span class="p">)</span>
-    <span class="n">calc2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc2&quot;</span><span class="p">)</span>
-    <span class="n">calc3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc3&quot;</span><span class="p">)</span>
-    <span class="n">calc4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc4&quot;</span><span class="p">)</span>
-    <span class="n">calc5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc5&quot;</span><span class="p">)</span>
-    <span class="n">calc6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc6&quot;</span><span class="p">)</span>
-    <span class="n">calc7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc7&quot;</span><span class="p">)</span>
-    <span class="n">calc8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc8&quot;</span><span class="p">)</span>
-    <span class="n">calc9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc9&quot;</span><span class="p">)</span>
-    <span class="n">calc10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">&quot;userCalc10&quot;</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"userCalcEnable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">calc1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc1"</span><span class="p">)</span>
+    <span class="n">calc2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc2"</span><span class="p">)</span>
+    <span class="n">calc3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc3"</span><span class="p">)</span>
+    <span class="n">calc4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc4"</span><span class="p">)</span>
+    <span class="n">calc5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc5"</span><span class="p">)</span>
+    <span class="n">calc6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc6"</span><span class="p">)</span>
+    <span class="n">calc7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc7"</span><span class="p">)</span>
+    <span class="n">calc8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc8"</span><span class="p">)</span>
+    <span class="n">calc9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc9"</span><span class="p">)</span>
+    <span class="n">calc10</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">UserCalcN</span><span class="p">,</span> <span class="s2">"userCalc10"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserCalcsDevice.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.UserCalcsDevice.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># lgtm [py/similar-function]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc2</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc3</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -636,7 +636,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">calc8</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc9</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc10</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;calc</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"calc</span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span></div>
 </div>
 
 
@@ -644,22 +644,22 @@
 <div class="viewcode-block" id="setup_random_number_swait">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.setup_random_number_swait">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_random_number_swait</span><span class="p">(</span><span class="n">swait</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;setup swait record to generate random numbers&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""setup swait record to generate random numbers"""</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;uniform random numbers&quot;</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;RNDM&quot;</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;.1 second&quot;</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"uniform random numbers"</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"RNDM"</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">".1 second"</span><span class="p">)</span>
 
     <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;calculated_value&quot;</span><span class="p">,</span>
+        <span class="s2">"calculated_value"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
+    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_setup_peak_swait_</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">swait</span><span class="p">,</span> <span class="n">ref_signal</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    internal: setup that is common to both Gaussian and Lorentzian swaits</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -691,20 +691,20 @@
 <span class="sd">        *float* :</span>
 <span class="sd">        EPICS record field $E$,</span>
 <span class="sd">        default = 0.05</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># consider a noisy background, as well (needs a couple calcs)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">swait</span><span class="p">,</span> <span class="n">SwaitRecord</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected SwaitRecord instance, received {type(swait)}&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"expected SwaitRecord instance, received {type(swait)}"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ref_signal</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected EpicsSignalBase instance, received {type(ref_signal)}&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"expected EpicsSignalBase instance, received {type(ref_signal)}"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;width must be positive, received </span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"width must be positive, received </span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">noise</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;noise must be between 0 and 1, received </span><span class="si">{</span><span class="n">noise</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"noise must be between 0 and 1, received </span><span class="si">{</span><span class="n">noise</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">swait</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ref_signal</span><span class="o">.</span><span class="n">pvname</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
@@ -712,18 +712,18 @@
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;I/O Intr&quot;</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"I/O Intr"</span><span class="p">)</span>
 
     <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;calculated_value&quot;</span><span class="p">,</span>
+        <span class="s2">"calculated_value"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="setup_gaussian_swait">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.setup_gaussian_swait">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_gaussian_swait</span><span class="p">(</span><span class="n">swait</span><span class="p">,</span> <span class="n">ref_signal</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    setup swait for noisy Gaussian</span>
 
 <span class="sd">    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$</span>
@@ -757,10 +757,10 @@
 <span class="sd">        *float* :</span>
 <span class="sd">        instance of :class:`EpicsSignal` used as $E$,</span>
 <span class="sd">        default = 0.05</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_setup_peak_swait_</span><span class="p">(</span>
-        <span class="s2">&quot;D*(0.95+E*RNDM)/exp(((A-b)/c)^2)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;noisy Gaussian curve&quot;</span><span class="p">,</span>
+        <span class="s2">"D*(0.95+E*RNDM)/exp(((A-b)/c)^2)"</span><span class="p">,</span>
+        <span class="s2">"noisy Gaussian curve"</span><span class="p">,</span>
         <span class="n">swait</span><span class="p">,</span>
         <span class="n">ref_signal</span><span class="p">,</span>
         <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
@@ -774,7 +774,7 @@
 <div class="viewcode-block" id="setup_lorentzian_swait">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.setup_lorentzian_swait">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_lorentzian_swait</span><span class="p">(</span><span class="n">swait</span><span class="p">,</span> <span class="n">ref_signal</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    setup swait record for noisy Lorentzian</span>
 
 <span class="sd">    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$</span>
@@ -808,10 +808,10 @@
 <span class="sd">        *float* :</span>
 <span class="sd">        instance of :class:`EpicsSignal` used as $E$,</span>
 <span class="sd">        default = 0.05</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_setup_peak_swait_</span><span class="p">(</span>
-        <span class="s2">&quot;D*(0.95+E*RNDM)/(1+((A-b)/c)^2)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;noisy Lorentzian curve&quot;</span><span class="p">,</span>
+        <span class="s2">"D*(0.95+E*RNDM)/(1+((A-b)/c)^2)"</span><span class="p">,</span>
+        <span class="s2">"noisy Lorentzian curve"</span><span class="p">,</span>
         <span class="n">swait</span><span class="p">,</span>
         <span class="n">ref_signal</span><span class="p">,</span>
         <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
@@ -825,7 +825,7 @@
 <div class="viewcode-block" id="setup_incrementer_swait">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/swait/index.html#apstools.synApps.swait.setup_incrementer_swait">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_incrementer_swait</span><span class="p">(</span><span class="n">swait</span><span class="p">,</span> <span class="n">scan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    setup swait record as an incrementer</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -847,23 +847,23 @@
 <span class="sd">        when this number is reached (or passed),</span>
 <span class="sd">        default: 100000</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># consider a noisy background, as well (needs a couple calcs)</span>
-    <span class="n">scan</span> <span class="o">=</span> <span class="n">scan</span> <span class="ow">or</span> <span class="s2">&quot;.1 second&quot;</span>
+    <span class="n">scan</span> <span class="o">=</span> <span class="n">scan</span> <span class="ow">or</span> <span class="s2">".1 second"</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;incrementer&quot;</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"incrementer"</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
     <span class="n">pvname</span> <span class="o">=</span> <span class="n">swait</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;(A+1) % B&quot;</span><span class="p">)</span>
+    <span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"(A+1) % B"</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">swait</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">scan</span><span class="p">)</span>
 
     <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;calculated_value&quot;</span><span class="p">,</span>
+        <span class="s2">"calculated_value"</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
+    <span class="n">swait</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">swait</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">}</span></div>
 
 
 

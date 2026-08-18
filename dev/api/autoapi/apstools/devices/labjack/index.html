@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -643,7 +643,7 @@ analog input 5 is connected to a gas flow meter:</p>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyBeamline</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
     <span class="o">...</span>
-    <span class="n">gas_flow</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">labjack</span><span class="o">.</span><span class="n">AnalogInput</span><span class="p">,</span> <span class="s2">&quot;LabJackT7_1:Ai5&quot;</span><span class="p">)</span>
+    <span class="n">gas_flow</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">labjack</span><span class="o">.</span><span class="n">AnalogInput</span><span class="p">,</span> <span class="s2">"LabJackT7_1:Ai5"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -739,7 +739,7 @@ prefix should be prefix for the whole labjack
 (e.g. <code class="docutils literal notranslate"><span class="pre">LabJackT7_1:</span></code>), and the channel number should be provided
 using the <em>ch_num</em> property. So for the digital I/O with its input
 available at PV <code class="docutils literal notranslate"><span class="pre">LabJackT7_1:Bi3</span></code>, use:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dio3</span> <span class="o">=</span> <span class="n">DigitalIO</span><span class="p">(</span><span class="s2">&quot;LabJackT7_1:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dio3&quot;</span><span class="p">,</span> <span class="n">ch_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dio3</span> <span class="o">=</span> <span class="n">DigitalIO</span><span class="p">(</span><span class="s2">"LabJackT7_1:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"dio3"</span><span class="p">,</span> <span class="n">ch_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will create signals for the input (<code class="docutils literal notranslate"><span class="pre">Bi3</span></code>), output
@@ -943,7 +943,7 @@ be sub-classed for the individual T-series devices to use
 produce waveform signals based on the number of inputs, using the
 ophyd DynamicDeviceComponent.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1027,7 +1027,7 @@ be sub-classed for the individual T-series devices to use
 produce waveform signals based on the number of inputs, using the
 ophyd DynamicDeviceComponent.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1111,7 +1111,7 @@ be sub-classed for the individual T-series devices to use
 produce waveform signals based on the number of inputs, using the
 ophyd DynamicDeviceComponent.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1195,7 +1195,7 @@ be sub-classed for the individual T-series devices to use
 produce waveform signals based on the number of inputs, using the
 ophyd DynamicDeviceComponent.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -1236,7 +1236,7 @@ be sub-classed for the individual T-series devices to use
 produce waveform signals based on the number of inputs, using the
 ophyd DynamicDeviceComponent.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
-    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">

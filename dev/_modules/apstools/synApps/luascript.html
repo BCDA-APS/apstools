@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,13 +436,13 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.synApps.luascript</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Ophyd support for the EPICS synApps luascript record</span>
 
 <span class="sd">EXAMPLES::</span>
 
 <span class="sd">    import apstools.synApps</span>
-<span class="sd">    scripts = apstools.synApps.UserScriptsDevice(&quot;xxx:&quot;, name=&quot;scripts&quot;)</span>
+<span class="sd">    scripts = apstools.synApps.UserScriptsDevice("xxx:", name="scripts")</span>
 <span class="sd">    scripts.reset()</span>
 
 <span class="sd">.. autosummary::</span>
@@ -453,7 +453,7 @@
 <span class="sd">    ~LuascriptRecordStringInput</span>
 
 <span class="sd">:see: https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -466,50 +466,50 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">APS_utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsRecordDeviceCommonAll</span>
 
-<span class="n">INPUT_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">&quot;A B C D E F G H I J&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">INPUT_LETTERS_LIST</span> <span class="o">=</span> <span class="s2">"A B C D E F G H I J"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_LuascriptRecordInputBase</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    (internal): base class for one input of a LuascriptRecord</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Components must be defined in subclass</span>
 
     <span class="c1"># read_attrs = [</span>
-    <span class="c1">#     &quot;input_value&quot;,</span>
+    <span class="c1">#     "input_value",</span>
     <span class="c1"># ]</span>
-    <span class="c1"># hints = {&quot;fields&quot;: read_attrs}</span>
+    <span class="c1"># hints = {"fields": read_attrs}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ch</span> <span class="o">=</span> <span class="n">letter</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Must define reset() method in subclass.&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must define reset() method in subclass."</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="LuascriptRecordNumberInput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecordNumberInput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LuascriptRecordNumberInput</span><span class="p">(</span><span class="n">_LuascriptRecordInputBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    number input of a synApps luascript record: A-J</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps LuascriptRecordNumberInput</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">pv_link</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">DSC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pv_link</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.INP</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">DSC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LuascriptRecordNumberInput.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecordNumberInput.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pv_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pv_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span></div>
 </div>
 
 
@@ -517,23 +517,23 @@
 <div class="viewcode-block" id="LuascriptRecordStringInput">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecordStringInput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LuascriptRecordStringInput</span><span class="p">(</span><span class="n">_LuascriptRecordInputBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    string input of a synApps luascript record: AA-JJ</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps LuascriptRecordStringInput</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">pv_link</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.IN</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">DN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pv_link</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.IN</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">.</span><span class="si">{_ch}</span><span class="s2">DN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LuascriptRecordStringInput.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecordStringInput.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pv_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pv_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span></div>
 </div>
 
 
@@ -541,9 +541,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_inputs</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
     <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">nsym</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">LuascriptRecordNumberInput</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">nsym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">LuascriptRecordNumberInput</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">nsym</span><span class="p">})</span>
         <span class="n">ssym</span> <span class="o">=</span> <span class="n">nsym</span> <span class="o">+</span> <span class="n">nsym</span>
-        <span class="n">defn</span><span class="p">[</span><span class="n">ssym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">LuascriptRecordStringInput</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;letter&quot;</span><span class="p">:</span> <span class="n">ssym</span><span class="p">})</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">ssym</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">LuascriptRecordStringInput</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="p">{</span><span class="s2">"letter"</span><span class="p">:</span> <span class="n">ssym</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">defn</span>
 
@@ -551,7 +551,7 @@
 <div class="viewcode-block" id="LuascriptRecord">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecord">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LuascriptRecord</span><span class="p">(</span><span class="n">EpicsRecordDeviceCommonAll</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps luascript record: used as ``$(P):userScript$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps LuascriptRecord</span>
@@ -560,50 +560,50 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PREC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".PREC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">number_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">string_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SVAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CODE&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">number_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".VAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">string_value</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SVAL"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".CODE"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">output_link</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OUT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">reload_script</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.RELO&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.OOPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">output_link</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OUT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">reload_script</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".RELO"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">output_execute_option</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".OOPT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">error_message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ERR&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".ERR"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">&quot;inputs.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">INPUT_LETTERS_LIST</span><span class="p">)</span>
-    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
+    <span class="n">read_attrs</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">"inputs.</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">INPUT_LETTERS_LIST</span><span class="p">)</span>
+    <span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">read_attrs</span><span class="p">}</span>
 
     <span class="n">inputs</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_inputs</span><span class="p">(</span><span class="n">INPUT_LETTERS_LIST</span><span class="p">))</span>
 
 <div class="viewcode-block" id="LuascriptRecord.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.LuascriptRecord.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
-        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
+        <span class="n">pvname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Passive&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Passive"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"5"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_link</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">string_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">string_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="n">new_read_attrs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">letter</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">letter</span><span class="p">:</span>
                 <span class="nb">input</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">letter</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="n">LuascriptRecordNumberInput</span><span class="p">,</span> <span class="n">LuascriptRecordStringInput</span><span class="p">)):</span>
-                    <span class="n">new_read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inputs.</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">new_read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"inputs.</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                     <span class="nb">input</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="n">new_read_attrs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">new_read_attrs</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">new_read_attrs</span><span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;number_value&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;string_value&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"number_value"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"string_value"</span><span class="p">)</span></div>
 </div>
 
 
@@ -611,7 +611,7 @@
 <div class="viewcode-block" id="UserScriptsDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.UserScriptsDevice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserScriptsDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    EPICS synApps XXX IOC setup of user lua scripts: ``$(P):userScript$(N)``</span>
 
 <span class="sd">    .. index:: Ophyd Device; synApps UserScriptsDevice</span>
@@ -620,26 +620,26 @@
 
 <span class="sd">        ~reset</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;userScriptEnable&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">script0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript0&quot;</span><span class="p">)</span>
-    <span class="n">script1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript1&quot;</span><span class="p">)</span>
-    <span class="n">script2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript2&quot;</span><span class="p">)</span>
-    <span class="n">script3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript3&quot;</span><span class="p">)</span>
-    <span class="n">script4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript4&quot;</span><span class="p">)</span>
-    <span class="n">script5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript5&quot;</span><span class="p">)</span>
-    <span class="n">script6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript6&quot;</span><span class="p">)</span>
-    <span class="n">script7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript7&quot;</span><span class="p">)</span>
-    <span class="n">script8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript8&quot;</span><span class="p">)</span>
-    <span class="n">script9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">&quot;userScript9&quot;</span><span class="p">)</span>
+    <span class="n">enable</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"userScriptEnable"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">script0</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript0"</span><span class="p">)</span>
+    <span class="n">script1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript1"</span><span class="p">)</span>
+    <span class="n">script2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript2"</span><span class="p">)</span>
+    <span class="n">script3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript3"</span><span class="p">)</span>
+    <span class="n">script4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript4"</span><span class="p">)</span>
+    <span class="n">script5</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript5"</span><span class="p">)</span>
+    <span class="n">script6</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript6"</span><span class="p">)</span>
+    <span class="n">script7</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript7"</span><span class="p">)</span>
+    <span class="n">script8</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript8"</span><span class="p">)</span>
+    <span class="n">script9</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">LuascriptRecord</span><span class="p">,</span> <span class="s2">"userScript9"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UserScriptsDevice.reset">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/synApps/luascript/index.html#apstools.synApps.luascript.UserScriptsDevice.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># lgtm [py/similar-function]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""set all fields to default values"""</span>
         <span class="n">enable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Enable&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Enable"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">script0</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">script1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">script2</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -651,7 +651,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">script8</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">script9</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">enable</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;script</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"script</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span></div>
 </div>
 
 

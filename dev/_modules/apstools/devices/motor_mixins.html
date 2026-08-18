@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.motor_mixins</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Mixin classes for Motor Devices</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
@@ -447,7 +447,7 @@
 <span class="sd">   ~EpicsMotorRawMixin</span>
 <span class="sd">   ~EpicsMotorResolutionMixin</span>
 <span class="sd">   ~EpicsMotorServoMixin</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
@@ -460,8 +460,8 @@
 <div class="viewcode-block" id="EpicsMotorDialMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorDialMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorDialMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    add motor record&#39;s dial coordinate fields to Device</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    add motor record's dial coordinate fields to Device</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsMotorDialMixin</span>
 
@@ -471,19 +471,19 @@
 <span class="sd">        from apstools.devices import EpicsMotorDialMixin</span>
 
 <span class="sd">        class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass</span>
-<span class="sd">        m1 = myEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
+<span class="sd">        m1 = myEpicsMotor('xxx:m1', name='m1')</span>
 <span class="sd">        print(m1.dial.read())</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">dial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DRBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;.DVAL&quot;</span><span class="p">)</span></div>
+    <span class="n">dial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".DRBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">".DVAL"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="EpicsMotorEnableMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorEnableMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorEnableMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    mixin providing access to motor enable/disable</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsMotorEnableMixin</span>
@@ -495,7 +495,7 @@
 
 <span class="sd">        class MyEpicsMotor(EpicsMotorEnableMixin, EpicsMotor): ...</span>
 
-<span class="sd">        m1 = MyEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
+<span class="sd">        m1 = MyEpicsMotor('xxx:m1', name='m1')</span>
 <span class="sd">        print(m1.enabled)</span>
 
 <span class="sd">    In a bluesky plan::</span>
@@ -504,9 +504,9 @@
 <span class="sd">        # ... other activities</span>
 <span class="sd">        yield from bps.mv(m1.enable_disable, m1.MOTOR_ENABLE)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">enable_disable</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;_able&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">enable_disable</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"_able"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
     <span class="c1"># constants for internal use</span>
     <span class="n">MOTOR_ENABLE</span> <span class="o">=</span> <span class="mi">0</span>
@@ -514,19 +514,19 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_disable</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MOTOR_ENABLE</span><span class="p">,</span> <span class="s2">&quot;Enabled&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_disable</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MOTOR_ENABLE</span><span class="p">,</span> <span class="s2">"Enabled"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EpicsMotorEnableMixin.enable_motor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorEnableMixin.enable_motor">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">enable_motor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;BLOCKING call to enable motor axis&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""BLOCKING call to enable motor axis"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable_disable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MOTOR_ENABLE</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EpicsMotorEnableMixin.disable_motor">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorEnableMixin.disable_motor">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">disable_motor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;BLOCKING call to disable motor axis&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""BLOCKING call to disable motor axis"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable_disable</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MOTOR_DISABLE</span><span class="p">)</span></div>
 </div>
 
@@ -534,28 +534,28 @@
 
 <div class="viewcode-block" id="EpicsMotorLimitsMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorLimitsMixin">[docs]</a>
-<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.1&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Now part of ophyd.EpicsMotor&quot;</span><span class="p">)</span>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.1"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Now part of ophyd.EpicsMotor"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorLimitsMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    **Deprecated** Add motor record HLM &amp; LLM fields &amp; compatibility get_lim() and set_lim()</span>
 
-<span class="sd">    .. caution:: Deprecated.  Now part of &#39;ophyd.EpicsMotor&#39; class.</span>
+<span class="sd">    .. caution:: Deprecated.  Now part of 'ophyd.EpicsMotor' class.</span>
 <span class="sd">       Will be removed in a future release of apstools.</span>
 
 <span class="sd">    ..</span>
 <span class="sd">        index:: Ophyd Device Mixin; EpicsMotorLimitsMixin</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">soft_limit_lo</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.LLM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">soft_limit_hi</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.HLM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">soft_limit_lo</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".LLM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">soft_limit_hi</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".HLM"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">cb_limit_changed</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">old_value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">"""</span>
 <span class="sd">            update EpicsSignal object when a limit CA monitor received</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">            """</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="ow">and</span> <span class="n">old_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">old_value</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">user_setpoint</span><span class="o">.</span><span class="n">_metadata_changed</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">user_setpoint</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span>
@@ -570,7 +570,7 @@
 <div class="viewcode-block" id="EpicsMotorLimitsMixin.get_lim">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorLimitsMixin.get_lim">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_lim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the user limit of motor</span>
 
 <span class="sd">        * flag &gt; 0: returns high limit</span>
@@ -578,7 +578,7 @@
 <span class="sd">        * flag == 0: returns None</span>
 
 <span class="sd">        Similar with SPEC command</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">flag</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">soft_limit_hi</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">flag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -588,7 +588,7 @@
 <div class="viewcode-block" id="EpicsMotorLimitsMixin.set_lim">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorLimitsMixin.set_lim">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_lim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Sets the low and high limits of motor</span>
 
 <span class="sd">        * No action taken if motor is moving.</span>
@@ -596,7 +596,7 @@
 <span class="sd">        * High limit is set to greater of (low, high)</span>
 
 <span class="sd">        Similar with SPEC command</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving</span><span class="p">:</span>
             <span class="c1"># update EPICS</span>
             <span class="c1"># fmt: off</span>
@@ -613,8 +613,8 @@
 <div class="viewcode-block" id="EpicsMotorServoMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorServoMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorServoMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    add motor record&#39;s servo loop controls to Device</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    add motor record's servo loop controls to Device</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsMotorServoMixin</span>
 
@@ -624,20 +624,20 @@
 <span class="sd">        from apstools.devices import EpicsMotorServoMixin</span>
 
 <span class="sd">        class myEpicsMotor(EpicsMotorServoMixin, EpicsMotor): pass</span>
-<span class="sd">        m1 = myEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
+<span class="sd">        m1 = myEpicsMotor('xxx:m1', name='m1')</span>
 <span class="sd">        print(m1.servo.read())</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1"># values: &quot;Enable&quot; or &quot;Disable&quot;</span>
-    <span class="n">servo</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CNEN&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="c1"># values: "Enable" or "Disable"</span>
+    <span class="n">servo</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".CNEN"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="EpicsMotorRawMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorRawMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorRawMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    add motor record&#39;s raw coordinate fields to Device</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    add motor record's raw coordinate fields to Device</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsMotorRawMixin</span>
 
@@ -647,19 +647,19 @@
 <span class="sd">        from apstools.devices import EpicsMotorRawMixin</span>
 
 <span class="sd">        class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass</span>
-<span class="sd">        m1 = myEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
+<span class="sd">        m1 = myEpicsMotor('xxx:m1', name='m1')</span>
 <span class="sd">        print(m1.raw.read())</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.RRBV&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;.RVAL&quot;</span><span class="p">)</span></div>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".RRBV"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">".RVAL"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="EpicsMotorResolutionMixin">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_mixins/index.html#apstools.devices.motor_mixins.EpicsMotorResolutionMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EpicsMotorResolutionMixin</span><span class="p">(</span><span class="n">DeviceMixinBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add motor record&#39;s resolution fields to motor.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Add motor record's resolution fields to motor.</span>
 
 <span class="sd">    .. index:: Ophyd Device Mixin; EpicsMotorResolutionMixin</span>
 
@@ -677,15 +677,15 @@
 <span class="sd">        from apstools.devices import EpicsMotorResolutionMixin</span>
 
 <span class="sd">        class myEpicsMotor(EpicsMotorResolutionMixin, EpicsMotor): pass</span>
-<span class="sd">        m1 = myEpicsMotor(&#39;xxx:m1&#39;, name=&#39;m1&#39;)</span>
-<span class="sd">        print(f&quot;resolution={m1.resolution.read()}&quot;)</span>
-<span class="sd">        print(f&quot;steps_per_rev={m1.steps_per_rev.read()}&quot;)</span>
-<span class="sd">        print(f&quot;units_per_rev={m1.units_per_rev.read()}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        m1 = myEpicsMotor('xxx:m1', name='m1')</span>
+<span class="sd">        print(f"resolution={m1.resolution.read()}")</span>
+<span class="sd">        print(f"steps_per_rev={m1.steps_per_rev.read()}")</span>
+<span class="sd">        print(f"units_per_rev={m1.units_per_rev.read()}")</span>
+<span class="sd">    """</span>
 
-    <span class="n">resolution</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.MRES&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">steps_per_rev</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.SREV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">units_per_rev</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.UREV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span></div>
+    <span class="n">resolution</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".MRES"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">steps_per_rev</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".SREV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">units_per_rev</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">".UREV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span></div>
 
 
 

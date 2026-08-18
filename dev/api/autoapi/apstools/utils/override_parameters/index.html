@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -623,11 +623,11 @@ a local override, the code should import the <code class="docutils literal notra
 object (from the <code class="docutils literal notranslate"><span class="pre">override_params</span></code> module),
 and then register the parameter name, such as this example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">override_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">overrides</span>
-<span class="n">overrides</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;minimum_step&quot;</span><span class="p">)</span>
+<span class="n">overrides</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">"minimum_step"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Then later:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minstep</span> <span class="o">=</span> <span class="n">overrides</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="s2">&quot;minimum_step&quot;</span><span class="p">,</span> <span class="mf">45e-6</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minstep</span> <span class="o">=</span> <span class="n">overrides</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="s2">"minimum_step"</span><span class="p">,</span> <span class="mf">45e-6</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In the user’s configuration file that will override
@@ -638,7 +638,7 @@ object (from the <code class="docutils literal notranslate"><span class="pre">ov
 </pre></div>
 </div>
 <p>and then override the attribute(s) as desired:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">overrides</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;minimum_step&quot;</span><span class="p">,</span> <span class="mf">1.0e-5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">overrides</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"minimum_step"</span><span class="p">,</span> <span class="mf">1.0e-5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With this override in place, the <code class="docutils literal notranslate"><span class="pre">minstep</span></code> value

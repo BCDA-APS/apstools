@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,12 +436,12 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.plans.labels_to_streams</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Record any labeled objects to streams</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">To record positions of all motors at the start of a scan, use</span>
-<span class="sd">``@label_stream_decorator(&quot;motor&quot;)`` as described next.</span>
+<span class="sd">``@label_stream_decorator("motor")`` as described next.</span>
 
 <span class="sd">EXAMPLE:</span>
 
@@ -450,40 +450,40 @@
 <span class="sd">    The ``motor`` label is *singular* by ophyd convention,</span>
 <span class="sd">    as used in the bluesky ``%wa`` magic.</span>
 
-<span class="sd">First, use the ``labels=[&quot;motor&quot;]`` keyword when defining your (ophyd) objects.</span>
-<span class="sd">Here&#39;s an example with the ``motor`` label (and others, too) used with various</span>
+<span class="sd">First, use the ``labels=["motor"]`` keyword when defining your (ophyd) objects.</span>
+<span class="sd">Here's an example with the ``motor`` label (and others, too) used with various</span>
 <span class="sd">objects::</span>
 
 <span class="sd">    from apstools.plans import label_stream_decorator</span>
 <span class="sd">    from ophyd import Component, Device, EpicsMotor, EpicsSignal</span>
 
 <span class="sd">    class Sample(Device):</span>
-<span class="sd">        temperature = Component(EpicsSignal, &quot;t2&quot;)  # unlabeled</span>
-<span class="sd">        pressure = Component(EpicsSignal, &quot;ao14&quot;)  # unlabeled</span>
-<span class="sd">        cryo_stream_on = Component(EpicsSignal, &quot;bo27&quot;)  # unlabeled</span>
-<span class="sd">        x = Component(EpicsMotor, &quot;m14&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">        y = Component(EpicsMotor, &quot;m15&quot;, labels=[&quot;motor&quot;])</span>
+<span class="sd">        temperature = Component(EpicsSignal, "t2")  # unlabeled</span>
+<span class="sd">        pressure = Component(EpicsSignal, "ao14")  # unlabeled</span>
+<span class="sd">        cryo_stream_on = Component(EpicsSignal, "bo27")  # unlabeled</span>
+<span class="sd">        x = Component(EpicsMotor, "m14", labels=["motor"])</span>
+<span class="sd">        y = Component(EpicsMotor, "m15", labels=["motor"])</span>
 
 <span class="sd">    class Instrument(Device):</span>
-<span class="sd">        omega = Component(EpicsMotor, &quot;m2&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">        chi = Component(EpicsMotor, &quot;m3&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">        phi = Component(EpicsMotor, &quot;m4&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">        two_theta = Component(EpicsMotor, &quot;m1&quot;, labels=[&quot;motor&quot;])</span>
+<span class="sd">        omega = Component(EpicsMotor, "m2", labels=["motor"])</span>
+<span class="sd">        chi = Component(EpicsMotor, "m3", labels=["motor"])</span>
+<span class="sd">        phi = Component(EpicsMotor, "m4", labels=["motor"])</span>
+<span class="sd">        two_theta = Component(EpicsMotor, "m1", labels=["motor"])</span>
 
 <span class="sd">        # support table</span>
-<span class="sd">        x = Component(EpicsMotor, &quot;m7&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">        y = Component(EpicsMotor, &quot;m8&quot;, labels=[&quot;motor&quot;])</span>
+<span class="sd">        x = Component(EpicsMotor, "m7", labels=["motor"])</span>
+<span class="sd">        y = Component(EpicsMotor, "m8", labels=["motor"])</span>
 
-<span class="sd">        sample = Component(Sample, &quot;&quot;, labels=[&quot;sample&quot;])</span>
+<span class="sd">        sample = Component(Sample, "", labels=["sample"])</span>
 
-<span class="sd">    diode = EpicsSignal(&quot;ioc:counter2&quot;, name=&quot;diode&quot;, labels=[&quot;counter&quot;])</span>
-<span class="sd">    instrument = Instrument(&quot;ioc:&quot;, name=&quot;instrument&quot;)</span>
-<span class="sd">    m49 = EpicsMotor(&quot;ioc:m49&quot;, name=&quot;m49&quot;, labels=[&quot;motor&quot;])</span>
-<span class="sd">    scint = EpicsSignal(&quot;ioc:counter1&quot;, name=&quot;scint&quot;, labels=[&quot;counter&quot;])</span>
+<span class="sd">    diode = EpicsSignal("ioc:counter2", name="diode", labels=["counter"])</span>
+<span class="sd">    instrument = Instrument("ioc:", name="instrument")</span>
+<span class="sd">    m49 = EpicsMotor("ioc:m49", name="m49", labels=["motor"])</span>
+<span class="sd">    scint = EpicsSignal("ioc:counter1", name="scint", labels=["counter"])</span>
 
-<span class="sd">Then define a custom plan with the following (where `when=&quot;start&quot;` is the default)::</span>
+<span class="sd">Then define a custom plan with the following (where `when="start"` is the default)::</span>
 
-<span class="sd">    @label_stream_decorator(&quot;motor&quot;)</span>
+<span class="sd">    @label_stream_decorator("motor")</span>
 <span class="sd">    def my_count_plan(dets, md=None):</span>
 <span class="sd">        _md = md or {}</span>
 <span class="sd">        yield from bp.count(dets, md=_md)</span>
@@ -497,15 +497,15 @@
 <span class="sd">    yield from my_count_plan([scint, diode])</span>
 
 <span class="sd">Once the run is complete, look for the ``label_start_motor`` stream that has the</span>
-<span class="sd">positions at the start of the run of all devices with the ``&quot;motor&quot;`` label.  Such as::</span>
+<span class="sd">positions at the start of the run of all devices with the ``"motor"`` label.  Such as::</span>
 
 <span class="sd">    run = cat.v2[-1]  # assume the most recent run</span>
 <span class="sd">    run.label_start_motor.read()</span>
 
 <span class="sd">Similarly, to write the `motor` objects at the end of the run, use the</span>
-<span class="sd">`when=&quot;end&quot;` keyword::</span>
+<span class="sd">`when="end"` keyword::</span>
 
-<span class="sd">    @label_stream_decorator(&quot;motor&quot;, when=&quot;end&quot;)</span>
+<span class="sd">    @label_stream_decorator("motor", when="end")</span>
 <span class="sd">    def my_count_plan(dets, md=None):</span>
 <span class="sd">        _md = md or {}</span>
 <span class="sd">        yield from bp.count(dets, md=_md)</span>
@@ -513,8 +513,8 @@
 <span class="sd">writes a stream named ``label_end_motor`` at the end of the run.  If you want</span>
 <span class="sd">values record at both *start* and *end*, then use **two** decorators::</span>
 
-<span class="sd">    @label_stream_decorator(&quot;motor&quot;, when=&quot;start&quot;)</span>
-<span class="sd">    @label_stream_decorator(&quot;motor&quot;, when=&quot;end&quot;)</span>
+<span class="sd">    @label_stream_decorator("motor", when="start")</span>
+<span class="sd">    @label_stream_decorator("motor", when="end")</span>
 <span class="sd">    def my_count_plan(dets, md=None):</span>
 <span class="sd">        _md = md or {}</span>
 <span class="sd">        yield from bp.count(dets, md=_md)</span>
@@ -525,7 +525,7 @@
 <span class="sd">   ~label_stream_stub</span>
 <span class="sd">   ~label_stream_wrapper</span>
 <span class="sd">   ~When</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 
@@ -542,23 +542,23 @@
 
 <div class="viewcode-block" id="label_stream_stub">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/labels_to_streams/index.html#apstools.plans.labels_to_streams.label_stream_stub">[docs]</a>
-<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.6&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Caller can specify namespace dict.&quot;</span><span class="p">)</span>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.6"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Caller can specify namespace dict."</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.11"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">label_stream_stub</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Writes ophyd-labeled objects to open bluesky run streams. One stream per label.</span>
 
 <span class="sd">    PARAMETERS</span>
 
 <span class="sd">    labels</span>
 <span class="sd">        *obj*:</span>
-<span class="sd">        List of configured ophyd object &quot;labels&quot;.</span>
+<span class="sd">        List of configured ophyd object "labels".</span>
 <span class="sd">        Default: ``None`` (meaning all).</span>
 
 <span class="sd">    fmt</span>
 <span class="sd">        *str*:</span>
 <span class="sd">        Format string for stream name(s).</span>
-<span class="sd">        Default: ``&quot;label_{}&quot;``</span>
+<span class="sd">        Default: ``"label_{}"``</span>
 
 <span class="sd">    bec</span>
 <span class="sd">        *obj*:</span>
@@ -569,10 +569,10 @@
 <span class="sd">        *dict*:</span>
 <span class="sd">        Namespace dictionary to search for labeled objects.</span>
 <span class="sd">        Default: selected from default namespace, if available.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
 
-    <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="ow">or</span> <span class="s2">&quot;label_</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="ow">or</span> <span class="s2">"label_</span><span class="si">{}</span><span class="s2">"</span>
     <span class="n">ns</span> <span class="o">=</span> <span class="n">ns</span> <span class="ow">or</span> <span class="n">getDefaultNamespace</span><span class="p">()</span>
     <span class="n">devices</span> <span class="o">=</span> <span class="n">get_labeled_devices</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="n">devices</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -600,22 +600,22 @@
 
 <div class="viewcode-block" id="When">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/labels_to_streams/index.html#apstools.plans.labels_to_streams.When">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.11&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.11"</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">When</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describes what point of the run the stream(s) should be written.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Describes what point of the run the stream(s) should be written."""</span>
 
-    <span class="n">START</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span>
-    <span class="n">END</span> <span class="o">=</span> <span class="s2">&quot;end&quot;</span></div>
+    <span class="n">START</span> <span class="o">=</span> <span class="s2">"start"</span>
+    <span class="n">END</span> <span class="o">=</span> <span class="s2">"end"</span></div>
 
 
 
 <div class="viewcode-block" id="label_stream_wrapper">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/plans/labels_to_streams/index.html#apstools.plans.labels_to_streams.label_stream_wrapper">[docs]</a>
-<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.6&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Caller can specify namespace dict.&quot;</span><span class="p">)</span>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.11&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="n">ns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Decorator support: Write labeled device(s) to stream(s).  Either at &quot;start&quot; or &quot;end&quot;.</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.6"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Caller can specify namespace dict."</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.11"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">"start"</span><span class="p">,</span> <span class="n">ns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".</span>
 
 <span class="sd">    PARAMETERS</span>
 
@@ -624,13 +624,13 @@
 <span class="sd">        Instance of a bluesky plan.</span>
 <span class="sd">    labels</span>
 <span class="sd">        *[str]* (or *str*):</span>
-<span class="sd">        List of configured ophyd object &quot;labels&quot;.</span>
+<span class="sd">        List of configured ophyd object "labels".</span>
 <span class="sd">        Passed through to :meth:`~apstools.plans.label_stream_stub()`.</span>
 <span class="sd">        Default: ``None`` (meaning all).</span>
 <span class="sd">    fmt</span>
 <span class="sd">        *str*:</span>
 <span class="sd">        Format string for stream name(s).</span>
-<span class="sd">        Default: ``&quot;label_{when}_{}&quot;``</span>
+<span class="sd">        Default: ``"label_{when}_{}"``</span>
 <span class="sd">    when</span>
 <span class="sd">        *str*:</span>
 <span class="sd">        Indicates when the stream(s) should be written.  Any of these values:</span>
@@ -638,32 +638,32 @@
 <span class="sd">        =============== ==========================</span>
 <span class="sd">        value           stream will be written ...</span>
 <span class="sd">        =============== ==========================</span>
-<span class="sd">        ``&quot;start&quot;``     just after ``open_run``</span>
-<span class="sd">        ``&quot;end&quot;``       just before ``close_run``</span>
-<span class="sd">        ``When.START``  same as ``&quot;start&quot;``</span>
-<span class="sd">        ``When.END``    same as ``&quot;end&quot;``</span>
+<span class="sd">        ``"start"``     just after ``open_run``</span>
+<span class="sd">        ``"end"``       just before ``close_run``</span>
+<span class="sd">        ``When.START``  same as ``"start"``</span>
+<span class="sd">        ``When.END``    same as ``"end"``</span>
 <span class="sd">        =============== ==========================</span>
 
 <span class="sd">        The ``str`` value can be expressed in either upper or lower case.</span>
 
-<span class="sd">        Default: ``&quot;start&quot;``</span>
+<span class="sd">        Default: ``"start"``</span>
 
 <span class="sd">    ns</span>
 <span class="sd">        *dict*:</span>
 <span class="sd">        Namespace dictionary to search for labeled objects.</span>
 <span class="sd">        Default: selected from default namespace, if available.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">when</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">when</span> <span class="o">=</span> <span class="n">When</span><span class="p">(</span><span class="n">when</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">When</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized value: </span><span class="si">{</span><span class="n">when</span><span class="si">=}</span><span class="s2">, use one of </span><span class="si">{</span><span class="n">choices</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unrecognized value: </span><span class="si">{</span><span class="n">when</span><span class="si">=}</span><span class="s2">, use one of </span><span class="si">{</span><span class="n">choices</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;label_</span><span class="si">{</span><span class="n">when</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">_</span><span class="se">{{}}</span><span class="s2">&quot;</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">"label_</span><span class="si">{</span><span class="n">when</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">_</span><span class="se">{{}}</span><span class="s2">"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">insert_after_open</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;open_run&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"open_run"</span><span class="p">:</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">label_stream_stub</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="n">ns</span><span class="p">)</span>
@@ -673,7 +673,7 @@
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;close_run&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"close_run"</span><span class="p">:</span>
 
             <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">label_stream_stub</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="n">ns</span><span class="p">)</span>

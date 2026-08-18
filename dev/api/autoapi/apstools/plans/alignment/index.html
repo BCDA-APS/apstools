@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -651,18 +651,18 @@
 may gain its own tuning process, keeping track of the particulars
 needed to tune this device again.  For example, one could add
 a tuner to a motor stage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="s2">&quot;xxx:motor&quot;</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="s2">"xxx:motor"</span><span class="p">,</span> <span class="s2">"motor"</span><span class="p">)</span>
 <span class="n">motor</span><span class="o">.</span><span class="n">tuner</span> <span class="o">=</span> <span class="n">TuneAxis</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Then the <code class="docutils literal notranslate"><span class="pre">motor</span></code> could be tuned individually:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">motor</span><span class="o">.</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;activity&quot;</span><span class="p">:</span> <span class="s2">&quot;tuning&quot;</span><span class="p">}))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">motor</span><span class="o">.</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="p">{</span><span class="s2">"activity"</span><span class="p">:</span> <span class="s2">"tuning"</span><span class="p">}))</span>
 </pre></div>
 </div>
 <p>or the <a class="reference internal" href="#apstools.plans.alignment.TuneAxis.tune" title="apstools.plans.alignment.TuneAxis.tune"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tune()</span></code></a> could be part of a plan with other steps.</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tuner</span> <span class="o">=</span> <span class="n">TuneAxis</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">axis</span><span class="p">)</span>
-<span class="n">live_table</span> <span class="o">=</span> <span class="n">LiveTable</span><span class="p">([</span><span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="s2">&quot;det&quot;</span><span class="p">])</span>
+<span class="n">live_table</span> <span class="o">=</span> <span class="n">LiveTable</span><span class="p">([</span><span class="s2">"axis"</span><span class="p">,</span> <span class="s2">"det"</span><span class="p">])</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">tuner</span><span class="o">.</span><span class="n">multi_pass_tune</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">9</span><span class="p">),</span> <span class="n">live_table</span><span class="p">)</span>
 <span class="n">RE</span><span class="p">(</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">9</span><span class="p">),</span> <span class="n">live_table</span><span class="p">)</span>
 </pre></div>

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.utils.device_info</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Device information</span>
 <span class="sd">++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~listdevice</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -459,26 +459,26 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">call_signature_decorator</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_rows&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.max_rows"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 
 <span class="n">DEFAULT_COLUMN_WIDTH</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">TRUNCATION_TEXT</span> <span class="o">=</span> <span class="s2">&quot; ...&quot;</span>
+<span class="n">TRUNCATION_TEXT</span> <span class="o">=</span> <span class="s2">" ..."</span>
 <span class="c1"># Use NOT_CONNECTED_VALUE in tables for signals that are not connected.</span>
-<span class="n">NOT_CONNECTED_VALUE</span> <span class="o">=</span> <span class="s2">&quot;-n/c-&quot;</span>
+<span class="n">NOT_CONNECTED_VALUE</span> <span class="o">=</span> <span class="s2">"-n/c-"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_all_signals</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">Signal</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">base</span><span class="p">]</span>
     <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s2">&quot;component_names&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s2">"component_names"</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
             <span class="c1"># Check for lazy components that may not be connected</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="n">ConnectionTimeoutError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not list component: </span><span class="si">{</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not list component: </span><span class="si">{</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Device</span><span class="p">,</span> <span class="n">Signal</span><span class="p">)):</span>
                 <span class="n">items</span> <span class="o">+=</span> <span class="n">_all_signals</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -486,35 +486,35 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_named_child</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    return named child of ``obj`` or None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">child</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">child</span>
     <span class="k">except</span> <span class="ne">TimeoutError</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeout: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">nm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;TIMEOUT&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"timeout: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">nm</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"TIMEOUT"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_pv</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return PV name, prefix, or None from ophyd object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;pvname&quot;</span><span class="p">):</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"pvname"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">pvname</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;prefix&quot;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"prefix"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">prefix</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_list_epics_signals</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return a list of the EPICS signals in obj.</span>
 
 <span class="sd">    RETURNS</span>
 
 <span class="sd">    list of ophyd objects that are children of ``obj``</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># import pdb; pdb.set_trace()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span>
@@ -522,7 +522,7 @@
         <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
             <span class="n">child</span> <span class="o">=</span> <span class="n">_get_named_child</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;TIMEOUT&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"TIMEOUT"</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">_list_epics_signals</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -545,7 +545,7 @@
     <span class="n">table_style</span><span class="o">=</span><span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="p">,</span>
     <span class="n">_call_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describe the signal information from device ``obj`` in a pandas DataFrame.</span>
+<span class="w">    </span><span class="sd">"""Describe the signal information from device ``obj`` in a pandas DataFrame.</span>
 
 <span class="sd">    Look through all subcomponents to find all the signals to be</span>
 <span class="sd">    shown. Components that are disconnected will be skipped and a</span>
@@ -586,9 +586,9 @@
 <span class="sd">    scope</span>
 <span class="sd">        *str* or None : Scope of content to be shown.</span>
 
-<span class="sd">        - ``&quot;full&quot;`` (or ``None``) shows all Signal components</span>
-<span class="sd">        - ``&quot;epics&quot;`` shows only EPICS-based Signals</span>
-<span class="sd">        - ``&quot;read&quot;`` shows only the signals returned by ``obj.read()``</span>
+<span class="sd">        - ``"full"`` (or ``None``) shows all Signal components</span>
+<span class="sd">        - ``"epics"`` shows only EPICS-based Signals</span>
+<span class="sd">        - ``"read"`` shows only the signals returned by ``obj.read()``</span>
 
 <span class="sd">        default: ``None``</span>
 <span class="sd">    cname</span>
@@ -637,60 +637,60 @@
 <span class="sd">           to at most 50 characters.</span>
 
 <span class="sd">    .. seealso:: ``listdevice()`` in :doc:`/examples/ho_list_control_objects`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">max_column_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">table_style</span> <span class="o">!=</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Changing table style to pyRestTable.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Changing table style to pyRestTable."</span><span class="p">)</span>
         <span class="n">table_style</span> <span class="o">=</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span>
     <span class="n">limit_width</span> <span class="o">=</span> <span class="n">max_column_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">table_style</span> <span class="o">==</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span>
     <span class="n">max_column_width</span> <span class="o">=</span> <span class="n">max_column_width</span> <span class="ow">or</span> <span class="n">DEFAULT_COLUMN_WIDTH</span>
 
-    <span class="n">scope</span> <span class="o">=</span> <span class="p">(</span><span class="n">scope</span> <span class="ow">or</span> <span class="s2">&quot;full&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">scope</span> <span class="o">=</span> <span class="p">(</span><span class="n">scope</span> <span class="ow">or</span> <span class="s2">"full"</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">signals</span> <span class="o">=</span> <span class="n">_all_signals</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">scope</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;full&quot;</span><span class="p">,</span> <span class="s2">&quot;epics&quot;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;epics&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scope</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"full"</span><span class="p">,</span> <span class="s2">"epics"</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">"epics"</span><span class="p">:</span>
             <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">signals</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">)]</span>
-    <span class="k">elif</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;read&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">"read"</span><span class="p">:</span>
         <span class="n">reading</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">signals</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">reading</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># fmt: off</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unknown scope=&#39;</span><span class="si">{</span><span class="n">scope</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
-            <span class="s2">&quot; Must be one of None, &#39;full&#39;, &#39;epics&#39;, &#39;read&#39;&quot;</span>
+            <span class="sa">f</span><span class="s2">"Unknown scope='</span><span class="si">{</span><span class="n">scope</span><span class="si">}</span><span class="s2">'."</span>
+            <span class="s2">" Must be one of None, 'full', 'epics', 'read'"</span>
         <span class="p">)</span>
         <span class="c1"># fmt: on</span>
 
     <span class="c1"># in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC</span>
     <span class="c1"># fmt: off</span>
     <span class="n">UNINITIALIZED</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">(</span>
-        <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="s2">&quot;1990-06-01&quot;</span><span class="p">)</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="s2">"1990-06-01"</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="c1"># fmt: on</span>
 
     <span class="k">if</span> <span class="n">show_pv</span><span class="p">:</span>
-        <span class="n">cname</span> <span class="o">=</span> <span class="n">cname</span> <span class="k">if</span> <span class="s2">&quot;cname&quot;</span> <span class="ow">in</span> <span class="n">_call_args</span> <span class="k">else</span> <span class="kc">True</span>
-        <span class="n">dname</span> <span class="o">=</span> <span class="n">dname</span> <span class="k">if</span> <span class="s2">&quot;dname&quot;</span> <span class="ow">in</span> <span class="n">_call_args</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="n">cname</span> <span class="o">=</span> <span class="n">cname</span> <span class="k">if</span> <span class="s2">"cname"</span> <span class="ow">in</span> <span class="n">_call_args</span> <span class="k">else</span> <span class="kc">True</span>
+        <span class="n">dname</span> <span class="o">=</span> <span class="n">dname</span> <span class="k">if</span> <span class="s2">"dname"</span> <span class="ow">in</span> <span class="n">_call_args</span> <span class="k">else</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dname</span><span class="p">:</span>
         <span class="n">cname</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">dd</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">scope</span> <span class="o">!=</span> <span class="s2">&quot;epics&quot;</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">):</span>
-            <span class="n">ts</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scope</span> <span class="o">!=</span> <span class="s2">"epics"</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">):</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">"timestamp"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">show_ancient</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="n">UNINITIALIZED</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">cname</span><span class="p">:</span>
                     <span class="n">head</span> <span class="o">=</span> <span class="n">obj</span>
-                    <span class="k">while</span> <span class="n">head</span><span class="o">.</span><span class="n">dotted_name</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="k">while</span> <span class="n">head</span><span class="o">.</span><span class="n">dotted_name</span> <span class="o">!=</span> <span class="s2">""</span><span class="p">:</span>
                         <span class="c1"># walk back to the head</span>
                         <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">parent</span>
-                    <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">head</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">signal</span><span class="o">.</span><span class="n">dotted_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">dd</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">head</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">signal</span><span class="o">.</span><span class="n">dotted_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">dname</span><span class="p">:</span>
-                    <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;data name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">dd</span><span class="p">[</span><span class="s2">"data name"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">show_pv</span><span class="p">:</span>
-                    <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_get_pv</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">dd</span><span class="p">[</span><span class="s2">"PV"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_get_pv</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
                 <span class="c1"># At this point, either the Signal has connected or it may never</span>
-                <span class="c1"># connect.  It&#39;s much too slow to wait for a connection timeout</span>
+                <span class="c1"># connect.  It's much too slow to wait for a connection timeout</span>
                 <span class="c1"># on each signal, in series.  The default connection timeout has</span>
                 <span class="c1"># already been set.</span>
                 <span class="c1"># If the signal is not connected now, provide informative text</span>
@@ -702,12 +702,12 @@
                         <span class="n">v</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reason</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">v</span> <span class="o">=</span> <span class="n">NOT_CONNECTED_VALUE</span>
-                <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">dd</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">use_datetime</span><span class="p">:</span>
-                    <span class="n">dd</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
+                    <span class="n">dd</span><span class="p">[</span><span class="s2">"timestamp"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">truncate</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">pad</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that str(value) fits into column of &#39;width&#39;.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Ensure that str(value) fits into column of 'width'."""</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[:</span> <span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">pad</span><span class="p">)]</span> <span class="o">+</span> <span class="n">pad</span>

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.motor_factory</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Motor Bundle Factory</span>
 <span class="sd">====================</span>
 
@@ -461,16 +461,16 @@
 <span class="sd">    :linenos:</span>
 
 <span class="sd">    xy_stage = mb_creator(</span>
-<span class="sd">        prefix=&quot;IOC:&quot;,</span>
-<span class="sd">        motors={&quot;x&quot;: &quot;m21&quot;, &quot;y&quot;: &quot;m22&quot;},</span>
-<span class="sd">        name=&quot;xy_stage&quot;,</span>
+<span class="sd">        prefix="IOC:",</span>
+<span class="sd">        motors={"x": "m21", "y": "m22"},</span>
+<span class="sd">        name="xy_stage",</span>
 <span class="sd">    )</span>
 
 <span class="sd">.. seealso::</span>
 
 <span class="sd">   * :doc:`Quick Start &lt;/examples/ho_motor_factory_quickstart&gt;`</span>
-<span class="sd">   * :doc:`How to use &#39;mb_creator()&#39; &lt;/examples/ho_motor_factory&gt;`</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   * :doc:`How to use 'mb_creator()' &lt;/examples/ho_motor_factory&gt;`</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
@@ -492,8 +492,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dynamic_import</span>
 
 <span class="n">DEFAULT_DEVICE_BASE_CLASSES</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">MotorBundle</span><span class="p">]</span>
-<span class="n">DEFAULT_DEVICE_CLASS_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;MB_Device&quot;</span>
-<span class="n">DEFAULT_MOTOR_LABELS</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">]</span>
+<span class="n">DEFAULT_DEVICE_CLASS_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"MB_Device"</span>
+<span class="n">DEFAULT_MOTOR_LABELS</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"motors"</span><span class="p">]</span>
 <span class="n">DEFAULT_KIND</span><span class="p">:</span> <span class="n">Kind</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
 
 <span class="n">MOTORS_TYPE</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">]]]]</span>
@@ -504,8 +504,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">axis_component</span><span class="p">(</span>
     <span class="n">parms</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a Component with &#39;parms for this axis.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Return a Component with 'parms for this axis.</span>
 
 <span class="sd">    PARAMETERS</span>
 
@@ -516,7 +516,7 @@
 
 <span class="sd">    Component:</span>
 <span class="sd">        An ophyd Component for the axis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">parms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_parms</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parms</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -525,30 +525,30 @@
         <span class="n">_parms</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">parms</span><span class="p">}</span>
 
     <span class="n">attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">DEFAULT_KIND</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">DEFAULT_MOTOR_LABELS</span><span class="p">)</span>
-    <span class="n">has_prefix</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prefix&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">axis_class_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">factory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;factory&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">has_prefix</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prefix"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">axis_class_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">factory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_parms</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"factory"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">axis_class_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot be used together: </span><span class="si">{</span><span class="n">axis_class_name</span><span class="si">=!r}</span><span class="s2"> and </span><span class="si">{</span><span class="n">factory</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot be used together: </span><span class="si">{</span><span class="n">axis_class_name</span><span class="si">=!r}</span><span class="s2"> and </span><span class="si">{</span><span class="n">factory</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">creator</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+        <span class="n">creator</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"function"</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">creator</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">creator</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">creator</span><span class="p">)</span>
         <span class="n">base</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="o">**</span><span class="n">factory</span><span class="p">)</span>
-        <span class="c1"># Add &#39;prefix&#39; if missing?</span>
+        <span class="c1"># Add 'prefix' if missing?</span>
     <span class="k">elif</span> <span class="n">axis_class_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">base</span><span class="p">:</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">EpicsMotor</span> <span class="k">if</span> <span class="n">has_prefix</span> <span class="k">else</span> <span class="n">SoftPositioner</span>
-        <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="n">EpicsMotor</span> <span class="ow">and</span> <span class="s2">&quot;prefix&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_parms</span><span class="p">:</span>
-            <span class="n">_parms</span><span class="p">[</span><span class="s2">&quot;prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="n">SoftPositioner</span> <span class="ow">and</span> <span class="s2">&quot;init_pos&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_parms</span><span class="p">:</span>
-            <span class="n">_parms</span><span class="p">[</span><span class="s2">&quot;init_pos&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="n">EpicsMotor</span> <span class="ow">and</span> <span class="s2">"prefix"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_parms</span><span class="p">:</span>
+            <span class="n">_parms</span><span class="p">[</span><span class="s2">"prefix"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="n">SoftPositioner</span> <span class="ow">and</span> <span class="s2">"init_pos"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_parms</span><span class="p">:</span>
+            <span class="n">_parms</span><span class="p">[</span><span class="s2">"init_pos"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Allow for any positioner type or factory function.</span>
         <span class="n">base</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">axis_class_name</span><span class="p">)</span>
     <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">_parms</span><span class="p">)</span>
 
     <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Device</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">base</span><span class="p">]</span>
-    <span class="n">prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;prefix&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"prefix"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Component</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">)</span></div>
@@ -557,14 +557,14 @@
 
 <div class="viewcode-block" id="mb_class_factory">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_class_factory">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.4&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.4"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">mb_class_factory</span><span class="p">(</span>
     <span class="n">motors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MOTORS_TYPE</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">class_bases</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">]]</span> <span class="o">=</span> <span class="n">DEFAULT_DEVICE_BASE_CLASSES</span><span class="p">,</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_DEVICE_CLASS_NAME</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Device</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a custom MotorBundle (or as specified in &#39;class_bases&#39;) class.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Create a custom MotorBundle (or as specified in 'class_bases') class.</span>
 
 <span class="sd">    PARAMETERS</span>
 
@@ -577,13 +577,13 @@
 
 <span class="sd">    RETURNS:</span>
 <span class="sd">        The dynamically-created class (a subclass of ophyd.Device).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_motors</span><span class="p">:</span> <span class="n">MOTORS_TYPE</span> <span class="o">=</span> <span class="n">motors</span> <span class="ow">or</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_motors</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="n">_motors</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">_motors</span><span class="p">}</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">class_bases</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a list, received </span><span class="si">{</span><span class="n">class_bases</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must be a list, received </span><span class="si">{</span><span class="n">class_bases</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">bases</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">dynamic_import</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">base</span>
@@ -599,12 +599,12 @@
     <span class="n">factory_class_attributes</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">factory_class_attributes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">axes</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s2">&quot;__init__&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s2">"__init__"</span><span class="p">):</span>
                 <span class="n">base</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">factory_class_attributes</span><span class="p">[</span><span class="s2">&quot;__init__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="fm">__init__</span>
+    <span class="n">factory_class_attributes</span><span class="p">[</span><span class="s2">"__init__"</span><span class="p">]</span> <span class="o">=</span> <span class="fm">__init__</span>
 
     <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bases</span><span class="p">),</span> <span class="n">factory_class_attributes</span><span class="p">)</span></div>
 
@@ -612,17 +612,17 @@
 
 <div class="viewcode-block" id="mb_creator">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/motor_factory/index.html#apstools.devices.motor_factory.mb_creator">[docs]</a>
-<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.4&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.4"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">mb_creator</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">motors</span><span class="p">:</span> <span class="n">MOTORS_TYPE</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">class_bases</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_DEVICE_BASE_CLASSES</span><span class="p">,</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_DEVICE_CLASS_NAME</span><span class="p">,</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motor_device&quot;</span><span class="p">],</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"motor_device"</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Device</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create MotorBundle with any number of motors.</span>
 
 <span class="sd">    PARAMETERS</span>
@@ -648,13 +648,13 @@
 <span class="sd">    RETURNS</span>
 
 <span class="sd">        An instance of the generated MotorBundle (or other, as directed) class.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must provide a &#39;name&#39;, received </span><span class="si">{</span><span class="n">name</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Must provide a 'name', received </span><span class="si">{</span><span class="n">name</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">motors</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;motors&#39; as list or dict, received </span><span class="si">{</span><span class="n">motors</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Expected 'motors' as list or dict, received </span><span class="si">{</span><span class="n">motors</span><span class="si">=!r}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">MB_Device</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Device</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_class_factory</span><span class="p">(</span>
         <span class="n">motors</span><span class="o">=</span><span class="n">motors</span><span class="p">,</span>

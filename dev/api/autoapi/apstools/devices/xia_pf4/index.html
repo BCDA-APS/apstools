@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -647,8 +647,8 @@
 <p>LEGACY (use Pf4FilterDual now): Dual (Al, Ti) Xia PF4 filter boxes</p>
 <p>Support from synApps (using Al, Ti foils)</p>
 <p id="index-0">EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pf4</span> <span class="o">=</span> <span class="n">DualPf4FilterBox</span><span class="p">(</span><span class="s2">&quot;2bmb:pf4:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pf4&quot;</span><span class="p">)</span>
-<span class="n">pf4_AlTi</span> <span class="o">=</span> <span class="n">DualPf4FilterBox</span><span class="p">(</span><span class="s2">&quot;9idcRIO:pf4:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pf4_AlTi&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pf4</span> <span class="o">=</span> <span class="n">DualPf4FilterBox</span><span class="p">(</span><span class="s2">"2bmb:pf4:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"pf4"</span><span class="p">)</span>
+<span class="n">pf4_AlTi</span> <span class="o">=</span> <span class="n">DualPf4FilterBox</span><span class="p">(</span><span class="s2">"9idcRIO:pf4:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"pf4_AlTi"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -742,16 +742,16 @@
 <p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
 <p>A single module of XIA PF4 filters (4-blades).</p>
 <p id="index-1">EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pf4B</span> <span class="o">=</span> <span class="n">Pf4FilterBank</span><span class="p">(</span><span class="s2">&quot;ioc:pf4:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pf4B&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pf4B</span> <span class="o">=</span> <span class="n">Pf4FilterBank</span><span class="p">(</span><span class="s2">"ioc:pf4:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"pf4B"</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"B"</span><span class="p">)</span>
 
 <span class="c1"># -or-</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyTriplePf4</span><span class="p">(</span><span class="n">Pf4FilterCommon</span><span class="p">):</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"A"</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"B"</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"C"</span><span class="p">)</span>
 
-<span class="n">pf4</span> <span class="o">=</span> <span class="n">MyTriplePf4</span><span class="p">(</span><span class="s2">&quot;ioc:pf4:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pf4&quot;</span><span class="p">)</span>
+<span class="n">pf4</span> <span class="o">=</span> <span class="n">MyTriplePf4</span><span class="p">(</span><span class="s2">"ioc:pf4:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"pf4"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -793,11 +793,11 @@
 of PF4 filters (such as 3 or 4 filter banks).</p>
 <p>EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyTriplePf4</span><span class="p">(</span><span class="n">Pf4FilterCommon</span><span class="p">):</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"A"</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"B"</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Pf4FilterBank</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">bank</span><span class="o">=</span><span class="s2">"C"</span><span class="p">)</span>
 
-<span class="n">pf4</span> <span class="o">=</span> <span class="n">MyTriplePf4</span><span class="p">(</span><span class="s2">&quot;ioc:pf4:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pf4&quot;</span><span class="p">)</span>
+<span class="n">pf4</span> <span class="o">=</span> <span class="n">MyTriplePf4</span><span class="p">(</span><span class="s2">"ioc:pf4:"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"pf4"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.lakeshore_controllers</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Lakeshore temperature controllers</span>
 <span class="sd">+++++++++++++++++++++++++++++++++</span>
 
@@ -450,7 +450,7 @@
 <span class="sd">   ~LakeShore331Device</span>
 <span class="sd">   ~LakeShore335Device</span>
 <span class="sd">   ~LakeShoreDR93CADevice</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># TODO: refactor</span>
 <span class="c1">#    temperature = Component(PVPositionerSoftDoneWithStop, ...)</span>
@@ -471,45 +471,45 @@
 <div class="viewcode-block" id="LakeShore336_LoopControl">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore336_LoopControl">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LakeShore336_LoopControl</span><span class="p">(</span><span class="n">PVPositionerSoftDoneWithStop</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    LakeShore 336 temperature controller -- with heater control.</span>
 
 <span class="sd">    The LakeShore 336 accepts up to two heaters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># position</span>
     <span class="c1"># readback is provided by PVPositionerSoftDoneWithStop</span>
 
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:SP&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:SP"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># configuration</span>
-    <span class="n">units</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Units&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Units"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">heater</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">HTR</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">heater</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">HTR</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
     <span class="n">heater_range</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignalWithRBV</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">HTR</span><span class="si">{loop_number}</span><span class="s2">:Range&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">HTR</span><span class="si">{loop_number}</span><span class="s2">:Range"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span>
         <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">pid_P</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">P</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">pid_I</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">I</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">pid_D</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">D</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">pid_P</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">P</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">pid_I</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">I</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">pid_D</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">D</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">ramp_rate</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">RampR</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">ramp_on</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">OnRamp</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">ramp_rate</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">RampR</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">ramp_on</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">OnRamp</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
-    <span class="n">loop_name</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Name_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:Cntrl&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">manual</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:MOUT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:Mode&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">loop_name</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Name_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:Cntrl"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">manual</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:MOUT"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">OUT</span><span class="si">{loop_number}</span><span class="s2">:Mode"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">HOUR</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loop_number</span> <span class="o">=</span> <span class="n">loop_number</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">use_target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readback_pv</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;IN</span><span class="si">{</span><span class="n">loop_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">use_target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readback_pv</span><span class="o">=</span><span class="sa">f</span><span class="s2">"IN</span><span class="si">{</span><span class="n">loop_number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_settle_time</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -520,14 +520,14 @@
     <span class="nd">@settle_time</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">settle_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Settle value needs to be &gt;= 0.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Settle value needs to be &gt;= 0."</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_settle_time</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="LakeShore336_LoopControl.pause">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore336_LoopControl.pause">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change setpoint to current position.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Change setpoint to current position."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_position</span><span class="p">)</span></div>
 </div>
 
@@ -536,14 +536,14 @@
 <div class="viewcode-block" id="LakeShore336_LoopRO">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore336_LoopRO">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LakeShore336_LoopRO</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    LakeShore 336 temperature controller -- Read-only loop (no heaters).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1"># Set this to normal because we don&#39;t use it.</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-    <span class="n">units</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Units&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">loop_name</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Name_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="c1"># Set this to normal because we don't use it.</span>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Units"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">loop_name</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">IN</span><span class="si">{loop_number}</span><span class="s2">:Name_RBV"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loop_number</span> <span class="o">=</span> <span class="n">loop_number</span>
@@ -554,78 +554,78 @@
 <div class="viewcode-block" id="LakeShore336Device">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore336Device">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LakeShore336Device</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    LakeShore 336 temperature controller.</span>
 
 <span class="sd">    - loop 1: temperature positioner AND heater, PID, &amp; ramp controls</span>
 <span class="sd">    - loop 2: temperature positioner AND heater, PID, &amp; ramp controls</span>
 <span class="sd">    - loop 3: temperature positioner</span>
 <span class="sd">    - loop 4: temperature positioner</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">loop1</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopControl</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">loop2</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopControl</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">loop3</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">loop4</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">loop1</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopControl</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">loop2</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopControl</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">loop3</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">loop4</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LakeShore336_LoopRO</span><span class="p">,</span> <span class="s2">"</span><span class="si">{self.prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="c1"># same names as apstools.synApps._common.EpicsRecordDeviceCommonAll</span>
-    <span class="n">scanning_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;read.SCAN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;read.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">scanning_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"read.SCAN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"read.PROC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
-    <span class="n">read_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;readAll.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">serial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">AsynRecord</span><span class="p">,</span> <span class="s2">&quot;serial&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span></div>
+    <span class="n">read_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"readAll.PROC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">serial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">AsynRecord</span><span class="p">,</span> <span class="s2">"serial"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="LS340_LoopBase">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LS340_LoopBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LS340_LoopBase</span><span class="p">(</span><span class="n">PVPositionerSoftDoneWithStop</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base settings for both sample and control loops.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base settings for both sample and control loops."""</span>
 
     <span class="c1"># position</span>
     <span class="c1"># readback is provided by PVPositionerSoftDoneWithStop</span>
     <span class="c1"># TODO: Polar reports: sometimes the setpoint PV is not updated</span>
     <span class="n">setpoint</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">SP</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">wr_SP</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">SP</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">write_pv</span><span class="o">=</span><span class="s2">"</span><span class="si">{prefix}</span><span class="s2">wr_SP</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
         <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># configuration</span>
-    <span class="n">units</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;K&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">"K"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="n">pid_P</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">P</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.AA&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">P</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">write_pv</span><span class="o">=</span><span class="s2">"</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.AA"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pid_I</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">I</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.BB&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">I</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">write_pv</span><span class="o">=</span><span class="s2">"</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.BB"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pid_D</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">D</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.CC&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">D</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">write_pv</span><span class="o">=</span><span class="s2">"</span><span class="si">{prefix}</span><span class="s2">setPID</span><span class="si">{loop_number}</span><span class="s2">.CC"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">ramp_rate</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
         <span class="n">EpicsSignal</span><span class="p">,</span>
-        <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">Ramp</span><span class="si">{loop_number}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">setRamp</span><span class="si">{loop_number}</span><span class="s2">.BB&quot;</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">Ramp</span><span class="si">{loop_number}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">write_pv</span><span class="o">=</span><span class="s2">"</span><span class="si">{prefix}</span><span class="s2">setRamp</span><span class="si">{loop_number}</span><span class="s2">.BB"</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ramp_on</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">Ramp</span><span class="si">{loop_number}</span><span class="s2">_on&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">ramp_on</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">Ramp</span><span class="si">{loop_number}</span><span class="s2">_on"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">HOUR</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loop_number</span> <span class="o">=</span> <span class="n">loop_number</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">readback_pv</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">use_target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">readback_pv</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">use_target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_settle_time</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="nd">@property</span>
@@ -635,7 +635,7 @@
     <span class="nd">@settle_time</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">settle_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Settle value needs to be &gt;= 0.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Settle value needs to be &gt;= 0."</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_settle_time</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -646,7 +646,7 @@
 <div class="viewcode-block" id="LS340_LoopBase.pause">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LS340_LoopBase.pause">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change setpoint to current position.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Change setpoint to current position."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_position</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </div>
 
@@ -655,43 +655,43 @@
 <div class="viewcode-block" id="LS340_LoopControl">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LS340_LoopControl">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LS340_LoopControl</span><span class="p">(</span><span class="n">LS340_LoopBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Control specific&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Control specific"""</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-    <span class="n">sensor</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Ctl_sel&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Control"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+    <span class="n">sensor</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Ctl_sel"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="LS340_LoopSample">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LS340_LoopSample">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LS340_LoopSample</span><span class="p">(</span><span class="n">LS340_LoopBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample specific&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Sample specific"""</span>
 
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Sample&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    <span class="n">sensor</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Spl_sel&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Sample"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hinted"</span><span class="p">)</span>
+    <span class="n">sensor</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Spl_sel"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"config"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="LakeShore340Device">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/lakeshore_controllers/index.html#apstools.devices.lakeshore_controllers.LakeShore340Device">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LakeShore340Device</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    LakeShore 340 temperature controller</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LS340_LoopControl</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LS340_LoopSample</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">control</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LS340_LoopControl</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">LS340_LoopSample</span><span class="p">,</span> <span class="s2">"</span><span class="si">{prefix}</span><span class="s2">"</span><span class="p">,</span> <span class="n">loop_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">heater</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Heater&quot;</span><span class="p">)</span>
-    <span class="n">heater_range</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Rg_rdbk&quot;</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">&quot;HeatRg&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">heater</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Heater"</span><span class="p">)</span>
+    <span class="n">heater_range</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Rg_rdbk"</span><span class="p">,</span> <span class="n">write_pv</span><span class="o">=</span><span class="s2">"HeatRg"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">read_pid</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;readPID.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">read_pid</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"readPID.PROC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
     <span class="c1"># same names as apstools.synApps._common.EpicsRecordDeviceCommonAll</span>
-    <span class="n">scanning_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;read.SCAN&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
-    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;read.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">scanning_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"read.SCAN"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
+    <span class="n">process_record</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"read.PROC"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span>
 
-    <span class="n">serial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">AsynRecord</span><span class="p">,</span> <span class="s2">&quot;serial&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span></div>
+    <span class="n">serial</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">AsynRecord</span><span class="p">,</span> <span class="s2">"serial"</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"omitted"</span><span class="p">)</span></div>
 
 
 

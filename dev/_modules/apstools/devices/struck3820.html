@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,14 +436,14 @@
                 <article class="bd-article">
                   
   <h1>Source code for apstools.devices.struck3820</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Struck 3820</span>
 <span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
 
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">   ~Struck3820</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -455,43 +455,43 @@
 <div class="viewcode-block" id="Struck3820">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/struck3820/index.html#apstools.devices.struck3820.Struck3820">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Struck3820</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)</span>
 
 <span class="sd">    .. index:: Ophyd Device; Struck3820</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">start_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;StartAll&quot;</span><span class="p">)</span>
-    <span class="n">stop_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;StopAll&quot;</span><span class="p">)</span>
-    <span class="n">erase_start</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;EraseStart&quot;</span><span class="p">)</span>
-    <span class="n">erase_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;EraseAll&quot;</span><span class="p">)</span>
-    <span class="n">mca1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">&quot;mca1&quot;</span><span class="p">)</span>
-    <span class="n">mca2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">&quot;mca2&quot;</span><span class="p">)</span>
-    <span class="n">mca3</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">&quot;mca3&quot;</span><span class="p">)</span>
-    <span class="n">mca4</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">&quot;mca4&quot;</span><span class="p">)</span>
-    <span class="n">clock_frequency</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;clock_frequency&quot;</span><span class="p">)</span>
-    <span class="n">current_channel</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;CurrentChannel&quot;</span><span class="p">)</span>
-    <span class="n">channel_max</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;MaxChannels&quot;</span><span class="p">)</span>
-    <span class="n">channels_used</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;NuseAll&quot;</span><span class="p">)</span>
-    <span class="n">elapsed_real_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;ElapsedReal&quot;</span><span class="p">)</span>
-    <span class="n">preset_real_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;PresetReal&quot;</span><span class="p">)</span>
-    <span class="n">dwell_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Dwell&quot;</span><span class="p">)</span>
-    <span class="n">prescale</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Prescale&quot;</span><span class="p">)</span>
-    <span class="n">acquiring</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Acquiring&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">acquire_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;AcquireMode&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">firmware</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Firmware&quot;</span><span class="p">)</span>
-    <span class="n">channel_advance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ChannelAdvance&quot;</span><span class="p">)</span>
-    <span class="n">count_on_start</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;CountOnStart&quot;</span><span class="p">)</span>
-    <span class="n">software_channel_advance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;SoftwareChannelAdvance&quot;</span><span class="p">)</span>
-    <span class="n">channel1_source</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;Channel1Source&quot;</span><span class="p">)</span>
-    <span class="n">user_led</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;UserLED&quot;</span><span class="p">)</span>
-    <span class="n">mux_output</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;MUXOutput&quot;</span><span class="p">)</span>
-    <span class="n">input_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;InputMode&quot;</span><span class="p">)</span>
-    <span class="n">output_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;OutputMode&quot;</span><span class="p">)</span>
-    <span class="n">output_polarity</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;OutputPolarity&quot;</span><span class="p">)</span>
-    <span class="n">read_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;ReadAll.SCAN&quot;</span><span class="p">)</span>
-    <span class="n">do_read_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DoReadAll&quot;</span><span class="p">)</span></div>
+    <span class="n">start_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"StartAll"</span><span class="p">)</span>
+    <span class="n">stop_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"StopAll"</span><span class="p">)</span>
+    <span class="n">erase_start</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"EraseStart"</span><span class="p">)</span>
+    <span class="n">erase_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"EraseAll"</span><span class="p">)</span>
+    <span class="n">mca1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">"mca1"</span><span class="p">)</span>
+    <span class="n">mca2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">"mca2"</span><span class="p">)</span>
+    <span class="n">mca3</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">"mca3"</span><span class="p">)</span>
+    <span class="n">mca4</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMCARecord</span><span class="p">,</span> <span class="s2">"mca4"</span><span class="p">)</span>
+    <span class="n">clock_frequency</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"clock_frequency"</span><span class="p">)</span>
+    <span class="n">current_channel</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"CurrentChannel"</span><span class="p">)</span>
+    <span class="n">channel_max</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"MaxChannels"</span><span class="p">)</span>
+    <span class="n">channels_used</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"NuseAll"</span><span class="p">)</span>
+    <span class="n">elapsed_real_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"ElapsedReal"</span><span class="p">)</span>
+    <span class="n">preset_real_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"PresetReal"</span><span class="p">)</span>
+    <span class="n">dwell_time</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Dwell"</span><span class="p">)</span>
+    <span class="n">prescale</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Prescale"</span><span class="p">)</span>
+    <span class="n">acquiring</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Acquiring"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">acquire_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"AcquireMode"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Model"</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">firmware</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">"Firmware"</span><span class="p">)</span>
+    <span class="n">channel_advance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ChannelAdvance"</span><span class="p">)</span>
+    <span class="n">count_on_start</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"CountOnStart"</span><span class="p">)</span>
+    <span class="n">software_channel_advance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"SoftwareChannelAdvance"</span><span class="p">)</span>
+    <span class="n">channel1_source</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"Channel1Source"</span><span class="p">)</span>
+    <span class="n">user_led</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"UserLED"</span><span class="p">)</span>
+    <span class="n">mux_output</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"MUXOutput"</span><span class="p">)</span>
+    <span class="n">input_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"InputMode"</span><span class="p">)</span>
+    <span class="n">output_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"OutputMode"</span><span class="p">)</span>
+    <span class="n">output_polarity</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"OutputPolarity"</span><span class="p">)</span>
+    <span class="n">read_rate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"ReadAll.SCAN"</span><span class="p">)</span>
+    <span class="n">do_read_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">"DoReadAll"</span><span class="p">)</span></div>
 
 
 

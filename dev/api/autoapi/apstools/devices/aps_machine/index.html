@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -636,14 +636,14 @@
 <p>Common operational parameters of the APS of general interest.</p>
 <p id="index-0">EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">apstools.devices</span>
-<span class="n">aps</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">ApsMachineParametersDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;aps&quot;</span><span class="p">)</span>
+<span class="n">aps</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">ApsMachineParametersDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"aps"</span><span class="p">)</span>
 <span class="n">aps_current</span> <span class="o">=</span> <span class="n">aps</span><span class="o">.</span><span class="n">current</span>
 
 <span class="c1"># make sure these values are logged at start and stop of every scan</span>
 <span class="n">sd</span><span class="o">.</span><span class="n">baseline</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aps</span><span class="p">)</span>
 <span class="c1"># record storage ring current as secondary stream during scans</span>
 <span class="c1"># name: aps_current_monitor</span>
-<span class="c1"># db[-1].table(&quot;aps_current_monitor&quot;)</span>
+<span class="c1"># db[-1].table("aps_current_monitor")</span>
 <span class="n">sd</span><span class="o">.</span><span class="n">monitors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aps_current</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -683,7 +683,7 @@
 <p>Use this property to configure ophyd Devices for direct or simulated hardware.
 See issue #49 (<a class="github reference external" href="https://github.com/BCDA-APS/apstools/issues/49">BCDA-APS/apstools#49</a>) for details.</p>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">APS</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">ApsMachineParametersDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;APS&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">APS</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">ApsMachineParametersDevice</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"APS"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">APS</span><span class="o">.</span><span class="n">inUserOperations</span><span class="p">:</span>
     <span class="n">suspend_APS_current</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">suspenders</span><span class="o">.</span><span class="n">SuspendFloor</span><span class="p">(</span><span class="n">APS</span><span class="o">.</span><span class="n">current</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">resume_thresh</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>

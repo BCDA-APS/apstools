@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=e1e97f29"></script>
+    <script src="../../../../../_static/documentation_options.js?v=efd7b0a8"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -632,32 +632,32 @@ cannot be used as dictionary keys.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span> <span class="o">=</span> <span class="n">MMap</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span>
 <span class="go">MMap(a=1, b=2)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">&quot;a]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">"a]</span>
 <span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="o">.</span><span class="n">a</span>
 <span class="go">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="go">AttributeError: Unknown: attribute=&#39;a&#39;</span>
+<span class="go">AttributeError: Unknown: attribute='a'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span>
 <span class="go">MMap(a=2, b=2)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">&quot;clear&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="go">KeyError: &quot;key=&#39;clear&#39; is a reserved name.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmap</span><span class="p">[</span><span class="s2">"clear"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="go">KeyError: "key='clear' is a reserved name."</span>
 </pre></div>
 </div>
 <p>You can retrieve the value of a key by any of these dictionary methods:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mmap</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
-<span class="n">mmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mmap</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>
+<span class="n">mmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
 <span class="c1"># Or supply a default if the key does not exist.</span>
 <span class="c1"># Here, the default is 1.2345</span>
-<span class="n">mmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mf">1.2345</span><span class="p">)</span>
+<span class="n">mmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="mf">1.2345</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and by any attribute method:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mmap</span><span class="o">.</span><span class="n">a</span>
-<span class="nb">getattr</span><span class="p">(</span><span class="n">mmap</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">mmap</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span>
 <span class="c1"># Or supply a default if the key does not exist.</span>
-<span class="nb">getattr</span><span class="p">(</span><span class="n">mmap</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mf">1.2345</span><span class="p">)</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">mmap</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">,</span> <span class="mf">1.2345</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
