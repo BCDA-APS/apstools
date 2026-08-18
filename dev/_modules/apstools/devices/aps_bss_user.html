@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../_static/documentation_options.js?v=ee4b0bf4"></script>
+    <script src="../../../_static/documentation_options.js?v=f4d35161"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -445,6 +445,7 @@
 <span class="sd">   ~ApsBssUserInfoDevice</span>
 <span class="sd">"""</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
@@ -452,9 +453,16 @@
 
 <div class="viewcode-block" id="ApsBssUserInfoDevice">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/aps_bss_user/index.html#apstools.devices.aps_bss_user.ApsBssUserInfoDevice">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">"1.7.11"</span><span class="p">,</span>
+    <span class="n">reason</span><span class="o">=</span><span class="s2">"The apsbss package has been discontinued; will be removed in a future major release."</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApsBssUserInfoDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Provide current experiment info from the APS BSS.</span>
+<span class="sd">    **Deprecated** Provide current experiment info from the APS BSS.</span>
+
+<span class="sd">    .. caution:: Deprecated.  The ``apsbss`` package has been discontinued.</span>
+<span class="sd">       Will be removed in a future major release of apstools.</span>
 
 <span class="sd">    .. index:: Ophyd Device; ApsBssUserInfoDevice</span>
 

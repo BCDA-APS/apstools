@@ -374,7 +374,7 @@ Other Support
    :widths: 40 60
 
    * - :class:`~apstools.devices.aps_bss_user.ApsBssUserInfoDevice`
-     - provide current experiment info from the APS BSS
+     - (*deprecated*, ``apsbss`` discontinued) provide current experiment info from the APS BSS
    * - :class:`~apstools.devices.delay.DG645Delay`
      - SRS DG-645 digital delay/pulse generator
    * - :func:`~apstools.devices.dict_device_support.dict_device_factory`

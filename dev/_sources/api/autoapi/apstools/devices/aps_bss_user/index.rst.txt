@@ -30,7 +30,10 @@ Module Contents
    Bases: :py:obj:`ophyd.Device`
 
 
-   Provide current experiment info from the APS BSS.
+   **Deprecated** Provide current experiment info from the APS BSS.
+
+   .. caution:: Deprecated.  The ``apsbss`` package has been discontinued.
+      Will be removed in a future major release of apstools.
 
    .. index:: Ophyd Device; ApsBssUserInfoDevice
 

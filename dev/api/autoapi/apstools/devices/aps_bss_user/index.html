@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../../_static/documentation_options.js?v=ee4b0bf4"></script>
+    <script src="../../../../../_static/documentation_options.js?v=f4d35161"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -613,8 +613,8 @@
 <h2>APS User Proposal and ESAF Information<a class="headerlink" href="#aps-user-proposal-and-esaf-information" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.aps_bss_user.ApsBssUserInfoDevice" title="apstools.devices.aps_bss_user.ApsBssUserInfoDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsBssUserInfoDevice</span></code></a>([prefix, kind, ...])</p></td>
-<td><p>Provide current experiment info from the APS BSS.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.aps_bss_user.ApsBssUserInfoDevice" title="apstools.devices.aps_bss_user.ApsBssUserInfoDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsBssUserInfoDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p><strong>Deprecated</strong> Provide current experiment info from the APS BSS.</p></td>
 </tr>
 </tbody>
 </table>
@@ -629,7 +629,12 @@
 <p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.aps_bss_user.ApsBssUserInfoDevice</span></code></p>
 </div>
 <p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
-<p>Provide current experiment info from the APS BSS.</p>
+<p><strong>Deprecated</strong> Provide current experiment info from the APS BSS.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Deprecated.  The <code class="docutils literal notranslate"><span class="pre">apsbss</span></code> package has been discontinued.
+Will be removed in a future major release of apstools.</p>
+</div>
 <p id="index-0">BSS: Beamtime Scheduling System</p>
 <p>EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bss_user_info</span> <span class="o">=</span> <span class="n">ApsBssUserInfoDevice</span><span class="p">(</span>
