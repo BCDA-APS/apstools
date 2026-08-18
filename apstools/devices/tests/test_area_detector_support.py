@@ -247,6 +247,11 @@ def test_bp_count_custom_name(plugin_name, plugin_class, data_type, extension, f
     plugin = getattr(adsimdet, plugin_name)
     assert isinstance(plugin, plugin_class)
 
+    adsimdet.cam.data_type.put(data_type)  # must set before priming
+    time.sleep(0.1)
+    AD_prime_plugin2(plugin)
+    assert AD_plugin_primed(plugin)
+
     def prepare_count(file_path, file_name, n_images):
         # fmt: off
         yield from bps.mv(
