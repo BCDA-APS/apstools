@@ -23,6 +23,16 @@ def _load_catalog(path: pathlib.Path):
     cat = databroker.temp().v2
     for entry in data:
         cat.v1.insert(*entry)
+
+    # Flush any incomplete runs (such as no stop document) to storage.
+    # RunRouter leaves their suitcase serializers open; close them so
+    # their msgpack files are written before the catalog globs them.
+    serializer = cat.v1._serializer  # event_model.RunRouter
+    for callbacks in serializer._factory_cbs_by_start.values():
+        for cb in callbacks:
+            cb.close()
+    cat.force_reload()
+
     return cat
 
 

@@ -28,7 +28,7 @@ def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert _count_runs_in_snapshot(TEST_DATA / "apstools.json.gz") == 53
+    assert len(lr.cat) == 53, f"{cat}"
     return lr
 
 
