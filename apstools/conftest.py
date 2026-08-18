@@ -36,13 +36,13 @@ def _load_catalog(path: pathlib.Path):
     return cat
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def apstools_cat():
     """Function-scoped catalog loaded from apstools.json.gz (53 runs)."""
     return _load_catalog(TEST_DATA / "apstools.json.gz")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def usaxs_cat():
     """Function-scoped catalog loaded from usaxs.json.gz (10 runs)."""
     return _load_catalog(TEST_DATA / "usaxs.json.gz")
