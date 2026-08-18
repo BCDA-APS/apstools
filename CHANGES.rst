@@ -32,6 +32,7 @@ describe future plans.
    Fixes
    -----
 
+   * ``AD_EpicsFileNameJPEGPlugin`` test now sets 8-bit data so the JPEG writer captures frames. (:issue:`1166`)
    * ``scripts/release.py`` now preserves the next staged release section in ``CHANGES.rst``. (:issue:`1177`)
    * ``SpecWriterCallback2`` now reopens header-only SPEC files instead of rejecting them. (:issue:`1134`)
 
