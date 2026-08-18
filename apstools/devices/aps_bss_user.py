@@ -7,14 +7,22 @@ APS User Proposal and ESAF Information
    ~ApsBssUserInfoDevice
 """
 
+from deprecated.sphinx import deprecated
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
 
 
+@deprecated(
+    version="1.7.11",
+    reason="The apsbss package has been discontinued; will be removed in a future major release.",
+)
 class ApsBssUserInfoDevice(Device):
     """
-    Provide current experiment info from the APS BSS.
+    **Deprecated** Provide current experiment info from the APS BSS.
+
+    .. caution:: Deprecated.  The ``apsbss`` package has been discontinued.
+       Will be removed in a future major release of apstools.
 
     .. index:: Ophyd Device; ApsBssUserInfoDevice
 
