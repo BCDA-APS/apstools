@@ -39,6 +39,7 @@ describe future plans.
    Maintenance
    -----------
 
+   * Document the beamline pattern for continuous-mode quadEM electrometers (TetrAMM, FX4). (:issue:`1023`)
    * Stabilize ``ListRuns`` test run count across Python versions. (:issue:`1134`)
 
    Deprecations
