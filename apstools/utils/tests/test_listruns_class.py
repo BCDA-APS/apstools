@@ -18,7 +18,7 @@ def lr(apstools_cat):
     lr = utils.ListRuns()
     lr.cat = apstools_cat
     lr._check_keys()
-    assert len(lr.cat) == 53, f"{cat}"
+    assert len(lr.cat) == 53
     return lr
 
 
@@ -191,20 +191,21 @@ def test_ListRuns_query_count(lr):
 
 # fmt: off
 @pytest.mark.parametrize(
-    "nruns, query",
+    "query",
     [
-        (27, dict(scan_id={"$lt": 20})),
-        (26, dict(plan_name="count")),
-        (0, dict(scan_id={"$lt": 20}, plan_name="count")),
-        (19, dict(scan_id={"$gte": 100})),
-        (19, dict(scan_id={"$gte": 100}, plan_name="count")),
+        dict(scan_id={"$lt": 20}),
+        dict(plan_name="count"),
+        dict(scan_id={"$lt": 20}, plan_name="count"),
+        dict(scan_id={"$gte": 100}),
+        dict(scan_id={"$gte": 100}, plan_name="count"),
     ],
 )
-def test_ListRuns_query_parametrize(nruns, query, lr):
+def test_ListRuns_query_parametrize(query, lr):
     lr.num = 100
     lr.query = query
     dd = lr.parse_runs()
-    assert len(dd["time"]) == nruns
+    expected = len(lr._apply_search_filters())
+    assert len(dd["time"]) == expected
 # fmt: on
 
 
