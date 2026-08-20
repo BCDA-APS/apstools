@@ -21,40 +21,39 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   ..
-      1.8.0
-      ******
-
-      Release expected by 2026-10-10.
-
-      Add async devices.
-
-   1.7.11
+   1.8.0
    ******
 
-   Release expected by 2026-09-01.
+Released 2026-08-20.
 
-   Enhancements
-   ------------
+   Add async devices.
 
-   Fixes
-   -----
+1.7.11
+******
 
-   * ``AD_EpicsFileNameJPEGPlugin`` test now sets 8-bit data so the JPEG writer captures frames. (:issue:`1166`)
-   * ``scripts/release.py`` now preserves the next staged release section in ``CHANGES.rst``. (:issue:`1177`)
-   * ``SpecWriterCallback2`` now reopens header-only SPEC files instead of rejecting them. (:issue:`1134`)
+Release expected by 2026-09-01.
+
+Enhancements
+------------
+
+Fixes
+-----
+
+* ``AD_EpicsFileNameJPEGPlugin`` test now sets 8-bit data so the JPEG writer captures frames. (:issue:`1166`)
+* ``scripts/release.py`` now preserves the next staged release section in ``CHANGES.rst``. (:issue:`1177`)
+* ``SpecWriterCallback2`` now reopens header-only SPEC files instead of rejecting them. (:issue:`1134`)
 
 
-   Maintenance
-   -----------
+Maintenance
+-----------
 
-   * Document the beamline pattern for continuous-mode quadEM electrometers (TetrAMM, FX4). (:issue:`1023`)
-   * Stabilize ``ListRuns`` test run count across Python versions. (:issue:`1134`)
+* Document the beamline pattern for continuous-mode quadEM electrometers (TetrAMM, FX4). (:issue:`1023`)
+* Stabilize ``ListRuns`` test run count across Python versions. (:issue:`1134`)
 
-   Deprecations
-   ------------
+Deprecations
+------------
 
-   * Deprecate ``ApsBssUserInfoDevice`` (``apsbss`` discontinued). (:issue:`969`)
+* Deprecate ``ApsBssUserInfoDevice`` (``apsbss`` discontinued). (:issue:`969`)
 
 1.7.10
 ******
