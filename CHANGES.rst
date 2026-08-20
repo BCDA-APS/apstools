@@ -24,17 +24,14 @@ describe future plans.
    1.8.0
    ******
 
-Released 2026-08-20.
+   Release expected by 2026-10-10.
 
    Add async devices.
 
 1.7.11
 ******
 
-Release expected by 2026-09-01.
-
-Enhancements
-------------
+Released 2026-08-20.
 
 Fixes
 -----
@@ -42,7 +39,6 @@ Fixes
 * ``AD_EpicsFileNameJPEGPlugin`` test now sets 8-bit data so the JPEG writer captures frames. (:issue:`1166`)
 * ``scripts/release.py`` now preserves the next staged release section in ``CHANGES.rst``. (:issue:`1177`)
 * ``SpecWriterCallback2`` now reopens header-only SPEC files instead of rejecting them. (:issue:`1134`)
-
 
 Maintenance
 -----------
