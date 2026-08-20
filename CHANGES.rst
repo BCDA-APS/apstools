@@ -21,10 +21,11 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.8.0
-   ******
+   .. 
+      future: 1 . 8 . 0
+      ******
 
-   Add async devices.  Release expected by 2026-10-10.
+      Add async devices.  Release expected by 2026-10-10.
 
    1.7.11
    ******
