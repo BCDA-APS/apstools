@@ -1,0 +1,362 @@
+calcout
+=======
+
+.. py:module:: apstools.synApps.calcout
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.calcout``
+
+   Ophyd support for the EPICS calcout record
+
+   https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
+
+   Public Structures
+
+   .. autosummary::
+
+       ~UserCalcoutDevice
+       ~UserCalcoutN
+       ~CalcoutRecord
+       ~CalcoutRecordChannel
+       ~setup_gaussian_calcout
+       ~setup_incrementer_calcout
+       ~setup_lorentzian_calcout
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: CHANNEL_LETTERS_LIST
+
+.. py:class:: CalcoutRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.CalcoutRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS base calcout record support in ophyd
+
+   .. index:: Ophyd Device; synApps CalcoutRecord
+
+   .. autosummary::
+
+       ~reset
+
+   :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
+
+
+   .. py:attribute:: calculated_value
+
+
+   .. py:attribute:: calculation
+
+
+   .. py:attribute:: calculation_valid
+
+
+   .. py:attribute:: channels
+
+
+   .. py:attribute:: event_to_issue
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: invalid_output_action
+
+
+   .. py:attribute:: invalid_output_value
+
+
+   .. py:attribute:: output_calculation
+
+
+   .. py:attribute:: output_calculation_valid
+
+
+   .. py:attribute:: output_data_option
+
+
+   .. py:attribute:: output_delay_active
+
+
+   .. py:attribute:: output_execute_option
+
+
+   .. py:attribute:: output_execution_delay
+
+
+   .. py:attribute:: output_pv
+
+
+   .. py:attribute:: output_pv_status
+
+
+   .. py:attribute:: output_value
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: read_attrs
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: units
+
+
+   .. py:property:: value
+
+
+.. py:class:: CalcoutRecordChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.CalcoutRecordChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   channel of a calcout record: A-L
+
+   .. index:: Ophyd Device; synApps CalcoutRecordChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_pv_valid
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: last_value
+
+
+   .. py:attribute:: read_attrs
+      :value: ['input_value']
+
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserCalcoutDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.UserCalcoutDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
+
+   .. index:: Ophyd Device; synApps UserCalcoutDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: calcout1
+
+
+   .. py:attribute:: calcout10
+
+
+   .. py:attribute:: calcout2
+
+
+   .. py:attribute:: calcout3
+
+
+   .. py:attribute:: calcout4
+
+
+   .. py:attribute:: calcout5
+
+
+   .. py:attribute:: calcout6
+
+
+   .. py:attribute:: calcout7
+
+
+   .. py:attribute:: calcout8
+
+
+   .. py:attribute:: calcout9
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserCalcoutN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.UserCalcoutN``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsSynAppsRecordEnableMixin`, :py:obj:`CalcoutRecord`
+
+
+   Single instance of the userCalcoutN database.
+
+
+.. py:function:: setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.setup_gaussian_calcout``
+
+
+   setup calcout for noisy Gaussian
+
+   calculation::
+
+       D*(0.95+E*RNDM)/exp(((A-B)/C)^2)
+
+   PARAMETERS
+
+   calcout
+       *object* :
+       instance of :class:`CalcoutRecord`
+
+   ref_signal
+       *object* :
+       instance of :class:`EpicsSignal` used as ``A``
+
+   center
+       *float* :
+       EPICS record field ``B``,
+       default = 0
+
+   width
+       *float* :
+       EPICS record field ``C``,
+       default = 1
+
+   scale
+       *float* :
+       EPICS record field ``D``,
+       default = 1
+
+   noise
+       *float* :
+       EPICS record field ``E``,
+       default = 0.05
+
+
+.. py:function:: setup_incrementer_calcout(calcout, scan=None, limit=100000)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.setup_incrementer_calcout``
+
+
+   setup calcout record as an incrementer
+
+   PARAMETERS
+
+   calcout
+       *object* :
+       instance of :class:`CalcoutRecord`
+
+   scan
+       *text* or *int* or ``None`` :
+       any of the EPICS record ``.SCAN`` values,
+       or the index number of the value,
+       set to default if ``None``,
+       default: ``.1 second``
+
+   limit
+       *int* or ``None`` :
+       set the incrementer back to zero
+       when this number is reached (or passed),
+       default: 100000
+
+
+
+.. py:function:: setup_lorentzian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.calcout.setup_lorentzian_calcout``
+
+
+   setup calcout record for noisy Lorentzian
+
+   calculation::
+
+       D*(0.95+E*RNDM)/(1+((A-B)/C)^2)
+
+   PARAMETERS
+
+   calcout
+       *object* :
+       instance of :class:`CalcoutRecord`
+
+   ref_signal
+       *object* :
+       instance of :class:`EpicsSignal` used as ``A``
+
+   center
+       *float* :
+       EPICS record field ``B``,
+       default = 0
+
+   width
+       *float* :
+       EPICS record field ``C``,
+       default = 1
+
+   scale
+       *float* :
+       EPICS record field ``D``,
+       default = 1
+
+   noise
+       *float* :
+       EPICS record field ``E``,
+       default = 0.05
+
+

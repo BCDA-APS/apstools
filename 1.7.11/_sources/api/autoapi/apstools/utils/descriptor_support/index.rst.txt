@@ -1,0 +1,53 @@
+descriptor_support
+==================
+
+.. py:module:: apstools.utils.descriptor_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.descriptor_support``
+
+   Parsing descriptor documents
+   ++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~get_stream_data_map
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: get_stream_data_map(start_detectors: list[str], start_motors: list[str], descriptor: dict, report_unknown: bool = False) -> dict[str, list[str]]
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.descriptor_support.get_stream_data_map``
+
+
+   Return the names of the run's detector and motor signals.
+
+   This function is used when processing the descriptor document of a run.
+
+   PARAMETERS
+
+   start_detectors: list[str]
+       List of detectors provided to the plan (reported in start document).
+   start_motors: list[str]
+       List of motors provided to the plan (reported in start document).
+   descriptor: dict
+       The bluesky run 'descriptor' document published by the RunEngine.
+   report_unknown: bool
+       Should this function raise a KeyError if a signal is not found?
+       Default: ``False``
+
+   RETURNS
+
+   Dictionary with keys: 'detectors', 'motors', 'unassigned'.
+   Values are lists of signal names.
+
+   (new in release 1.7.4)
+
+

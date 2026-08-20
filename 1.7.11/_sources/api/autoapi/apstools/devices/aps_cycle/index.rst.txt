@@ -1,0 +1,55 @@
+aps_cycle
+=========
+
+.. py:module:: apstools.devices.aps_cycle
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.aps_cycle``
+
+   APS cycles
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~ApsCycleDM
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ApsCycleDM(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_cycle.ApsCycleDM``
+
+
+   Bases: :py:obj:`ophyd.sim.SynSignalRO`
+
+
+   Get the APS cycle name from a local file (source: official APS schedule).
+
+   Previously, this info was available from the BSS API in the APS Data
+   Management (thus the DM name).  Now that interface requires credentialed
+   access only.
+
+   .. index:: Ophyd Signal; ApsCycleDM
+
+   This signal is read-only.
+
+
+   .. py:method:: get()
+
+      The readback value
+
+
+
+.. py:data:: YAML_CYCLE_FILE
+
+.. py:data:: cycle_db
+

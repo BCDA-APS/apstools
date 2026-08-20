@@ -1,0 +1,80 @@
+doc_collector
+=============
+
+.. py:module:: apstools.callbacks.doc_collector
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.callbacks.doc_collector``
+
+   Document Collector
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~DocumentCollectorCallback
+      ~document_contents_callback
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: DocumentCollectorCallback
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.doc_collector.DocumentCollectorCallback``
+
+
+   Bases: :py:obj:`object`
+
+
+   Bluesky callback to collect *all* documents from most-recent plan
+
+   .. index:: Bluesky Callback; DocumentCollectorCallback
+
+   Will reset when it receives a *start* document.
+
+   EXAMPLE::
+
+       from apstools.callbacks import DocumentCollectorCallback
+       doc_collector = DocumentCollectorCallback()
+       RE.subscribe(doc_collector.receiver)
+       ...
+       RE(some_plan())
+       print(doc_collector.uids)
+       print(doc_collector.documents["stop"])
+
+
+
+   .. py:attribute:: data_event_names
+
+
+   .. py:attribute:: documents
+
+
+   .. py:method:: receiver(key, document)
+
+      keep all documents from recent plan in memory
+
+
+
+   .. py:attribute:: uids
+      :value: []
+
+
+
+.. py:function:: document_contents_callback(key, doc)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.doc_collector.document_contents_callback``
+
+
+   prints document contents -- use for diagnosing a document stream
+
+

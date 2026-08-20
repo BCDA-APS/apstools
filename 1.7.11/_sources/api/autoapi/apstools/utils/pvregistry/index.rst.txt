@@ -1,0 +1,126 @@
+pvregistry
+==========
+
+.. py:module:: apstools.utils.pvregistry
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.pvregistry``
+
+   EPICS PV Registry
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~findbyname
+      ~findbypv
+      ~PVRegistry
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: PVRegistry(ns=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.pvregistry.PVRegistry``
+
+
+   Cross-reference EPICS PVs with ophyd EpicsSignalBase objects.
+
+
+   .. py:method:: ophyd_search(oname)
+
+      Search for ophyd object by ophyd name.
+
+
+
+   .. py:method:: search(pvname)
+
+      Search for PV in both read & write modes.
+
+
+
+   .. py:method:: search_by_mode(pvname, mode='R')
+
+      Search for PV in specified mode.
+
+
+
+.. py:function:: findbyname(oname, force_rebuild=False, ns=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.pvregistry.findbyname``
+
+
+   Find the ophyd (dotted name) object associated with the given ophyd name.
+
+   PARAMETERS
+
+   oname
+       *str* :
+       ophyd name to search
+   force_rebuild
+       *bool* :
+       If ``True``, rebuild the internal registry that maps
+       ophyd names to ophyd objects.
+   ns
+       *dict* or `None` :
+       Namespace dictionary of Python objects.
+
+   RETURNS
+
+   str or ``None``:
+       Name of the ophyd object.
+
+   EXAMPLE::
+
+       In [45]: findbyname("adsimdet_cam_acquire")
+       Out[45]: 'adsimdet.cam.acquire'
+
+
+.. py:function:: findbypv(pvname, force_rebuild=False, ns=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.pvregistry.findbypv``
+
+
+   Find all ophyd objects associated with the given EPICS PV.
+
+   PARAMETERS
+
+   pvname
+       *str* :
+       EPICS PV name to search
+   force_rebuild
+       *bool* :
+       If ``True``, rebuild the internal registry that maps
+       EPICS PV names to ophyd objects.
+   ns
+       *dict* or `None` :
+       Namespace dictionary of Python objects.
+
+   RETURNS
+
+   dict or ``None``:
+       Dictionary of matching ophyd objects, keyed by how the
+       PV is used by the ophyd signal.  The keys are
+       ``read`` and ``write``.
+
+   EXAMPLE::
+
+       In [45]: findbypv("ad:cam1:Acquire")
+       Out[45]: {'read': [], 'write': ['adsimdet.cam.acquire']}
+
+       In [46]: findbypv("ad:cam1:Acquire_RBV")
+       Out[46]: {'read': ['adsimdet.cam.acquire'], 'write': []}
+
+
+

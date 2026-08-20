@@ -1,0 +1,99 @@
+bragg_gap_monochromator
+=======================
+
+.. py:module:: apstools.devices.bragg_gap_monochromator
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.bragg_gap_monochromator``
+
+   Bragg-Gap double-crystal monochromator
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~BraggGapMonochromator
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: BraggGapMonochromator(prefix: str, bragg_motor: str, gap_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.bragg_gap_monochromator.BraggGapMonochromator``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   synApps Bragg Gap double-crystal monochromator epics support
+
+   .. index:: Ophyd Device; BraggGapMonochromator
+
+
+   .. py:attribute:: allstop_button
+
+
+   .. py:attribute:: bragg_motor
+
+
+   .. py:method:: calibrate_energy(value)
+
+      Calibrate the monochromator energy.
+
+      PARAMETERS
+
+      value: float
+          New energy for the current monochromator position.
+
+
+
+   .. py:attribute:: crystal_2d_spacing
+
+
+   .. py:attribute:: crystal_h
+
+
+   .. py:attribute:: crystal_k
+
+
+   .. py:attribute:: crystal_l
+
+
+   .. py:attribute:: crystal_lattice_constant
+
+
+   .. py:attribute:: crystal_mode
+
+
+   .. py:attribute:: energy
+
+
+   .. py:attribute:: gap
+
+
+   .. py:attribute:: gap_motor
+
+
+   .. py:attribute:: moving
+
+
+   .. py:attribute:: offset
+
+
+   .. py:attribute:: offset_mode
+
+
+   .. py:attribute:: theta
+
+
+   .. py:attribute:: use_set
+
+
+   .. py:attribute:: wavelength
+
+

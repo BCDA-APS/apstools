@@ -1,0 +1,175 @@
+avs_filters
+===========
+
+.. py:module:: apstools.devices.avs_filters
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.avs_filters``
+
+   12-bank Filters from A-V-S
+
+   Device uses PyDevice for attenuation calculation and filter configuration
+
+       Parameters
+       ==========
+       prefix:
+         EPICS prefix required to communicate with filter IOC, ex: "100idPyFilter:FL2:"
+       translation_motor:
+         The motor record PV controlling the lateral translation of the filter system
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AVSfilters(prefix: str, translation_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.avs_filters.AVSfilters``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Base class for device objects
+
+   This class provides attribute access to one or more Signals, which can be
+   a mixture of read-only and writable. All must share the same base_name.
+
+   Parameters
+   ----------
+   prefix : str, optional
+       The PV prefix for all components of the device
+   name : str, keyword only
+       The name of the device (as will be reported via read()`
+   kind : a member of the :class:`~ophydobj.Kind` :class:`~enum.IntEnum`
+       (or equivalent integer), optional
+       Default is ``Kind.normal``. See :class:`~ophydobj.Kind` for options.
+   read_attrs : sequence of attribute names
+       DEPRECATED: the components to include in a normal reading
+       (i.e., in ``read()``)
+   configuration_attrs : sequence of attribute names
+       DEPRECATED: the components to be read less often (i.e., in
+       ``read_configuration()``) and to adjust via ``configure()``
+   parent : instance or None, optional
+       The instance of the parent device, if applicable
+   connection_timeout : float or None, optional
+       Timeout for connection of all underlying signals.
+
+       The default value DEFAULT_CONNECTION_TIMEOUT means, "Fall back to
+       class-wide default." See Device.set_defaults to
+       configure class defaults.
+
+       Explicitly passing None means, "Wait forever."
+
+   Attributes
+   ----------
+   lazy_wait_for_connection : bool
+       When instantiating a lazy signal upon first access, wait for it to
+       connect before returning control to the user.  See also the context
+       manager helpers: ``wait_for_lazy_connection`` and
+       ``do_not_wait_for_lazy_connection``.
+
+   Subscriptions
+   -------------
+   SUB_ACQ_DONE
+       A one-time subscription indicating the requested trigger-based
+       acquisition has completed.
+
+
+   .. py:attribute:: attenuation
+
+
+   .. py:attribute:: binary_crl1_config
+
+
+   .. py:attribute:: bw_crl1_config
+
+
+   .. py:attribute:: inMask_config
+
+
+   .. py:attribute:: index
+
+
+   .. py:attribute:: outMask_config
+
+
+   .. py:attribute:: rbv_crl1_config
+
+
+   .. py:attribute:: translation
+
+
+   .. py:attribute:: transmission
+
+
+.. py:class:: filter_atten(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.avs_filters.filter_atten``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   filter attenuation positioner
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+.. py:class:: filter_index(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.avs_filters.filter_index``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   filter index; increasing index, increasing attenuation
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+.. py:class:: filter_trans(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.avs_filters.filter_trans``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   filter transmission positioner
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+

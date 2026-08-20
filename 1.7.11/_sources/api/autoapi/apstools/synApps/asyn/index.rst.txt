@@ -1,0 +1,98 @@
+asyn
+====
+
+.. py:module:: apstools.synApps.asyn
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.asyn``
+
+   Ophyd support for the EPICS asyn record
+
+   Public Structures
+
+   .. autosummary::
+
+       ~AsynRecord
+
+   :see: https://github.com/epics-modules/asyn
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AsynRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.asyn.AsynRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS asyn record support in ophyd
+
+   .. index:: Ophyd Device; synApps AsynRecord
+
+   :see: https://epics.anl.gov/modules/soft/asyn/R4-36/asynRecord.html
+   :see: https://github.com/epics-modules/asyn
+   :see: https://epics.anl.gov/modules/soft/asyn/
+
+
+   .. py:attribute:: ascii_output
+
+
+   .. py:attribute:: binary_output
+
+
+   .. py:attribute:: end_of_message_reason
+
+
+   .. py:attribute:: input_format
+
+
+   .. py:attribute:: input_maxlength
+
+
+   .. py:attribute:: interface
+
+
+   .. py:attribute:: number_bytes_actually_read
+
+
+   .. py:attribute:: number_bytes_actually_written
+
+
+   .. py:attribute:: number_bytes_to_read
+
+
+   .. py:attribute:: number_bytes_to_write
+
+
+   .. py:attribute:: octet_is_valid
+
+
+   .. py:attribute:: output_format
+
+
+   .. py:attribute:: output_maxlength
+
+
+   .. py:attribute:: terminator_input
+
+
+   .. py:attribute:: terminator_output
+
+
+   .. py:attribute:: timeout
+
+
+   .. py:attribute:: transaction_mode
+
+
+   .. py:attribute:: translated_input
+
+

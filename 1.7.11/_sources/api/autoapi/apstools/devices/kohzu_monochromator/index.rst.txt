@@ -1,0 +1,214 @@
+kohzu_monochromator
+===================
+
+.. py:module:: apstools.devices.kohzu_monochromator
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.kohzu_monochromator``
+
+   Kohzu double-crystal monochromator
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~KohzuSeqCtl_Monochromator
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: KohzuSeqCtl_Monochromator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   synApps Kohzu double-crystal monochromator sequence control program
+
+   .. index:: Ophyd Device; KohzuSeqCtl_Monochromator
+
+
+   .. py:attribute:: allstop_button
+
+
+   .. py:method:: calibrate_energy(value)
+
+      Calibrate the monochromator energy.
+
+      PARAMETERS
+
+      value: float
+          New energy for the current monochromator position.
+
+
+
+   .. py:attribute:: crystal_2d_spacing
+
+
+   .. py:attribute:: crystal_h
+
+
+   .. py:attribute:: crystal_k
+
+
+   .. py:attribute:: crystal_l
+
+
+   .. py:attribute:: crystal_lattice_constant
+
+
+   .. py:attribute:: crystal_mode
+
+
+   .. py:attribute:: crystal_type
+
+
+   .. py:attribute:: energy
+
+
+   .. py:attribute:: message2
+
+
+   .. py:attribute:: mode
+
+
+   .. py:attribute:: move_button
+
+
+   .. py:attribute:: moving
+
+
+   .. py:attribute:: operator_acknowledge
+
+
+   .. py:attribute:: theta
+
+
+   .. py:attribute:: use_set
+
+
+   .. py:attribute:: wavelength
+
+
+   .. py:attribute:: y1
+
+
+   .. py:attribute:: y_offset
+
+
+   .. py:attribute:: z2
+
+
+.. py:class:: KohzuSoftPositioner(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.kohzu_monochromator.KohzuSoftPositioner``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   A Positioner which is controlled using multiple user-defined signals
+
+   Keyword arguments are passed through to the base class, Positioner
+
+   Parameters
+   ----------
+   prefix : str, optional
+       The device prefix used for all sub-positioners. This is optional as it
+       may be desirable to specify full PV names for PVPositioners.
+   limits : 2-element sequence, optional
+       (low_limit, high_limit)
+   name : str
+       The device name
+   egu : str, optional
+       The engineering units (EGU) for the position
+   settle_time : float, optional
+       The amount of time to wait after moves to report status completion
+   timeout : float, optional
+       The default timeout to use for motion requests, in seconds.
+
+   Attributes
+   ----------
+   setpoint : Signal
+       The setpoint (request) signal
+   readback : Signal or None
+       The readback PV (e.g., encoder position PV)
+   actuate : Signal or None
+       The actuation PV to set when movement is requested
+   actuate_value : any, optional
+       The actuation value, sent to the actuate signal when motion is
+       requested
+   stop_signal : Signal or None
+       The stop PV to set when motion should be stopped
+   stop_value : any, optional
+       The value sent to stop_signal when a stop is requested
+   done : Signal
+       A readback value indicating whether motion is finished
+   done_value : any, optional
+       The value that the done pv should be when motion has completed
+   put_complete : bool, optional
+       If set, the specified PV should allow for asynchronous put completion
+       to indicate motion has finished.  If ``actuate`` is specified, it will be
+       used for put completion.  Otherwise, the ``setpoint`` will be used.  See
+       the `-c` option from ``caput`` for more information.
+
+
+   .. py:method:: cb_done(*args, **kwargs)
+
+      Called when parent's done signal changes (EPICS CA monitor event).
+
+
+
+   .. py:method:: cb_setpoint(*args, **kwargs)
+
+      Called when setpoint changes (EPICS CA monitor event).
+
+      When the setpoint is changed, force ``done=False``.  For any move,
+      done must transition to ``!= done_value``, then back to ``done_value``.
+      Next update will refresh value from parent device.
+
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: done_value
+      :value: 0
+
+
+
+   .. py:property:: inposition
+
+      Report (boolean) if positioner is done.
+
+
+
+   .. py:method:: move(*args, **kwargs)
+
+      Reposition, with optional wait for completion.
+
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+   .. py:attribute:: stop_signal
+
+
+   .. py:attribute:: stop_value
+      :value: 1
+
+
+

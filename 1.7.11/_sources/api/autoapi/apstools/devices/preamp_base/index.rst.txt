@@ -1,0 +1,43 @@
+preamp_base
+===========
+
+.. py:module:: apstools.devices.preamp_base
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.preamp_base``
+
+   Generalized ophyd Device base class for preamplifiers.
+
+   .. autosummary::
+
+      ~PreamplifierBaseDevice
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: PreamplifierBaseDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.preamp_base.PreamplifierBaseDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Generalized interface (base class) for preamplifiers.
+
+   All subclasses of ``PreamplifierBaseDevice`` must define how to update the
+   gain with the correct value from the amplifier. An example is
+   :class:`~apstools._devices.srs570_preamplifier.SRS570_PreAmplifier`.
+
+   :see: https://github.com/BCDA-APS/apstools/issues/544
+
+
+   .. py:attribute:: gain
+
+

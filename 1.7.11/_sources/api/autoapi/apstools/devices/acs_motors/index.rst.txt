@@ -1,0 +1,155 @@
+acs_motors
+==========
+
+.. py:module:: apstools.devices.acs_motors
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.acs_motors``
+
+   ACS Motors
+   ==========
+
+   :class:`~AcsMotors` provides extra signals that are part of AcsMotionControl motor support.
+
+   .. autosummary::
+
+       ~AcsMotion
+       ~AcsMotorMixin
+       ~EpicsMotorWithRes
+       ~EpicsMotorWithResAndCNEN
+       ~EpicsMotorWithResAndCNENAndDial
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AcsMotor(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.acs_motors.AcsMotor``
+
+
+   Bases: :py:obj:`AcsMotorMixin`, :py:obj:`EpicsMotorWithResAndCNENAndDial`
+
+
+   AcsMotionControl motor support.
+
+
+.. py:class:: AcsMotorMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.acs_motors.AcsMotorMixin``
+
+
+   Bases: :py:obj:`apstools.devices.motor_mixins.DeviceMixinBase`
+
+
+   Components used by EPICS database for ACS Motion Controller.
+
+
+   .. py:attribute:: e2fac
+
+      Secondary encoder factor (distance per encoder count)
+
+
+
+   .. py:attribute:: e2offs
+
+      Secondary encoder offset (doesn't persist through power cycle)
+
+
+
+   .. py:attribute:: e2type
+
+      Secondary encoder type
+
+
+
+   .. py:attribute:: e_aoffs
+
+      Absolute encoder offset (persists through ACS power cycle)
+
+
+
+   .. py:attribute:: efac
+
+      Encoder factor (distance per encoder count)
+
+
+
+   .. py:attribute:: eoffs
+
+      Encoder offset (doesn't persist through power cycle)
+
+
+
+   .. py:attribute:: etype
+
+      Encoder type
+
+
+
+   .. py:attribute:: homed
+
+      Homing status (using ACS algorithms)
+
+
+
+   .. py:attribute:: roffs
+
+      Reference offset
+
+
+
+   .. py:attribute:: stepf
+
+      Step factor (distance per [micro]step)
+
+
+
+.. py:class:: EpicsMotorWithRes(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.acs_motors.EpicsMotorWithRes``
+
+
+   Bases: :py:obj:`apstools.devices.motor_mixins.EpicsMotorResolutionMixin`, :py:obj:`ophyd.EpicsMotor`
+
+
+   Adds support for motor record resolution fields.
+
+
+.. py:class:: EpicsMotorWithResAndCNEN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.acs_motors.EpicsMotorWithResAndCNEN``
+
+
+   Bases: :py:obj:`apstools.devices.motor_mixins.EpicsMotorServoMixin`, :py:obj:`EpicsMotorWithRes`
+
+
+   Adds "servo" enable/disable (CNEN) field.
+
+   ACS support uses for steppers as well.
+
+
+.. py:class:: EpicsMotorWithResAndCNENAndDial(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.acs_motors.EpicsMotorWithResAndCNENAndDial``
+
+
+   Bases: :py:obj:`apstools.devices.motor_mixins.EpicsMotorDialMixin`, :py:obj:`EpicsMotorWithResAndCNEN`
+
+
+   Adds support for motor record dial coordinates.
+
+

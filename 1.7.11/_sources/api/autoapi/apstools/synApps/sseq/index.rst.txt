@@ -1,0 +1,248 @@
+sseq
+====
+
+.. py:module:: apstools.synApps.sseq
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.sseq``
+
+   Ophyd support for the EPICS sseq (string sequence) record
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~EditStringSequence
+       ~SseqRecord
+       ~UserStringSequenceDevice
+       ~UserStringSequenceN
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: EditStringSequence(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sseq.EditStringSequence``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps sseq support to quickly re-arrange steps.
+
+   See the ``editSseq_more`` GUI screen for assistance.
+
+
+   .. py:attribute:: alert
+
+
+   .. py:attribute:: command
+
+
+   .. py:attribute:: debug
+
+
+   .. py:attribute:: message
+
+
+   .. py:attribute:: message_acknowledge
+
+
+   .. py:attribute:: record_name
+
+
+.. py:data:: STEP_LIST
+
+.. py:class:: SseqRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sseq.SseqRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS synApps sseq record support in ophyd
+
+   .. index:: Ophyd Device; synApps SseqRecord
+
+   .. autosummary::
+
+       ~abort
+       ~reset
+
+   :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/sseqRecord.html
+
+
+   .. py:method:: abort()
+
+      .ABORT is a push button.  Send a 1 to the PV to "push" it.
+
+      Push this button without a timeout from the .put() method.
+
+
+
+   .. py:attribute:: busy
+
+
+   .. py:attribute:: precision
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: selection_link
+
+
+   .. py:attribute:: selection_mask
+
+
+   .. py:attribute:: selection_number
+
+
+   .. py:attribute:: steps
+
+
+.. py:class:: UserStringSequenceDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sseq.UserStringSequenceDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of userStringSeqs: ``$(P):userStringSeq$(N)``
+
+   Note: This will connect more than 1,000 EpicsSignal objects!
+
+   .. index:: Ophyd Device; synApps UserStringSequenceDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: sseq1
+
+
+   .. py:attribute:: sseq10
+
+
+   .. py:attribute:: sseq2
+
+
+   .. py:attribute:: sseq3
+
+
+   .. py:attribute:: sseq4
+
+
+   .. py:attribute:: sseq5
+
+
+   .. py:attribute:: sseq6
+
+
+   .. py:attribute:: sseq7
+
+
+   .. py:attribute:: sseq8
+
+
+   .. py:attribute:: sseq9
+
+
+.. py:class:: UserStringSequenceN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sseq.UserStringSequenceN``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsSynAppsRecordEnableMixin`, :py:obj:`SseqRecord`
+
+
+   Single instance of the userStringSeqN database.
+
+
+.. py:class:: sseqRecordStep(prefix, step, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sseq.sseqRecordStep``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps sseq single step of an sseq record.
+
+   Step of a synApps sseq record: 1..10  (note: for 10, the PVs use "A")
+
+   .. index:: Ophyd Device; synApps sseqRecordStep
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: delay
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_pv_valid
+
+
+   .. py:attribute:: numeric_value
+
+
+   .. py:attribute:: output_pv
+
+
+   .. py:attribute:: output_pv_valid
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: string_value
+
+
+   .. py:attribute:: wait_completion
+
+
+   .. py:attribute:: wait_error
+
+
+   .. py:attribute:: waiting_completion
+
+

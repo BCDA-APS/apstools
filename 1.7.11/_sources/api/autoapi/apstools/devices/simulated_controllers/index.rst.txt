@@ -1,0 +1,111 @@
+simulated_controllers
+=====================
+
+.. py:module:: apstools.devices.simulated_controllers
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.simulated_controllers``
+
+   Simulate process controllers as positioners using EPICS records.
+
+   .. autosummary::
+
+       ~SimulatedSwaitControllerPositioner
+       ~SimulatedTransformControllerPositioner
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: SimulatedSwaitControllerPositioner(*args, loop_pv='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner``
+
+
+   Bases: :py:obj:`apstools.devices.PVPositionerSoftDoneWithStop`
+
+
+   Simulated process controller as positioner with EPICS swait record.
+
+   The swait record completes the feedback loop, computing
+   the next simulated controller reading.
+
+   Example with ``swait`` record::
+
+       controller = SimulatedSwaitControllerPositioner(
+           "",
+           name="controller",
+           loop_pv="gp:userCalc1",
+       )
+       controller.wait_for_connection()
+       controller.setup(25)
+
+   .. autosummary::
+
+       ~setup
+
+
+   .. py:attribute:: loop
+
+
+   .. py:attribute:: loop_pv
+      :value: ''
+
+
+
+   .. py:method:: setup(setpoint, label='controller', noise=1, period='1 second', max_change=1, tolerance=1)
+
+      Configure the swait record as a process controller.
+
+
+
+.. py:class:: SimulatedTransformControllerPositioner(*args, loop_pv='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner``
+
+
+   Bases: :py:obj:`apstools.devices.PVPositionerSoftDoneWithStop`
+
+
+   Simulated process controller as positioner with EPICS transform record.
+
+   The transform record completes the feedback loop, computing the next
+   simulated controller reading and reporting if the readback is "in position".
+
+   Example with ``transform`` record::
+
+       controller = SimulatedTransformControllerPositioner(
+           "", name="controller", loop_pv="gp:userTran1",
+       )
+       controller.wait_for_connection()
+       controller.setup(25)
+
+   .. autosummary::
+
+       ~setup
+
+
+   .. py:attribute:: following_error
+
+
+   .. py:attribute:: loop
+
+
+   .. py:attribute:: loop_pv
+      :value: ''
+
+
+
+   .. py:method:: setup(setpoint, label='controller', noise=2, period='1 second', max_change=2, tolerance=1)
+
+      Configure the transform record as a process controller.
+
+
+

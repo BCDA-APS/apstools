@@ -1,0 +1,399 @@
+measComp_usb_ctr_support
+========================
+
+.. py:module:: apstools.devices.measComp_usb_ctr_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.measComp_usb_ctr_support``
+
+   Measurement Computing USB-CTR 8-Channel Scaler
+   ++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   Measurement Computing CTR High-Speed Counter/Timer Device
+
+   https://www.farnell.com/datasheets/3795358.pdf
+
+   There is more to this device than just the 8-channel scaler.
+   Underlying support: https://github.com/epics-modules/measComp
+
+
+   The EPICS support provides for an optional scaler, compatible
+   with the EPICS scaler record.
+
+   .. rubric:: Public class(es)
+   .. autosummary::
+
+      ~MeasCompCtr
+      ~MeasCompCtrMcs
+
+   .. rubric:: Internal class(es)
+   .. autosummary::
+
+      ~MeasCompCtrDeviceCounterChannel
+      ~MeasCompCtrDevicePulseGenChannel
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: MeasCompCtr(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_usb_ctr_support.MeasCompCtr``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Measurement Computing USB CTR08 high-speed counter/timer.
+
+
+   .. py:attribute:: binary_direction_1
+
+
+   .. py:attribute:: binary_direction_2
+
+
+   .. py:attribute:: binary_direction_3
+
+
+   .. py:attribute:: binary_direction_4
+
+
+   .. py:attribute:: binary_direction_5
+
+
+   .. py:attribute:: binary_direction_6
+
+
+   .. py:attribute:: binary_direction_7
+
+
+   .. py:attribute:: binary_direction_8
+
+
+   .. py:attribute:: binary_in_1
+
+
+   .. py:attribute:: binary_in_2
+
+
+   .. py:attribute:: binary_in_3
+
+
+   .. py:attribute:: binary_in_4
+
+
+   .. py:attribute:: binary_in_5
+
+
+   .. py:attribute:: binary_in_6
+
+
+   .. py:attribute:: binary_in_7
+
+
+   .. py:attribute:: binary_in_8
+
+
+   .. py:attribute:: binary_out_1
+
+
+   .. py:attribute:: binary_out_2
+
+
+   .. py:attribute:: binary_out_3
+
+
+   .. py:attribute:: binary_out_4
+
+
+   .. py:attribute:: binary_out_5
+
+
+   .. py:attribute:: binary_out_6
+
+
+   .. py:attribute:: binary_out_7
+
+
+   .. py:attribute:: binary_out_8
+
+
+   .. py:attribute:: counter_1
+
+
+   .. py:attribute:: counter_2
+
+
+   .. py:attribute:: counter_3
+
+
+   .. py:attribute:: counter_4
+
+
+   .. py:attribute:: counter_5
+
+
+   .. py:attribute:: counter_6
+
+
+   .. py:attribute:: counter_7
+
+
+   .. py:attribute:: counter_8
+
+
+   .. py:attribute:: driver_version
+
+
+   .. py:attribute:: firmware_version
+
+
+   .. py:attribute:: last_error_message
+
+
+   .. py:attribute:: long_in
+
+
+   .. py:attribute:: long_out
+
+
+   .. py:attribute:: model_name
+
+
+   .. py:attribute:: model_number
+
+
+   .. py:attribute:: poll_sleep_ms
+
+
+   .. py:attribute:: poll_time_ms
+
+
+   .. py:attribute:: pulse_gen_1
+
+
+   .. py:attribute:: pulse_gen_2
+
+
+   .. py:attribute:: pulse_gen_3
+
+
+   .. py:attribute:: pulse_gen_4
+
+
+   .. py:attribute:: ul_version
+
+
+   .. py:attribute:: unique_id
+
+
+.. py:class:: MeasCompCtrDeviceCounterChannel(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_usb_ctr_support.MeasCompCtrDeviceCounterChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Measurement Computing USB CTR08 Pulse Counter channel.
+
+
+   .. py:attribute:: counts
+
+
+   .. py:attribute:: reset
+
+
+.. py:class:: MeasCompCtrDevicePulseGenChannel(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_usb_ctr_support.MeasCompCtrDevicePulseGenChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Measurement Computing USB CTR08 Pulse Generator channel.
+
+
+   .. py:attribute:: count
+
+
+   .. py:attribute:: delay
+
+
+   .. py:attribute:: duty_cycle
+
+
+   .. py:attribute:: frequency
+
+
+   .. py:attribute:: idle_state
+
+
+   .. py:attribute:: period
+
+
+   .. py:attribute:: run
+
+
+   .. py:attribute:: width
+
+
+.. py:class:: MeasCompCtrMcs(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_usb_ctr_support.MeasCompCtrMcs``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Measurement Computing USB CTR08 Multi-Channel Scaler Controls.
+
+
+   .. py:attribute:: absolute_timebase_waveform
+
+
+   .. py:attribute:: acquiring
+
+
+   .. py:attribute:: channel_advance
+
+
+   .. py:attribute:: client_wait
+
+
+   .. py:attribute:: current_channel
+
+
+   .. py:attribute:: do_read_all
+
+
+   .. py:attribute:: dwell
+
+
+   .. py:attribute:: elapsed_real
+
+
+   .. py:attribute:: enable_client_wait
+
+
+   .. py:attribute:: erase_all
+
+
+   .. py:attribute:: erase_start
+
+
+   .. py:attribute:: hardware_acquiring
+
+
+   .. py:attribute:: max_channels
+
+
+   .. py:attribute:: mca1
+
+
+   .. py:attribute:: mca2
+
+
+   .. py:attribute:: mca3
+
+
+   .. py:attribute:: mca4
+
+
+   .. py:attribute:: mca5
+
+
+   .. py:attribute:: mca6
+
+
+   .. py:attribute:: mca7
+
+
+   .. py:attribute:: mca8
+
+
+   .. py:attribute:: mcs_counter_1_enable
+
+
+   .. py:attribute:: mcs_counter_2_enable
+
+
+   .. py:attribute:: mcs_counter_3_enable
+
+
+   .. py:attribute:: mcs_counter_4_enable
+
+
+   .. py:attribute:: mcs_counter_5_enable
+
+
+   .. py:attribute:: mcs_counter_6_enable
+
+
+   .. py:attribute:: mcs_counter_7_enable
+
+
+   .. py:attribute:: mcs_counter_8_enable
+
+
+   .. py:attribute:: mcs_counter_enable
+
+
+   .. py:attribute:: mcs_dio_enable
+
+
+   .. py:attribute:: model
+
+
+   .. py:attribute:: n_use_all
+
+
+   .. py:attribute:: point_0_action
+
+
+   .. py:attribute:: prescale
+
+
+   .. py:attribute:: prescale_counter
+
+
+   .. py:attribute:: preset_real
+
+
+   .. py:attribute:: read_all
+
+
+   .. py:attribute:: read_all_once
+
+
+   .. py:attribute:: set_acquiring
+
+
+   .. py:attribute:: set_client_wait
+
+
+   .. py:attribute:: snl_connected
+
+
+   .. py:attribute:: start_all
+
+
+   .. py:attribute:: stop_all
+
+
+   .. py:attribute:: trigger_mode
+
+

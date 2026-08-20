@@ -1,0 +1,28 @@
+plans
+=====
+
+.. py:module:: apstools.plans
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans``
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/autoapi/apstools/plans/alignment/index
+   /api/autoapi/apstools/plans/command_list/index
+   /api/autoapi/apstools/plans/doc_run/index
+   /api/autoapi/apstools/plans/input_plan/index
+   /api/autoapi/apstools/plans/labels_to_streams/index
+   /api/autoapi/apstools/plans/nscan_support/index
+   /api/autoapi/apstools/plans/run_blocking_function_plan/index
+   /api/autoapi/apstools/plans/sscan_support/index
+   /api/autoapi/apstools/plans/stage_sigs_support/index
+   /api/autoapi/apstools/plans/xpcs_mesh/index
+
+

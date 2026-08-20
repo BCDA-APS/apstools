@@ -1,0 +1,440 @@
+nexus_writer
+============
+
+.. py:module:: apstools.callbacks.nexus_writer
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.callbacks.nexus_writer``
+
+   NeXus File Writer Callbacks
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~NXWriter
+      ~NXWriterAPS
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: NEXUS_FILE_EXTENSION
+   :value: 'hdf'
+
+
+.. py:data:: NEXUS_RELEASE
+   :value: 'v2020.1'
+
+
+.. py:class:: NXWriter(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.nexus_writer.NXWriter``
+
+
+   Bases: :py:obj:`apstools.callbacks.callback_base.FileWriterCallbackBase`
+
+
+   General class for writing HDF5/NeXus file (using only NeXus base classes).
+
+   .. index:: Bluesky Callback; NXWriter
+
+   One scan is written to one HDF5/NeXus file.
+
+   .. note::
+       If you use ``NXWriter``, you must wait for the `writer()` method to
+       finish before proceeding with the next acquisition or processing.  (The
+       `writer()` method is launched in a background thread to complete once
+       all readable assets are available, potentially even after the run ends.)
+
+       See the table below for which wait method to call.
+
+   EXAMPLES:
+
+   Interactive use (outside of a plan)::
+
+       # ...
+       nxwriter = NXWriter()  # create the callback instance
+       RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine
+       # ...
+       RE(bp.count([camera]))
+       nxwriter.wait_writer()
+       # ...
+       run = cat.v2[-1]  # for additional processing
+
+   .. note::
+      There are two methods to wait for the callback.  One is for *interactive*
+      use when not using the RunEngine.  The other is for use *in a plan* that
+      is executed by the bluesky RunEngine.
+
+       ============    =========================== ========================
+       When            Method                      Which uses
+       ============    =========================== ========================
+       interactive     ``wait_writer()``           ``time.sleep()``
+       in a plan       ``wait_writer_plan_stub()`` ``yield from bps.sleep()``
+       ============    =========================== ========================
+
+       The ``wait_writer()`` method calls ``time.sleep()`` and this would block
+       the RunEngine from its routine processing of other background tasks.
+       The ``wait_writer_plan_stub()`` method replaces that call with ``yield
+       from bps.sleep()`` which does not block the RunEngine from processing
+       other background tasks.
+
+   In a custom **plan**, use the ``wait_writer_plan_stub()`` method instead::
+
+       # ...
+       nxwriter = NXWriter()  # create the callback instance
+       RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine
+       # ...
+
+       def my_plan(dets, n=5):
+           for i in range(n):
+               yield from bp.count(dets)
+               yield from nxwriter.wait_writer_plan_stub()
+
+   METHODS
+
+   .. autosummary::
+
+      ~writer
+      ~h5string
+      ~add_dataset_attributes
+      ~assign_signal_type
+      ~create_NX_group
+      ~get_sample_title
+      ~get_stream_link
+      ~resolve_class_path
+      ~wait_writer
+      ~wait_writer_plan_stub
+      ~write_data
+      ~write_detector
+      ~write_entry
+      ~write_instrument
+      ~write_metadata
+      ~write_monochromator
+      ~write_positioner
+      ~write_root
+      ~write_sample
+      ~write_slits
+      ~write_source
+      ~write_streams
+      ~write_templates
+      ~write_user
+
+   New with apstools release 1.3.0.
+   Update in release 1.6.11 to wait for area detector HDF5 files.
+
+
+   .. py:method:: add_dataset_attributes(ds, v, long_name=None)
+
+      add attributes from v dictionary to dataset ds
+
+
+
+   .. py:method:: assign_signal_type()
+
+      decide if a signal in the primary stream is a detector or a positioner
+
+
+
+   .. py:method:: create_NX_group(parent, specification)
+
+      create an h5 group with named NeXus class (specification)
+
+
+
+   .. py:attribute:: file_extension
+      :type:  str
+      :value: 'hdf'
+
+
+      File extension to be used.  Default: 'hdf'.
+
+
+
+   .. py:method:: getResourceFile(resource_id)
+
+      full path to the resource file specified by uid ``resource_id``
+
+      override in subclass as needed
+
+
+
+   .. py:method:: get_sample_title()
+
+      return the title for this sample
+
+      default title: S{scan_id}-{plan_name}-{short_uid}
+
+
+
+   .. py:method:: get_stream_link(signal, stream=None, ref=None)
+
+      return the h5 object for ``signal``
+
+      DEFAULTS
+
+      ``stream`` : ``baseline``
+      ``key`` : ``value_start``
+
+
+
+   .. py:method:: h5string(text)
+
+      Format string for h5py interface.
+
+
+
+   .. py:attribute:: instrument_name
+      :type:  str
+      :value: None
+
+
+      Name of this instrument.
+
+
+
+   .. py:attribute:: nexus_release
+      :type:  str
+      :value: 'v2020.1'
+
+
+      NeXus release to which this data file is written.
+
+
+
+   .. py:attribute:: nxdata_signal
+      :type:  str
+      :value: None
+
+
+      Caller can declare name of dataset for Y axis on plot.
+
+
+
+   .. py:attribute:: nxdata_signal_axes
+      :type:  list[str]
+      :value: None
+
+
+      Caller can declare names of datasets for X axes on plot.
+
+
+
+   .. py:method:: resolve_class_path(class_path)
+
+      Parse the class path, make any groups, return the HDF5 address.
+
+      New with apstools release 1.6.18.
+
+
+
+   .. py:attribute:: root
+      :value: None
+
+
+      Instance of h5py.File.
+
+
+
+   .. py:attribute:: template_key
+      :value: 'nxwriter_template'
+
+
+      The template (dict) is written as a JSON string to this metadata key.
+
+
+
+   .. py:method:: wait_writer()
+
+      Wait for the writer to finish.  For interactive use (Not in a plan).
+
+      If you use ``NXWriter`` interactively, you must call
+      ``NXWriter.wait_writer()`` which waits for all data processing to finish
+      before proceeding with the next acquisition or processing.
+
+
+
+   .. py:method:: wait_writer_plan_stub()
+
+      Wait for the writer to finish.  Use in a plan (with RunEngine).
+
+      If you use ``NXWriter`` in a plan, you must call
+      ``NXWriter.wait_writer()`` which waits for all data processing to finish
+      before proceeding with the next acquisition or processing.
+
+
+
+   .. py:attribute:: warn_on_missing_content
+      :type:  bool
+      :value: True
+
+
+      Warn when expected NeXus content is missing.
+
+      Set False (default: True) to ignore warnings.
+
+
+
+   .. py:method:: write_data(parent)
+
+      group: /entry/data:NXdata
+
+
+
+   .. py:method:: write_detector(parent)
+
+      group: /entry/instrument/detectors:NXnote/DETECTOR:NXdetector
+
+
+
+   .. py:method:: write_entry()
+
+      group: /entry/data:NXentry
+
+
+
+   .. py:method:: write_instrument(parent)
+
+      group: /entry/instrument:NXinstrument
+
+
+
+   .. py:method:: write_metadata(parent)
+
+      group: /entry/instrument/bluesky/metadata:NXnote
+
+      metadata from the bluesky start document
+
+
+
+   .. py:method:: write_monochromator(parent)
+
+      group: /entry/instrument/monochromator:NXmonochromator
+
+
+
+   .. py:method:: write_positioner(parent)
+
+      group: /entry/instrument/positioners:NXnote/POSITIONER:NXpositioner
+
+
+
+   .. py:method:: write_root(filename)
+
+      root of the HDF5 file
+
+
+
+   .. py:method:: write_sample(parent)
+
+      group: /entry/sample:NXsample
+
+
+
+   .. py:method:: write_slits(parent)
+
+      group: /entry/instrument/slits:NXnote/SLIT:NXslit
+
+      override in subclass to store content, name patterns
+      vary with each instrument
+
+
+
+   .. py:method:: write_source(parent)
+
+      group: /entry/instrument/source:NXsource
+
+      Note: this is (somewhat) generic, override for a different source
+
+
+
+   .. py:method:: write_stream_external(parent, d, subgroup, stream_name, k, v)
+
+
+   .. py:method:: write_stream_internal(parent, d, subgroup, stream_name, k, v)
+
+
+   .. py:method:: write_streams(parent)
+
+      group: /entry/instrument/bluesky/streams:NXnote
+
+      data from all the bluesky streams
+
+
+
+   .. py:method:: write_templates()
+
+      Process any link templates provided as run metadata.
+
+
+
+   .. py:method:: write_user(parent)
+
+      group: /entry/contact:NXuser
+
+
+
+   .. py:method:: writer()
+
+      Write collected data to HDF5/NeXus data file.
+
+      The callback launches ``_threaded_writer()`` and returns. In the thread,
+      ``write_root()`` (or methods within) can wait on certain items (such as
+      an external HDF5 file written by an area detector IOC) to become
+      readable or a timeout period has expired.
+
+
+
+.. py:class:: NXWriterAPS(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.nexus_writer.NXWriterAPS``
+
+
+   Bases: :py:obj:`NXWriter`
+
+
+   Customize :class:`~NXWriter` with APS-specific content.
+
+   .. index:: Bluesky Callback; NXWriterAPS
+
+   New with apstools release 1.3.0.
+
+   * Adds `/entry/instrument/undulator` group if metadata exists.
+   * Adds APS information to `/entry/instrument/source` group.
+
+   .. autosummary::
+
+      ~write_instrument
+      ~write_source
+      ~write_undulator
+
+
+   .. py:method:: write_instrument(parent)
+
+      group: /entry/instrument:NXinstrument
+
+
+
+   .. py:method:: write_source(parent)
+
+      group: /entry/instrument/source:NXsource
+
+      Note: this is specific to the APS, override for a different source
+
+
+
+   .. py:method:: write_undulator(parent)
+
+      group: /entry/instrument/undulator:NXinsertion_device
+
+
+

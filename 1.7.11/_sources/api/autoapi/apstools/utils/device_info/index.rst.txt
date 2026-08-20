@@ -1,0 +1,137 @@
+device_info
+===========
+
+.. py:module:: apstools.utils.device_info
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.device_info``
+
+   Device information
+   ++++++++++++++++++
+
+   .. autosummary::
+
+      ~listdevice
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: DEFAULT_COLUMN_WIDTH
+   :value: 50
+
+
+.. py:data:: NOT_CONNECTED_VALUE
+   :value: '-n/c-'
+
+
+.. py:data:: TRUNCATION_TEXT
+   :value: ' ...'
+
+
+.. py:function:: listdevice(obj, scope=None, cname=False, dname=True, show_pv=False, use_datetime=True, show_ancient=True, max_column_width=None, table_style=TableStyle.pyRestTable, _call_args=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.device_info.listdevice``
+
+
+   Describe the signal information from device ``obj`` in a pandas DataFrame.
+
+   Look through all subcomponents to find all the signals to be
+   shown. Components that are disconnected will be skipped and a
+   warning logged.
+
+   EXAMPLE::
+
+       >>> listdevice(m1)
+       ======================= ======= ==========================
+       data name               value   timestamp
+       ======================= ======= ==========================
+       m1                      0.0     2024-08-28 09:41:08.364137
+       m1_user_setpoint        0.0     2024-08-28 09:41:08.364137
+       m1_user_offset          0.0     2024-08-28 11:46:56.116048
+       m1_user_offset_dir      0       2024-08-28 09:41:08.364137
+       m1_offset_freeze_switch 0       2024-08-28 09:41:08.364137
+       m1_set_use_switch       0       2024-08-28 09:41:08.364137
+       m1_velocity             1.0     2024-08-28 09:41:08.364137
+       m1_acceleration         0.2     2024-08-28 09:41:08.364137
+       m1_motor_egu            degrees 2024-08-28 09:41:08.364137
+       m1_motor_is_moving      0       2024-08-28 09:41:08.364137
+       m1_motor_done_move      1       2024-08-28 11:46:56.116057
+       m1_high_limit_switch    0       2024-08-28 09:41:08.364137
+       m1_low_limit_switch     0       2024-08-28 09:41:08.364137
+       m1_high_limit_travel    1000.0  2024-08-28 11:46:56.116048
+       m1_low_limit_travel     -1000.0 2024-08-28 11:46:56.116048
+       m1_direction_of_travel  0       2024-08-28 09:41:08.364137
+       m1_motor_stop           0       2024-08-28 09:41:08.364137
+       m1_home_forward         0       2024-08-28 09:41:08.364137
+       m1_home_reverse         0       2024-08-28 09:41:08.364137
+       m1_steps_per_revolution 2000    2024-08-28 09:41:08.364137
+       ======================= ======= ==========================
+
+   PARAMETERS
+
+   obj
+       *object* : Instance of ophyd Signal or Device.
+   scope
+       *str* or None : Scope of content to be shown.
+
+       - ``"full"`` (or ``None``) shows all Signal components
+       - ``"epics"`` shows only EPICS-based Signals
+       - ``"read"`` shows only the signals returned by ``obj.read()``
+
+       default: ``None``
+   cname
+       *bool* : Show the _control_ (Python, dotted) name in column ``name``.
+
+       default: ``False``
+   dname
+       *bool* : Show the _data_ (databroker, with underlines) name in
+       column ``data name``.
+
+       default: ``True``
+   show_pv
+       *bool* : Show the EPICS process variable (PV) name in
+       column ``PV``.
+
+       default: ``False``
+
+       .. note:: Special case when ``show_pv=True``:
+          If ``cname`` is not provided, it will be set ``True``.
+          If ``dname`` is not provided, it will be set ``False``.
+
+   use_datetime *bool* :
+       Show the EPICS timestamp (time of last update) in
+       column ``timestamp``.
+
+       default: ``True``
+   show_ancient *bool* :
+       Show uninitialized EPICS process variables.
+
+       In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.
+       This option enables or suppresses ancient values identified
+       by timestamp from 1989.  These are values only defined in
+       the original ``.db`` file.
+
+       default: ``True``
+   max_column_width *int* or *None* :
+       Truncate long columns to no more than this length.  If not default,
+       then table will be formatted using pyRestTable.
+
+       default: ``None`` (will use ``50``)
+   table_style *object* :
+       Either ``apstools.utils.TableStyle.pandas`` (default) or
+       using values from :class:`apstools.utils.TableStyle`.
+
+       .. note:: ``pandas.DataFrame`` wll truncate long text
+          to at most 50 characters.
+
+   .. seealso:: ``listdevice()`` in :doc:`/examples/ho_list_control_objects`
+
+

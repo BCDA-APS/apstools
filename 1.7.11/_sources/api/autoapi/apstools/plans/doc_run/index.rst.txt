@@ -1,0 +1,88 @@
+doc_run
+=======
+
+.. py:module:: apstools.plans.doc_run
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans.doc_run``
+
+   Documentation of batch runs
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~addDeviceDataAsStream
+      ~documentation_run
+      ~write_stream
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: addDeviceDataAsStream(devices, label)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.doc_run.addDeviceDataAsStream``
+
+
+   Renamed to write_stream().  Will remove with relase 1.7+.
+
+
+.. py:function:: documentation_run(text, stream=None, bec=None, md=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.doc_run.documentation_run``
+
+
+   Save text as a bluesky run.
+
+   PARAMETERS
+
+   text
+       *str* :
+       Text to be written.
+   stream
+       *str* :
+       document stream, default: "primary"
+   bec
+       *object* :
+       Instance of `bluesky.BestEffortCallback`,
+       default: get from IPython shell
+   md
+       *dict*
+       (optional):
+       metadata dictionary
+
+
+.. py:function:: write_stream(devices, label)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.doc_run.write_stream``
+
+
+   add an ophyd Device as an additional document stream
+
+   .. index:: Bluesky Plan; write_stream
+
+   Use this within a custom plan, such as this example::
+
+       from apstools.plans import write_stream
+       ...
+       yield from bps.open_run(md={})
+       # ...
+       yield from write_stream(prescanDeviceList, "metadata_prescan")
+       # ...
+       yield from custom_scan_procedure()
+       # ...
+       yield from write_stream(postscanDeviceList, "metadata_postscan")
+       # ...
+       yield from bps.close_run()
+
+
+

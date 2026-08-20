@@ -1,0 +1,137 @@
+hhl_slits
+=========
+
+.. py:module:: apstools.devices.hhl_slits
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.hhl_slits``
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: HHLSlits(prefix: str, pitch_motor: str, yaw_motor: str, horizontal_motor: str, diagonal_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.hhl_slits.HHLSlits``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   High Heat Load Slit.
+
+   There are no independent parts to move, so each axis only has center and size.
+
+   Based on the 25-ID-A whitebeam slits.
+
+   The motor parameters listed below specify which motor records
+   control which axis. The last piece of the PV prefix will be
+   removed, and the motor number added on. For example, if the prefix
+   is "255ida:slits:US:", and the pitch motor is "255ida:slits:m3",
+   then *pitch_motor* should be "m3".
+
+   Parameters
+   ==========
+   prefix:
+     EPICS prefix required to communicate with HHL Slit IOC, ex: "25ida:slits:US:"
+   pitch_motor:
+     The motor record suffix controlling the real pitch motor, ex "m3"
+   yaw_motor:
+     The motor record suffix controlling the real yaw motor, ex "m4"
+   horizontal_motor:
+     The motor record suffix controlling the real horizontal motor, ex: "m1"
+   diagonal_motor:
+     The motor record suffix controlling the real diagonal motor, ex: "m2"
+
+
+   .. py:class:: SlitAxis(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.hhl_slits.HHLSlits.SlitAxis``
+
+
+      Bases: :py:obj:`ophyd.Device`
+
+
+      Base class for device objects
+
+      This class provides attribute access to one or more Signals, which can be
+      a mixture of read-only and writable. All must share the same base_name.
+
+      Parameters
+      ----------
+      prefix : str, optional
+          The PV prefix for all components of the device
+      name : str, keyword only
+          The name of the device (as will be reported via read()`
+      kind : a member of the :class:`~ophydobj.Kind` :class:`~enum.IntEnum`
+          (or equivalent integer), optional
+          Default is ``Kind.normal``. See :class:`~ophydobj.Kind` for options.
+      read_attrs : sequence of attribute names
+          DEPRECATED: the components to include in a normal reading
+          (i.e., in ``read()``)
+      configuration_attrs : sequence of attribute names
+          DEPRECATED: the components to be read less often (i.e., in
+          ``read_configuration()``) and to adjust via ``configure()``
+      parent : instance or None, optional
+          The instance of the parent device, if applicable
+      connection_timeout : float or None, optional
+          Timeout for connection of all underlying signals.
+
+          The default value DEFAULT_CONNECTION_TIMEOUT means, "Fall back to
+          class-wide default." See Device.set_defaults to
+          configure class defaults.
+
+          Explicitly passing None means, "Wait forever."
+
+      Attributes
+      ----------
+      lazy_wait_for_connection : bool
+          When instantiating a lazy signal upon first access, wait for it to
+          connect before returning control to the user.  See also the context
+          manager helpers: ``wait_for_lazy_connection`` and
+          ``do_not_wait_for_lazy_connection``.
+
+      Subscriptions
+      -------------
+      SUB_ACQ_DONE
+          A one-time subscription indicating the requested trigger-based
+          acquisition has completed.
+
+
+      .. py:attribute:: center
+
+
+      .. py:attribute:: size
+
+
+
+   .. py:attribute:: diagonal
+
+
+   .. py:attribute:: h
+
+
+   .. py:attribute:: horizontal
+
+
+   .. py:attribute:: motor_prefix
+      :value: ''
+
+
+
+   .. py:attribute:: pitch
+
+
+   .. py:attribute:: v
+
+
+   .. py:attribute:: yaw
+
+

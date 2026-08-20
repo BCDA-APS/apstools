@@ -1,0 +1,47 @@
+apsu_controls_subnet
+====================
+
+.. py:module:: apstools.utils.apsu_controls_subnet
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.apsu_controls_subnet``
+
+   APS-U controls are on private subnets.  Check and advise as applicable.
+
+   .. autosummary::
+
+       ~warn_if_not_aps_controls_subnet
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: APSU_CONTROLS_SUBNET
+   :value: '10.54.'
+
+
+.. py:data:: APSU_XRAY_SUBNET
+   :value: '.xray.aps.anl.gov'
+
+
+.. py:function:: warn_if_not_aps_controls_subnet()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet``
+
+
+   APS-U controls are on private subnets.  Check and advise as applicable.
+
+   Call this function early in the startup procedure. It could explain easily
+   the reason for subsequent EPICS PV connection failures.
+
+   For workstations on subnets that do not match the criteria, this function
+   should not post any warnings.
+
+

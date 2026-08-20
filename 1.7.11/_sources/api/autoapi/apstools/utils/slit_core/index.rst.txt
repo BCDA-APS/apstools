@@ -1,0 +1,43 @@
+slit_core
+=========
+
+.. py:module:: apstools.utils.slit_core
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.slit_core``
+
+   Common support of slits
+
+   .. autosummary::
+
+       ~SlitGeometry
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: SlitGeometry
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.slit_core.SlitGeometry``
+
+
+   Bases: :py:obj:`tuple`
+
+
+   .. py:attribute:: height
+
+
+   .. py:attribute:: width
+
+
+   .. py:attribute:: x
+
+
+   .. py:attribute:: y
+
+

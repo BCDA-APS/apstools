@@ -1,0 +1,123 @@
+iocstats
+========
+
+.. py:module:: apstools.synApps.iocstats
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.iocstats``
+
+   Ophyd support for the iocStats support
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~IocStatsDevice
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: IocStatsDevice(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.iocstats.IocStatsDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   synApps IOC stats
+
+   .. index:: Ophyd Device; synApps IocStatsDevice
+
+
+   .. py:attribute:: access
+
+
+   .. py:attribute:: application_directory
+
+
+   .. py:attribute:: ca_client_count
+
+
+   .. py:attribute:: ca_connection_count
+
+
+   .. py:attribute:: cpu_count
+
+
+   .. py:attribute:: engineer
+
+
+   .. py:attribute:: epics_version
+
+
+   .. py:attribute:: file_descriptors_free
+
+
+   .. py:attribute:: file_descriptors_max_
+
+
+   .. py:attribute:: heartbeat
+
+
+   .. py:attribute:: host_name
+
+
+   .. py:attribute:: ioc_cpu_load
+
+
+   .. py:attribute:: iso8601
+
+
+   .. py:attribute:: kernel_version
+
+
+   .. py:attribute:: location
+
+
+   .. py:attribute:: max_array_bytes
+
+
+   .. py:attribute:: memory_free
+
+
+   .. py:attribute:: memory_max
+
+
+   .. py:attribute:: memory_used
+
+
+   .. py:attribute:: memory_used_percentage
+
+
+   .. py:attribute:: records_count
+
+
+   .. py:attribute:: startup_script
+
+
+   .. py:attribute:: startup_time
+
+
+   .. py:attribute:: suspended_task_count
+
+
+   .. py:attribute:: system_cpu_load
+
+
+   .. py:attribute:: time_of_day
+
+
+   .. py:attribute:: timezone
+
+
+   .. py:attribute:: uptime
+
+

@@ -1,0 +1,827 @@
+labjack
+=======
+
+.. py:module:: apstools.devices.labjack
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.labjack``
+
+   LabJack Data Acquisition (DAQ)
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~LabJackBase
+
+
+   Ophyd definitions for Labjack T-series data acquisition devices.
+
+   Supported devices, all inherit from ``LabJackBase``:
+
+   - T4
+   - T7
+   - T7Pro
+   - T8
+
+   These devices are **based on EPICS LabJack module R3.0**. The EPICS IOC
+   database changed significantly from R2 to R3 when the module was
+   rewritten to use the LJM library.
+
+   .. seealso:: https://github.com/epics-modules/LabJack/releases/tag/R3-0
+
+   There are definitions for the entire LabJack device, as well as the
+   various inputs/outputs available on the LabJack T-series.
+   Individual inputs can be used as part of other devices. Assuming
+   analog input 5 is connected to a gas flow meter:
+
+   .. code:: python
+
+       from ophyd import Component as Cpt
+       from apstools.devices import labjack
+
+       class MyBeamline(Device):
+           ...
+           gas_flow = Cpt(labjack.AnalogInput, "LabJackT7_1:Ai5")
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AnalogInput(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.AnalogInput``
+
+
+   Bases: :py:obj:`Input`
+
+
+   An analog input on a labjack device.
+
+   It is based on the synApps input record, but with LabJack specific
+   signals added.
+
+   The ``.trigger()`` method will retrieve a fresh value using the
+   .PROC field, though based on how EPICS support works, this is
+   likely just the most recently polled value from the device. This
+   can be useful if the .SCAN field is set to passive.
+
+
+
+   .. py:property:: base_prefix
+
+
+   .. py:property:: ch_num
+
+
+   .. py:attribute:: differential
+
+
+   .. py:attribute:: enable
+
+
+   .. py:attribute:: high
+
+
+   .. py:attribute:: low
+
+
+   .. py:attribute:: mode
+
+
+   .. py:attribute:: range
+
+
+   .. py:attribute:: resolution
+
+
+   .. py:attribute:: temperature_units
+
+
+.. py:class:: AnalogOutput(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.AnalogOutput``
+
+
+   Bases: :py:obj:`Output`
+
+
+   An analog output on a labjack device.
+
+
+.. py:class:: DigitalIO(*args, ch_num, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.DigitalIO``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   A digital input/output channel on the labjack.
+
+   Because of the how the records are structured in EPICS, the prefix
+   must not include the "Bi{N}" portion of the prefix. Instead, the
+   prefix should be prefix for the whole labjack
+   (e.g. ``LabJackT7_1:``), and the channel number should be provided
+   using the *ch_num* property. So for the digital I/O with its input
+   available at PV ``LabJackT7_1:Bi3``, use:
+
+   .. code:: python
+
+       dio3 = DigitalIO("LabJackT7_1:", name="dio3", ch_num=3)
+
+   This will create signals for the input (``Bi3``), output
+   (``Bo3``), and direction (``Bd3``) records.
+
+
+
+   .. py:attribute:: ch_num
+      :type:  int
+
+
+   .. py:attribute:: direction
+
+
+   .. py:attribute:: input
+
+
+   .. py:attribute:: output
+
+
+.. py:class:: LabJackBase(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.LabJackBase``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   A labjack T-series data acquisition unit (DAQ).
+
+   To use the individual components separately, consider using the
+   corresponding devices in the list below.
+
+   This device contains signals for the following:
+
+   - device information (e.g. firmware version ,etc)
+   - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+   - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+   - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+   - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+   - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
+
+   The number of inputs and digital outputs depends on the specific
+   LabJack T-series device being used. Therefore, the base device
+   ``LabJackBase`` does not implement these I/O signals. Instead,
+   consider using one of the subclasses, like ``LabJackT4``.
+
+   The ``.trigger()`` method does not do much. To retrieve fresh
+   values for analog inputs where .SCAN is passive, you will need to
+   trigger the individual inputs themselves.
+
+   The waveform generator and waveform digitizer are included for
+   convenience. Reading all the analog/digital inputs and outputs can
+   be done by calling the ``.read()`` method. However, it is unlikely
+   that the goal is also to trigger the digitizer and generator
+   during this read. For this reason, **the digitizer and generator
+   have kind="omitted"**. To trigger the digitizer or generator, they
+   can be used as separate devices:
+
+   .. code:: python
+
+       lj = LabJackT4(...)
+
+       # Read a waveform from the digitizer
+       lj.waveform_digitizer.trigger().wait()
+       lj.waveform_digitizer.read()
+
+       # Same thing for the waveform generator
+       lj.waveform_generator.trigger().wait()
+
+
+
+   .. py:attribute:: analog_in_resolution_all
+
+
+   .. py:attribute:: analog_in_sampling_rate
+
+
+   .. py:attribute:: analog_in_settling_time_all
+
+
+   .. py:attribute:: analog_outputs
+
+
+   .. py:attribute:: device_reset
+
+
+   .. py:attribute:: device_temperature
+
+
+   .. py:attribute:: driver_version
+
+
+   .. py:attribute:: firmware_version
+
+
+   .. py:attribute:: last_error_message
+
+
+   .. py:attribute:: ljm_version
+
+
+   .. py:attribute:: model_name
+
+
+   .. py:attribute:: poll_sleep_ms
+
+
+   .. py:attribute:: poll_time_ms
+
+
+   .. py:attribute:: serial_number
+
+
+   .. py:attribute:: waveform_generator
+
+
+.. py:class:: LabJackT4(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.LabJackT4``
+
+
+   Bases: :py:obj:`LabJackBase`
+
+
+   A labjack T-series data acquisition unit (DAQ).
+
+   To use the individual components separately, consider using the
+   corresponding devices in the list below.
+
+   This device contains signals for the following:
+
+   - device information (e.g. firmware version ,etc)
+   - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+   - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+   - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+   - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+   - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
+
+   The number of inputs and digital outputs depends on the specific
+   LabJack T-series device being used. Therefore, the base device
+   ``LabJackBase`` does not implement these I/O signals. Instead,
+   consider using one of the subclasses, like ``LabJackT4``.
+
+   The ``.trigger()`` method does not do much. To retrieve fresh
+   values for analog inputs where .SCAN is passive, you will need to
+   trigger the individual inputs themselves.
+
+   The waveform generator and waveform digitizer are included for
+   convenience. Reading all the analog/digital inputs and outputs can
+   be done by calling the ``.read()`` method. However, it is unlikely
+   that the goal is also to trigger the digitizer and generator
+   during this read. For this reason, **the digitizer and generator
+   have kind="omitted"**. To trigger the digitizer or generator, they
+   can be used as separate devices:
+
+   .. code:: python
+
+       lj = LabJackT4(...)
+
+       # Read a waveform from the digitizer
+       lj.waveform_digitizer.trigger().wait()
+       lj.waveform_digitizer.read()
+
+       # Same thing for the waveform generator
+       lj.waveform_generator.trigger().wait()
+
+
+
+   .. py:class:: WaveformDigitizer(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.labjack.LabJackT4.WaveformDigitizer``
+
+
+      Bases: :py:obj:`WaveformDigitizer`
+
+
+      A feature of the Labjack devices that allows waveform capture.
+
+      By itself, this device does not include any actual data. It should
+      be sub-classed for the individual T-series devices to use
+      :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+      produce waveform signals based on the number of inputs, using the
+      ophyd DynamicDeviceComponent.
+
+      .. code:: python
+
+          class T7Digitizer(WaveformDigitizer):
+              waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+
+
+      .. py:attribute:: waveforms
+
+
+
+   .. py:attribute:: analog_inputs
+
+
+   .. py:attribute:: digital_ios
+
+
+   .. py:attribute:: waveform_digitizer
+
+
+.. py:class:: LabJackT7(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.LabJackT7``
+
+
+   Bases: :py:obj:`LabJackBase`
+
+
+   A labjack T-series data acquisition unit (DAQ).
+
+   To use the individual components separately, consider using the
+   corresponding devices in the list below.
+
+   This device contains signals for the following:
+
+   - device information (e.g. firmware version ,etc)
+   - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+   - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+   - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+   - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+   - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
+
+   The number of inputs and digital outputs depends on the specific
+   LabJack T-series device being used. Therefore, the base device
+   ``LabJackBase`` does not implement these I/O signals. Instead,
+   consider using one of the subclasses, like ``LabJackT4``.
+
+   The ``.trigger()`` method does not do much. To retrieve fresh
+   values for analog inputs where .SCAN is passive, you will need to
+   trigger the individual inputs themselves.
+
+   The waveform generator and waveform digitizer are included for
+   convenience. Reading all the analog/digital inputs and outputs can
+   be done by calling the ``.read()`` method. However, it is unlikely
+   that the goal is also to trigger the digitizer and generator
+   during this read. For this reason, **the digitizer and generator
+   have kind="omitted"**. To trigger the digitizer or generator, they
+   can be used as separate devices:
+
+   .. code:: python
+
+       lj = LabJackT4(...)
+
+       # Read a waveform from the digitizer
+       lj.waveform_digitizer.trigger().wait()
+       lj.waveform_digitizer.read()
+
+       # Same thing for the waveform generator
+       lj.waveform_generator.trigger().wait()
+
+
+
+   .. py:class:: WaveformDigitizer(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.labjack.LabJackT7.WaveformDigitizer``
+
+
+      Bases: :py:obj:`WaveformDigitizer`
+
+
+      A feature of the Labjack devices that allows waveform capture.
+
+      By itself, this device does not include any actual data. It should
+      be sub-classed for the individual T-series devices to use
+      :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+      produce waveform signals based on the number of inputs, using the
+      ophyd DynamicDeviceComponent.
+
+      .. code:: python
+
+          class T7Digitizer(WaveformDigitizer):
+              waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+
+
+      .. py:attribute:: waveforms
+
+
+
+   .. py:attribute:: analog_inputs
+
+
+   .. py:attribute:: digital_ios
+
+
+   .. py:attribute:: waveform_digitizer
+
+
+.. py:class:: LabJackT7Pro(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.LabJackT7Pro``
+
+
+   Bases: :py:obj:`LabJackBase`
+
+
+   A labjack T-series data acquisition unit (DAQ).
+
+   To use the individual components separately, consider using the
+   corresponding devices in the list below.
+
+   This device contains signals for the following:
+
+   - device information (e.g. firmware version ,etc)
+   - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+   - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+   - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+   - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+   - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
+
+   The number of inputs and digital outputs depends on the specific
+   LabJack T-series device being used. Therefore, the base device
+   ``LabJackBase`` does not implement these I/O signals. Instead,
+   consider using one of the subclasses, like ``LabJackT4``.
+
+   The ``.trigger()`` method does not do much. To retrieve fresh
+   values for analog inputs where .SCAN is passive, you will need to
+   trigger the individual inputs themselves.
+
+   The waveform generator and waveform digitizer are included for
+   convenience. Reading all the analog/digital inputs and outputs can
+   be done by calling the ``.read()`` method. However, it is unlikely
+   that the goal is also to trigger the digitizer and generator
+   during this read. For this reason, **the digitizer and generator
+   have kind="omitted"**. To trigger the digitizer or generator, they
+   can be used as separate devices:
+
+   .. code:: python
+
+       lj = LabJackT4(...)
+
+       # Read a waveform from the digitizer
+       lj.waveform_digitizer.trigger().wait()
+       lj.waveform_digitizer.read()
+
+       # Same thing for the waveform generator
+       lj.waveform_generator.trigger().wait()
+
+
+
+   .. py:class:: WaveformDigitizer(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer``
+
+
+      Bases: :py:obj:`WaveformDigitizer`
+
+
+      A feature of the Labjack devices that allows waveform capture.
+
+      By itself, this device does not include any actual data. It should
+      be sub-classed for the individual T-series devices to use
+      :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+      produce waveform signals based on the number of inputs, using the
+      ophyd DynamicDeviceComponent.
+
+      .. code:: python
+
+          class T7Digitizer(WaveformDigitizer):
+              waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+
+
+      .. py:attribute:: waveforms
+
+
+
+   .. py:attribute:: analog_inputs
+
+
+   .. py:attribute:: digital_ios
+
+
+   .. py:attribute:: waveform_digitizer
+
+
+.. py:class:: LabJackT8(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.LabJackT8``
+
+
+   Bases: :py:obj:`LabJackBase`
+
+
+   A labjack T-series data acquisition unit (DAQ).
+
+   To use the individual components separately, consider using the
+   corresponding devices in the list below.
+
+   This device contains signals for the following:
+
+   - device information (e.g. firmware version ,etc)
+   - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+   - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+   - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+   - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+   - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
+
+   The number of inputs and digital outputs depends on the specific
+   LabJack T-series device being used. Therefore, the base device
+   ``LabJackBase`` does not implement these I/O signals. Instead,
+   consider using one of the subclasses, like ``LabJackT4``.
+
+   The ``.trigger()`` method does not do much. To retrieve fresh
+   values for analog inputs where .SCAN is passive, you will need to
+   trigger the individual inputs themselves.
+
+   The waveform generator and waveform digitizer are included for
+   convenience. Reading all the analog/digital inputs and outputs can
+   be done by calling the ``.read()`` method. However, it is unlikely
+   that the goal is also to trigger the digitizer and generator
+   during this read. For this reason, **the digitizer and generator
+   have kind="omitted"**. To trigger the digitizer or generator, they
+   can be used as separate devices:
+
+   .. code:: python
+
+       lj = LabJackT4(...)
+
+       # Read a waveform from the digitizer
+       lj.waveform_digitizer.trigger().wait()
+       lj.waveform_digitizer.read()
+
+       # Same thing for the waveform generator
+       lj.waveform_generator.trigger().wait()
+
+
+
+   .. py:class:: WaveformDigitizer(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.labjack.LabJackT8.WaveformDigitizer``
+
+
+      Bases: :py:obj:`WaveformDigitizer`
+
+
+      A feature of the Labjack devices that allows waveform capture.
+
+      By itself, this device does not include any actual data. It should
+      be sub-classed for the individual T-series devices to use
+      :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+      produce waveform signals based on the number of inputs, using the
+      ophyd DynamicDeviceComponent.
+
+      .. code:: python
+
+          class T7Digitizer(WaveformDigitizer):
+              waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+
+
+      .. py:attribute:: waveforms
+
+
+
+   .. py:attribute:: analog_inputs
+
+
+   .. py:attribute:: digital_ios
+
+
+   .. py:attribute:: waveform_digitizer
+
+
+.. py:class:: WaveformDigitizer(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.WaveformDigitizer``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   A feature of the Labjack devices that allows waveform capture.
+
+   By itself, this device does not include any actual data. It should
+   be sub-classed for the individual T-series devices to use
+   :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+   produce waveform signals based on the number of inputs, using the
+   ophyd DynamicDeviceComponent.
+
+   .. code:: python
+
+       class T7Digitizer(WaveformDigitizer):
+           waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+
+
+   .. py:attribute:: auto_restart
+
+
+   .. py:attribute:: current_point
+
+
+   .. py:attribute:: dwell
+
+
+   .. py:attribute:: dwell_actual
+
+
+   .. py:attribute:: ext_clock
+
+
+   .. py:attribute:: ext_trigger
+
+
+   .. py:attribute:: first_chan
+
+
+   .. py:attribute:: num_chans
+
+
+   .. py:attribute:: num_points
+
+
+   .. py:attribute:: read_waveform
+
+
+   .. py:attribute:: resolution
+
+
+   .. py:attribute:: run
+
+
+   .. py:attribute:: settling_time
+
+
+   .. py:attribute:: timebase_waveform
+
+
+   .. py:attribute:: total_time
+
+
+.. py:class:: WaveformGenerator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.WaveformGenerator``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   A feature of the Labjack devices that generates output waveforms.
+
+
+   .. py:attribute:: amplitude_0
+
+
+   .. py:attribute:: amplitude_1
+
+
+   .. py:attribute:: continuous
+
+
+   .. py:attribute:: current_point
+
+
+   .. py:attribute:: dwell
+
+
+   .. py:attribute:: dwell_actual
+
+
+   .. py:attribute:: enable_0
+
+
+   .. py:attribute:: enable_1
+
+
+   .. py:attribute:: external_clock
+
+
+   .. py:attribute:: external_trigger
+
+
+   .. py:attribute:: frequency
+
+
+   .. py:attribute:: internal_dwell
+
+
+   .. py:attribute:: internal_frequency
+
+
+   .. py:attribute:: internal_num_points
+
+
+   .. py:attribute:: internal_time_waveform
+
+
+   .. py:attribute:: internal_waveform_0
+
+
+   .. py:attribute:: internal_waveform_1
+
+
+   .. py:attribute:: num_points
+
+
+   .. py:attribute:: offset_0
+
+
+   .. py:attribute:: offset_1
+
+
+   .. py:attribute:: pulse_width_0
+
+
+   .. py:attribute:: pulse_width_1
+
+
+   .. py:attribute:: run
+
+
+   .. py:attribute:: total_time
+
+
+   .. py:attribute:: type_0
+
+
+   .. py:attribute:: type_1
+
+
+   .. py:attribute:: user_dwell
+
+
+   .. py:attribute:: user_frequency
+
+
+   .. py:attribute:: user_num_points
+
+
+   .. py:attribute:: user_time_waveform
+
+
+   .. py:attribute:: user_waveform_0
+
+
+   .. py:attribute:: user_waveform_1
+
+
+.. py:function:: make_digitizer_waveforms(num_ais: int)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.labjack.make_digitizer_waveforms``
+
+
+   Create a dictionary with volt waveforms for the digitizer.
+
+   For use with an ophyd DynamicDeviceComponent.
+
+   Each analog input on the labjack *could* be included here, and
+   probably should be unless there is a specific reason not to.
+
+   Parameters
+   ==========
+   num_ais
+     How many analog inputs to include for this Labjack device.
+
+
+
