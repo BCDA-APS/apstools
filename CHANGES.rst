@@ -24,7 +24,7 @@ describe future plans.
    1.8.0
    ******
 
-Released 2026-09-10.
+   Release planned by 2026-10-10.
 
    Add async devices.
 
