@@ -21,12 +21,20 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.8.0
+   ..
+      1.8.0
+      ******
+
+      Release expected by 2026-10-10.
+
+      Add async devices.
+
+   1.7.12
    ******
 
-   Release expected by 2026-10-10.
+   Release expected by 2026-09-10.
 
-   Add async devices.
+   Minor changes. Let Zenodo create a DOI for the release.
 
 1.7.11
 ******
