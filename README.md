@@ -2,9 +2,9 @@
 
 Library of Python tools for use with the Bluesky framework at the APS.
 
-GH tag | GH release | PyPI | conda-forge
---- | --- | --- | ---
-[![tag](https://img.shields.io/github/tag/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/tags) | [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases) | [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![conda-forge](https://img.shields.io/conda/vn/conda-forge/apstools)](https://anaconda.org/conda-forge/apstools)
+GH tag | GH release | PyPI | conda-forge | DOI
+--- | --- | --- | --- | ---
+[![tag](https://img.shields.io/github/tag/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/tags) | [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases) | [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![conda-forge](https://img.shields.io/conda/vn/conda-forge/apstools)](https://anaconda.org/conda-forge/apstools) | [![DOI](https://zenodo.org/badge/110567153.svg)](https://doi.org/10.5281/zenodo.22693135)
 
 Python version(s) | Unit Tests | Code Coverage | License
 --- | --- | --- | ---

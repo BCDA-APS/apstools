@@ -58,6 +58,7 @@ About
 :home: https://bcda-aps.github.io/apstools
 :source: https://github.com/bcda-aps/apstools
 :license: :ref:`license`
+:DOI: https://doi.org/10.5281/zenodo.22693135
 :full version: |release|
 :published: |today|
 :revisions: :ref:`History of code changes <changes>`
