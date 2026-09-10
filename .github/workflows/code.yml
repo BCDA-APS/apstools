@@ -74,7 +74,7 @@ jobs:
       - name: Install project code and developer dependencies
         run: |
           set -vxeuo pipefail
-          pip install -e .[dev]
+          pip install -e .[dev,async]
 
       - name: Start EPICS IOCs in Docker
         run: |
