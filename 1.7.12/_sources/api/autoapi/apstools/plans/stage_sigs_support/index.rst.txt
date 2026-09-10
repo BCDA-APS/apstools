@@ -1,0 +1,61 @@
+stage_sigs_support
+==================
+
+.. py:module:: apstools.plans.stage_sigs_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans.stage_sigs_support``
+
+   Support for ``stage_sigs``
+   +++++++++++++++++++++++++++++++++++++++
+
+   Often when writing a plan, it is desired to change the staging of one or more
+   ``ophyd.Devices`` by modifying the ``device.stage_sigs`` dictionary(ies), then
+   reset them to original values after the plan.
+
+   .. autosummary::
+
+      ~restorable_stage_sigs
+      ~stage_sigs_wrapper
+
+   EXAMPLE:
+
+   For example, move the motor at 2 units/second and count the scaler for 0.5
+   seconds during a custom plan.  After the plan, both scaler and motor will have
+   their original ``.stage_sigs`` dictionaries.
+
+   .. code-block:: python
+       :linenos:
+
+       @restorable_stage_sigs([scaler, motor])
+       def my_plan(start, finish, npts, ct=1, v=1):
+           scaler.stage_sigs = dict(preset_time=ct)
+           motor.stage_sigs = dict(velocity=v)
+           yield from bp.rel_scan([scaler], motor, start, finish, npts)
+
+       RE(my_plan(-1, 1, 11, ct=0.5, v=2))
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: restorable_stage_sigs
+
+.. py:function:: stage_sigs_wrapper(user_plan, devices)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.stage_sigs_support.stage_sigs_wrapper``
+
+
+   Save stage_sigs from each device and restore after the user_plan.
+
+   The user_plan is free to modify the stage_sigs of each device
+   without further need to preserve original values.
+
+

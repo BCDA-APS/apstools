@@ -1,0 +1,211 @@
+labels_to_streams
+=================
+
+.. py:module:: apstools.plans.labels_to_streams
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans.labels_to_streams``
+
+   Record any labeled objects to streams
+   +++++++++++++++++++++++++++++++++++++++
+
+   To record positions of all motors at the start of a scan, use
+   ``@label_stream_decorator("motor")`` as described next.
+
+   EXAMPLE:
+
+   .. sidebar::  Ophyd convention
+
+       The ``motor`` label is *singular* by ophyd convention,
+       as used in the bluesky ``%wa`` magic.
+
+   First, use the ``labels=["motor"]`` keyword when defining your (ophyd) objects.
+   Here's an example with the ``motor`` label (and others, too) used with various
+   objects::
+
+       from apstools.plans import label_stream_decorator
+       from ophyd import Component, Device, EpicsMotor, EpicsSignal
+
+       class Sample(Device):
+           temperature = Component(EpicsSignal, "t2")  # unlabeled
+           pressure = Component(EpicsSignal, "ao14")  # unlabeled
+           cryo_stream_on = Component(EpicsSignal, "bo27")  # unlabeled
+           x = Component(EpicsMotor, "m14", labels=["motor"])
+           y = Component(EpicsMotor, "m15", labels=["motor"])
+
+       class Instrument(Device):
+           omega = Component(EpicsMotor, "m2", labels=["motor"])
+           chi = Component(EpicsMotor, "m3", labels=["motor"])
+           phi = Component(EpicsMotor, "m4", labels=["motor"])
+           two_theta = Component(EpicsMotor, "m1", labels=["motor"])
+
+           # support table
+           x = Component(EpicsMotor, "m7", labels=["motor"])
+           y = Component(EpicsMotor, "m8", labels=["motor"])
+
+           sample = Component(Sample, "", labels=["sample"])
+
+       diode = EpicsSignal("ioc:counter2", name="diode", labels=["counter"])
+       instrument = Instrument("ioc:", name="instrument")
+       m49 = EpicsMotor("ioc:m49", name="m49", labels=["motor"])
+       scint = EpicsSignal("ioc:counter1", name="scint", labels=["counter"])
+
+   Then define a custom plan with the following (where `when="start"` is the default)::
+
+       @label_stream_decorator("motor")
+       def my_count_plan(dets, md=None):
+           _md = md or {}
+           yield from bp.count(dets, md=_md)
+
+   Call this plan with the bluesky RunEngine::
+
+       RE(my_count_plan([scint, diode]))
+
+   or from another plan::
+
+       yield from my_count_plan([scint, diode])
+
+   Once the run is complete, look for the ``label_start_motor`` stream that has the
+   positions at the start of the run of all devices with the ``"motor"`` label.  Such as::
+
+       run = cat.v2[-1]  # assume the most recent run
+       run.label_start_motor.read()
+
+   Similarly, to write the `motor` objects at the end of the run, use the
+   `when="end"` keyword::
+
+       @label_stream_decorator("motor", when="end")
+       def my_count_plan(dets, md=None):
+           _md = md or {}
+           yield from bp.count(dets, md=_md)
+
+   writes a stream named ``label_end_motor`` at the end of the run.  If you want
+   values record at both *start* and *end*, then use **two** decorators::
+
+       @label_stream_decorator("motor", when="start")
+       @label_stream_decorator("motor", when="end")
+       def my_count_plan(dets, md=None):
+           _md = md or {}
+           yield from bp.count(dets, md=_md)
+
+   .. autosummary::
+
+      ~label_stream_decorator
+      ~label_stream_stub
+      ~label_stream_wrapper
+      ~When
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: When(*args, **kwds)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.labels_to_streams.When``
+
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Describes what point of the run the stream(s) should be written.
+
+
+   .. py:attribute:: END
+      :value: 'end'
+
+
+
+   .. py:attribute:: START
+      :value: 'start'
+
+
+
+.. py:data:: label_stream_decorator
+
+.. py:function:: label_stream_stub(labels=None, fmt=None, bec=None, ns: dict[str, object] = None)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.labels_to_streams.label_stream_stub``
+
+
+   Writes ophyd-labeled objects to open bluesky run streams. One stream per label.
+
+   PARAMETERS
+
+   labels
+       *obj*:
+       List of configured ophyd object "labels".
+       Default: ``None`` (meaning all).
+
+   fmt
+       *str*:
+       Format string for stream name(s).
+       Default: ``"label_{}"``
+
+   bec
+       *obj*:
+       Instance of bluesky BestEffortCallback.
+       Default: selected from default namespace, if available.
+
+   ns
+       *dict*:
+       Namespace dictionary to search for labeled objects.
+       Default: selected from default namespace, if available.
+
+
+.. py:function:: label_stream_wrapper(plan, labels, fmt=None, when='start', ns: dict[str, object] = None)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.labels_to_streams.label_stream_wrapper``
+
+
+   Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".
+
+   PARAMETERS
+
+   plan
+       *obj*:
+       Instance of a bluesky plan.
+   labels
+       *[str]* (or *str*):
+       List of configured ophyd object "labels".
+       Passed through to :meth:`~apstools.plans.label_stream_stub()`.
+       Default: ``None`` (meaning all).
+   fmt
+       *str*:
+       Format string for stream name(s).
+       Default: ``"label_{when}_{}"``
+   when
+       *str*:
+       Indicates when the stream(s) should be written.  Any of these values:
+
+       =============== ==========================
+       value           stream will be written ...
+       =============== ==========================
+       ``"start"``     just after ``open_run``
+       ``"end"``       just before ``close_run``
+       ``When.START``  same as ``"start"``
+       ``When.END``    same as ``"end"``
+       =============== ==========================
+
+       The ``str`` value can be expressed in either upper or lower case.
+
+       Default: ``"start"``
+
+   ns
+       *dict*:
+       Namespace dictionary to search for labeled objects.
+       Default: selected from default namespace, if available.
+
+

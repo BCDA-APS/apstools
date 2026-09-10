@@ -1,0 +1,421 @@
+list_runs
+=========
+
+.. py:module:: apstools.utils.list_runs
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.list_runs``
+
+   Directory of bluesky runs
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~getRunData
+      ~getRunDataValue
+      ~listRunKeys
+      ~ListRuns
+      ~listruns
+      ~summarize_runs
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ListRuns
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.ListRuns``
+
+
+   List the runs from the given catalog according to some options.
+
+   EXAMPLE::
+
+       ListRuns(cat).to_dataframe()
+
+   PUBLIC METHODS
+
+   .. autosummary::
+
+       ~to_dataframe
+       ~to_table
+       ~parse_runs
+
+   INTERNAL METHODS
+
+   .. autosummary::
+
+       ~_get_by_key
+       ~_check_cat
+       ~_apply_search_filters
+       ~_check_keys
+
+
+
+   .. py:attribute:: cat
+      :type:  object
+      :value: None
+
+
+
+   .. py:attribute:: hints_override
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: ids
+      :type:  Any
+      :value: None
+
+
+
+   .. py:attribute:: keys
+      :type:  object
+      :value: None
+
+
+
+   .. py:attribute:: missing
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: num
+      :type:  int
+      :value: 20
+
+
+
+   .. py:method:: parse_runs()
+
+      Parse the runs for the given metadata keys.  Return a dict.
+
+
+
+   .. py:attribute:: query
+      :type:  object
+      :value: None
+
+
+
+   .. py:attribute:: reverse
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: since
+      :type:  object
+      :value: None
+
+
+
+   .. py:attribute:: sortby
+      :type:  str
+      :value: 'time'
+
+
+
+   .. py:attribute:: timefmt
+      :type:  str
+      :value: '%Y-%m-%d %H:%M:%S'
+
+
+
+   .. py:method:: to_dataframe()
+
+      **Deprecated**: Output as pandas DataFrame object
+
+
+
+   .. py:method:: to_table(fmt=None)
+
+      **Deprecated**: Output as pyRestTable object.
+
+
+
+   .. py:attribute:: until
+      :type:  object
+      :value: None
+
+
+
+.. py:function:: getRunData(scan_id, db=None, stream='primary', query=None, use_v1=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.getRunData``
+
+
+   Convenience function to get the run's data.  Default is the ``primary`` stream.
+
+   PARAMETERS
+
+   scan_id
+       *int* or *str* :
+       Scan (run) identifier.
+       Positive integer value is ``scan_id`` from run's metadata.
+       Negative integer value is since most recent run in databroker.
+       String is run's ``uid`` unique identifier (can abbreviate to
+       the first characters needed to assure it is unique).
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``.
+       Default: will search existing session for instance.
+
+   stream
+       *str* :
+       Name of the bluesky data stream to obtain the data.
+       Default: 'primary'
+
+   query
+       *dict* :
+       mongo query dictionary, used to filter the results
+       Default: ``{}``
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   use_v1
+       *bool* :
+       Chooses databroker API version between 'v1' or 'v2'.
+       Default: ``True`` (meaning use the v1 API)
+
+
+.. py:function:: getRunDataValue(scan_id, key, db=None, stream='primary', query=None, idx=-1, use_v1=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.getRunDataValue``
+
+
+   Convenience function to get value of key in run stream.
+
+   Defaults are last value of key in primary stream.
+
+   PARAMETERS
+
+   scan_id
+       *int* or *str* :
+       Scan (run) identifier.
+       Positive integer value is ``scan_id`` from run's metadata.
+       Negative integer value is since most recent run in databroker.
+       String is run's ``uid`` unique identifier (can abbreviate to
+       the first characters needed to assure it is unique).
+
+   key
+       *str* :
+       Name of the key (data column) in the table of the stream's data.
+       Must match *identically*.
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``.
+       Default: will search existing session for instance.
+
+   stream
+       *str* :
+       Name of the bluesky data stream to obtain the data.
+       Default: 'primary'
+
+   query
+       *dict* :
+       mongo query dictionary, used to filter the results
+       Default: ``{}``
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   idx
+       *int* or *str* :
+       List index of value to be returned from column of table.
+       Can be ``0`` for first value, ``-1`` for last value, ``"mean"``
+       for average value, or ``"all"`` for the full list of values.
+       Default: ``-1``
+
+   use_v1
+       *bool* :
+       Chooses databroker API version between 'v1' or 'v2'.
+       Default: ``True`` (meaning use the v1 API)
+
+
+.. py:function:: listRunKeys(scan_id, key_fragment='', db=None, stream='primary', query=None, strict=False, use_v1=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.listRunKeys``
+
+
+   Convenience function to list all keys (column names) in the scan's stream (default: primary).
+
+   PARAMETERS
+
+   scan_id
+       *int* or *str* :
+       Scan (run) identifier.
+       Positive integer value is ``scan_id`` from run's metadata.
+       Negative integer value is since most recent run in databroker.
+       String is run's ``uid`` unique identifier (can abbreviate to
+       the first characters needed to assure it is unique).
+
+   key_fragment
+       *str* :
+       Part or all of key name to be found in selected stream.
+       For instance, if you specify ``key_fragment="lakeshore"``,
+       it will return all the keys that include ``lakeshore``.
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``.
+       Default: will search existing session for instance.
+
+   stream
+       *str* :
+       Name of the bluesky data stream to obtain the data.
+       Default: 'primary'
+
+   query
+       *dict* :
+       mongo query dictionary, used to filter the results
+       Default: ``{}``
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   strict
+       *bool* :
+       Should the ``key_fragment`` be matched identically (``strict=True``)
+       or matched by lower case comparison (``strict=False``)?
+       Default: ``False``
+
+   use_v1
+       *bool* :
+       Chooses databroker API version between 'v1' or 'v2'.
+       Default: ``True`` (meaning use the v1 API)
+
+
+.. py:function:: listruns(cat=None, keys=None, missing='', num=20, printing=None, reverse=True, since=None, sortby='time', tablefmt=None, table_style=TableStyle.pyRestTable, timefmt='%Y-%m-%d %H:%M:%S', until=None, ids=None, hints_override=False, **query)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.listruns``
+
+
+   List runs from catalog.
+
+   This function provides a thin interface to the highly-reconfigurable
+   ``ListRuns()`` class in this package.
+
+   PARAMETERS
+
+   cat
+       *object* :
+       Instance of databroker v1 or v2 catalog.
+   keys
+       *str* or *[str]* or None:
+       Include these additional keys from the start document.
+       (default: ``None`` means ``"scan_id time plan_name detectors"``)
+   missing
+       *str*:
+       Test to report when a value is not available.
+       (default: ``""``)
+   hints_override *bool*:
+       For a key that appears in both the metadata and the hints,
+       override the metadata value if the same key is found in the hints.
+       (default: ``False``)
+   ids
+       *[int]* or *[str]*:
+       List of ``uid`` or ``scan_id`` value(s).
+       Can mix different kinds in the same list.
+       Also can specify offsets (e.g., ``-1``).
+       According to the rules for ``databroker`` catalogs,
+       a string is a ``uid`` (partial representations allowed),
+       an int is ``scan_id`` if positive or an offset if negative.
+       (default: ``None``)
+   num
+       *int* :
+       Make the table include the ``num`` most recent runs.
+       (default: ``20``)
+   printing *bool* or *str* :
+       Deprecated.
+   reverse
+       *bool* :
+       If ``True``, sort in descending order by ``sortby``.
+       (default: ``True``)
+   since
+       *str* :
+       include runs that started on or after this ISO8601 time
+       (default: ``"1995-01-01"``)
+   sortby
+       *str* :
+       Sort columns by this key, found by exact match in either
+       the ``start`` or ``stop`` document.
+       (default: ``"time"``)
+   tablefmt *str* :
+       Deprecated.  Use ``table_style`` instead.
+   table_style *object* :
+       Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
+       using values from :class:`apstools.utils.TableStyle`.
+
+       .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
+   timefmt
+       *str* :
+       The ``time`` key (also includes keys ``"start.time"`` and  ``"stop.time"``)
+       will be formatted by the ``self.timefmt`` value.
+       See https://strftime.org/ for examples.  The special ``timefmt="raw"``
+       is used to report time as the raw value (floating point time as used in
+       python's ``time.time()``).
+       (default: ``"%Y-%m-%d %H:%M:%S",``)
+   until
+       *str* :
+       include runs that started before this ISO8601 time
+       (default: ``2100-12-31``)
+   ``**query``
+       *dict* :
+       Any additional keyword arguments will be passed to
+       the databroker to refine the search for matching runs
+       using the ``mongoquery`` package.
+
+   RETURNS
+
+   object:
+       ``None`` or ``str`` or ``pd.DataFrame()`` object
+
+   .. EXAMPLE
+
+       TODO
+
+
+.. py:function:: summarize_runs(since=None, db=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_runs.summarize_runs``
+
+
+   Report bluesky run metrics from the databroker.
+
+   * How many different plans?
+   * How many runs?
+   * How many times each run was used?
+   * How frequently?  (TODO:)
+
+   PARAMETERS
+
+   since
+       *str* :
+       Report all runs since this ISO8601 date & time
+       (default: ``1995``)
+   db
+       *object* :
+       Instance of ``databroker.Broker()``
+       (default: ``db`` from the IPython shell)
+
+

@@ -1,0 +1,140 @@
+xia_slit
+========
+
+.. py:module:: apstools.devices.xia_slit
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.xia_slit``
+
+   XIA Slit from EPICS synApps optics: xia_slit.db
+   +++++++++++++++++++++++++++++++++++++++++++++++
+
+   Coordinates (viewing from detector towards source)::
+
+           top
+       inb     out
+           bot
+
+   Each blade [#]_ (in the XIA slit controller) travels in a _cylindrical_
+   coordinate system.  Positive motion moves a blade **outwards** from the center
+   with a backlash correction. No backlash correction is applied for negative
+   motion (as the blades close).  Size and center are computed
+   by the underlying EPICS support.
+
+       hsize = inb + out
+       vsize = top + bot
+
+   ..  [#] Note that the blade names here are different than the EPICS support.
+       The difference is to make the names of the blades consistent with other
+       slits with the Bluesky framework.
+
+   USAGE:
+
+       slit = XiaSlitController("IOC:hsc1:", name="slit")
+       print(slit.geometry)
+
+   .. autosummary::
+
+      ~XiaSlit2D
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: XiaSlit2D(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.xia_slit.XiaSlit2D``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps optics xia_slit.db 2D support: inb out bot top ...
+
+
+   .. py:attribute:: bot
+
+
+   .. py:attribute:: calibrate
+
+
+   .. py:attribute:: enable
+
+
+   .. py:attribute:: error_code
+
+
+   .. py:attribute:: error_message
+
+
+   .. py:property:: geometry
+
+      Return the slit 2D size and center as a namedtuple.
+
+
+
+   .. py:attribute:: hID
+
+
+   .. py:attribute:: hbusy
+
+
+   .. py:attribute:: hcenter
+
+
+   .. py:attribute:: horientation
+
+
+   .. py:attribute:: hsize
+
+
+   .. py:attribute:: inb
+
+
+   .. py:attribute:: initialize
+
+
+   .. py:attribute:: locate
+
+
+   .. py:attribute:: message1
+
+
+   .. py:attribute:: message2
+
+
+   .. py:attribute:: message3
+
+
+   .. py:attribute:: out
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: stop_button
+
+
+   .. py:attribute:: top
+
+
+   .. py:attribute:: vID
+
+
+   .. py:attribute:: vbusy
+
+
+   .. py:attribute:: vcenter
+
+
+   .. py:attribute:: vorientation
+
+
+   .. py:attribute:: vsize
+
+

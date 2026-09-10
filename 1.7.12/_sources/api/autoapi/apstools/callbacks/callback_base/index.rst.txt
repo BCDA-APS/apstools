@@ -1,0 +1,178 @@
+callback_base
+=============
+
+.. py:module:: apstools.callbacks.callback_base
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.callbacks.callback_base``
+
+   Base Class for File Writer Callbacks
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~FileWriterCallbackBase
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: FileWriterCallbackBase(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.callbacks.callback_base.FileWriterCallbackBase``
+
+
+   Base class for filewriter callbacks.
+
+   .. index:: Bluesky Callback; FileWriterCallbackBase
+
+   New with apstools release 1.3.0.
+
+   Applications should subclass and rewrite the ``writer()`` method.
+
+   The local buffers are cleared when a start document is received.
+   Content is collected here from each document until the stop document.
+   The content is written once the stop document is received.
+
+
+   User Interface methods
+
+   .. autosummary::
+
+      ~receiver
+
+   Internal methods
+
+   .. autosummary::
+
+      ~clear
+      ~get_hklpy_configurations
+      ~make_file_name
+      ~writer
+
+   Document Handler methods
+
+   .. autosummary::
+
+      ~bulk_events
+      ~datum
+      ~descriptor
+      ~event
+      ~resource
+      ~start
+      ~stop
+
+
+   .. py:method:: bulk_events(doc)
+
+      Deprecated. Use EventPage instead.
+
+
+
+   .. py:method:: clear()
+
+      delete any saved data from the cache and reinitialize
+
+
+
+   .. py:method:: datum(doc)
+
+      Like an event, but for data recorded outside of bluesky.
+
+      Example::
+
+          Datum
+          =====
+          datum_id        : 621caa0f-70f1-4e3d-8718-b5123d434502/0
+          datum_kwargs    :
+          HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
+          point_number    : 0
+          resource        : 621caa0f-70f1-4e3d-8718-b5123d434502
+
+
+
+   .. py:method:: descriptor(doc)
+
+      description of the data stream to be acquired
+
+
+
+   .. py:method:: event(doc)
+
+      a single "row" of data
+
+
+
+   .. py:attribute:: file_extension
+      :value: 'dat'
+
+
+
+   .. py:property:: file_name
+
+
+   .. py:property:: file_path
+
+
+   .. py:method:: get_hklpy_configurations(doc: dict) -> dict
+
+      Diffractometer details (from hklpy) in RE descriptor documents.
+
+
+
+   .. py:method:: make_file_name()
+
+      generate a file name to be used as default
+
+      default format: {ymd}-{hms}-S{scan_id}-{short_uid}.{ext}
+      where the time (the run start time):
+
+      * ymd = {year:4d}{month:02d}{day:02d}
+      * hms = {hour:02d}{minute:02d}{second:02d}
+
+      override in subclass to change
+
+
+
+   .. py:method:: receiver(key, doc)
+
+      bluesky callback (handles a stream of documents)
+
+      .. index:: Bluesky Callback; FileWriterCallbackBase.receiver
+
+
+
+   .. py:method:: resource(doc)
+
+      like a descriptor, but for data recorded outside of bluesky
+
+
+
+   .. py:method:: start(doc)
+
+      beginning of a run, clear cache and collect metadata
+
+
+
+   .. py:method:: stop(doc)
+
+      end of the run, end collection and initiate the ``writer()`` method
+
+
+
+   .. py:method:: writer()
+
+      print summary of run as diagnostic
+
+      override this method in subclass to write a file
+
+
+
+   .. py:attribute:: xref
+
+

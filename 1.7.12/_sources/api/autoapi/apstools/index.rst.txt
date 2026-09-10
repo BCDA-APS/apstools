@@ -1,0 +1,26 @@
+apstools
+========
+
+.. py:module:: apstools
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools``
+
+   Configuration of apstools package.
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/autoapi/apstools/callbacks/index
+   /api/autoapi/apstools/devices/index
+   /api/autoapi/apstools/migration/index
+   /api/autoapi/apstools/plans/index
+   /api/autoapi/apstools/synApps/index
+   /api/autoapi/apstools/utils/index
+
+

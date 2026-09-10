@@ -1,0 +1,291 @@
+acalcout
+========
+
+.. py:module:: apstools.synApps.acalcout
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.acalcout``
+
+   Ophyd support for the EPICS acalcout record
+
+   https://epics-modules.github.io/calc/aCalcoutRecord.html
+
+   Public Structures
+
+   .. autosummary::
+
+       ~UserArrayCalcDevice
+       ~UserArrayCalcN
+       ~AcalcoutRecord
+       ~AcalcoutArrayRecordChannel
+       ~AcalcoutRecordChannel
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: AcalcoutArrayRecordChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.acalcout.AcalcoutArrayRecordChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Array channel of a acalcout record: A-L.
+
+   .. index:: Ophyd Device; synApps AcalcoutArrayRecordChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: read_attrs
+      :value: ['input_value']
+
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: AcalcoutRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.acalcout.AcalcoutRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS base aCalcout record support in ophyd
+
+   .. index:: Ophyd Device; synApps aCalcout
+
+   .. autosummary::
+
+       ~reset
+
+   :see: https://epics-modules.github.io/calc/aCalcoutRecord.html
+
+
+   .. py:attribute:: array_elements_allocated
+
+
+   .. py:attribute:: array_elements_used
+
+
+   .. py:attribute:: array_size_choice
+
+
+   .. py:attribute:: calculated_array
+
+
+   .. py:attribute:: calculated_value
+
+
+   .. py:attribute:: calculation
+
+
+   .. py:attribute:: calculation_valid
+
+
+   .. py:attribute:: channels
+
+
+   .. py:attribute:: event_to_issue
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: invalid_output_action
+
+
+   .. py:attribute:: invalid_output_value
+
+
+   .. py:attribute:: output_array
+
+
+   .. py:attribute:: output_calculation
+
+
+   .. py:attribute:: output_calculation_valid
+
+
+   .. py:attribute:: output_data_option
+
+
+   .. py:attribute:: output_delay_active
+
+
+   .. py:attribute:: output_execute_option
+
+
+   .. py:attribute:: output_execution_delay
+
+
+   .. py:attribute:: output_pv
+
+
+   .. py:attribute:: output_pv_status
+
+
+   .. py:attribute:: output_value
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: read_attrs
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: units
+
+
+   .. py:property:: value
+
+
+.. py:class:: AcalcoutRecordChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.acalcout.AcalcoutRecordChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Float channel of a acalcout record: A-L.
+
+   .. index:: Ophyd Device; synApps AcalcoutRecordChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_pv_valid
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: read_attrs
+      :value: ['input_value']
+
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:data:: CHANNEL_LETTERS_LIST
+
+.. py:class:: UserArrayCalcDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.acalcout.UserArrayCalcDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of user aCalcouts: ``$(P):userArrayCalc$(N)``
+
+   .. index:: Ophyd Device; synApps UserArrayCalcDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: acalcout1
+
+
+   .. py:attribute:: acalcout10
+
+
+   .. py:attribute:: acalcout2
+
+
+   .. py:attribute:: acalcout3
+
+
+   .. py:attribute:: acalcout4
+
+
+   .. py:attribute:: acalcout5
+
+
+   .. py:attribute:: acalcout6
+
+
+   .. py:attribute:: acalcout7
+
+
+   .. py:attribute:: acalcout8
+
+
+   .. py:attribute:: acalcout9
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserArrayCalcN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.acalcout.UserArrayCalcN``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsSynAppsRecordEnableMixin`, :py:obj:`AcalcoutRecord`
+
+
+   Single instance of the userCalcoutN database.
+
+

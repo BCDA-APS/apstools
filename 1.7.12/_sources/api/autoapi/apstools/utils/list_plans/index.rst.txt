@@ -1,0 +1,52 @@
+list_plans
+==========
+
+.. py:module:: apstools.utils.list_plans
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.list_plans``
+
+   Directory of the known plans
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~listplans
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: listplans(base=None, trunc=50, table_style=TableStyle.pyRestTable)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.list_plans.listplans``
+
+
+   List all plans.  (Actually, lists all generator functions).
+
+   NOTE: Can only detect generator functions.
+   Bluesky plans are generator functions that generate
+   ``bluesky.Msg`` objects.  There is a PR to define
+   a decorator that identifies a generator function
+   as a bluesky plan.
+
+   PARAMETERS
+
+   base *object* or *None* :
+       Object that contains plan methods (if ``None``, use global namespace.)
+       (default: ``None``)
+   trunc *int* :
+       Truncate long docstrings to no more than ``trunc`` characters.
+       (default: 50)
+   table_style *object* :
+       Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
+       using values from :class:`apstools.utils.TableStyle`.
+
+       .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
+
+

@@ -1,0 +1,301 @@
+lakeshore_controllers
+=====================
+
+.. py:module:: apstools.devices.lakeshore_controllers
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.lakeshore_controllers``
+
+   Lakeshore temperature controllers
+   +++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~LakeShore336Device
+      ~LakeShore340Device
+
+   .. not yet implemented
+      ~LakeShore330Device
+      ~LakeShore331Device
+      ~LakeShore335Device
+      ~LakeShoreDR93CADevice
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: LS340_LoopBase(*args, loop_number=None, timeout=10 * HOUR, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LS340_LoopBase``
+
+
+   Bases: :py:obj:`apstools.devices.PVPositionerSoftDoneWithStop`
+
+
+   Base settings for both sample and control loops.
+
+
+   .. py:property:: egu
+
+      The engineering units (EGU) for a position
+
+
+
+   .. py:attribute:: loop_number
+      :value: None
+
+
+
+   .. py:method:: pause()
+
+      Change setpoint to current position.
+
+
+
+   .. py:attribute:: pid_D
+
+
+   .. py:attribute:: pid_I
+
+
+   .. py:attribute:: pid_P
+
+
+   .. py:attribute:: ramp_on
+
+
+   .. py:attribute:: ramp_rate
+
+
+   .. py:attribute:: setpoint
+
+
+   .. py:property:: settle_time
+
+      Amount of time to wait after moves to report status completion
+
+
+
+   .. py:attribute:: units
+
+
+.. py:class:: LS340_LoopControl(*args, loop_number=None, timeout=10 * HOUR, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LS340_LoopControl``
+
+
+   Bases: :py:obj:`LS340_LoopBase`
+
+
+   Control specific
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: sensor
+
+
+.. py:class:: LS340_LoopSample(*args, loop_number=None, timeout=10 * HOUR, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LS340_LoopSample``
+
+
+   Bases: :py:obj:`LS340_LoopBase`
+
+
+   Sample specific
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: sensor
+
+
+.. py:class:: LakeShore336Device(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LakeShore336Device``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   LakeShore 336 temperature controller.
+
+   - loop 1: temperature positioner AND heater, PID, & ramp controls
+   - loop 2: temperature positioner AND heater, PID, & ramp controls
+   - loop 3: temperature positioner
+   - loop 4: temperature positioner
+
+
+   .. py:attribute:: loop1
+
+
+   .. py:attribute:: loop2
+
+
+   .. py:attribute:: loop3
+
+
+   .. py:attribute:: loop4
+
+
+   .. py:attribute:: process_record
+
+
+   .. py:attribute:: read_all
+
+
+   .. py:attribute:: scanning_rate
+
+
+   .. py:attribute:: serial
+
+
+.. py:class:: LakeShore336_LoopControl(*args, loop_number=None, timeout=10 * HOUR, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LakeShore336_LoopControl``
+
+
+   Bases: :py:obj:`apstools.devices.PVPositionerSoftDoneWithStop`
+
+
+   LakeShore 336 temperature controller -- with heater control.
+
+   The LakeShore 336 accepts up to two heaters.
+
+
+   .. py:attribute:: control
+
+
+   .. py:attribute:: heater
+
+
+   .. py:attribute:: heater_range
+
+
+   .. py:attribute:: loop_name
+
+
+   .. py:attribute:: loop_number
+      :value: None
+
+
+
+   .. py:attribute:: manual
+
+
+   .. py:attribute:: mode
+
+
+   .. py:method:: pause()
+
+      Change setpoint to current position.
+
+
+
+   .. py:attribute:: pid_D
+
+
+   .. py:attribute:: pid_I
+
+
+   .. py:attribute:: pid_P
+
+
+   .. py:attribute:: ramp_on
+
+
+   .. py:attribute:: ramp_rate
+
+
+   .. py:attribute:: setpoint
+
+
+   .. py:property:: settle_time
+
+      Amount of time to wait after moves to report status completion
+
+
+
+   .. py:attribute:: units
+
+
+.. py:class:: LakeShore336_LoopRO(*args, loop_number=None, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LakeShore336_LoopRO``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   LakeShore 336 temperature controller -- Read-only loop (no heaters).
+
+
+   .. py:attribute:: loop_name
+
+
+   .. py:attribute:: loop_number
+      :value: None
+
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: units
+
+
+.. py:class:: LakeShore340Device(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.lakeshore_controllers.LakeShore340Device``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   LakeShore 340 temperature controller
+
+
+   .. py:attribute:: control
+
+
+   .. py:attribute:: heater
+
+
+   .. py:attribute:: heater_range
+
+
+   .. py:attribute:: process_record
+
+
+   .. py:attribute:: read_pid
+
+
+   .. py:attribute:: sample
+
+
+   .. py:attribute:: scanning_rate
+
+
+   .. py:attribute:: serial
+
+

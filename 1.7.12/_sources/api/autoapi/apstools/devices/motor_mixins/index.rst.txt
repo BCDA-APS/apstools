@@ -1,0 +1,260 @@
+motor_mixins
+============
+
+.. py:module:: apstools.devices.motor_mixins
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.motor_mixins``
+
+   Mixin classes for Motor Devices
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~EpicsMotorDialMixin
+      ~EpicsMotorEnableMixin
+      ~EpicsMotorRawMixin
+      ~EpicsMotorResolutionMixin
+      ~EpicsMotorServoMixin
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: EpicsMotorDialMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorDialMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   add motor record's dial coordinate fields to Device
+
+   .. index:: Ophyd Device Mixin; EpicsMotorDialMixin
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsMotorDialMixin
+
+       class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
+       m1 = myEpicsMotor('xxx:m1', name='m1')
+       print(m1.dial.read())
+
+
+
+   .. py:attribute:: dial
+
+
+.. py:class:: EpicsMotorEnableMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorEnableMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   mixin providing access to motor enable/disable
+
+   .. index:: Ophyd Device Mixin; EpicsMotorEnableMixin
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsMotorEnableMixin
+
+       class MyEpicsMotor(EpicsMotorEnableMixin, EpicsMotor): ...
+
+       m1 = MyEpicsMotor('xxx:m1', name='m1')
+       print(m1.enabled)
+
+   In a bluesky plan::
+
+       yield from bps.mv(m1.enable_disable, m1.MOTOR_DISABLE)
+       # ... other activities
+       yield from bps.mv(m1.enable_disable, m1.MOTOR_ENABLE)
+
+
+
+   .. py:attribute:: MOTOR_DISABLE
+      :value: 1
+
+
+
+   .. py:attribute:: MOTOR_ENABLE
+      :value: 0
+
+
+
+   .. py:method:: disable_motor()
+
+      BLOCKING call to disable motor axis
+
+
+
+   .. py:attribute:: enable_disable
+
+
+   .. py:method:: enable_motor()
+
+      BLOCKING call to enable motor axis
+
+
+
+   .. py:property:: enabled
+
+
+.. py:class:: EpicsMotorLimitsMixin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorLimitsMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   **Deprecated** Add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+
+   .. caution:: Deprecated.  Now part of 'ophyd.EpicsMotor' class.
+      Will be removed in a future release of apstools.
+
+   ..
+       index:: Ophyd Device Mixin; EpicsMotorLimitsMixin
+
+
+   .. py:method:: get_lim(flag)
+
+      Returns the user limit of motor
+
+      * flag > 0: returns high limit
+      * flag < 0: returns low limit
+      * flag == 0: returns None
+
+      Similar with SPEC command
+
+
+
+   .. py:method:: set_lim(low, high)
+
+      Sets the low and high limits of motor
+
+      * No action taken if motor is moving.
+      * Low limit is set to lesser of (low, high)
+      * High limit is set to greater of (low, high)
+
+      Similar with SPEC command
+
+
+
+   .. py:attribute:: soft_limit_hi
+
+
+   .. py:attribute:: soft_limit_lo
+
+
+.. py:class:: EpicsMotorRawMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorRawMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   add motor record's raw coordinate fields to Device
+
+   .. index:: Ophyd Device Mixin; EpicsMotorRawMixin
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsMotorRawMixin
+
+       class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass
+       m1 = myEpicsMotor('xxx:m1', name='m1')
+       print(m1.raw.read())
+
+
+   .. py:attribute:: raw
+
+
+.. py:class:: EpicsMotorResolutionMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorResolutionMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   Add motor record's resolution fields to motor.
+
+   .. index:: Ophyd Device Mixin; EpicsMotorResolutionMixin
+
+   Usually, a facility will not provide such high-level
+   access to calibration parameters since these are
+   associated with fixed parameters of hardware.
+   For simulators, it is convenient to provide access
+   so that default settings (typically low-resolution)
+   from the IOC can be changed as part of the device
+   setup in bluesky.
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsMotorResolutionMixin
+
+       class myEpicsMotor(EpicsMotorResolutionMixin, EpicsMotor): pass
+       m1 = myEpicsMotor('xxx:m1', name='m1')
+       print(f"resolution={m1.resolution.read()}")
+       print(f"steps_per_rev={m1.steps_per_rev.read()}")
+       print(f"units_per_rev={m1.units_per_rev.read()}")
+
+
+   .. py:attribute:: resolution
+
+
+   .. py:attribute:: steps_per_rev
+
+
+   .. py:attribute:: units_per_rev
+
+
+.. py:class:: EpicsMotorServoMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_mixins.EpicsMotorServoMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   add motor record's servo loop controls to Device
+
+   .. index:: Ophyd Device Mixin; EpicsMotorServoMixin
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsMotorServoMixin
+
+       class myEpicsMotor(EpicsMotorServoMixin, EpicsMotor): pass
+       m1 = myEpicsMotor('xxx:m1', name='m1')
+       print(m1.servo.read())
+
+
+   .. py:attribute:: servo
+
+

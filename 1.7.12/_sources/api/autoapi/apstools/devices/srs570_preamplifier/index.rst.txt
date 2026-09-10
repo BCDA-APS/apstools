@@ -1,0 +1,189 @@
+srs570_preamplifier
+===================
+
+.. py:module:: apstools.devices.srs570_preamplifier
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.srs570_preamplifier``
+
+   Ophyd support for Stanford Research Systems 570 preamplifier from synApps
+
+   Public Structures
+
+   .. autosummary::
+
+       ~SRS570_PreAmplifier
+
+   This device connects with the SRS570 support from synApps.
+   (https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db)
+
+   The SRS570 synApps support is part of the ``ip`` module:
+   https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/ip/R3-6-1/documentation/swaitRecord.html
+
+   :see: https://github.com/epics-modules/ip
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: GainSignal(read_pv, write_pv=None, *, put_complete=False, string=False, limits=False, name=None, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.srs570_preamplifier.GainSignal``
+
+
+   Bases: :py:obj:`ophyd.EpicsSignal`
+
+
+   A signal where the settling time depends on the pre-amp gain.
+
+   Used to introduce a specific settle time when setting to account
+   for the amp's RC relaxation time when changing gain.
+
+
+   .. py:method:: set(value, *, timeout=DEFAULT_WRITE_TIMEOUT, settle_time='auto')
+
+      Set the value of the Signal and return a Status object.
+
+      If put completion is used for this EpicsSignal, the status object
+      will complete once EPICS reports the put has completed.
+
+      Otherwise the readback will be polled until equal to the set point
+      (as in ``Signal.set``)
+
+      Parameters
+      ----------
+
+      value : any
+          The gain value.
+
+      timeout : float, optional
+          Maximum time to wait.
+
+      settle_time: float, optional
+          Delay after ``set()`` has completed to indicate completion
+          to the caller. If ``"auto"`` (default), a reasonable settle
+          time will be chosen based on the gain mode of the pre-amp.
+
+      Returns
+      -------
+      st : Status
+
+      .. seealso::
+          * Signal.set
+          * EpicsSignal.set
+
+
+
+
+.. py:class:: SRS570_PreAmplifier(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.srs570_preamplifier.SRS570_PreAmplifier``
+
+
+   Bases: :py:obj:`apstools.devices.preamp_base.PreamplifierBaseDevice`
+
+
+   Ophyd support for Stanford Research Systems 570 preamplifier from synApps.
+
+
+   .. py:attribute:: bias_on
+
+
+   .. py:attribute:: bias_value
+
+
+   .. py:attribute:: blank
+
+
+   .. py:method:: cb_gain(*args, **kwargs)
+
+      Called when sensitivity changes (EPICS CA monitor event).
+
+
+
+   .. py:property:: computed_gain
+
+      Amplifier gain (A/V), as floating-point number.
+
+
+
+   .. py:attribute:: filter_highpass
+
+
+   .. py:attribute:: filter_lowpass
+
+
+   .. py:attribute:: filter_type
+
+
+   .. py:attribute:: gain_mode
+
+
+   .. py:attribute:: invert
+
+
+   .. py:attribute:: offset_cal
+
+
+   .. py:attribute:: offset_fine
+
+
+   .. py:attribute:: offset_on
+
+
+   .. py:attribute:: offset_sign
+
+
+   .. py:attribute:: offset_unit
+
+
+   .. py:attribute:: offset_value
+
+
+   .. py:attribute:: sensitivity_unit
+
+
+   .. py:attribute:: sensitivity_value
+
+
+   .. py:attribute:: set_all
+
+
+.. py:function:: calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.srs570_preamplifier.calculate_settle_time``
+
+
+   Determine the best settle time for a given combination of parameters.
+
+   Parameters can be strings of indexes.
+
+
+
+.. py:data:: gain_modes
+   :value: ['LOW NOISE', 'HIGH BW']
+
+
+.. py:data:: gain_units
+   :value: ['pA/V', 'nA/V', 'uA/V', 'mA/V']
+
+
+.. py:data:: gain_values
+   :value: ['1', '2', '5', '10', '20', '50', '100', '200', '500']
+
+
+.. py:data:: settling_times
+

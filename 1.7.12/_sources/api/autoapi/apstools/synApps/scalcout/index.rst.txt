@@ -1,0 +1,266 @@
+scalcout
+========
+
+.. py:module:: apstools.synApps.scalcout
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.scalcout``
+
+   Ophyd support for the EPICS scalcout record
+
+   http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
+
+   Public Structures
+
+   .. autosummary::
+
+       ~UserScalcoutDevice
+       ~UserScalcoutN
+       ~ScalcoutRecord
+       ~ScalcoutRecordNumberChannel
+       ~ScalcoutRecordStringChannel
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: CHANNEL_LETTERS_LIST
+
+.. py:class:: ScalcoutRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.scalcout.ScalcoutRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS SynApps calc scalcout record support in ophyd
+
+   .. index:: Ophyd Device; synAppsScalcoutRecord
+
+   .. autosummary::
+
+       ~reset
+
+   :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
+
+
+   .. py:attribute:: calculated_value
+
+
+   .. py:attribute:: calculated_value_string
+
+
+   .. py:attribute:: calculation
+
+
+   .. py:attribute:: calculation_valid
+
+
+   .. py:attribute:: channels
+
+
+   .. py:attribute:: event_to_issue
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: invalid_output_action
+
+
+   .. py:attribute:: invalid_output_value
+
+
+   .. py:attribute:: output_calculation
+
+
+   .. py:attribute:: output_calculation_valid
+
+
+   .. py:attribute:: output_data_option
+
+
+   .. py:attribute:: output_delay_active
+
+
+   .. py:attribute:: output_execute_option
+
+
+   .. py:attribute:: output_execution_delay
+
+
+   .. py:attribute:: output_pv
+
+
+   .. py:attribute:: output_pv_status
+
+
+   .. py:attribute:: output_value
+
+
+   .. py:attribute:: output_value_string
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: read_attrs
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: units
+
+
+   .. py:property:: value
+
+
+   .. py:attribute:: wait_for_completion
+
+
+.. py:class:: ScalcoutRecordNumberChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.scalcout.ScalcoutRecordNumberChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Number channel of an scalcout record: A-L
+
+   .. index:: Ophyd Device; synApps ScalcoutRecordNumberChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: ScalcoutRecordStringChannel(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.scalcout.ScalcoutRecordStringChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   String channel of an scalcout record: AA-LL
+
+   .. index:: Ophyd Device; synApps ScalcoutRecordStringChannel
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserScalcoutDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.scalcout.UserScalcoutDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of user scalcouts: ``$(P):userStringCalc$(N)``
+
+   .. index:: Ophyd Device; synApps UserScalcoutDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: scalcout1
+
+
+   .. py:attribute:: scalcout10
+
+
+   .. py:attribute:: scalcout2
+
+
+   .. py:attribute:: scalcout3
+
+
+   .. py:attribute:: scalcout4
+
+
+   .. py:attribute:: scalcout5
+
+
+   .. py:attribute:: scalcout6
+
+
+   .. py:attribute:: scalcout7
+
+
+   .. py:attribute:: scalcout8
+
+
+   .. py:attribute:: scalcout9
+
+
+.. py:class:: UserScalcoutN(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.scalcout.UserScalcoutN``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsSynAppsRecordEnableMixin`, :py:obj:`ScalcoutRecord`
+
+
+   Single instance of the userStringCalcN database.
+
+

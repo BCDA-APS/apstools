@@ -1,0 +1,46 @@
+dict_device_support
+===================
+
+.. py:module:: apstools.devices.dict_device_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.dict_device_support``
+
+   DictionaryDevice
+   +++++++++++++++++++++++++++++++++++++++
+
+   Create an ophyd Device defined by a dictionary so
+   that a simple dictionary can be recorded in a bluesky data stream.
+
+   .. autosummary::
+
+       ~dict_device_factory
+       ~make_dict_device
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: dict_device_factory(data={})
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.dict_device_support.dict_device_factory``
+
+
+   Create a DictionaryDevice class using the supplied dictionary.
+
+
+.. py:function:: make_dict_device(obj, name='ddev')
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.dict_device_support.make_dict_device``
+
+
+   Make recordable DictionaryDevice instance from dictionary.
+
+

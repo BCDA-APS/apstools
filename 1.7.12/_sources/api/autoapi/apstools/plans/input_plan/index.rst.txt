@@ -1,0 +1,54 @@
+input_plan
+==========
+
+.. py:module:: apstools.plans.input_plan
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans.input_plan``
+
+   Request user input in a plan
+   ++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~request_input
+
+   Wrap ``bps.input_plan()`` to *ask* the user a question.
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: request_input(msg='', default='n', agree='y', bypass=False)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.input_plan.request_input``
+
+
+   Request input from the user.  Returns ``True`` if confirmed.
+
+   Return whether (lower case) the response from user (or default) starts with the text
+   of ``agree`` or ``bypass is True``.
+
+   PARAMETERS
+
+   msg str:
+       Message text to be printed.
+       (default: ``""``)
+   default str:
+       Default response if user accepts default.
+       (default: ``"n"``)
+   agree (str or list):
+       User (or default) response must start with this text for ``True``. If a
+       list of strings is provided, response must match (lower case) one of the
+       strings in the list.
+       (default: ``"y"``)
+   bypass bool:
+       Allow for automated plans to bypass this request in-place.
+       (default: ``False``)
+
+

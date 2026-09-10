@@ -1,0 +1,280 @@
+catalog
+=======
+
+.. py:module:: apstools.utils.catalog
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.catalog``
+
+   Working with databroker catalogs
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~copy_filtered_catalog
+      ~findCatalogsInNamespace
+      ~getCatalog
+      ~getDatabase
+      ~getDefaultCatalog
+      ~getDefaultDatabase
+      ~getStreamValues
+      ~quantify_md_key_use
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: copy_filtered_catalog(source_cat, target_cat, query=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.copy_filtered_catalog``
+
+
+   copy filtered runs from source_cat to target_cat
+
+   PARAMETERS
+
+   source_cat
+       *obj* :
+       instance of `databroker.Broker` or `databroker.catalog[name]`
+   target_cat
+       *obj* :
+       instance of `databroker.Broker` or `databroker.catalog[name]`
+   query
+       *dict* :
+       mongo query dictionary, used to filter the results
+       (default: ``{}``)
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   example::
+
+       copy_filtered_catalog(
+           databroker.Broker.named("mongodb_config"),
+           databroker.catalog["test1"],
+           {'plan_name': 'snapshot'})
+
+
+.. py:function:: findCatalogsInNamespace()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.findCatalogsInNamespace``
+
+
+   Return a dictionary of databroker catalogs in the default namespace.
+
+
+.. py:function:: getCatalog(ref=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.getCatalog``
+
+
+   Return a catalog object.
+
+
+.. py:function:: getDatabase(db=None, catalog_name=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.getDatabase``
+
+
+   Return Bluesky database using keyword guides or default choice.
+
+   PARAMETERS
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``
+       (default: see ``catalog_name`` keyword argument)
+
+   catalog_name
+       *str* :
+       Name of databroker v2 catalog, used when supplied
+       ``db`` is ``None``.
+       (default: catalog with most recent run timestamp)
+
+   RETURNS
+
+   object or ``None``:
+       Bluesky database, an instance of ``databroker.catalog``
+
+
+.. py:function:: getDefaultCatalog()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.getDefaultCatalog``
+
+
+   Return the default databroker catalog.
+
+
+.. py:function:: getDefaultDatabase()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.getDefaultDatabase``
+
+
+   Find the "default" database (has the most recent run).
+
+   Note that here, *database* and *catalog* mean the same.
+
+   This routine looks at all the database instances defined in the
+   current session (console or notebook).  If there is only one or no
+   database instances defined as objects in the current session, the
+   choice is simple.  When there is more than one database instance in
+   the current session, then the one with the most recent run timestamp
+   is selected.  In the case (as happens when starting with a new
+   database) that the current database has **no** runs *and* another
+   database instance is defined in the session *and* that additional
+   database has runs in it (such as the previous database), then the
+   database with the newest run timestamp (and not the newer empty
+   database) will be chosen.
+
+   RETURNS
+
+   object or ``None``:
+       Bluesky database, an instance of ``databroker.catalog``
+
+
+.. py:function:: getStreamValues(scan_id, key_fragment='', db=None, stream='baseline', query=None, use_v1=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.getStreamValues``
+
+
+   Get values from a previous scan stream in a databroker catalog.
+
+   Optionally, select only those data with names including ``key_fragment``.
+
+   .. tip::
+
+       If the output is truncated, use
+       ``pd.set_option('display.max_rows', 300)``
+       to increase the number of rows displayed.
+
+   PARAMETERS
+
+   scan_id
+       *int* or *str* :
+       Scan (run) identifier.
+       Positive integer value is ``scan_id`` from run's metadata.
+       Negative integer value is since most recent run in databroker.
+       String is run's ``uid`` unique identifier (can abbreviate to
+       the first characters needed to assure it is unique).
+
+   key_fragment
+       *str* :
+       Part or all of key name to be found in selected stream.
+       For instance, if you specify ``key_fragment="lakeshore"``,
+       it will return all the keys that include ``lakeshore``.
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``.
+       Default: will search existing session for instance.
+
+   stream
+       *str* :
+       Name of the bluesky data stream to obtain the data.
+       Default: 'baseline'
+
+   query
+       *dict* :
+       mongo query dictionary, used to filter the results
+       Default: ``{}``
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   use_v1
+       *bool* :
+       Chooses databroker API version between 'v1' or 'v2'.
+       Default: ``True`` (meaning use the v1 API)
+
+   RETURNS
+
+   *object* :
+       pandas DataFrame with values from selected stream, search_string, and query
+
+       see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
+
+
+.. py:function:: quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=None, query=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.catalog.quantify_md_key_use``
+
+
+   Print table of different ``key`` values and how many times each appears.
+
+   PARAMETERS
+
+   key *str* :
+       one of the metadata keys in a run's start document
+       (default: ``plan_name``)
+   db *object* :
+       Instance of databroker v1 ``Broker`` or v2 ``catalog``
+       (default: see ``catalog_name`` keyword argument)
+   catalog_name *str* :
+       Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
+       (default: ``mongodb_config``)
+   since *str* :
+       include runs that started on or after this ISO8601 time
+       (default: ``1995-01-01``)
+   until *str* :
+       include runs that started before this ISO8601 time
+       (default: ``2100-12-31``)
+   query *dict* :
+       mongo query dictionary, used to filter the results
+       (default: ``{}``)
+
+       see: https://docs.mongodb.com/manual/reference/operator/query/
+
+   EXAMPLES::
+
+       quantify_md_key_use(key="proposal_id")
+       quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")
+       quantify_md_key_use(key="beamline_id", catalog_name="9idc")
+       quantify_md_key_use(key="beamline_id",
+                           catalog_name="9idc",
+                           query={'plan_name': 'Flyscan'},
+                           since="2020",
+                           until="2020-06-21 21:51")
+       quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
+
+       In [8]: quantify_md_key_use(catalog_name="apstools_test")
+       ========= =====
+       plan_name #runs
+       ========= =====
+       count     26
+       scan      27
+       ========= =====
+
+       In [9]: quantify_md_key_use(catalog_name="usaxs_test")
+       ========================== =====
+       plan_name                  #runs
+       ========================== =====
+       Flyscan                    1
+       TuneAxis.tune              1
+       count                      1
+       measure_USAXS_Transmission 1
+       run_Excel_file             1
+       snapshot                   1
+       tune_a2rp                  1
+       tune_ar                    1
+       tune_m2rp                  1
+       tune_mr                    1
+       ========================== =====
+
+
