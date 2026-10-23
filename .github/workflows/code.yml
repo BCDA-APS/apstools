@@ -68,7 +68,7 @@ jobs:
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
             python=${{ matrix.python-version }}
-            pyepics
+            epicscorelibs
             aps-dm-api
 
       - name: Install project code and developer dependencies
