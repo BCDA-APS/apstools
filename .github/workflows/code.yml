@@ -68,13 +68,13 @@ jobs:
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
             python=${{ matrix.python-version }}
-            pyepics
+            epicscorelibs
             aps-dm-api
 
       - name: Install project code and developer dependencies
         run: |
           set -vxeuo pipefail
-          pip install -e .[dev]
+          pip install -e .[dev,async]
 
       - name: Start EPICS IOCs in Docker
         run: |
