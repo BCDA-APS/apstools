@@ -48,3 +48,6 @@ _version.py
 
 # bs_model_instrument
 .re_md_dict.yml
+# pixi environments
+.pixi/*
+!.pixi/config.toml
