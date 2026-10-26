@@ -40,3 +40,19 @@ GitHub repository listed above.  Install from the source directory using
     conda create -n "${ENV_NAME}" python pyepics apsu::aps-dm-api
     conda activate "${ENV_NAME}"
     pip install -e .[all]
+
+Pixi
+----
+
+apstools includes support for the `pixi package manager
+<https://pixi.prefix.dev/latest/#installation>`_.
+
+If you have a recent version of Pixi installed, you can execute the
+tests from inside the main repository folder:
+
+.. code-block:: bash
+    :linenos:
+
+    git clone http://github.com/BCDA-APS/apstools
+    cd apstools
+    pixi run --environment all pytest
