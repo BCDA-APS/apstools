@@ -51,7 +51,7 @@ dependencies = [
   "Deprecated",
   "entrypoints",
   "h5py",
-  "intake<=1",
+  "intake>=0.6.2,<0.7.0",
   "ipython",
   "matplotlib",
   "mongoquery>=1.3.6",
@@ -241,7 +241,7 @@ apstools = { path = ".", editable = true }
 default = { solve-group = "default" }
 all = { features = ["all"], solve-group = "default" }
 async = { features = ["async"], solve-group = "default" }
-dev = { features = ["dev"], solve-group = "default" }
+dev = { features = ["dev", "async"], solve-group = "default" }
 doc = { features = ["doc"], solve-group = "default" }
 
 [tool.pixi.tasks]
