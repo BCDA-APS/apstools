@@ -28,6 +28,11 @@ describe future plans.
 
    Add async devices.
 
+   Fixes
+   -----
+
+   * Sanitize signal names written to NeXus. (:issue:`1194`)
+
 1.7.12
 ******
 
