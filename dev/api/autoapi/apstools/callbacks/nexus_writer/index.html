@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../../../_static/documentation_options.js?v=3791e07c"></script>
+    <script src="../../../../../_static/documentation_options.js?v=1b979611"></script>
     <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -723,7 +723,7 @@ other background tasks.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.nexus_writer.NXWriter.assign_signal_type" title="apstools.callbacks.nexus_writer.NXWriter.assign_signal_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_signal_type</span></code></a>()</p></td>
 <td><p>decide if a signal in the primary stream is a detector or a positioner</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.nexus_writer.NXWriter.create_NX_group" title="apstools.callbacks.nexus_writer.NXWriter.create_NX_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_NX_group</span></code></a>(parent, specification)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.nexus_writer.NXWriter.create_NX_group" title="apstools.callbacks.nexus_writer.NXWriter.create_NX_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_NX_group</span></code></a>(parent, specification[, ...])</p></td>
 <td><p>create an h5 group with named NeXus class (specification)</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.nexus_writer.NXWriter.get_sample_title" title="apstools.callbacks.nexus_writer.NXWriter.get_sample_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_sample_title</span></code></a>()</p></td>
@@ -802,7 +802,7 @@ Update in release 1.6.11 to wait for area detector HDF5 files.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="apstools.callbacks.nexus_writer.NXWriter.create_NX_group">
-<span class="sig-name descname"><span class="pre">create_NX_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specification</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/callbacks/nexus_writer.html#NXWriter.create_NX_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.nexus_writer.NXWriter.create_NX_group" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">create_NX_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/callbacks/nexus_writer.html#NXWriter.create_NX_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.nexus_writer.NXWriter.create_NX_group" title="Link to this definition">#</a></dt>
 <dd><p>create an h5 group with named NeXus class (specification)</p>
 </dd></dl>
 
@@ -845,6 +845,12 @@ Update in release 1.6.11 to wait for area detector HDF5 files.</p>
 <dt class="sig sig-object py" id="apstools.callbacks.nexus_writer.NXWriter.instrument_name">
 <span class="sig-name descname"><span class="pre">instrument_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#apstools.callbacks.nexus_writer.NXWriter.instrument_name" title="Link to this definition">#</a></dt>
 <dd><p>Name of this instrument.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.nexus_writer.NXWriter.nexus_name">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">nexus_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/callbacks/nexus_writer.html#NXWriter.nexus_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.nexus_writer.NXWriter.nexus_name" title="Link to this definition">#</a></dt>
+<dd><p>Make an ophyd name safe for use as a NeXus item name.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1132,6 +1138,7 @@ readable or a timeout period has expired.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.get_stream_link"><code class="docutils literal notranslate"><span class="pre">NXWriter.get_stream_link()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.h5string"><code class="docutils literal notranslate"><span class="pre">NXWriter.h5string()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.instrument_name"><code class="docutils literal notranslate"><span class="pre">NXWriter.instrument_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.nexus_name"><code class="docutils literal notranslate"><span class="pre">NXWriter.nexus_name()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.nexus_release"><code class="docutils literal notranslate"><span class="pre">NXWriter.nexus_release</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.nxdata_signal"><code class="docutils literal notranslate"><span class="pre">NXWriter.nxdata_signal</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.nexus_writer.NXWriter.nxdata_signal_axes"><code class="docutils literal notranslate"><span class="pre">NXWriter.nxdata_signal_axes</span></code></a></li>

@@ -143,7 +143,7 @@ Module Contents
 
 
 
-   .. py:method:: create_NX_group(parent, specification)
+   .. py:method:: create_NX_group(parent, specification, long_name=None)
 
       create an h5 group with named NeXus class (specification)
 
@@ -197,6 +197,14 @@ Module Contents
 
 
       Name of this instrument.
+
+
+
+   .. py:method:: nexus_name(name)
+      :staticmethod:
+
+
+      Make an ophyd name safe for use as a NeXus item name.
 
 
 
