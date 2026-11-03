@@ -27,6 +27,7 @@ NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written
 logger = logging.getLogger(__name__)
 
 
+@versionchanged(version="1.7.13", reason="sanitize signal names for NeXus")
 @versionchanged(version="1.7.13", reason="handle empty primary streams")
 @versionchanged(version="1.6.11", reason="wait for area detector HDF5 files")
 @versionadded(version="1.3.0")
@@ -208,7 +209,7 @@ class NXWriter(FileWriterCallbackBase):
                 if self.warn_on_missing_content:
                     logger.warning("Could not assign %s as signal type %s", k, signal_type)
 
-    def create_NX_group(self, parent, specification):
+    def create_NX_group(self, parent, specification, long_name=None):
         """
         create an h5 group with named NeXus class (specification)
         """
@@ -223,6 +224,8 @@ class NXWriter(FileWriterCallbackBase):
         group = parent.create_group(local_address)
         group.attrs["NX_class"] = nx_class
         group.attrs["target"] = group.name  # for use as NeXus link
+        if long_name is not None:
+            group.attrs["long_name"] = self.h5string(long_name)
         return group
 
     def getResourceFile(self, resource_id):
@@ -260,7 +263,8 @@ class NXWriter(FileWriterCallbackBase):
         """
         stream = stream or "baseline"
         ref = ref or "value_start"
-        h5_addr = f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
+        nx_name = self.nexus_name(signal)
+        h5_addr = f"/entry/instrument/bluesky/streams/{stream}/{nx_name}/{ref}"
         if h5_addr not in self.root:
             raise KeyError(f"HDF5 address {h5_addr} not found.")
         # return the h5 object, to make a link
@@ -272,6 +276,13 @@ class NXWriter(FileWriterCallbackBase):
             return [self.h5string(str(t)) for t in text]
         text = text or ""
         return text.encode("utf8")
+
+    @staticmethod
+    def nexus_name(name):
+        """Make an ophyd name safe for use as a NeXus item name."""
+        from ..utils import safe_ophyd_name
+
+        return safe_ophyd_name(name)
 
     def resolve_class_path(self, class_path):
         """
@@ -360,7 +371,7 @@ class NXWriter(FileWriterCallbackBase):
         primary = parent["instrument/bluesky/streams/primary"]
         primary_keys = list(primary.keys())
         for k in primary_keys:
-            nxdata[k] = primary[k + "/value"]
+            nxdata[self.nexus_name(k)] = primary[k + "/value"]
 
         # pick the timestamps from one of the datasets (the last one)
         if primary_keys:
@@ -370,13 +381,17 @@ class NXWriter(FileWriterCallbackBase):
         if signal_attribute is None:
             detectors = self.data_map.get("detectors", [])
             if len(detectors) > 0:
-                signal_attribute = detectors[0]  # default choice
+                signal_attribute = self.nexus_name(detectors[0])  # default choice
         axes_attribute = self.nxdata_signal_axes
         if axes_attribute is None:
             positioners = self.data_map.get("motors", [])
             if len(positioners) > 0:
                 # TODO: what if wrong shape here?
                 axes_attribute = positioners
+        if signal_attribute is not None:
+            signal_attribute = self.nexus_name(signal_attribute)
+        if axes_attribute is not None:
+            axes_attribute = [self.nexus_name(axis) for axis in axes_attribute]
 
         # TODO: rabbit-hole alert!  simplify
         # this code is convoluted (like the selection logic)
@@ -415,7 +430,7 @@ class NXWriter(FileWriterCallbackBase):
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "detector":
                 continue
-            nxdetector = self.create_NX_group(group, f"{k}:NXdetector")
+            nxdetector = self.create_NX_group(group, f"{self.nexus_name(k)}:NXdetector", long_name=k)
             nxdetector["data"] = v
 
         return group
@@ -583,7 +598,7 @@ class NXWriter(FileWriterCallbackBase):
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "positioner":
                 continue
-            nxpositioner = self.create_NX_group(group, f"{k}:NXpositioner")
+            nxpositioner = self.create_NX_group(group, f"{self.nexus_name(k)}:NXpositioner", long_name=k)
             nxpositioner["value"] = v
 
         return group
@@ -704,6 +719,7 @@ class NXWriter(FileWriterCallbackBase):
                 ds.attrs["source_file"] = str(fname)
                 ds.attrs["source_address"] = h5_obj.name
                 ds.attrs["resource_id"] = resource_id
+                ds.attrs["long_name"] = self.h5string(k)
                 ds.attrs["units"] = ""
 
         fname = self.getResourceFile(resource_id)
@@ -788,7 +804,7 @@ class NXWriter(FileWriterCallbackBase):
             for k, v in acquisition["data"].items():
                 d = v["data"]
                 # NXlog is for time series data but NXdata makes an automatic plot
-                subgroup = self.create_NX_group(group, k + ":NXdata")
+                subgroup = self.create_NX_group(group, self.nexus_name(k) + ":NXdata", long_name=k)
 
                 if v["external"]:
                     self.write_stream_external(parent, d, subgroup, stream_name, k, v)

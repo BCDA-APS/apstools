@@ -40,6 +40,11 @@ describe future plans.
 
    * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
 
+   Fixes
+   -----
+
+   * Sanitize signal names written to NeXus. (:issue:`1194`)
+
 1.7.12
 ******
 

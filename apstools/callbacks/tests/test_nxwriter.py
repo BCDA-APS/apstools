@@ -152,6 +152,27 @@ def test_NXWriter_with_RunEngine(camera, motor):
         assert frames.shape == (npoints, 1024, 1024)
 
 
+def test_NXWriter_sanitizes_signal_names(tmp_path):
+    nxwriter = NXWriter()
+    with h5py.File(tmp_path / "nxwriter.h5", "w") as root:
+        streams = root.create_group("instrument/bluesky/streams")
+        primary = streams.create_group("primary")
+        signal = primary.create_group("Ion Chamber 4")
+        value = signal.create_dataset("value", data=[1, 2])
+        value.attrs["long_name"] = "Ion Chamber 4"
+        signal.create_dataset("time", data=[1.0, 2.0])
+
+        nxdata = nxwriter.write_data(root)
+
+        assert "Ion_Chamber_4" in nxdata
+        assert "Ion Chamber 4" not in nxdata
+        assert nxdata["Ion_Chamber_4"].name == "/data/Ion_Chamber_4"
+        assert nxdata["EPOCH"].name == "/data/EPOCH"
+
+        signal_group = nxwriter.create_NX_group(root, "Ion_Chamber_4:NXdata", long_name="Ion Chamber 4")
+        assert signal_group.attrs["long_name"] == "Ion Chamber 4"
+
+
 def test_NXWriter_empty_primary_stream(tmp_path):
     nxwriter = NXWriter()
     with h5py.File(tmp_path / "nxwriter.h5", "w") as root:
