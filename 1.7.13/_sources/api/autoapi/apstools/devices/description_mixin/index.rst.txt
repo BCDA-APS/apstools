@@ -1,0 +1,76 @@
+description_mixin
+=================
+
+.. py:module:: apstools.devices.description_mixin
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.description_mixin``
+
+   Mixin to add EPICS .DESC field
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~EpicsDescriptionMixin
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: EpicsDescriptionMixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.description_mixin.EpicsDescriptionMixin``
+
+
+   Bases: :py:obj:`apstools.devices.mixin_base.DeviceMixinBase`
+
+
+   add a record's description field to a Device, such as EpicsMotor
+
+   .. index:: Ophyd Device Mixin; EpicsDescriptionMixin
+
+   EXAMPLE::
+
+       from ophyd import EpicsMotor
+       from apstools.devices import EpicsDescriptionMixin
+
+       class MyEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
+
+       m1 = MyEpicsMotor('xxx:m1', name='m1')
+       print(m1.desc.get())
+
+   more ideas::
+
+       class TunableSynAxis(AxisTunerMixin, SynAxis):
+           '''synthetic axis that can be tuned'''
+
+       class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+           '''EpicsMotor that can be tuned'''
+
+       class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
+           '''EpicsMotor with description field'''
+
+       class EpicsMotorWithMore(
+           EpicsDescriptionMixin,
+           EpicsMotorDialMixin,
+           EpicsMotorRawMixin,
+           EpicsMotor
+       ):
+           '''
+           EpicsMotor with more fields
+
+           * description (``desc``)
+           * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
+           * dial coordinates (``dial``)
+           * raw coordinates (``raw``)
+           '''
+
+
+   .. py:attribute:: desc
+
+

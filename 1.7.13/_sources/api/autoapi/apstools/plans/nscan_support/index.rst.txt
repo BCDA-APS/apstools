@@ -1,0 +1,59 @@
+nscan_support
+=============
+
+.. py:module:: apstools.plans.nscan_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.plans.nscan_support``
+
+   nscan plan
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~nscan
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: nscan(detectors, *motor_sets, num=11, per_step=None, md=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.plans.nscan_support.nscan``
+
+
+   Scan over ``n`` variables moved together, each in equally spaced steps.
+
+   .. index:: Bluesky Plan; nscan
+
+   PARAMETERS
+
+   detectors *list* :
+       list of 'readable' objects
+   motor_sets *list* :
+       sequence of one or more groups of: motor, start, finish
+   motor *object* :
+       any 'settable' object (motor, temp controller, etc.)
+   start *float* :
+       starting position of motor
+   finish *float* :
+       ending position of motor
+   num *int* :
+       number of steps (default = 11)
+   per_step *callable* :
+       (optional)
+       hook for customizing action of inner loop (messages per step)
+       Expected signature: ``f(detectors, step_cache, pos_cache)``
+   md *dict*
+       (optional)
+       metadata
+
+   See the ``nscan()`` example in a Jupyter notebook:
+   https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_nscan.ipynb
+
+

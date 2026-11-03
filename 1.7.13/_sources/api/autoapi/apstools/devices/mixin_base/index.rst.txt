@@ -1,0 +1,37 @@
+mixin_base
+==========
+
+.. py:module:: apstools.devices.mixin_base
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.mixin_base``
+
+   Base class for Device Mixins
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~DeviceMixinBase
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: DeviceMixinBase(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.mixin_base.DeviceMixinBase``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Base class for apstools Device mixin classes
+
+   .. index:: Ophyd Device Mixin; DeviceMixinBase
+
+

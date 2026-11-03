@@ -1,0 +1,232 @@
+ptc10_controller
+================
+
+.. py:module:: apstools.devices.ptc10_controller
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.ptc10_controller``
+
+   PTC10 Programmable Temperature Controller
+   +++++++++++++++++++++++++++++++++++++++++
+
+   The PTC10 is a programmable temperature controller from SRS (Stanford Research
+   Systems).  The PTC10 is a modular system consisting of a base unit and provision
+   for addition of add-on boards.
+
+   A single, complete ``ophyd.Device`` subclass will not describe all variations
+   that could be installed. But the add-on boards each allow standardization. Each
+   installation must build a custom class that matches their hardware
+   configuration.  The APS USAXS instrument has created a `custom class
+   <https://github.com/APS-USAXS/ipython-usaxs/blob/master/profile_bluesky/startup/instrument/devices/ptc10_controller.py#L59-L159>`_
+   based on the `ophyd.PVPositioner` to use their `PTC10` as a temperature
+   *positioner*.
+
+   .. autosummary::
+
+      ~PTC10AioChannel
+      ~PTC10RtdChannel
+      ~PTC10TcChannel
+      ~PTC10PositionerMixin
+
+   :see: https://www.thinksrs.com/products/ptc10.html
+
+   EXAMPLE::
+
+       from ophyd import PVPositioner
+
+       class MyPTC10(PTC10PositionerMixin, PVPositioner):
+           readback = Component(EpicsSignalRO, "2A:temperature", kind="hinted")
+           setpoint = Component(EpicsSignalWithRBV, "5A:setPoint", kind="hinted")
+
+           rtd = Component(PTC10RtdChannel, "3A:")
+           pid = Component(PTC10AioChannel, "5A:")
+
+       ptc10 = MyPTC10("IOC_PREFIX:ptc10:", name="ptc10")
+       ptc10.report_dmov_changes.put(True)  # a diagnostic
+       ptc10.tolerance.put(1.0)  # done when |readback-setpoint|<=tolerance
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: PTC10AioChannel(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.ptc10_controller.PTC10AioChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   SRS PTC10 AIO module
+
+
+   .. py:attribute:: D
+
+
+   .. py:attribute:: I
+
+
+   .. py:attribute:: P
+
+
+   .. py:attribute:: highlimit
+
+
+   .. py:attribute:: inputchoice
+
+
+   .. py:attribute:: iotype
+
+
+   .. py:attribute:: lowlimit
+
+
+   .. py:attribute:: offswitch
+
+
+   .. py:attribute:: pidmode
+
+
+   .. py:attribute:: ramprate
+
+
+   .. py:attribute:: ramptemp
+
+
+   .. py:attribute:: setpoint
+
+
+   .. py:attribute:: tunelag
+
+
+   .. py:attribute:: tunemode
+
+
+   .. py:attribute:: tunestep
+
+
+   .. py:attribute:: tunetype
+
+
+   .. py:attribute:: voltage
+
+
+.. py:class:: PTC10PositionerMixin(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.ptc10_controller.PTC10PositionerMixin``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Mixin so SRS PTC10 can be used as a (temperature) positioner.
+
+   .. autosummary::
+
+      ~cb_readback
+      ~cb_setpoint
+      ~inposition
+      ~stop
+
+
+   .. py:method:: cb_readback(*args, **kwargs)
+
+      Called when readback changes (EPICS CA monitor event).
+
+
+
+   .. py:method:: cb_setpoint(*args, **kwargs)
+
+      Called when setpoint changes (EPICS CA monitor event).
+
+      When the setpoint is changed, force ``done=False``.  For any move,
+      ``done`` MUST change to ``!= done_value``, then change back to
+      ``done_value (True)``.  Without this response, a small move
+      (within tolerance) will not return.  Next update of readback
+      will compute ``self.done``.
+
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: done_value
+      :value: True
+
+
+
+   .. py:property:: inposition
+
+      Report (boolean) if positioner is done.
+
+
+
+   .. py:attribute:: output_enable
+
+
+   .. py:attribute:: report_dmov_changes
+
+
+   .. py:method:: stop(*, success=False)
+
+      Hold the current readback when the stop() method is called and not done.
+
+
+
+   .. py:attribute:: tolerance
+
+
+.. py:class:: PTC10RtdChannel(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.ptc10_controller.PTC10RtdChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   SRS PTC10 RTD module channel
+
+
+   .. py:attribute:: channelrange
+
+
+   .. py:attribute:: current
+
+
+   .. py:attribute:: power
+
+
+   .. py:attribute:: sensor
+
+
+   .. py:attribute:: temperature
+
+
+   .. py:attribute:: units
+
+
+.. py:class:: PTC10TcChannel(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.ptc10_controller.PTC10TcChannel``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   SRS PTC10 Tc (thermocouple) module channel
+
+
+   .. py:attribute:: temperature
+
+

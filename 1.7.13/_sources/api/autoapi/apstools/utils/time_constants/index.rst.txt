@@ -1,0 +1,61 @@
+time_constants
+==============
+
+.. py:module:: apstools.utils.time_constants
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.time_constants``
+
+   TIME CONSTANTS
+   ==============
+
+   Define symbols used by other modules to define time (seconds).
+
+   .. autosummary::
+
+       ~DAY
+       ~HOUR
+       ~MINUTE
+       ~SECOND
+       ~WEEK
+       ~ts2iso
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: DAY
+   :value: 86400
+
+
+.. py:data:: HOUR
+   :value: 3600
+
+
+.. py:data:: MINUTE
+   :value: 60
+
+
+.. py:data:: SECOND
+   :value: 1
+
+
+.. py:data:: WEEK
+   :value: 604800
+
+
+.. py:function:: ts2iso(ts: float, sep: str = ' ') -> str
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.time_constants.ts2iso``
+
+
+   Convert Python timestamp (float) to IS8601 time in current time zone.
+
+

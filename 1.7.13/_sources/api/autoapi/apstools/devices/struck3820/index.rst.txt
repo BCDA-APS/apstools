@@ -1,0 +1,130 @@
+struck3820
+==========
+
+.. py:module:: apstools.devices.struck3820
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.struck3820``
+
+   Struck 3820
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~Struck3820
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: Struck3820(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.struck3820.Struck3820``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)
+
+   .. index:: Ophyd Device; Struck3820
+
+
+   .. py:attribute:: acquire_mode
+
+
+   .. py:attribute:: acquiring
+
+
+   .. py:attribute:: channel1_source
+
+
+   .. py:attribute:: channel_advance
+
+
+   .. py:attribute:: channel_max
+
+
+   .. py:attribute:: channels_used
+
+
+   .. py:attribute:: clock_frequency
+
+
+   .. py:attribute:: count_on_start
+
+
+   .. py:attribute:: current_channel
+
+
+   .. py:attribute:: do_read_all
+
+
+   .. py:attribute:: dwell_time
+
+
+   .. py:attribute:: elapsed_real_time
+
+
+   .. py:attribute:: erase_all
+
+
+   .. py:attribute:: erase_start
+
+
+   .. py:attribute:: firmware
+
+
+   .. py:attribute:: input_mode
+
+
+   .. py:attribute:: mca1
+
+
+   .. py:attribute:: mca2
+
+
+   .. py:attribute:: mca3
+
+
+   .. py:attribute:: mca4
+
+
+   .. py:attribute:: model
+
+
+   .. py:attribute:: mux_output
+
+
+   .. py:attribute:: output_mode
+
+
+   .. py:attribute:: output_polarity
+
+
+   .. py:attribute:: prescale
+
+
+   .. py:attribute:: preset_real_time
+
+
+   .. py:attribute:: read_rate
+
+
+   .. py:attribute:: software_channel_advance
+
+
+   .. py:attribute:: start_all
+
+
+   .. py:attribute:: stop_all
+
+
+   .. py:attribute:: user_led
+
+

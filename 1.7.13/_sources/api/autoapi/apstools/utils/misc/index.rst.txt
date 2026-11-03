@@ -1,0 +1,553 @@
+misc
+====
+
+.. py:module:: apstools.utils.misc
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.misc``
+
+   Miscellaneous Support
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~call_signature_decorator
+      ~cleanupText
+      ~connect_pvlist
+      ~count_child_devices_and_signals
+      ~count_common_subdirs
+      ~dictionary_table
+      ~dynamic_import
+      ~full_dotted_name
+      ~host_on_aps_subnet
+      ~itemizer
+      ~listobjects
+      ~pairwise
+      ~print_RE_md
+      ~redefine_motor_position
+      ~render
+      ~replay
+      ~run_in_thread
+      ~safe_ophyd_name
+      ~split_quoted_line
+      ~text_encode
+      ~to_unicode_or_bust
+      ~trim_string_for_EPICS
+      ~unix
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: call_signature_decorator(f)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.call_signature_decorator``
+
+
+   Get the names of all function parameters supplied by the caller.
+
+   This is used to differentiate user-supplied parameters from as-defined
+   parameters with the same value.
+
+   HOW TO USE THIS DECORATOR:
+
+   Decorate a function or method with this decorator *and* add an additional
+   `_call_args=None` kwarg to the function. The function can test `_call_args`
+   if a specific kwarg was supplied by the caller.
+
+   EXAMPLE::
+
+       @call_signature_decorator
+       def func1(a, b=1, c=True, _call_args=None):
+           if 'c' in _call_args:  # Caller supplied this kwarg?
+               pass
+
+   .. note::  With ``call_signature_decorator``, it is not possible to get the names
+       of the positional arguments.  Since positional parameters are not specified by
+       name, such capability is not expected to become a requirement.
+
+   :see: https://stackoverflow.com/questions/14749328#58166804
+       (how-to-check-whether-optional-function-parameter-is-set)
+
+
+.. py:function:: cleanupText(text, replace=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.cleanupText``
+
+
+   Convert text so it can be used as a dictionary key.
+
+   Given some input text string, return a clean version
+   remove troublesome characters, perhaps other cleanup as well.
+   This is best done with regular expression pattern matching.
+
+
+.. py:function:: connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.connect_pvlist``
+
+
+   Given list of EPICS PV names, return dict of EpicsSignal objects.
+
+   PARAMETERS
+
+   pvlist
+       *[str]* :
+       list of EPICS PV names
+   wait
+       *bool* :
+       should wait for EpicsSignal objects to connect
+       (default: ``True``)
+   timeout
+       *float* :
+       maximum time to wait for PV connections, seconds
+       (default: 2.0)
+   poll_interval
+       *float* :
+       time to sleep between checks for PV connections, seconds
+       (default: 0.1)
+
+
+.. py:function:: count_child_devices_and_signals(device)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.count_child_devices_and_signals``
+
+
+   Dict with number of children of this device.  Keys: Device and Signal.
+
+
+.. py:function:: count_common_subdirs(p1, p2)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.count_common_subdirs``
+
+
+   Count how many subdirectories are common to both file paths.
+
+
+.. py:function:: dictionary_table(dictionary, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.dictionary_table``
+
+
+   Return a text table from ``dictionary``.
+
+   Dictionary keys in first column, values in second.
+
+   PARAMETERS
+
+   dictionary
+       *dict* :
+       Python dictionary
+
+   Note:  Keyword arguments parameters
+   are kept for compatibility with previous
+   versions of apstools.  They are ignored now.
+
+   RETURNS
+
+   table
+       *object* or ``None`` :
+       ``pyRestTable.Table()`` object (multiline text table)
+       or ``None`` if dictionary has no contents
+
+   EXAMPLE::
+
+       In [8]: RE.md
+       Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
+
+       In [9]: print(dictionary_table(RE.md))
+       =========== =============================================================================
+       key         value
+       =========== =============================================================================
+       beamline_id developer
+       login_id    jemian:wow.aps.anl.gov
+       pid         19072
+       proposal_id None
+       scan_id     10
+       version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
+       =========== =============================================================================
+
+
+
+.. py:function:: dynamic_import(full_path: str) -> type
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.dynamic_import``
+
+
+   Import the object given its import path as text.
+
+   Motivated by specification of class names for plugins
+   when using ``apstools.devices.ad_creator()``.
+
+   EXAMPLES::
+
+       obj = dynamic_import("ophyd.EpicsMotor")
+       m1 = obj("gp:m1", name="m1")
+
+       IocStats = dynamic_import("instrument.devices.ioc_stats.IocInfoDevice")
+       gp_stats = IocStats("gp:", name="gp_stats")
+
+
+.. py:function:: full_dotted_name(obj)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.full_dotted_name``
+
+
+   Return the full dotted name
+
+   The ``.dotted_name`` property does not include the
+   name of the root object.  This routine adds that.
+
+   see: https://github.com/bluesky/ophyd/pull/797
+
+
+.. py:function:: host_on_aps_subnet()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.host_on_aps_subnet``
+
+
+   Detect if this host is on an APS subnet.
+
+
+.. py:function:: itemizer(fmt, items)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.itemizer``
+
+
+   Format a list of items.
+
+
+.. py:function:: listobjects(show_pv=True, printing=None, verbose=False, symbols=None, child_devices=False, child_signals=False, table_style=TableStyle.pyRestTable)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.listobjects``
+
+
+   Show all the ophyd Signal and Device objects defined as globals.
+
+   PARAMETERS
+
+   show_pv
+       *bool* :
+       If True, also show relevant EPICS PV, if available.
+       (default: True)
+   printing *bool* :
+       Deprecated.
+   verbose
+       *bool* :
+       If True, also show ``str(obj``.
+       (default: False)
+   symbols
+       *dict* :
+       If None, use global symbol table.
+       If not None, use provided dictionary.
+       (default: ``globals()``)
+   child_devices
+       *bool* :
+       If True, also show how many Devices are children of this device.
+       (default: False)
+   child_signals
+       *bool* :
+       If True, also show how many Signals are children of this device.
+       (default: False)
+   table_style *object* :
+       Either ``apstools.utils.TableStyle.pandas`` (default) or
+       using values from :class:`apstools.utils.TableStyle`.
+
+       .. note:: ``pandas.DataFrame`` wll truncate long text
+          to at most 50 characters.
+
+   RETURNS
+
+   object:
+       Instance of ``pyRestTable.Table()``
+
+   EXAMPLE::
+
+       In [1]: listobjects()
+       ======== ================================ =============
+       name     ophyd structure                  EPICS PV
+       ======== ================================ =============
+       adsimdet MySingleTriggerSimDetector       vm7SIM1:
+       m1       EpicsMotor                       vm7:m1
+       m2       EpicsMotor                       vm7:m2
+       m3       EpicsMotor                       vm7:m3
+       m4       EpicsMotor                       vm7:m4
+       m5       EpicsMotor                       vm7:m5
+       m6       EpicsMotor                       vm7:m6
+       m7       EpicsMotor                       vm7:m7
+       m8       EpicsMotor                       vm7:m8
+       noisy    EpicsSignalRO                    vm7:userCalc1
+       scaler   ScalerCH                         vm7:scaler1
+       shutter  SimulatedApsPssShutterWithStatus
+       ======== ================================ =============
+
+       Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
+
+       In [2]:
+
+
+.. py:function:: pairwise(iterable)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.pairwise``
+
+
+   break a list (or other iterable) into pairs
+
+   ::
+
+       s -> (s0, s1), (s2, s3), (s4, s5), ...
+
+       In [71]: for item in pairwise("a b c d e fg".split()):
+           ...:     print(item)
+           ...:
+       ('a', 'b')
+       ('c', 'd')
+       ('e', 'fg')
+
+
+
+.. py:function:: print_RE_md(dictionary=None, fmt='simple', printing=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.print_RE_md``
+
+
+   custom print the RunEngine metadata in a table
+
+   PARAMETERS
+
+   dictionary
+       *dict* :
+       Python dictionary
+
+   EXAMPLE::
+
+       In [4]: print_RE_md()
+       RunEngine metadata dictionary:
+       ======================== ===================================
+       key                      value
+       ======================== ===================================
+       EPICS_CA_MAX_ARRAY_BYTES 1280000
+       EPICS_HOST_ARCH          linux-x86_64
+       beamline_id              APS USAXS 9-ID-C
+       login_id                 usaxs:usaxscontrol.xray.aps.anl.gov
+       pid                      67933
+       proposal_id              testing Bluesky installation
+       scan_id                  0
+       versions                 ======== =====
+                                key      value
+                                ======== =====
+                                apstools 1.1.3
+                                bluesky  1.5.2
+                                epics    3.3.1
+                                ophyd    1.3.3
+                                ======== =====
+       ======================== ===================================
+
+
+
+.. py:function:: redefine_motor_position(motor, new_position)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.redefine_motor_position``
+
+
+   Set EPICS motor record's user coordinate to ``new_position``.
+
+
+.. py:function:: render(value, sig_figs=12) -> str
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.render``
+
+
+   Round-off floating-point numbers to sig_figs.
+
+   Such as:
+
+   * 0.369340000000000063 becomes 0.36934
+   * -3.1300000000000003 becomes -3.13
+   * -0 becomes 0
+   * 0.0 becomes 0
+
+
+.. py:function:: replay(headers, callback=None, sort=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.replay``
+
+
+   Replay the document stream from one (or more) scans (headers).
+
+   PARAMETERS
+
+   headers
+       *run* or *[run]* :
+       Run(s) to be replayed through callback. A *run* is an instance of a
+       Bluesky ``databroker.core.BlueskyRun`` (or the older
+       ``databroker.Header``).
+       see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
+
+   callback
+       *run* or *[run]* :
+       The Bluesky callback to handle the stream of documents from a run. If
+       ``None``, then use the `bec` (BestEffortCallback) from the IPython
+       shell.
+       (default:``None``)
+
+   sort
+       *bool* :
+       Sort the headers chronologically if True.
+       (default:``True``)
+
+
+.. py:function:: run_in_thread(func)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.run_in_thread``
+
+
+   (decorator) run ``func`` in thread
+
+   USAGE::
+
+      @run_in_thread
+      def progress_reporting():
+          logger.debug("progress_reporting is starting")
+          # ...
+
+      #...
+      progress_reporting()   # runs in separate thread
+      #...
+
+
+
+.. py:function:: safe_ophyd_name(text)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.safe_ophyd_name``
+
+
+   make text safe to be used as an ophyd object name
+
+   Given some input text string, return a clean version.
+   Remove troublesome characters, perhaps other cleanup as well.
+   This is best done with regular expression pattern matching.
+
+   The "sanitized" name fits this regular expression::
+
+       [A-Za-z_][\w_]*
+
+   Also can be used for safe HDF5 and NeXus names.
+
+
+.. py:function:: split_quoted_line(line)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.split_quoted_line``
+
+
+   splits a line into words some of which might be quoted
+
+   TESTS::
+
+       FlyScan 0   0   0   blank
+       FlyScan 5   2   0   "empty container"
+       FlyScan 5   12   0   "even longer name"
+       SAXS 0 0 0 blank
+       SAXS 0 0 0 "blank"
+
+   RESULTS::
+
+       ['FlyScan', '0', '0', '0', 'blank']
+       ['FlyScan', '5', '2', '0', 'empty container']
+       ['FlyScan', '5', '12', '0', 'even longer name']
+       ['SAXS', '0', '0', '0', 'blank']
+       ['SAXS', '0', '0', '0', 'blank']
+
+
+
+.. py:function:: text_encode(source)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.text_encode``
+
+
+   Encode ``source`` using the default codepoint.
+
+
+.. py:function:: to_unicode_or_bust(obj, encoding='utf-8')
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.to_unicode_or_bust``
+
+
+   from: http://farmdev.com/talks/unicode/  .
+
+
+.. py:function:: trim_string_for_EPICS(msg)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.trim_string_for_EPICS``
+
+
+   String must not exceed EPICS PV length.
+
+
+.. py:function:: unix(command, raises=True)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.misc.unix``
+
+
+   Run a UNIX command, returns (stdout, stderr).
+
+   PARAMETERS
+
+   command
+       *str* :
+       UNIX command to be executed
+   raises
+       *bool* :
+       If ``True``, will raise exceptions as needed,
+       default: ``True``
+
+

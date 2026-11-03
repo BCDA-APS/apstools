@@ -1,0 +1,200 @@
+linkam_controllers
+==================
+
+.. py:module:: apstools.devices.linkam_controllers
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.linkam_controllers``
+
+   Linkam temperature controllers
+   ++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~Linkam_CI94_Device
+      ~Linkam_T96_Device
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: Linkam_CI94_Device(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.linkam_controllers.Linkam_CI94_Device``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Linkam model CI94 temperature controller
+
+   EXAMPLE::
+
+       ci94 = Linkam_CI94_Device("IOC:ci94:", name="ci94")
+
+
+   .. py:attribute:: controller_name
+      :value: 'Linkam CI94'
+
+
+
+   .. py:attribute:: dsc_in
+
+
+   .. py:attribute:: end_after_profile
+
+
+   .. py:attribute:: end_on_stop
+
+
+   .. py:attribute:: error_byte
+
+
+   .. py:attribute:: gen_stat
+
+
+   .. py:attribute:: hold_control
+
+
+   .. py:attribute:: pump_mode
+
+
+   .. py:attribute:: pump_speed
+
+
+   .. py:attribute:: pump_speed_in
+
+
+   .. py:attribute:: rate
+
+
+   .. py:attribute:: speed
+
+
+   .. py:attribute:: start_control
+
+
+   .. py:attribute:: status
+
+
+   .. py:attribute:: status_in
+
+
+   .. py:attribute:: stop_control
+
+
+   .. py:attribute:: temperature
+
+
+   .. py:attribute:: temperature_in
+
+
+   .. py:attribute:: units
+
+
+.. py:class:: Linkam_T96_Device(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.linkam_controllers.Linkam_T96_Device``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Linkam model T96 temperature controller
+
+   EXAMPLE::
+
+       tc1 = Linkam_T96("IOC:tc1:", name="tc1")
+
+
+   .. py:attribute:: controller_config
+
+
+   .. py:attribute:: controller_error
+
+
+   .. py:attribute:: controller_name
+      :value: 'Linkam T96'
+
+
+
+   .. py:attribute:: controller_status
+
+
+   .. py:attribute:: heater_power
+
+
+   .. py:attribute:: lnp_mode
+
+
+   .. py:attribute:: lnp_speed
+
+
+   .. py:attribute:: lnp_status
+
+
+   .. py:attribute:: pressure
+
+
+   .. py:attribute:: ramp_at_limit
+
+
+   .. py:attribute:: ramprate
+
+
+   .. py:attribute:: stage_config
+
+
+   .. py:attribute:: status_error
+
+
+   .. py:attribute:: temperature
+
+
+   .. py:attribute:: units
+
+
+   .. py:attribute:: vacuum
+
+
+   .. py:attribute:: vacuum_at_limit
+
+
+   .. py:attribute:: vacuum_limit_readback
+
+
+   .. py:attribute:: vacuum_status
+
+
+.. py:class:: T96Temperature(prefix='', *, readback_pv='', setpoint_pv='', tolerance=None, use_target=False, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.linkam_controllers.T96Temperature``
+
+
+   Bases: :py:obj:`apstools.devices.PVPositionerSoftDoneWithStop`
+
+
+   PVPositionerSoftDone with stop() and inposition.
+
+   The :meth:`stop()` method sets the setpoint to the immediate readback
+   value (only when ``inposition`` is ``True``).  This stops the
+   positioner at the current position.
+
+
+   .. py:attribute:: actuate
+
+
+   .. py:attribute:: actuate_value
+      :value: 'On'
+
+
+

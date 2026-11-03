@@ -1,0 +1,336 @@
+multi_transfocators
+===================
+
+.. py:module:: apstools.devices.multi_transfocators
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.multi_transfocators``
+
+   Multi-system Transfocators (a.k.a, CRLs, compact refracting lenses)
+
+   Beamline optics involving 1 or more transfocators.
+
+   EPICS support uses PyDevice for focal size calculation and lens configuration control
+
+   Available classes:
+       TransfocatorSystem
+           Base class for all transfocator setups
+       Transfocator1x
+           Single CRL, no z-motion of system
+       Transfocator1xZ
+           Single CRL with z-motion of system
+       Transfocator2x
+           Base class for double CRL system, no z-motion on either system
+       Transfocator2xZ_
+           Double CRL, z-motion on upstream transfocator
+       Transfocator2x_Z
+           Double CRL, z-motion on downstream transfocator
+       Transfocator2xZZ
+           Double CRL, z-motion on on both transfocators
+
+       Parameters
+       ==========
+       prefix:
+         EPICS prefix required to communicate with transfocator IOC, ex: "100idPyCRL:CRL:"
+       crls:
+           list of crl labels (strings)
+       samples:
+           list of sample station labels (strings)
+       pitch1_motor:
+         The motor record PV controlling the real pitch motor on CRL1, ex "100id:m4"
+       yaw1_motor:
+         The motor record PV controlling the real yaw motor on CRL1, ex "100id:m5"
+       x1_motor:
+         The motor record PV controlling the real lateral motor on CRL1, ex: "100id:m1"
+       y1_motor:
+         The motor record PV controlling the real vertical motor on CRL1, ex: "100id:m2"
+
+
+       Optional
+       ========
+       For CRL with translation (transfocator1xZ) there's one more motor:
+
+       z1_motor:
+         The motor record PV controlling the real translation motor on CRL1, ex: "100id:m3"
+
+       For two CRL system  (transfocator2x) there's 4 more motors:
+
+       pitch2_motor:
+         The motor record PV controlling the real pitch motor on CRL1, ex "100id:m29"
+       yaw2_motor:
+         The motor record PV controlling the real yaw motor on CRL1, ex "100id:m30"
+       x2_motor:
+         The motor record PV controlling the real lateral motor on CRL1, ex: "100id:m26"
+       y2_motor:
+         The motor record PV controlling the real vertical motor on CRL1, ex: "100id:m27"
+
+       For two CRL system with Translation (transfocator2xZZ), there's yet another motor:
+
+       z2_motor:
+         The motor record PV controlling the real translation motor on CRL2, ex: "100id:m28"
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: FPowerIndex(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.FPowerIndex``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   focal power index "positioner"; increasing index, increasing focal power
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+.. py:class:: FocalSize(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.FocalSize``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   focal size positioner
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+.. py:class:: Transfocator1x(prefix: str, crls: list[str], pitch1_motor: str, yaw1_motor: str, x1_motor: str, y1_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator1x``
+
+
+   Bases: :py:obj:`TransfocatorSystem`
+
+
+   Base class for single CRL system
+
+
+   .. py:attribute:: binary_crl1_config
+
+
+   .. py:attribute:: binary_crl1_set
+
+
+   .. py:attribute:: bw_crl1_config
+
+
+   .. py:attribute:: crl1_z_pos
+
+
+   .. py:attribute:: crls
+
+
+   .. py:attribute:: interLensDelay1
+
+
+   .. py:attribute:: pitch1
+
+
+   .. py:attribute:: rbv_crl1_config
+
+
+   .. py:attribute:: x1
+
+
+   .. py:attribute:: y1
+
+
+   .. py:attribute:: yaw1
+
+
+.. py:class:: Transfocator1xZ(prefix: str, z1_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator1xZ``
+
+
+   Bases: :py:obj:`Transfocator1x`
+
+
+   Single CRL system with z-motion
+
+
+   .. py:attribute:: z1
+
+
+.. py:class:: Transfocator2x(prefix: str, crls: list[str], pitch2_motor: str, yaw2_motor: str, x2_motor: str, y2_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator2x``
+
+
+   Bases: :py:obj:`Transfocator1x`
+
+
+   Base class for 2 CRL system
+
+
+   .. py:attribute:: binary_crl2_config
+
+
+   .. py:attribute:: binary_crl2_set
+
+
+   .. py:attribute:: bw_crl2_config
+
+
+   .. py:attribute:: crl2_z_pos
+
+
+   .. py:attribute:: crls
+
+
+   .. py:attribute:: interLensDelay2
+
+
+   .. py:attribute:: pitch2
+
+
+   .. py:attribute:: rbv_crl2_config
+
+
+   .. py:attribute:: x2
+
+
+   .. py:attribute:: y2
+
+
+   .. py:attribute:: yaw2
+
+
+.. py:class:: Transfocator2xZZ(prefix: str, z2_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator2xZZ``
+
+
+   Bases: :py:obj:`Transfocator2xZ_`
+
+
+   2 CRL system, each CRL has z-motion
+
+
+   .. py:attribute:: z2
+
+
+.. py:class:: Transfocator2xZ_(prefix: str, z1_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator2xZ_``
+
+
+   Bases: :py:obj:`Transfocator2x`
+
+
+   2 CRL system, upstream CRL has z-motion
+
+
+   .. py:attribute:: z1
+
+
+.. py:class:: Transfocator2x_Z(prefix: str, z2_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.Transfocator2x_Z``
+
+
+   Bases: :py:obj:`Transfocator2x`
+
+
+   2 CRL system, only downstream CRL has z-motion
+
+
+   .. py:attribute:: z2
+
+
+.. py:class:: TransfocatorSystem(prefix: str, crls: list[str], pitch1_motor: str, yaw1_motor: str, x1_motor: str, y1_motor: str, z1_motor: str = None, pitch2_motor: str = None, yaw2_motor: str = None, x2_motor: str = None, y2_motor: str = None, z2_motor: str = None, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.multi_transfocators.TransfocatorSystem``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Base class for CRL system
+
+
+   .. py:attribute:: beamMode
+
+
+   .. py:attribute:: dq
+
+
+   .. py:attribute:: energyMode
+
+
+   .. py:attribute:: energy_keV_local
+
+
+   .. py:attribute:: energy_keV_lookup
+
+
+   .. py:attribute:: energy_keV_mono
+
+
+   .. py:attribute:: focalPower
+
+
+   .. py:attribute:: focalSize
+
+
+   .. py:attribute:: q
+
+
+   .. py:attribute:: sam_position_offset_readback
+
+
+   .. py:attribute:: sam_position_readback
+
+
+   .. py:attribute:: sample
+
+
+   .. py:attribute:: system1
+
+
+   .. py:attribute:: system2
+
+
+   .. py:attribute:: systemType
+
+

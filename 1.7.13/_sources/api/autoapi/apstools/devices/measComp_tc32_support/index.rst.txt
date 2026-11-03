@@ -1,0 +1,139 @@
+measComp_tc32_support
+=====================
+
+.. py:module:: apstools.devices.measComp_tc32_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.measComp_tc32_support``
+
+   Measurement Computing TC-32 Thermocouple reader
+   ++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   The TC-32 thermocouple module [#]_ is part of the EPICS ``measComp`` [#]_
+   module.  The module documentation [#]_ shows a GUI screen with basic display of
+   the 32 thermocouple channels and the various digital (binary) I/O bits.
+
+   .. [#] http://www.mccdaq.com/usb-ethernet-data-acquisition/temperature/usb-ethernet-24-bit-thermocouple-daq/TC-32.aspx
+   .. [#] https://github.com/epics-modules/measComp/tree/master#supported-models
+   .. [#] https://epics-modules.github.io/measComp/measCompMultiFunctionDoc.html#tc-32
+
+   .. rubric:: Public class(es)
+   .. autosummary::
+
+      ~MeasCompTc32
+
+   .. rubric:: Internal class(es)
+   .. autosummary::
+
+      ~_MC_TC32_BaseClass
+      ~Tc32BinaryInput
+      ~Tc32BinaryOutput
+      ~Tc32ThermocoupleChannel
+      ~_channels
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: BI_CHANNEL_LIST
+
+.. py:data:: BO_CHANNEL_LIST
+
+.. py:class:: MeasCompTc32(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_tc32_support.MeasCompTc32``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Measurement Computing TC-32 32-channel Thermocouple reader.
+
+
+   .. py:attribute:: binary_inputs
+
+
+   .. py:attribute:: binary_outputs
+
+
+   .. py:attribute:: thermocouples
+
+
+.. py:data:: TC_CHANNEL_LIST
+
+.. py:class:: Tc32BinaryInput(prefix, R, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_tc32_support.Tc32BinaryInput``
+
+
+   Bases: :py:obj:`_MC_TC32_BaseClass`
+
+
+   Binary input channel of a MeasComp TC-32 device.
+
+   * EPICS support: ``measComp/Db/measCompBinaryIn.template``
+   * Users will not need to call this class directly.
+
+
+   .. py:attribute:: bit
+
+
+.. py:class:: Tc32BinaryOutput(prefix, R, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_tc32_support.Tc32BinaryOutput``
+
+
+   Bases: :py:obj:`_MC_TC32_BaseClass`
+
+
+   Binary output channel of a MeasComp TC-32 device.
+
+   * EPICS support: ``measComp/Db/measCompBinaryOut.template``
+   * Users will not need to call this class directly.
+
+
+   .. py:attribute:: bit
+
+
+.. py:class:: Tc32ThermocoupleChannel(prefix, R, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.measComp_tc32_support.Tc32ThermocoupleChannel``
+
+
+   Bases: :py:obj:`_MC_TC32_BaseClass`
+
+
+   Thermocouple channel of a MeasComp TC-32 device.
+
+   * EPICS support: ``measComp/Db/measCompTemperatureIn.template``
+   * Users will not need to call this class directly.
+
+
+   .. py:attribute:: filter
+
+
+   .. py:attribute:: open_detect
+
+
+   .. py:attribute:: scale
+
+
+   .. py:attribute:: temperature
+
+
+   .. py:attribute:: thermocouple_type
+
+

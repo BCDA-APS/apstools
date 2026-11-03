@@ -1,0 +1,187 @@
+epid
+====
+
+.. py:module:: apstools.synApps.epid
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.epid``
+
+   Ophyd support for the EPICS epid record
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~EpidRecord
+       ~Fb_EpidDatabase
+       ~Fb_EpidDatabaseHeaterSimulator
+
+   :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
+   :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
+
+   .. note:: Keep in mind a bug report suggests an update to this database.
+      (https://github.com/epics-modules/optics/issues/10)
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: EpidRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.epid.EpidRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordFloatFields`, :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS synApps epid record support in ophyd
+
+   .. index:: Ophyd Device; synApps EpidRecord
+
+   :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
+
+
+   .. py:attribute:: calculated_D
+
+
+   .. py:attribute:: calculated_I
+
+
+   .. py:attribute:: calculated_P
+
+
+   .. py:attribute:: controlled_value
+
+
+   .. py:attribute:: controlled_value_link
+
+
+   .. py:attribute:: derivative_gain
+
+
+   .. py:attribute:: feedback_on
+
+
+   .. py:attribute:: final_value
+
+
+   .. py:attribute:: following_error
+
+
+   .. py:attribute:: high_limit
+
+
+   .. py:attribute:: integral_gain
+
+
+   .. py:attribute:: low_limit
+
+
+   .. py:attribute:: minimum_delta_time
+
+
+   .. py:attribute:: output_location
+
+
+   .. py:attribute:: output_value
+
+
+   .. py:attribute:: proportional_gain
+
+
+   .. py:attribute:: readback_trigger_link
+
+
+   .. py:attribute:: readback_trigger_link_value
+
+
+   .. py:attribute:: setpoint_location
+
+
+   .. py:attribute:: setpoint_mode_select
+
+
+   .. py:attribute:: time_difference
+
+
+   .. py:property:: value
+
+
+.. py:class:: Fb_EpidDatabase(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.epid.Fb_EpidDatabase``
+
+
+   Bases: :py:obj:`EpidRecord`
+
+
+   EPICS synApps optics fb_epid database support in ophyd.
+
+   .. seealso:: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
+
+
+   .. py:attribute:: enable_calc
+
+
+   .. py:attribute:: feedback_on
+
+
+   .. py:attribute:: final_value
+      :value: None
+
+
+
+   .. py:attribute:: in_calc
+
+
+   .. py:property:: is_feedback_on
+
+
+   .. py:attribute:: obuf_calc
+
+
+   .. py:attribute:: on
+
+
+   .. py:attribute:: out_calc
+
+
+   .. py:attribute:: outpv
+
+
+   .. py:attribute:: resume_calc
+
+
+   .. py:attribute:: setpoint
+
+
+.. py:class:: Fb_EpidDatabaseHeaterSimulator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.epid.Fb_EpidDatabaseHeaterSimulator``
+
+
+   Bases: :py:obj:`Fb_EpidDatabase`
+
+
+   Heater simulator in EPICS synApps optics fb_epid database.
+
+
+   .. py:method:: reset()
+
+
+   .. py:method:: setup(scan='.2 second', Kp=0.0004, Ki=0.5, T0=25.5)
+
+
+   .. py:attribute:: sim_calc
+
+

@@ -1,0 +1,32 @@
+memory
+======
+
+.. py:module:: apstools.utils.memory
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.memory``
+
+   Diagnostic Support for Memory
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~rss_mem
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: rss_mem()
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.memory.rss_mem``
+
+
+   return memory used by this process
+
+

@@ -1,0 +1,209 @@
+area_detector_factory
+=====================
+
+.. py:module:: apstools.devices.area_detector_factory
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.area_detector_factory``
+
+   Area Detector Factory
+   +++++++++++++++++++++
+
+   .. autosummary::
+
+      ~ad_creator
+      ~ad_class_factory
+      ~PLUGIN_DEFAULTS
+
+   EXAMPLE 1: DEFAULT CAM
+
+   Just the camera plugin (uses `CamBase
+   <https://blueskyproject.io/ophyd/user/explanations/area-detector.html#custom-plugins-or-cameras>`_,
+   the most basic features)::
+
+       from apstools.devices import ad_creator
+       det = ad_creator("ad:", name="det", class_name="MySimpleAD", ["cam",])
+
+   EXAMPLE 2: CUSTOM CAM & IMAGING
+
+   View ADSimDetector image with CA and PVA::
+
+       from ophyd.areadetector import SimDetectorCam
+       from apstools.devices import ad_creator
+
+       det = ad_creator(
+           "ad:", name="det", class_name="MySimDetector",
+           plugins=[
+               {"cam": {"class": SimDetectorCam}},
+               "image",
+               "pva",
+           ],
+       )
+
+   EXAMPLE 3: CUSTOM CAM, IMAGING, & HDF5 FILES
+
+   Record HDF5 images with Eiger detector. Here, both the Eiger detector IOC and
+   the Bluesky databroker use the same filesystem mount ``/``::
+
+       from ophyd.areadetector import EigerDetectorCam
+       from apstools.devices import ad_creator
+
+       det = ad_creator(
+           "ad:", name="det", class_name"MyEiger",
+           plugins=[
+               {"cam": {"class": EigerDetectorCam}},
+               "image",
+               {"hdf1": {"write_path_template": "/"}},
+           ],
+       )
+
+   EXAMPLE 4: CUSTOM CAM, IMAGING, & BASIC HDF5 PLUGIN
+
+   Override one of the default plugin configurations.  In this case, remove the
+   ``write_path_template`` and ``read_path_template`` keys from the ``hdf1`` plugin
+   support and switch to the plugin class from ophyd::
+
+       from ophyd.areadetector import EigerDetectorCam
+       from ophyd.areadetector.plugins import HDF5Plugin_V34
+       from apstools.devices import ad_creator, PLUGIN_DEFAULTS
+
+       plugin_defaults = PLUGIN_DEFAULTS.copy()
+       plugin_defaults["hdf1"].pop("read_path_template", None)
+       plugin_defaults["hdf1"].pop("write_path_template", None)
+
+       det = ad_creator(
+           "ad:", name="det", class_name"MyEiger",
+           plugins=[
+               {"cam": {"class": EigerDetectorCam}},
+               "image",
+               {"hdf1": {"class": HDF5Plugin_V34}},
+           ],
+           plugin_defaults=plugin_defaults,
+       )
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: DEFAULT_DETECTOR_BASES
+
+.. py:data:: PLUGIN_DEFAULTS
+
+   Default plugin configuration dictionary.
+
+   These defaults could be replaced by a caller individually or in total.  For
+   example, the ``"class"`` could be replaced by a newer, version-specific class.
+   Another use case is to remove an existing set of defaults.
+
+
+.. py:function:: ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_factory.ad_class_factory``
+
+
+   Build an Area Detector class with specified plugins.
+
+   PARAMETERS
+
+   name str :
+       Name of the class to be created.
+   bases object or tuple :
+       Parent(s) of the new class.
+       (default: ``(SingleTrigger_V34, DetectorBase)``)
+   plugins list :
+       Description of the plugins used.  The list consists
+       of either strings or dictionaries.
+       (default: ``["cam"]`` -- Just the camera plugin.)
+   plugin_defaults object :
+       Plugin configuration dictionary.
+       (default: ``None``, PLUGIN_DEFAULTS will be used.)
+
+   Here are a couple examples of the ``plugins`` keyword.
+
+   EXAMPLE 1: ALL DEFAULTS
+
+   All defaults are acceptable.  In this case, the ``cam`` (``CamBase``
+   from ophyd) will only support the most general features of the detector
+   hardware::
+
+       plugins=["cam", "image", "pva"]
+
+   This is a shorthand for::
+
+       plugins=[{"cam": {}}, {"image": {}}, {"pva": {}}]
+
+   EXAMPLE 2: CUSTOM CAM CLASS
+
+   More typical is when one or more defaults need to be replaced, such as
+   the class used to provide features specific to the hardware.  The inner
+   dictionaries contain the keyword arguments to be replaced for each
+   plugin. All these dictionaries are empty, signifying all defaults are
+   acceptable.
+
+   For the ADSimDetector, replace the string ``"cam"`` with a dictionary
+   that replaces the default camera class.  Other detectors will have their
+   own camera class that provides access to the specific features of that
+   detector.
+
+   Here the Python class is imported from apstools.  Use the class as it is
+   imported or defined.  Do not use quotations around
+   ``SimDetectorCam_V34``::
+
+       from apstools.devices import SimDetectorCam_V34
+
+       plugins=[{"cam": {"class": SimDetectorCam_V34}}, "image", "pva"]
+
+
+
+.. py:function:: ad_creator(prefix: str, *, ad_setup: object = None, bases=None, class_name: str = None, name: str = None, plugin_defaults: dict = None, plugins=None, validate_ports: bool = True, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.area_detector_factory.ad_creator``
+
+
+   Create an area detector object from a custom class.
+
+   PARAMETERS
+
+   prefix str :
+       EPICS PV prefix.
+   name str :
+       Name of the ophyd object.
+   class_name str :
+       Name of the class to be created.
+       (default: ``"ADclass_HEX7"`` where HEX is a random
+       7-digit hexadecimal string)
+   plugins list :
+       Description of the plugins used.
+   bases object or tuple:
+       Parent(s) of the new class.
+       (default: ``(SingleTrigger_V34, DetectorBase)``)
+   ad_setup object :
+       Optional setup function to be called.  Blocking code is allowed for this
+       function (does not have to be a bluesky plan stub).
+       (default: ``None``)
+   plugin_defaults object :
+       Plugin configuration dictionary.
+       (default: ``None``, PLUGIN_DEFAULTS will be used.)
+   validate_ports bool :
+       When True (default), call ``.validate_asyn_ports()``. This call will
+       wait for PV connections. Set 'False' to skip this test on startup.
+
+       If assigned plugin ports are used but no ophyd plugin class is provided,
+       an ophyd exception will be raised when the detector tries to take an
+       image.
+
+       (new in apstools release 1.7.3)
+   kwargs dict :
+       Any additional keyword arguments for the new class definition.
+       (default: ``{}``)
+
+
