@@ -27,6 +27,7 @@ NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written
 logger = logging.getLogger(__name__)
 
 
+@versionchanged(version="1.7.13", reason="handle empty primary streams")
 @versionchanged(version="1.6.11", reason="wait for area detector HDF5 files")
 @versionadded(version="1.3.0")
 class NXWriter(FileWriterCallbackBase):
