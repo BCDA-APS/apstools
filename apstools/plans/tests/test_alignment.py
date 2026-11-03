@@ -37,21 +37,23 @@ def catalog(RE):
     RE.subscribe(cat.v1.insert)
     return cat
 
+
 @pytest.fixture(scope="function")
 def RE():
     old_backend = matplotlib.get_backend()
     RE_ = RunEngine({})
     # The data we're sending can't fit in constrained figure, but we don't care
-    fig_factory=partial(matplotlib.pyplot.figure, constrained_layout=False)
+    fig_factory = partial(matplotlib.pyplot.figure, constrained_layout=False)
     bec = best_effort.BestEffortCallback(fig_factory=fig_factory)
     RE_.subscribe(bec)
     bec.enable_plots()
     RE_.bec = bec
     try:
-        matplotlib.use('agg')    
+        matplotlib.use("agg")
         yield RE_
     finally:
-        matplotlib.use(old_backend)    
+        matplotlib.use(old_backend)
+
 
 @pytest.fixture(scope="module")
 def axis():
@@ -59,17 +61,20 @@ def axis():
     device_.wait_for_connection()
     return device_
 
+
 @pytest.fixture(scope="module")
 def calcs_enable():
     device_ = ophyd.EpicsSignal(f"{IOC_GP}userCalcEnable", name="calcs_enable", string=True)
     device_.wait_for_connection()
     return device_
 
+
 @pytest.fixture(scope="module")
 def m1():
     device_ = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
     device_.wait_for_connection()
     return device_
+
 
 @pytest.fixture(scope="module")
 def m2():
@@ -95,18 +100,16 @@ def scaler1():
 
 @pytest.fixture(scope="module")
 def swait():
-    device_=  SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
+    device_ = SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
     device_.wait_for_connection()
     return device_
- 
+
 
 @pytest.fixture(scope="module")
 def I0(scaler1, noisy):
     device_ = scaler1.channels.chan02.s
     device_.parent.override_signal = noisy
     return device_
-
-
 
 
 @pytest.fixture(scope="module")
@@ -119,14 +122,13 @@ def pvoigt(axis, calcs_enable):
     # First, must be connected to axis.
     axis.wait_for_connection()
     calcs_enable.wait_for_connection()
-    
+
     device_ = SynPseudoVoigt(name="pvoigt", motor=axis, motor_field=axis.name)
     device_.kind = "hinted"
     calcs_enable.put("Enable")
     return device_
 
 
-  
 # axis = ophyd.EpicsSignal(f"{IOC_GP}gp:float1", name="axis")
 # calcs_enable = ophyd.EpicsSignal(f"{IOC_GP}userCalcEnable", name="calcs_enable", string=True)
 # m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
@@ -177,6 +179,7 @@ def get_position(obj, digits=3):
         position = obj.get(use_monitor=False)
     return round(position, digits)
 
+
 @pytest.mark.iocs
 @pytest.mark.parametrize("device_name", ["axis", "m1", "noisy", "pvoigt", "scaler1", "swait"])
 def test_connected(device_name, request: FixtureRequest):
@@ -225,7 +228,6 @@ def test_direct_implementation_with_rel_scan(parms: _TestParameters, RE: RunEngi
 
     if isinstance(signal, SynPseudoVoigt):
         signal.randomize_parameters(scale=250_000)
-
 
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", "invalid value encountered in scalar divide")
@@ -279,7 +281,7 @@ parms_min___pathological = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "m
         parms_min___pathological,
     ],
 )
-def test_lineup(parms: _TestParameters, RE: RunEngine, request: RequestFixture, swait, m1):
+def test_lineup(parms: _TestParameters, RE: RunEngine, request: FixtureRequest, swait, m1):
     bec = RE.bec
     mover = request.getfixturevalue(parms.mover)
     signals = [request.getfixturevalue(sig_name) for sig_name in parms.signals]
@@ -434,6 +436,7 @@ def test_TuneAxis(RE, m1, catalog):
         assert v.shape == (1,), f"{v=} {v=} {exp=}"
         assert v[0] == exp, f"{k=} {v=} {exp=}"
 
+
 @pytest.mark.iocs
 def test_tune_axes(RE: RunEngine, m1, m2):
     signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
@@ -446,6 +449,7 @@ def test_tune_axes(RE: RunEngine, m1, m2):
 
     uids = RE(alignment.tune_axes(axes))
     assert len(uids) == 2
+
 
 @pytest.mark.iocs
 def test_tune_axes_raises(RE: RunEngine, m1, m2):
@@ -515,6 +519,7 @@ parms_bkg_plus_noise = _TestParameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.
 parms_bkg_plus_big_noise = _TestParameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
 parms_no_signal__ZeroDivisionError = _TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
+
 
 @pytest.mark.iocs
 @pytest.mark.skipif(

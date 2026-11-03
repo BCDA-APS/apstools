@@ -9,6 +9,7 @@ from _pytest.fixtures import FixtureRequest, FixtureFunctionDefinition
 from ...tests import IOC_GP
 from .. import make_dict_device
 
+
 @pytest.fixture(scope="module")
 def m1():
     device_ = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")

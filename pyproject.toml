@@ -248,3 +248,4 @@ doc = { features = ["doc"], solve-group = "default" }
 
 [tool.pixi.dependencies]
 aps-dm-api = ">=10.1.0,<11"
+python = "3.13.*"
