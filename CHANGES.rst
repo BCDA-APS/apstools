@@ -20,13 +20,20 @@ History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
+.. async devices planned for v1.8
+
 ..
-   1.8.0
+   1.7.13
    ******
 
-   Release planned by 2026-10-10.
+   Release planned by 2026-11-10.
 
-   Add async devices.
+   Fixes for reported bugs.
+
+   Maintenance
+   -----------
+
+   * Fix test of ``DictionaryDevice``; exercise each supplied input dictionary. (:issue:`1197`)
 
    Fixes
    -----
