@@ -27,6 +27,7 @@ NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written
 logger = logging.getLogger(__name__)
 
 
+@versionchanged(version="1.7.13", reason="handle empty primary streams")
 @versionchanged(version="1.6.11", reason="wait for area detector HDF5 files")
 @versionadded(version="1.3.0")
 class NXWriter(FileWriterCallbackBase):
@@ -357,11 +358,13 @@ class NXWriter(FileWriterCallbackBase):
         nxdata = self.create_NX_group(parent, "data:NXdata")
 
         primary = parent["instrument/bluesky/streams/primary"]
-        for k in primary.keys():
+        primary_keys = list(primary.keys())
+        for k in primary_keys:
             nxdata[k] = primary[k + "/value"]
 
         # pick the timestamps from one of the datasets (the last one)
-        nxdata["EPOCH"] = primary[k + "/time"]
+        if primary_keys:
+            nxdata["EPOCH"] = primary[f"{primary_keys[-1]}/time"]
 
         signal_attribute = self.nxdata_signal
         if signal_attribute is None:

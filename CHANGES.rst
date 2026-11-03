@@ -35,6 +35,11 @@ describe future plans.
 
    * Fix test of ``DictionaryDevice``; exercise each supplied input dictionary. (:issue:`1197`)
 
+   Fixes
+   -----
+
+   * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
+
 1.7.12
 ******
 

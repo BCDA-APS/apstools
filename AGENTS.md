@@ -59,7 +59,7 @@ Example: `1150-full-run-uid-to-dm`
 - Add an entry to `CHANGES.rst` for every user-visible change.
 - Place entries under the appropriate (possibly still-commented-out) upcoming release section.
 - Use the correct subsection heading (`Enhancements`, `Fixes`, `Maintenance`, etc.).
-- Keep each entry to a concise one-line summary that still respects the repository line-length limit.
+- Keep each entry to a terse one-line summary that respects the repository line-length limit.
 - Reference the issue number with the RST role `` (:issue:`<number>`) ``.
 - Keep entries within each subsection sorted alphabetically by the first significant word.
 - Keep the release date in the upcoming section in sync with the due date on the corresponding GitHub milestone.
