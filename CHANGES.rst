@@ -26,7 +26,7 @@ describe future plans.
    1.7.13
    ******
 
-   Release planned by 2026-11-10.
+   Release expected by 2026-11-10.
 
    Fixes for reported bugs.
 
