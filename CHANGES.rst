@@ -22,30 +22,29 @@ describe future plans.
 
 .. Release 1.8.0 planned by 2026-12.  Add async devices.
 
-..
-   1.7.13
-   ******
+1.7.13
+******
 
-   Release expected by 2026-11-10.
+Release expected by 2026-11-10.
 
-   Fixes for reported bugs.
+Fixes for reported bugs.
 
-   Enhancements
-   ------------
+Enhancements
+------------
 
-   * Add experimental ``ophyd-async`` device support through the ``[async]`` extra.
+* Add experimental ``ophyd-async`` device support through the ``[async]`` extra.
 
-   Maintenance
-   -----------
+Maintenance
+-----------
 
-   * Adopt EffVer versioning semantics in place of Semantic Versioning.
-   * Fix test of ``DictionaryDevice``. (:issue:`1197`)
+* Adopt EffVer versioning semantics in place of Semantic Versioning.
+* Fix test of ``DictionaryDevice``. (:issue:`1197`)
 
-   Fixes
-   -----
+Fixes
+-----
 
-   * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
-   * Sanitize signal names written to NeXus. (:issue:`1194`)
+* Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
+* Sanitize signal names written to NeXus. (:issue:`1194`)
 
 1.7.12
 ******
