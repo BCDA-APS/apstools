@@ -20,7 +20,6 @@ import yaml
 from deprecated.sphinx import versionadded
 from deprecated.sphinx import versionchanged
 
-from ..utils import safe_ophyd_name
 from .callback_base import FileWriterCallbackBase
 
 NEXUS_FILE_EXTENSION = "hdf"  # use this file extension for the output
@@ -29,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 @versionchanged(version="1.7.13", reason="sanitize signal names for NeXus")
+@versionchanged(version="1.7.13", reason="handle empty primary streams")
 @versionchanged(version="1.6.11", reason="wait for area detector HDF5 files")
 @versionadded(version="1.3.0")
 class NXWriter(FileWriterCallbackBase):
@@ -280,6 +280,8 @@ class NXWriter(FileWriterCallbackBase):
     @staticmethod
     def nexus_name(name):
         """Make an ophyd name safe for use as a NeXus item name."""
+        from ..utils import safe_ophyd_name
+
         return safe_ophyd_name(name)
 
     def resolve_class_path(self, class_path):
