@@ -357,11 +357,13 @@ class NXWriter(FileWriterCallbackBase):
         nxdata = self.create_NX_group(parent, "data:NXdata")
 
         primary = parent["instrument/bluesky/streams/primary"]
-        for k in primary.keys():
+        primary_keys = list(primary.keys())
+        for k in primary_keys:
             nxdata[k] = primary[k + "/value"]
 
         # pick the timestamps from one of the datasets (the last one)
-        nxdata["EPOCH"] = primary[k + "/time"]
+        if primary_keys:
+            nxdata["EPOCH"] = primary[f"{primary_keys[-1]}/time"]
 
         signal_attribute = self.nxdata_signal
         if signal_attribute is None:

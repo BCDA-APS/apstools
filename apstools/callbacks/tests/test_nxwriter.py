@@ -152,6 +152,19 @@ def test_NXWriter_with_RunEngine(camera, motor):
         assert frames.shape == (npoints, 1024, 1024)
 
 
+def test_NXWriter_empty_primary_stream(tmp_path):
+    nxwriter = NXWriter()
+    with h5py.File(tmp_path / "nxwriter.h5", "w") as root:
+        streams = root.create_group("instrument/bluesky/streams")
+        streams.create_group("primary")
+
+        nxdata = nxwriter.write_data(root)
+
+        assert nxdata.name == "/data"
+        assert list(nxdata) == []
+        assert "EPOCH" not in nxdata
+
+
 def test_NXWriter_templates(camera, motor):
     test_file = pathlib.Path(tempfile.mkdtemp()) / "nxwriter.h5"
     catalog = databroker.temp().v2

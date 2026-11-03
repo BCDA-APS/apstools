@@ -28,6 +28,11 @@ describe future plans.
 
    Add async devices.
 
+   Fixes
+   -----
+
+   * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
+
 1.7.12
 ******
 
