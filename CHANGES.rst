@@ -20,7 +20,7 @@ History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
-.. async devices planned for v1.8
+.. Release 1.8.0 planned by 2026-12.  Add async devices.
 
 ..
    1.7.13
@@ -30,19 +30,21 @@ describe future plans.
 
    Fixes for reported bugs.
 
+   Enhancements
+   ------------
+
+   * Add experimental ``ophyd-async`` device support through the ``[async]`` extra.
+
    Maintenance
    -----------
 
-   * Fix test of ``DictionaryDevice``; exercise each supplied input dictionary. (:issue:`1197`)
+   * Adopt EffVer versioning semantics in place of Semantic Versioning.
+   * Fix test of ``DictionaryDevice``. (:issue:`1197`)
 
    Fixes
    -----
 
    * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
-
-   Fixes
-   -----
-
    * Sanitize signal names written to NeXus. (:issue:`1194`)
 
 1.7.12
