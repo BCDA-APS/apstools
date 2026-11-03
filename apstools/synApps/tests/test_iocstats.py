@@ -49,7 +49,6 @@ def test_running(attr, expected, comparison):
     if comparison == "start":
         assert value.startswith(expected)
     elif comparison == "end":
-        print(value, expected)
         assert value.endswith(expected)
     elif comparison == "find":
         assert value.find(expected) >= 0
