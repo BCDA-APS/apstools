@@ -1,3 +1,4 @@
+import sys
 import datetime
 
 import intake
@@ -272,7 +273,10 @@ def test_ListRuns_timefmt(lr):
     lr.timefmt = None
     with pytest.raises(TypeError) as exinfo:
         lr.parse_runs()
-    assert "strftime() argument 1 must be str, not None" in str(exinfo.value)
+    if sys.version_info.minor >= 15:
+        assert "strftime() argument 'format' must be str, not None" in str(exinfo.value)
+    else:
+        assert "strftime() argument 1 must be str, not None" in str(exinfo.value)
 
     # wrong format
     lr.timefmt = "no such format"

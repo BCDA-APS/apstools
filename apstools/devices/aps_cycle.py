@@ -61,7 +61,8 @@ class _ApsCycleDB:
         the APS Data Management package (*aps-dm-api*).  The YAML format is
         easily updated and human-readable.
         """
-        _cycles_yml = YAML_CYCLE_FILE.open().read()
+        with open(YAML_CYCLE_FILE) as fd:
+            _cycles_yml = fd.read()
         _cycles = yaml.load(_cycles_yml, Loader=yaml.BaseLoader)
 
         def iso2ts(isodatetime):

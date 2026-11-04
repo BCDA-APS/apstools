@@ -1,3 +1,4 @@
+import re
 import time
 
 import pytest
@@ -25,12 +26,12 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
 @pytest.mark.parametrize(
     "attr, expected, comparison",
     [
-        ["access", "Running", None],
+        ["access", r"Running", None],
         # TODO: ["application_directory", "iocxxx", "end"],
         ["engineer", "engineer", None],
-        ["epics_version", "EPICS", "start"],
+        ["epics_version", r"EPICS", "start"],
         ["kernel_version", "Linux", "start"],
-        ["kernel_version", "x86_64", "end"],
+        ["kernel_version", ".*x86_64( x86_)?$", "regex"],
         ["location", "location", None],
         ["records_count", 100, ">="],
     ],
@@ -44,6 +45,7 @@ def test_running(attr, expected, comparison):
     assert hasattr(gp_info, attr)
     value = getattr(gp_info, attr).get(use_monitor=False)
     time.sleep(0.1)
+
     if comparison == "start":
         assert value.startswith(expected)
     elif comparison == "end":
@@ -52,5 +54,7 @@ def test_running(attr, expected, comparison):
         assert value.find(expected) >= 0
     elif comparison == ">=":
         assert value >= 0
+    elif comparison == "regex":
+        assert re.match(expected, value) is not None
     else:
         assert value == expected
