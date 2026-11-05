@@ -100,6 +100,7 @@ Write tests using `@pytest.mark.parametrize` with `parms, context` parameters:
 - The goal is less test code and more parameter sets.  Adding a test for a
   future bug report should require only a new `pytest.param(...)` entry.
 - Test files do not need `@deprecated` / `@versionadded` / `@versionchanged` tags.
+- All new code changes must include tests providing complete coverage of the new or changed code paths.
 
 ## Before Every Commit
 
