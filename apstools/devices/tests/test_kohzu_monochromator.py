@@ -11,7 +11,6 @@ from ophyd import Component
 from ophyd import EpicsMotor
 
 from ...tests import IOC_GP
-from ...tests import in_gha_workflow
 from .. import KohzuSeqCtl_Monochromator
 
 
@@ -59,10 +58,6 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
         self.m_z.stop()
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GHA workflows.",
-)
 def test_dcm():
     dcm = MyKohzu(IOC_GP, name="dcm")
     assert dcm is not None
