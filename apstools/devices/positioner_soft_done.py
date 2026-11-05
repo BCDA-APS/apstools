@@ -250,6 +250,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         import time
 
         if not self.inposition:
-            self.setpoint.put(self.position)
+            current_position = self.readback.get(use_monitor=False)
+            self.setpoint.put(current_position)
             time.sleep(2.0 / 60)  # two clock ticks, allow for EPICS record processing
             self.cb_readback()  # re-evaluate soft done Signal

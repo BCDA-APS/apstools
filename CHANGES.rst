@@ -44,6 +44,7 @@ Fixes
 -----
 
 * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
+* Make ``PVPositionerSoftDoneWithStop.stop()`` use the current readback value. (:issue:`1161`)
 * Sanitize signal names written to NeXus. (:issue:`1194`)
 
 1.7.12
