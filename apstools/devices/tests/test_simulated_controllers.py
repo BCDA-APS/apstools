@@ -10,7 +10,6 @@ import pytest
 from ophyd.sim import instantiate_fake_device
 
 from ...tests import IOC_GP
-from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import simulated_controllers as sc
 
@@ -63,10 +62,6 @@ def test_fake_controller_structure(parms, context):
         )
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GHA workflows.",
-)
 @pytest.mark.parametrize(
     "parms, context",
     [
