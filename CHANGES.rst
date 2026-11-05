@@ -20,7 +20,22 @@ History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
-.. Release 1.8.0 planned by 2026-12.  Add async devices.
+..
+   1.7.14
+   ******
+
+   Release expected by 2026-11-30.
+
+   Enhancements
+   ------------
+
+   Fixes
+   -----
+
+   * Make ``PVPositionerSoftDoneWithStop.stop()`` use the current readback value. (:issue:`1161`)
+
+   Maintenance
+   -----------
 
 1.7.13
 ******
@@ -44,7 +59,6 @@ Fixes
 -----
 
 * Fix empty primary stream in ``NXWriter``. (:issue:`1193`)
-* Make ``PVPositionerSoftDoneWithStop.stop()`` use the current readback value. (:issue:`1161`)
 * Sanitize signal names written to NeXus. (:issue:`1194`)
 
 1.7.12
