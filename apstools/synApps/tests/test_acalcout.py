@@ -7,7 +7,6 @@ import pytest
 
 from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
-from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import AcalcoutRecord
 from .. import UserArrayCalcDevice
@@ -15,10 +14,6 @@ from .. import UserArrayCalcDevice
 TEST_PV = f"{IOC_GP}userArrayCalc10"
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GHA workflows.",
-)
 def test_connected():
     acalcout = AcalcoutRecord(TEST_PV, name="acalcout")
     try:
