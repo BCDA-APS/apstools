@@ -13,6 +13,7 @@ import math
 import weakref
 
 from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -243,6 +244,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
     positioner at the current position.
     """
 
+    @versionchanged(version="1.7.14", reason="Read the current readback before stopping.")
     def stop(self, *, success=False):
         """
         Hold the current readback when stop() is called and not :meth:`inposition`.
