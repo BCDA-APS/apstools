@@ -13,6 +13,7 @@ import math
 import weakref
 
 from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -243,6 +244,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
     positioner at the current position.
     """
 
+    @versionchanged(version="1.7.14", reason="Read the current readback before stopping.")
     def stop(self, *, success=False):
         """
         Hold the current readback when stop() is called and not :meth:`inposition`.
@@ -250,6 +252,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         import time
 
         if not self.inposition:
-            self.setpoint.put(self.position)
+            current_position = self.readback.get(use_monitor=False)
+            self.setpoint.put(current_position)
             time.sleep(2.0 / 60)  # two clock ticks, allow for EPICS record processing
             self.cb_readback()  # re-evaluate soft done Signal

@@ -8,15 +8,11 @@ from ophyd.scaler import ScalerCH
 
 from ...synApps import SscanDevice
 from ...tests import IOC_GP
-from ...tests import in_gha_workflow
+from ...tests import timed_pause
 from ..sscan_support import _get_sscan_data_objects
 from ..sscan_support import sscan_1D
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GHA workflows.",
-)
 def test_i108():
     cat = databroker.temp().v2
     RE = RunEngine({})
@@ -31,6 +27,7 @@ def test_i108():
         item.wait_for_connection(timeout=20)
 
     scans.scan1.reset()
+    timed_pause()
 
     p1 = scans.scan1.positioners.p1
     p1.readback_pv.put(motor.user_readback.pvname)
@@ -54,6 +51,7 @@ def test_i108():
     scans.scan1.triggers.t1.trigger_pv.put(scaler.count.pvname)
 
     scans.select_channels()
+    timed_pause()
 
     uids = RE(sscan_1D(scans.scan1, md=dict(issue="#108")))
     assert len(uids) == 1

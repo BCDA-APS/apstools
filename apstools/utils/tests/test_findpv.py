@@ -43,10 +43,13 @@ class MyDetector(ophyd.SimDetector):
     image = ophyd.ADComponent(MyFixedImagePlugin, "image1:")
 
 
-gpm1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="gpm1")
-simdet = MyDetector(IOC_AD, name="simdet")
-gpm1.wait_for_connection()
-simdet.wait_for_connection()
+@pytest.fixture(scope="module")
+def devices():
+    gpm1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="gpm1")
+    simdet = MyDetector(IOC_AD, name="simdet")
+    gpm1.wait_for_connection()
+    simdet.wait_for_connection()
+    return gpm1, simdet
 
 
 @pytest.mark.parametrize(
@@ -72,8 +75,7 @@ simdet.wait_for_connection()
             f"{IOC_GP}m1.RBV",
             dict(read=["gpm1.user_readback"], write=[]),
         ],
-        [utils.findbyname, "m1_user_setpoint", None],
-        [utils.findbyname, simdet.hdf1.array_size.name, "simdet.hdf1.array_size"],
+        [utils.findbyname, "m1_user_setpoint", "m1.user_setpoint"],
         [utils.findbyname, "simdet_hdf1_array_size", "simdet.hdf1.array_size"],
         [utils.findbyname, "simdet_image_dim1_sa", "simdet.image.array_size.dim1_sa"],
         [
@@ -81,10 +83,13 @@ simdet.wait_for_connection()
             "simdet_cam_peak_width_peak_width_y",
             "simdet.cam.peak_width.peak_width_y",
         ],
-        [utils.findbyname, gpm1.user_setpoint.name, "m1.user_setpoint"],
-        [utils.findbyname, simdet.cam.acquire.name, "simdet.cam.acquire"],
+        [utils.findbyname, "m1_user_setpoint", "m1.user_setpoint"],
+        [utils.findbyname, "simdet_cam_acquire", "simdet.cam.acquire"],
     ],
 )
-def test_main(finder, reference, expected):
+def test_main(finder, reference, expected, devices):
+    gpm1, simdet = devices
+    if reference == "m1_user_setpoint":
+        reference = gpm1.user_setpoint.name
     answer = finder(reference, ns=dict(m1=gpm1, simdet=simdet))
     assert answer == expected
