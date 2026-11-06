@@ -52,6 +52,8 @@ Enhancements
 Maintenance
 -----------
 
+* Document the ``ophyd-async`` devices apart from ``ophyd`` devices. (:issue:`1204`)
+* Rename the experimental ``_devices_async`` package to ``devices_async``. (:issue:`1204`)
 * Adopt EffVer versioning semantics in place of Semantic Versioning.
 * Fix test of ``DictionaryDevice``. (:issue:`1197`)
 

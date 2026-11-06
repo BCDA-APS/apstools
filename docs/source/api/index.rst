@@ -21,9 +21,10 @@ Ophyd-style support for EPICS & synApps structures (records and databases).
 
       Receive *documents* from the bluesky RunEngine.
 
-    .. grid-item-card:: :material-regular:`precision_manufacturing;3em` :ref:`devices`
+    .. grid-item-card:: :material-regular:`precision_manufacturing;3em` Devices
 
-      Ophyd-style Devices for the APS.
+      * :ref:`classic <devices>` — synchronous Ophyd devices for the APS
+      * :ref:`async (experimental) <devices_async>` — awaitable devices for the APS
 
     .. grid-item-card:: :material-regular:`save;3em` :ref:`filewriters`
 
