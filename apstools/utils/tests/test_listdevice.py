@@ -37,15 +37,24 @@ class TwoSignalDevice(Device):
     bbb = Component(EpicsSignal, "bbb")
 
 
-calcs = MyDevice(f"{IOC_GP}userCalc", name="calcs")
-motor = EpicsMotor(f"{IOC_GP}m1", name="motor")
-signal = Signal(name="signal", value=True)
+@pytest.fixture(scope="module")
+def devices():
+    calcs = MyDevice(f"{IOC_GP}userCalc", name="calcs")
+    motor = EpicsMotor(f"{IOC_GP}m1", name="motor")
+    signal = Signal(name="signal", value=True)
+    calcs.wait_for_connection()
+    motor.wait_for_connection()
+    return {
+        "calcs": calcs,
+        "calcs.calc5.description": calcs.calc5.description,
+        "motor": motor,
+        "motor.user_setpoint": motor.user_setpoint,
+        "signal": signal,
+    }
 
-calcs.wait_for_connection()
-motor.wait_for_connection()
 
-
-def test_calcs():
+def test_calcs(devices):
+    calcs = devices["calcs"]
     assert calcs.connected
     assert calcs is not None
     assert isinstance(calcs, Device)
@@ -54,14 +63,21 @@ def test_calcs():
 @pytest.mark.parametrize(
     "obj, length",
     [
-        (calcs, 4),
-        (calcs.calc5.description, 1),
-        (signal, 1),
-        (motor, 2),
-        (motor.user_setpoint, 1),
+        ("calcs", 4),
+        ("calcs.calc5.description", 1),
+        ("signal", 1),
+        ("motor", 2),
+        ("motor.user_setpoint", 1),
     ],
 )
-def test_listdevice(obj, length):
+def test_listdevice(obj, length, devices):
+    obj = (
+        devices[obj]
+        if obj in devices
+        else devices["calcs"].calc5.description
+        if obj == "calcs.calc5.description"
+        else devices[obj]
+    )
     result = listdevice(obj, scope="read")
     assert isinstance(result, TableStyle.pyRestTable.value)
     assert len(result.rows) == length
@@ -75,14 +91,15 @@ def test_listdevice(obj, length):
 @pytest.mark.parametrize(
     "obj, length, ref",
     [
-        (calcs, 126, EpicsSignalBase),
-        (calcs.calc5.description, 1, EpicsSignalBase),
-        (signal, None, None),
-        (motor, 19, EpicsSignalBase),
-        (motor.user_setpoint, 1, EpicsSignalBase),
+        ("calcs", 126, EpicsSignalBase),
+        ("calcs.calc5.description", 1, EpicsSignalBase),
+        ("signal", None, None),
+        ("motor", 19, EpicsSignalBase),
+        ("motor.user_setpoint", 1, EpicsSignalBase),
     ],
 )
-def test__list_epics_signals(obj, length, ref):
+def test__list_epics_signals(obj, length, ref, devices):
+    obj = devices[obj]
     result = _list_epics_signals(obj)
     if length is None:
         assert result is None
@@ -112,7 +129,9 @@ def test__list_epics_signals(obj, length, ref):
         ("read", 0, "value", 0.0),
     ],
 )  # scope: full epics read
-def test_spotchecks(scope, row, column, value):
+def test_spotchecks(scope, row, column, value, devices):
+    calcs = devices["calcs"]
+    motor = devices["motor"]
     assert calcs.connected
     if round(motor.position, 2) != 0:
         motor.move(0)
@@ -128,18 +147,18 @@ def test_spotchecks(scope, row, column, value):
 @pytest.mark.parametrize(
     "device, scope, ancient, length",
     [
-        (calcs, "epics", False, 0),
-        (calcs, "epics", True, 126),
-        (calcs, "full", False, 5),
-        (calcs, "full", True, 131),
-        (calcs, "read", False, 2),
-        (calcs, "read", True, 4),
-        (calcs, None, False, 5),
-        (calcs, None, True, 131),
+        ("calcs", "epics", False, 0),
+        ("calcs", "epics", True, 126),
+        ("calcs", "full", False, 5),
+        ("calcs", "full", True, 131),
+        ("calcs", "read", False, 2),
+        ("calcs", "read", True, 4),
+        ("calcs", None, False, 5),
+        ("calcs", None, True, 131),
     ],
 )
-def test_listdevice_filters(device, scope, ancient, length):
-    result = listdevice(device, scope, show_ancient=ancient)
+def test_listdevice_filters(device, scope, ancient, length, devices):
+    result = listdevice(devices[device], scope, show_ancient=ancient)
     assert len(result.rows) == length
 
 
@@ -148,7 +167,7 @@ def test_listdevice_filters(device, scope, ancient, length):
     # fmt: off
     [
         (
-            calcs,
+            "calcs",
             "full",
             [
                 "calcs.signals.allowed",
@@ -160,7 +179,7 @@ def test_listdevice_filters(device, scope, ancient, length):
         ),
         # This is the case that produced issue 640
         (
-            calcs.signals,
+            "calcs.signals",
             "full",
             [
                 "calcs.signals.allowed",
@@ -173,8 +192,9 @@ def test_listdevice_filters(device, scope, ancient, length):
     ],
     # fmt: on
 )
-def test_listdevice_cname(device, scope, cnames):
-    result = listdevice(device, scope, show_ancient=False, cname=True)
+def test_listdevice_cname(device, scope, cnames, devices):
+    obj = devices["calcs"].signals if device == "calcs.signals" else devices[device]
+    result = listdevice(obj, scope, show_ancient=False, cname=True)
 
     col_num = result.labels.index("name")
     values = [row[col_num] for row in result.rows]
@@ -233,8 +253,8 @@ def test_maximum_column_width(width):
         [{"show_pv": True}, True, False, True],
     ],
 )
-def test_listdevice_show_pv(sig, has_cname, has_dname, has_PV):
-    line = str(listdevice(motor, **sig)).splitlines()[1].strip()
+def test_listdevice_show_pv(sig, has_cname, has_dname, has_PV, devices):
+    line = str(listdevice(devices["motor"], **sig)).splitlines()[1].strip()
     if has_cname:
         assert line.split()[0] == "name", f"{line=}"
     else:
