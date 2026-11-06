@@ -377,7 +377,7 @@ def test_lineup2(parms: _TestParameters, RE: RunEngine, request, swait, m1):
 
 @pytest.mark.iocs
 @pytest.mark.parametrize("detector_names", [["noisy"], ["I0"], ["scaler1"], ["I0", "scaler1"]])
-def test_lineup2_issue_1049(detector_names, RE: RunEngine, request: FixtureRequest, scaler1, I0, m1):
+def test_lineup2_issue_1049(detector_names, RE: RunEngine, request: FixtureRequest, scaler1, I0, m1, tmp_path):
     detectors = [request.getfixturevalue(name) for name in detector_names]
     scaler1.select_channels(["I0"])
     assert len(scaler1.read_attrs) == 4, f"{scaler1.read_attrs=}"
@@ -390,6 +390,7 @@ def test_lineup2_issue_1049(detector_names, RE: RunEngine, request: FixtureReque
     assert len(uids) == 1, f"{detectors=} {uids=}"
 
     specwriter = SpecWriterCallback2()
+    specwriter.file_name = tmp_path / "alignment-1049.dat"
     uids = RE(
         alignment.lineup2(detectors, m1, -0.1, 0.1, 11, nscans=1),
         specwriter.receiver,
