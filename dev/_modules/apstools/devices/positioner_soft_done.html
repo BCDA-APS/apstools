@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=696dcc12"></script>
+    <script src="../../../_static/documentation_options.js?v=6ca7deb7"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -451,6 +451,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionchanged</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalRO</span>
@@ -700,6 +701,7 @@
 
 <div class="viewcode-block" id="PVPositionerSoftDoneWithStop.stop">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/positioner_soft_done/index.html#apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop.stop">[docs]</a>
+    <span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.7.14"</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">"Read the current readback before stopping."</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Hold the current readback when stop() is called and not :meth:`inposition`.</span>
@@ -707,7 +709,8 @@
         <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inposition</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+            <span class="n">current_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">use_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">current_position</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>  <span class="c1"># two clock ticks, allow for EPICS record processing</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">()</span>  <span class="c1"># re-evaluate soft done Signal</span></div>
 </div>
