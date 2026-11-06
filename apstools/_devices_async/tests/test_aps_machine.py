@@ -5,7 +5,7 @@ from ..aps_machine import ApsMachine
 
 @pytest.mark.asyncio
 async def test_read_attrs():
-    aps = ApsMachine(name="aps")
+    aps = ApsMachine(prefix="", name="aps")
     await aps.connect(mock=True)
     # Reading
     read_signals = {"aps-current"}
