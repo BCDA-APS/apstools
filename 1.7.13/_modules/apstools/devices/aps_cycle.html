@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=6d83d4f1"></script>
+    <script src="../../../_static/documentation_options.js?v=1821b243"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -499,7 +499,8 @@
 <span class="sd">        the APS Data Management package (*aps-dm-api*).  The YAML format is</span>
 <span class="sd">        easily updated and human-readable.</span>
 <span class="sd">        """</span>
-        <span class="n">_cycles_yml</span> <span class="o">=</span> <span class="n">YAML_CYCLE_FILE</span><span class="o">.</span><span class="n">open</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">YAML_CYCLE_FILE</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+            <span class="n">_cycles_yml</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">_cycles</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_cycles_yml</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">BaseLoader</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">iso2ts</span><span class="p">(</span><span class="n">isodatetime</span><span class="p">):</span>

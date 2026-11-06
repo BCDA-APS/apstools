@@ -4,7 +4,7 @@
 Devices
 =======
 
-Ophyd-style Devices for the APS.
+Ophyd-style Devices (classic, synchronous) for the APS.
 
 For complete API details see the :doc:`Full API Reference <autoapi/apstools/index>`.
 
