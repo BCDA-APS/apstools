@@ -1,4 +1,5 @@
 import math
+import random
 import time
 from contextlib import nullcontext as does_not_raise
 
@@ -24,14 +25,8 @@ delay_active = False
 
 
 # fmt: off
-POSITION_SEQUENCE = (
-    [-1] * 3
-    + [0] * 5
-    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(rand(2, 5), 2), 0.1, -0.15, -1]
-    + [0] * 5
-    + [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55],
-)[0]
+POSITION_TARGETS = (-55, -1.2345, -0.15, 0, 0.1, 1.2345, 2, 55)
+POSITION_SEQUENCE = tuple(random.sample(POSITION_TARGETS, len(POSITION_TARGETS)))
 # fmt: on
 
 
