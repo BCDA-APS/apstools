@@ -13,4 +13,3 @@ exclude_lines =
 # relative_files = True
 omit =
 	apstools/_version.py
-	*/tests/*
