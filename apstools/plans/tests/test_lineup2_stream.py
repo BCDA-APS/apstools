@@ -16,8 +16,10 @@ from bluesky import RunEngine
 from ophyd import Signal
 from ophyd import SoftPositioner
 from ophyd.sim import SynGauss
+from ophyd.sim import SynSignal
 
 from ...callbacks.scan_signal_statistics import SignalStatsCallback
+from ...devices import SynPseudoVoigt
 from ..alignment import lineup2
 
 MAIN = sys.modules["__main__"]
@@ -38,6 +40,45 @@ def motor():
     return SoftPositioner(name="motor", init_pos=0)
 
 
+@pytest.fixture()
+def signal_mover():
+    """Return a generic settable signal centered at 0."""
+    return Signal(name="signal_mover", value=0.0)
+
+
+@pytest.fixture()
+def pvoigt(motor):
+    """Return a pseudo-Voigt detector with realistic Lorentzian tails."""
+    return SynPseudoVoigt(
+        name="pvoigt",
+        motor=motor,
+        motor_field=motor.name,
+        center=0.2,
+        eta=0.5,
+        scale=100.0,
+        sigma=0.5,
+        bkg=1.0,
+        noise=None,
+    )
+
+
+@pytest.fixture()
+def constant_detector():
+    """Return a detector independent of the scan mover."""
+    return Signal(name="constant_detector", value=1.0)
+
+
+@pytest.fixture()
+def shaped_detector(signal_mover):
+    """Return a computed detector with a signed, sloped background."""
+
+    def model():
+        x = signal_mover.get()
+        return -3.0 + 0.5 * x - 20.0 / (1.0 + ((x - 0.2) / 0.5) ** 2)
+
+    return SynSignal(name="shaped_detector", func=model)
+
+
 @pytest.mark.parametrize(
     "parms, context",
     [
@@ -51,6 +92,33 @@ def motor():
             ),
             does_not_raise(),
             id="default stream name contains expected statistics",
+        ),
+        pytest.param(
+            dict(
+                detector="pvoigt",
+                center=0.2,
+                expected_success=True,
+                expected_centroid_tol=0.3,
+            ),
+            does_not_raise(),
+            id="pseudo-Voigt detector finds a long-tailed peak",
+        ),
+        pytest.param(
+            dict(
+                detector="constant",
+                expected_success=False,
+                expected_reason_fragments=["No strong peak found."],
+            ),
+            does_not_raise(),
+            id="mover-independent detector reports no strong peak",
+        ),
+        pytest.param(
+            dict(
+                detector="shaped",
+                expected_success=False,
+            ),
+            does_not_raise(),
+            id="signed shaped background is characterized without compensation",
         ),
         pytest.param(
             dict(
@@ -196,15 +264,23 @@ def motor():
         ),
     ],
 )
-def test_lineup2_stats_stream(parms, context, RE, motor):
+def test_lineup2_stats_stream(parms, context, RE, motor, signal_mover, pvoigt, constant_detector, shaped_detector):
     """lineup2() writes peak statistics as a stream before the run closes."""
     _RE, cat = RE
     stream_name = parms.get("stats_stream", "signal_stats")
 
-    # Choose mover: Signal (no .position) or SoftPositioner.
-    if parms.get("use_signal_mover"):
-        mover = Signal(name="motor", value=0.0)
-        det = SynGauss("det", motor, "motor", center=0.0, Imax=100.0, sigma=1.0, noise="none")
+    if parms.get("detector") == "pvoigt":
+        mover = motor
+        det = pvoigt
+    elif parms.get("detector") == "constant":
+        mover = motor
+        det = constant_detector
+    elif parms.get("detector") == "shaped":
+        mover = signal_mover
+        det = shaped_detector
+    elif parms.get("use_signal_mover"):
+        mover = signal_mover
+        det = SynGauss("det", signal_mover, "signal_mover", center=0.0, Imax=100.0, sigma=1.0, noise="none")
     else:
         mover = motor
         det = SynGauss(

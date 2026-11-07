@@ -2,6 +2,10 @@
 
 Instructions and conventions for AI coding agents working in this repository.
 
+## Language
+
+Use US English spelling in code, comments, docstrings, tests, and documentation. Do not use UK spellings; existing differences may be adjusted when work is done in that area.
+
 ## Identity
 
 Always identify yourself at the end of every commit message with:
@@ -105,6 +109,7 @@ Write tests using `@pytest.mark.parametrize` with `parms, context` parameters:
 ## Before Every Commit
 
 - Run `ruff check .` from the repo root (matching what CI runs) and fix any errors before committing.
+- Do not decrease test coverage; investigate and address any coverage regression before committing.
 - The ruff ``target-version`` is set in ``pyproject.toml`` and must match
   ``requires-python``; both are currently ``py310`` / ``>=3.10``.
 
