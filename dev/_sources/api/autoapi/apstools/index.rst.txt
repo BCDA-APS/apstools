@@ -18,6 +18,7 @@ Submodules
 
    /api/autoapi/apstools/callbacks/index
    /api/autoapi/apstools/devices/index
+   /api/autoapi/apstools/devices_async/index
    /api/autoapi/apstools/migration/index
    /api/autoapi/apstools/plans/index
    /api/autoapi/apstools/synApps/index
