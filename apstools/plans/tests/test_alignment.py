@@ -491,7 +491,7 @@ parms_neg_small_signal_zero_base = _TestParameters(-1e5, 0, 1e-8, 0.1, 0.2, -0.7
 parms_small_signal_finite_base = _TestParameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)  #
 parms_no_signal_only_noise = _TestParameters(0, 0, 1e-8, 0.1, 0.2, -1.0, 0.5, 11, 1, 0.05, False)
 parms_bkg_plus_noise = _TestParameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
-parms_bkg_plus_big_noise = _TestParameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_bkg_plus_big_noise = _TestParameters(0, 1, 100, 10.0, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
 parms_no_signal__ZeroDivisionError = _TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 
