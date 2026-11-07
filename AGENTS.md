@@ -2,6 +2,10 @@
 
 Instructions and conventions for AI coding agents working in this repository.
 
+## Language
+
+Use US English spelling in code, comments, docstrings, tests, and documentation. Do not use UK spellings; existing differences may be adjusted when work is done in that area.
+
 ## Identity
 
 Always identify yourself at the end of every commit message with:

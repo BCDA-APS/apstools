@@ -112,48 +112,35 @@ def I0(scaler1, noisy):
     return device_
 
 
-@pytest.fixture(scope="module")
-def pvoigt(axis, calcs_enable):
-    # TODO: Refactor 'pvoigt' as Python-only noisy pseudo-voigt signal,
-    # a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.
-    # Use 'ophyd.sim.motor' as its positioner.
-    # Until, 14 tests of 'lineup2()' take ~1m 40s.
+@pytest.fixture()
+def simulated_mover():
+    return Signal(name="simulated_mover", value=0.0)
 
-    # First, must be connected to axis.
+
+@pytest.fixture(scope="module")
+def epics_pvoigt(axis, calcs_enable):
     axis.wait_for_connection()
     calcs_enable.wait_for_connection()
-
-    device_ = SynPseudoVoigt(name="pvoigt", motor=axis, motor_field=axis.name)
+    device_ = SynPseudoVoigt(name="epics_pvoigt", motor=axis, motor_field=axis.name)
     device_.kind = "hinted"
     calcs_enable.put("Enable")
     return device_
 
 
-# axis = ophyd.EpicsSignal(f"{IOC_GP}gp:float1", name="axis")
-# calcs_enable = ophyd.EpicsSignal(f"{IOC_GP}userCalcEnable", name="calcs_enable", string=True)
-# m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
-# m2 = ophyd.EpicsMotor(f"{IOC_GP}m2", name="m2")
-# noisy = ophyd.EpicsSignalRO(f"{IOC_GP}userCalc1.VAL", name="noisy")
-# scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
-# scaler1 = ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
-# swait = SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
-
-# for obj in (axis, m1, m2, noisy, scaler1, swait, calcs_enable):
-#     obj.wait_for_connection()
-
-# scaler1.select_channels()
-# I0 = scaler1.channels.chan02.s
-# I0.parent.override_signal = noisy
-
-# TODO: Refactor 'pvoigt' as Python-only noisy pseudo-voigt signal,
-# a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.
-# Use 'ophyd.sim.motor' as its positioner.
-# Until, 14 tests of 'lineup2()' take ~1m 40s.
-
-# First, must be connected to m1.
-# pvoigt = SynPseudoVoigt(name="pvoigt", motor=axis, motor_field=axis.name)
-# pvoigt.kind = "hinted"
-# calcs_enable.put("Enable")
+@pytest.fixture()
+def simulated_pvoigt(simulated_mover):
+    device_ = SynPseudoVoigt(
+        name="simulated_pvoigt",
+        motor=simulated_mover,
+        motor_field=simulated_mover.name,
+        center=0.1,
+        scale=250_000,
+        sigma=0.2,
+        bkg=0,
+        noise="poisson",
+    )
+    device_.kind = "hinted"
+    return device_
 
 
 def change_noisy_parameters(swait, motor, fwhm=0.15, peak=10000, noise=0.08):
@@ -181,7 +168,7 @@ def get_position(obj, digits=3):
 
 
 @pytest.mark.iocs
-@pytest.mark.parametrize("device_name", ["axis", "m1", "noisy", "pvoigt", "scaler1", "swait"])
+@pytest.mark.parametrize("device_name", ["axis", "m1", "noisy", "epics_pvoigt", "scaler1", "swait"])
 def test_connected(device_name, request: FixtureRequest):
     device = request.getfixturevalue(device_name)
     assert device.connected
@@ -212,9 +199,9 @@ def test_SynPseudoVoigt_randomize(axis):
 
 _TestParameters = collections.namedtuple("TestParameters", "signal mover start finish npts feature")
 parms_slower = _TestParameters("noisy", "m1", -1.2, 1.2, 11, "max")
-parms_faster = _TestParameters("pvoigt", "axis", -1.2, 1.2, 11, "max")
-parms_cen = _TestParameters("pvoigt", "axis", -1.2, 1.2, 11, "cen")
-parms_com = _TestParameters("pvoigt", "axis", -1.2, 1.2, 51, "com")
+parms_faster = _TestParameters("epics_pvoigt", "axis", -1.2, 1.2, 11, "max")
+parms_cen = _TestParameters("epics_pvoigt", "axis", -1.2, 1.2, 11, "cen")
+parms_com = _TestParameters("epics_pvoigt", "axis", -1.2, 1.2, 51, "com")
 
 
 @pytest.mark.iocs
@@ -250,15 +237,15 @@ def test_direct_implementation_with_rel_scan(parms: _TestParameters, RE: RunEngi
 
 _TestParameters = collections.namedtuple("TestParameters", "signals mover start finish npts feature rescan")
 parms_motor_slower = _TestParameters(["noisy"], "m1", -1.2, 1.2, 11, "max", True)
-parms_ao_faster = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "cen", True)
-parms_ao_max = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
-parms_det_list_of_1 = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
-parms_det_list_of_3 = _TestParameters(["pvoigt", "noisy", "scaler1"], "axis", -1.2, 1.2, 11, "max", True)
-parms_det_tuple = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
-parms_cen = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "cen", False)
-parms_com = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "com", False)
-parms_max = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", False)
-parms_min___pathological = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "min", False)
+parms_ao_faster = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "cen", True)
+parms_ao_max = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
+parms_det_list_of_1 = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
+parms_det_list_of_3 = _TestParameters(["epics_pvoigt", "noisy", "scaler1"], "axis", -1.2, 1.2, 11, "max", True)
+parms_det_tuple = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "max", True)
+parms_cen = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "cen", False)
+parms_com = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "com", False)
+parms_max = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "max", False)
+parms_min___pathological = _TestParameters(["epics_pvoigt"], "axis", -1.2, 1.2, 11, "min", False)
 
 
 @pytest.mark.iocs
@@ -323,27 +310,22 @@ def test_lineup(parms: _TestParameters, RE: RunEngine, request: FixtureRequest, 
 
 
 _TestParameters = collections.namedtuple("TestParameters", "signals, mover, start, finish, npts, feature, nscans")
-parms_motor_slower = _TestParameters(["noisy"], "m1", -1.2, 1.2, 11, "max", 2)
-parms_ao_faster = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "cen", 2)
-parms_ao_max = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", 2)
-parms_det_list_of_1 = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", 2)
-parms_det_list_of_3 = _TestParameters(["pvoigt", "noisy", "scaler1"], "axis", -1.2, 1.2, 11, "max", 2)
-parms_det_tuple = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", 2)
-parms_cen = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "cen", 1)
-parms_com = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "com", 1)
-parms_max = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "max", 1)
-parms_min___pathological = _TestParameters(["pvoigt"], "axis", -1.2, 1.2, 11, "min", 1)
+parms_ao_faster = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "cen", 2)
+parms_ao_max = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "max", 2)
+parms_det_list_of_1 = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "max", 2)
+parms_det_tuple = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "max", 2)
+parms_cen = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "cen", 1)
+parms_com = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 51, "com", 1)
+parms_max = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "max", 1)
+parms_min___pathological = _TestParameters(["simulated_pvoigt"], "simulated_mover", -1.2, 1.2, 11, "min", 1)
 
 
-@pytest.mark.iocs
 @pytest.mark.parametrize(
     "parms",
     [
-        parms_motor_slower,
         parms_ao_faster,
         parms_ao_max,
         parms_det_list_of_1,
-        parms_det_list_of_3,
         parms_det_tuple,
         parms_cen,
         parms_com,

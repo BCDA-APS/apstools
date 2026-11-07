@@ -37,6 +37,8 @@ describe future plans.
    Maintenance
    -----------
 
+   * Optimize ``lineup2()`` tests with pure-Python movable and detector fixtures. (:issue:`1047`)
+
 1.7.13
 ******
 
