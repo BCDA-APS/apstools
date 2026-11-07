@@ -371,19 +371,6 @@ def test_lineup(parms, RE: RunEngine, request: FixtureRequest, swait, m1):
             )
         )
 
-    # if parms["rescan"] and parms["feature"] in "max cen".split():
-    #     # Test if mover position is within width of center.
-    #     if isinstance(parms["signals"], SynPseudoVoigt):
-    #         center = parms["signals"].center
-    #         width = parms["signals"].sigma * 2.355  # FWHM approx.
-    #     else:  # FIXME: multiple signals
-    #         center = swait.channels.B.input_value.get()
-    #         width = swait.channels.C.input_value.get()
-    #     position = get_position(parms["mover"])
-    #     lo = center-width
-    #     hi = center+width
-    #     # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
-
 
 @pytest.mark.parametrize(
     "parms",
@@ -697,7 +684,7 @@ def test_TuneResults(RE: RunEngine):
                 outcome=True,
             ),
             id="not-much-better",
-        ),  # TODO: sigma
+        ),
         pytest.param(
             dict(
                 peak=-1e5,
@@ -761,7 +748,7 @@ def test_TuneResults(RE: RunEngine):
                 outcome=True,
             ),
             id="negative-small-signal-zero-base",
-        ),  # TODO: sigma
+        ),
         pytest.param(
             dict(
                 peak=1e-5,
