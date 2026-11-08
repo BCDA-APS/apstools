@@ -1,0 +1,209 @@
+aps_data_management
+===================
+
+.. py:module:: apstools.devices.aps_data_management
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.aps_data_management``
+
+   Connect with APS Data Management workflows.
+
+   Example::
+
+       import bluesky
+       from apstools.devices import DM_WorkflowConnector
+
+       RE = bluesky.RunEngine()
+
+       dm_workflow = DM_WorkflowConnector(name="dm_workflow", labels=["DM"])
+       RE(
+           dm_workflow.run_as_plan(
+               workflow="example-01",
+               filePath="/home/beams/S1IDTEST/.bashrc"
+           )
+       )
+
+   .. note::  :class:`~DM_WorkflowConnector()` requires APS Data Management package (``aps-dm-api >=5``)
+
+   .. autosummary::
+
+       ~DM_WorkflowConnector
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: DM_WorkflowConnector(name=None, workflow=None, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_data_management.DM_WorkflowConnector``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Support for the APS Data Management tools.
+
+   The DM workflow dictionary of arguments (``workflow_args``) needs special
+   attention.  Python's ``dict`` structure is not compatible with MongoDB.  In
+   turn, ophyd does not support it. A custom plan can choose how to use the
+   ``workflow_args`` dictionary:
+
+   - use with DM workflow, as planned
+   - add ``workflow_args`` to the start metadata
+   - write as run stream::
+
+       from apstools.devices import make_dict_device
+       from apstools.plans import write_stream
+
+       yield from write_stream(
+           [make_dict_device(workflow_args, name="kwargs")],
+           "workflow_args"
+       )
+
+   .. autosummary::
+
+       ~api
+       ~idle
+       ~processing_jobs
+       ~report_processing_stages
+       ~report_status
+       ~run_as_plan
+       ~start_workflow
+       ~workflows
+       ~put_if_different
+       ~_update_processing_data
+
+
+   .. py:property:: api
+
+      Local copy of DM Processing API object.
+
+
+
+   .. py:attribute:: concise_reporting
+
+
+   .. py:method:: getJob()
+
+      Get the current processing job object.
+
+
+
+   .. py:property:: idle
+
+      Is DM Processing idle?
+
+
+
+   .. py:attribute:: job
+      :value: None
+
+
+
+   .. py:attribute:: job_id
+
+
+   .. py:attribute:: owner
+
+
+   .. py:attribute:: polling_period
+
+
+   .. py:property:: processing_jobs
+
+      The list of DM processsing jobs.
+
+
+
+   .. py:method:: put_if_different(signal, value)
+
+      Put ophyd signal only if new value is different.
+
+
+
+   .. py:method:: report_processing_stages(truncate=40)
+
+      Print a table about each stage of the workflow process.
+
+
+
+   .. py:method:: report_status(t_offset=None)
+
+      Status report.
+
+
+
+   .. py:attribute:: reporting_period
+
+
+   .. py:method:: run_as_plan(workflow: str = '', wait: bool = True, timeout: int = TIMEOUT_DEFAULT, **kwargs)
+
+      Run the DM workflow as a bluesky plan.
+
+
+
+   .. py:attribute:: run_time
+
+
+   .. py:attribute:: stage_id
+
+
+   .. py:method:: start_workflow(workflow='', timeout=TIMEOUT_DEFAULT, **kwargs)
+
+      Kickoff a DM workflow with optional reporting timeout.
+
+      The reporting process will continue until the workflow ends or the
+      timeout period is exceeded.  It does not affect the actual workflow.
+
+
+
+   .. py:attribute:: status
+
+
+   .. py:attribute:: workflow
+
+
+   .. py:attribute:: workflow_args
+
+
+   .. py:property:: workflows
+
+      Return the list of workflows.
+
+
+
+.. py:data:: NOT_AVAILABLE
+   :value: '-n/a-'
+
+
+.. py:data:: NOT_RUN_YET
+   :value: 'not_run'
+
+
+.. py:data:: POLLING_PERIOD_S
+   :value: 1.0
+
+
+.. py:data:: REPORT_PERIOD_DEFAULT
+   :value: 10
+
+
+.. py:data:: REPORT_PERIOD_MIN
+   :value: 1
+
+
+.. py:data:: STARTING
+   :value: 'running'
+
+
+.. py:data:: TIMEOUT_DEFAULT
+   :value: 180
+
+

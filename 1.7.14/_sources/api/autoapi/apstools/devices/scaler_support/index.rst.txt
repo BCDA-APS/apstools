@@ -1,0 +1,41 @@
+scaler_support
+==============
+
+.. py:module:: apstools.devices.scaler_support
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.scaler_support``
+
+   Scaler support
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~use_EPICS_scaler_channels
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: SCALER_AUTOCOUNT_MODE
+   :value: 1
+
+
+.. py:function:: use_EPICS_scaler_channels(scaler)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.scaler_support.use_EPICS_scaler_channels``
+
+
+   configure scaler for only the channels with names assigned in EPICS
+
+   Note: For `ScalerCH`, use `scaler.select_channels(None)` instead of this code.
+   (Applies only to `ophyd.scaler.ScalerCH` in releases after 2019-02-27.)
+
+

@@ -1,0 +1,197 @@
+delay
+=====
+
+.. py:module:: apstools.devices.delay
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.delay``
+
+   Ophyd definitions for digital delay and pulse generators.
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: DG645Delay(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.delay.DG645Delay``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   An SRS DG-645 digial delay/pulse generator.
+
+   This device has four delayed outputs: AB, CD, EF, GH.
+
+   Configuration of the output parameters (e.g. amplitude, polarity)
+   is done using components ``output_AB``, etc. The individual delays
+   for the start and end of the output pulse are configured using
+   individual channels ``channel_A`` etc.
+
+   There is also a ``T0`` output which is the reference pulses used
+   for the remaining delayed outputs.
+
+
+
+   .. py:attribute:: autoip_state
+
+
+   .. py:attribute:: bare_socket_state
+
+
+   .. py:attribute:: burst_T0
+
+
+   .. py:attribute:: burst_count
+
+
+   .. py:attribute:: burst_delay
+
+
+   .. py:attribute:: burst_mode
+
+
+   .. py:attribute:: burst_period
+
+
+   .. py:attribute:: channel_A
+
+
+   .. py:attribute:: channel_B
+
+
+   .. py:attribute:: channel_C
+
+
+   .. py:attribute:: channel_D
+
+
+   .. py:attribute:: channel_E
+
+
+   .. py:attribute:: channel_F
+
+
+   .. py:attribute:: channel_G
+
+
+   .. py:attribute:: channel_H
+
+
+   .. py:attribute:: clear_error
+
+
+   .. py:attribute:: device_id
+
+
+   .. py:attribute:: dhcp_state
+
+
+   .. py:attribute:: gateway
+
+
+   .. py:attribute:: goto_local
+
+
+   .. py:attribute:: goto_remote
+
+
+   .. py:attribute:: gpib_address
+
+
+   .. py:attribute:: gpib_state
+
+
+   .. py:attribute:: ip_address
+
+
+   .. py:attribute:: label
+
+
+   .. py:attribute:: lan_state
+
+
+   .. py:attribute:: mac_address
+
+
+   .. py:attribute:: network_mask
+
+
+   .. py:attribute:: output_AB
+
+
+   .. py:attribute:: output_CD
+
+
+   .. py:attribute:: output_EF
+
+
+   .. py:attribute:: output_GH
+
+
+   .. py:attribute:: output_T0
+
+
+   .. py:attribute:: reset
+
+
+   .. py:attribute:: reset_gpib
+
+
+   .. py:attribute:: reset_lan
+
+
+   .. py:attribute:: reset_serial
+
+
+   .. py:attribute:: serial_baud
+
+
+   .. py:attribute:: serial_state
+
+
+   .. py:attribute:: static_ip_state
+
+
+   .. py:attribute:: status
+
+
+   .. py:attribute:: status_checking
+
+
+   .. py:attribute:: telnet_state
+
+
+   .. py:attribute:: trigger_advanced_mode
+
+
+   .. py:attribute:: trigger_arm
+
+
+   .. py:attribute:: trigger_holdoff
+
+
+   .. py:attribute:: trigger_inhibit
+
+
+   .. py:attribute:: trigger_level
+
+
+   .. py:attribute:: trigger_prescale
+
+
+   .. py:attribute:: trigger_rate
+
+
+   .. py:attribute:: trigger_source
+
+
+   .. py:attribute:: vxi11_state
+
+

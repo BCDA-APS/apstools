@@ -1,0 +1,171 @@
+aps_machine
+===========
+
+.. py:module:: apstools.devices_async.aps_machine
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices_async.aps_machine``
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ApsMachine
+
+   .. container:: import-path
+
+      Import: ``apstools.devices_async.aps_machine.ApsMachine``
+
+
+   Bases: :py:obj:`ophyd_async.epics.core.EpicsDevice`, :py:obj:`ophyd_async.core.StandardReadable`
+
+
+   .. py:class:: MachineStatus
+
+      .. container:: import-path
+
+         Import: ``apstools.devices_async.aps_machine.ApsMachine.MachineStatus``
+
+
+      Bases: :py:obj:`ophyd_async.core.SubsetEnum`
+
+
+      .. py:attribute:: ASD_STUDIES
+         :value: 'ASD Studies'
+
+
+
+      .. py:attribute:: MAINTENANCE
+         :value: 'MAINTENANCE'
+
+
+
+      .. py:attribute:: NO_BEAM
+         :value: 'NO BEAM'
+
+
+
+      .. py:attribute:: SUPPLEMENTAL_TIME
+         :value: 'SUPLEMENTAL TIME'
+
+
+
+      .. py:attribute:: UNKNOWN
+         :value: 'State Unknown'
+
+
+
+      .. py:attribute:: USER_OPERATIONS
+         :value: 'USER OPERATIONS'
+
+
+
+
+   .. py:class:: OperatingMode
+
+      .. container:: import-path
+
+         Import: ``apstools.devices_async.aps_machine.ApsMachine.OperatingMode``
+
+
+      Bases: :py:obj:`ophyd_async.core.StrictEnum`
+
+
+      .. py:attribute:: DELIVERED_BEAM
+         :value: 'Delivered Beam'
+
+
+
+      .. py:attribute:: INJECTING
+         :value: 'Injecting'
+
+
+
+      .. py:attribute:: MAINTENANCE
+         :value: 'MAINTENANCE'
+
+
+
+      .. py:attribute:: NO_BEAM
+         :value: 'NO BEAM'
+
+
+
+      .. py:attribute:: STATE_UNKNOWN
+         :value: 'State Unknown'
+
+
+
+      .. py:attribute:: STORED_BEAM
+         :value: 'Stored Beam'
+
+
+
+
+   .. py:attribute:: current
+      :type:  Annotated[ophyd_async.core.SignalR[float], PvSuffix('S-DCCT:CurrentM'), ophyd_async.core.StandardReadableFormat.CHILD]
+
+
+   .. py:attribute:: fill_number
+      :type:  Annotated[ophyd_async.core.SignalR[int], PvSuffix('S:FillNumber'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: fill_pattern
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message3'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: floor_coordinator
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message2'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: last_problem_message
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message4'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: last_trip_message
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message5'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: machine_status
+      :type:  Annotated[ophyd_async.core.SignalR[ApsMachine.MachineStatus], PvSuffix('S:DesiredMode'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: message6
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message6'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: message7
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message7'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: message8
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message8'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: operating_mode
+      :type:  Annotated[ophyd_async.core.SignalR[ApsMachine.OperatingMode], PvSuffix('S:ActualMode'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: operators
+      :type:  Annotated[ophyd_async.core.SignalR[str], PvSuffix('OPS:message1'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: orbit_correction
+      :type:  Annotated[ophyd_async.core.SignalR[float], PvSuffix('S:OrbitCorrection:CC'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: shutter_status
+      :type:  Annotated[ophyd_async.core.SignalR[bool], PvSuffix('XFD:ShutterPermit'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+   .. py:attribute:: shutters_open
+      :type:  Annotated[ophyd_async.core.SignalR[int], PvSuffix('NoOfShuttersOpenA'), ophyd_async.core.StandardReadableFormat.CONFIG_SIGNAL]
+
+
+.. py:data:: log
+

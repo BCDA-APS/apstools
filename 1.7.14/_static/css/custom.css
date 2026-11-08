@@ -1,0 +1,27 @@
+/* Hide the full module-path prefix in autoapi signature blocks.
+   The full import path is shown via "Import:" below each signature. */
+.sig-prename.descclassname {
+    display: none;
+}
+
+/* Remove extra margin from the Import: container so it
+   aligns with Bases: and the docstring text. */
+.import-path.docutils.container {
+    margin: 0;
+}
+
+/* Style the link marked: latest */
+.version-switcher__container a[data-version-name*="(latest)"] {
+    background-color: lightgreen;
+}
+
+ /* Style the link marked: dev */
+ .version-switcher__container a[data-version="dev"] {
+    background-color: var(--pst-color-secondary);
+}
+
+
+ /* doc versions before switcher colored lightpink */
+ .version-switcher__container a[data-version-name*="no version dropdown"] {
+   background-color: lightpink;
+}
