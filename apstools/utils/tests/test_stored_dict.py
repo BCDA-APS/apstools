@@ -37,6 +37,14 @@ def luftpause(delay=LUFTPAUSE_DELAY):
     time.sleep(max(0, delay))
 
 
+def wait_for_sync(sdict, timeout=1):
+    """Wait for a delayed write to complete."""
+    deadline = time.time() + timeout
+    while sdict.sync_in_progress and time.time() < deadline:
+        time.sleep(STOREDDICT_SYNC_LOOP_PERIOD)
+    assert not sdict.sync_in_progress
+
+
 @pytest.fixture
 def md_file():
     """Provide a temporary file (deleted on close)."""
@@ -109,8 +117,8 @@ def test_StoredDict(md_file):
     # Still not written ...
     assert load_config_yaml(md_file)["bee"] == "bumble"
 
-    time.sleep(sdict._delay)
-    # Should be written by now.
+    wait_for_sync(sdict)
+    # The completed write should now be visible.
     assert load_config_yaml(md_file)["bee"] == "queen"
 
     del sdict["bee"]  # __delitem__

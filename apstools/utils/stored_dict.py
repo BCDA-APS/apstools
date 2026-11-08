@@ -51,7 +51,9 @@ import atexit
 import collections.abc
 import datetime
 import json
+import os
 import pathlib
+import tempfile
 import threading
 import time
 
@@ -119,6 +121,7 @@ class StoredDict(collections.abc.MutableMapping):
         self._sync_deadline = time.time()
         self._sync_key = f"sync_agent_{id(self):x}"
         self._sync_loop_period = 0.005
+        self._sync_lock = threading.RLock()
 
         self._cache = {}
         self.reload()
@@ -128,8 +131,9 @@ class StoredDict(collections.abc.MutableMapping):
 
     def __delitem__(self, key):
         """Delete dictionary value by key."""
-        del self._cache[key]
-        self._queue_storage()
+        with self._sync_lock:
+            del self._cache[key]
+            self._queue_storage()
 
     def __getitem__(self, key):
         """Get dictionary value by key."""
@@ -152,8 +156,9 @@ class StoredDict(collections.abc.MutableMapping):
         if self.test_serializable:
             json.dumps({key: value})
 
-        self._cache[key] = value  # Store the new (or revised) content.
-        self._queue_storage()
+        with self._sync_lock:
+            self._cache[key] = value  # Store the new (or revised) content.
+            self._queue_storage()
 
     def _delayed_sync_to_storage(self):
         """
@@ -168,9 +173,10 @@ class StoredDict(collections.abc.MutableMapping):
             self.sync_in_progress = True
             while time.time() < self._sync_deadline:
                 time.sleep(self._sync_loop_period)
-            self.sync_in_progress = False
 
-            StoredDict.dump(self._file, self._cache, title=self._title)
+            with self._sync_lock:
+                StoredDict.dump(self._file, self._cache, title=self._title)
+                self.sync_in_progress = False
 
         thred = threading.Thread(target=sync_agent)
         thred.start()
@@ -186,10 +192,10 @@ class StoredDict(collections.abc.MutableMapping):
 
     def flush(self):
         """Force a write of the dictionary to disk"""
-        if not self.sync_in_progress:
+        with self._sync_lock:
+            self._sync_deadline = time.time()
             StoredDict.dump(self._file, self._cache, title=self._title)
-        self._sync_deadline = time.time()
-        self.sync_in_progress = False
+            self.sync_in_progress = False
 
     def popitem(self):
         """
@@ -207,12 +213,26 @@ class StoredDict(collections.abc.MutableMapping):
 
     @staticmethod
     def dump(file, contents, title=None):
-        """Write dictionary to YAML file."""
-        with open(file, "w") as f:
+        """Write dictionary to YAML file atomically."""
+        file = pathlib.Path(file)
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            dir=file.parent,
+            prefix=f".{file.name}.",
+            delete=False,
+        ) as temporary:
             if isinstance(title, str) and len(title) > 0:
-                f.write(f"# {title}\n")
-            f.write(f"# Dictionary contents written: {datetime.datetime.now()}\n\n")
-            f.write(yaml.dump(contents.copy(), indent=2))
+                temporary.write(f"# {title}\n")
+            temporary.write(f"# Dictionary contents written: {datetime.datetime.now()}\n\n")
+            temporary.write(yaml.dump(contents.copy(), indent=2))
+            temporary.flush()
+            os.fsync(temporary.fileno())
+            temporary_path = pathlib.Path(temporary.name)
+
+        try:
+            os.replace(temporary_path, file)
+        finally:
+            temporary_path.unlink(missing_ok=True)
 
     @staticmethod
     def load(file):
