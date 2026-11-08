@@ -132,6 +132,70 @@ omit = [
 ]
 relative_files = true
 
+[tool.pixi.dependencies]
+aps-dm-api = ">=10.1.0,<11"
+[tool.pixi.environments]
+default = { features = ["base", "py313"], solve-group = "py313" }
+py311 = { features = ["base", "py311"], solve-group = "py311" }
+py312 = { features = ["base", "py312"], solve-group = "py312" }
+py313 = { features = ["base", "py313"], solve-group = "py313" }
+py314 = { features = ["base", "py314"], solve-group = "py314" }
+py315 = { features = ["base", "py315"], solve-group = "py315" }
+
+[tool.pixi.feature.base.dependencies]
+aps-dm-api = ">=10.1.0,<11"
+coverage = "*"
+epics-base = "*"
+pyepics = "*"
+pytest = "*"
+pyyaml = "*"
+"ruamel.yaml" = "*"
+setuptools-scm = "*"
+
+[tool.pixi.feature.py311.dependencies]
+python = "3.11.*"
+
+[tool.pixi.feature.py312.dependencies]
+python = "3.12.*"
+
+[tool.pixi.feature.py313.dependencies]
+python = "3.13.*"
+
+[tool.pixi.feature.py314.dependencies]
+python = "3.14.*"
+
+[tool.pixi.feature.py315.dependencies]
+python = "3.15.*"
+h5py = "*"
+
+[tool.pixi.feature.py311.pypi-dependencies]
+coveralls = "*"
+
+[tool.pixi.feature.py312.pypi-dependencies]
+coveralls = "*"
+
+[tool.pixi.feature.py313.pypi-dependencies]
+coveralls = "*"
+
+[tool.pixi.feature.py314.pypi-dependencies]
+coveralls = "*"
+
+[tool.pixi.feature.py315.pypi-dependencies]
+coveralls = "*"
+
+[tool.pixi.pypi-dependencies]
+apstools = { path = ".", editable = true, extras = ["all"] }
+
+[tool.pixi.tasks]
+lint = "pre-commit run --all-files"
+test = "python -m coverage run --concurrency=thread --parallel-mode -m pytest -q --exitfirst ."
+coverage-report = { cmd = "python -m coverage combine && python -m coverage report --precision 3 --show-missing", depends-on = ["test"] }
+
+[tool.pixi.workspace]
+channels = ["conda-forge", "apsu"]
+platforms = ["linux-64"]
+requires-pixi = ">=0.83.0"
+
 [tool.pytest.ini_options]
 addopts = [
     "--import-mode=importlib",
@@ -229,23 +293,3 @@ include = ["apstools*"]  # package names should match these glob patterns (["*"]
 
 [tool.setuptools_scm]
 write_to = "apstools/_version.py"
-
-[tool.pixi.workspace]
-channels = ["conda-forge", "apsu"]
-platforms = ["linux-64"]
-
-[tool.pixi.pypi-dependencies]
-apstools = { path = ".", editable = true }
-
-[tool.pixi.environments]
-default = { solve-group = "default" }
-all = { features = ["all"], solve-group = "default" }
-async = { features = ["async"], solve-group = "default" }
-dev = { features = ["dev", "async"], solve-group = "default" }
-doc = { features = ["doc"], solve-group = "default" }
-
-[tool.pixi.tasks]
-
-[tool.pixi.dependencies]
-aps-dm-api = ">=10.1.0,<11"
-python = "3.13.*"

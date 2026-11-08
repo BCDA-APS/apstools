@@ -16,6 +16,7 @@ databases, and other structures not already supported in `ophyd
    :hidden:
 
    install
+   ci_pixi
    api/index
    applications/index
    examples/index

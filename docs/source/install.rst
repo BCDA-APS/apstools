@@ -55,4 +55,5 @@ tests from inside the main repository folder:
 
     git clone http://github.com/BCDA-APS/apstools
     cd apstools
-    pixi run --environment all pytest
+    pixi install --locked -e py313
+    pixi run --locked -e py313 pytest
