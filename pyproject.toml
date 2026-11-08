@@ -106,7 +106,7 @@ doc = [
   "sphinx-design",
 ]
 async = [
-  "ophyd-async[ca]",
+  "ophyd-async[ca]>=0.21.3",
 ]
 all = ["apstools[dev,doc,async]"]
 
@@ -149,7 +149,6 @@ epics-base = "*"
 pyepics = "*"
 pytest = "*"
 pyyaml = "*"
-"ruamel.yaml" = "*"
 setuptools-scm = "*"
 
 [tool.pixi.feature.py311.dependencies]
