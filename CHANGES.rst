@@ -38,6 +38,7 @@ describe future plans.
    -----------
 
    * Optimize ``lineup2()`` tests with pure-Python movable and detector fixtures. (:issue:`1047`)
+   * Reduce scaler preset_time in alignment tests for faster CI execution.
    * Use locked Pixi environments for CI testing and dependency updates. (:issue:`1209`)
 
 
