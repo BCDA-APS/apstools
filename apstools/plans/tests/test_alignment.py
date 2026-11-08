@@ -29,6 +29,8 @@ from ...tests import in_gha_workflow
 from .. import alignment
 from ._scaler import ScalerCH
 
+SCALER_PRESET_TIME = 0.2
+
 
 @pytest.fixture(scope="function")
 def catalog(RE):
@@ -93,6 +95,7 @@ def noisy():
 def scaler1():
     device_ = ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
     device_.wait_for_connection()
+    device_.preset_time.put(SCALER_PRESET_TIME)
     device_.select_channels()
     return device_
 
