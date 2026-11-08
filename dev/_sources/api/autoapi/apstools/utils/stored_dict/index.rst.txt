@@ -107,7 +107,7 @@ Module Contents
       :staticmethod:
 
 
-      Write dictionary to YAML file.
+      Write dictionary to YAML file atomically.
 
 
 

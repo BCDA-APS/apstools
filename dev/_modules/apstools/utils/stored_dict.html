@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=c56bc7d6"></script>
+    <script src="../../../_static/documentation_options.js?v=8424c724"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -513,7 +513,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
@@ -583,6 +585,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sync_deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sync_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"sync_agent_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sync_loop_period</span> <span class="o">=</span> <span class="mf">0.005</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
@@ -592,8 +595,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Delete dictionary value by key."""</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_storage</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_queue_storage</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Get dictionary value by key."""</span>
@@ -616,8 +620,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_serializable</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># Store the new (or revised) content.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_storage</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># Store the new (or revised) content.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_queue_storage</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_delayed_sync_to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -632,9 +637,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_deadline</span><span class="p">:</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sync_loop_period</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span>
 
-            <span class="n">StoredDict</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">)</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span><span class="p">:</span>
+                <span class="n">StoredDict</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="n">thred</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">sync_agent</span><span class="p">)</span>
         <span class="n">thred</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -652,10 +658,10 @@
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/stored_dict/index.html#apstools.utils.stored_dict.StoredDict.flush">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Force a write of the dictionary to disk"""</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sync_deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="n">StoredDict</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sync_deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="StoredDict.popitem">
@@ -682,12 +688,26 @@
 <a class="viewcode-back" href="../../../api/autoapi/apstools/utils/stored_dict/index.html#apstools.utils.stored_dict.StoredDict.dump">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dump</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">contents</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Write dictionary to YAML file."""</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Write dictionary to YAML file atomically."""</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span>
+            <span class="nb">dir</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">".</span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+            <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">temporary</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"# </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"# Dictionary contents written: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">contents</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span></div>
+                <span class="n">temporary</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"# </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">temporary</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"# Dictionary contents written: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">temporary</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">contents</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">temporary</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">fsync</span><span class="p">(</span><span class="n">temporary</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
+            <span class="n">temporary_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">temporary</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">temporary_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">temporary_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="StoredDict.load">
