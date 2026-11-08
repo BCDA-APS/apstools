@@ -51,7 +51,9 @@ import atexit
 import collections.abc
 import datetime
 import json
+import os
 import pathlib
+import tempfile
 import threading
 import time
 
@@ -168,9 +170,9 @@ class StoredDict(collections.abc.MutableMapping):
             self.sync_in_progress = True
             while time.time() < self._sync_deadline:
                 time.sleep(self._sync_loop_period)
-            self.sync_in_progress = False
 
             StoredDict.dump(self._file, self._cache, title=self._title)
+            self.sync_in_progress = False
 
         thred = threading.Thread(target=sync_agent)
         thred.start()
@@ -207,12 +209,26 @@ class StoredDict(collections.abc.MutableMapping):
 
     @staticmethod
     def dump(file, contents, title=None):
-        """Write dictionary to YAML file."""
-        with open(file, "w") as f:
+        """Write dictionary to YAML file atomically."""
+        file = pathlib.Path(file)
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            dir=file.parent,
+            prefix=f".{file.name}.",
+            delete=False,
+        ) as temporary:
             if isinstance(title, str) and len(title) > 0:
-                f.write(f"# {title}\n")
-            f.write(f"# Dictionary contents written: {datetime.datetime.now()}\n\n")
-            f.write(yaml.dump(contents.copy(), indent=2))
+                temporary.write(f"# {title}\n")
+            temporary.write(f"# Dictionary contents written: {datetime.datetime.now()}\n\n")
+            temporary.write(yaml.dump(contents.copy(), indent=2))
+            temporary.flush()
+            os.fsync(temporary.fileno())
+            temporary_path = pathlib.Path(temporary.name)
+
+        try:
+            os.replace(temporary_path, file)
+        finally:
+            temporary_path.unlink(missing_ok=True)
 
     @staticmethod
     def load(file):
