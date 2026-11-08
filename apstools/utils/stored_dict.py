@@ -121,6 +121,7 @@ class StoredDict(collections.abc.MutableMapping):
         self._sync_deadline = time.time()
         self._sync_key = f"sync_agent_{id(self):x}"
         self._sync_loop_period = 0.005
+        self._sync_lock = threading.RLock()
 
         self._cache = {}
         self.reload()
@@ -130,8 +131,9 @@ class StoredDict(collections.abc.MutableMapping):
 
     def __delitem__(self, key):
         """Delete dictionary value by key."""
-        del self._cache[key]
-        self._queue_storage()
+        with self._sync_lock:
+            del self._cache[key]
+            self._queue_storage()
 
     def __getitem__(self, key):
         """Get dictionary value by key."""
@@ -154,8 +156,9 @@ class StoredDict(collections.abc.MutableMapping):
         if self.test_serializable:
             json.dumps({key: value})
 
-        self._cache[key] = value  # Store the new (or revised) content.
-        self._queue_storage()
+        with self._sync_lock:
+            self._cache[key] = value  # Store the new (or revised) content.
+            self._queue_storage()
 
     def _delayed_sync_to_storage(self):
         """
@@ -171,8 +174,9 @@ class StoredDict(collections.abc.MutableMapping):
             while time.time() < self._sync_deadline:
                 time.sleep(self._sync_loop_period)
 
-            StoredDict.dump(self._file, self._cache, title=self._title)
-            self.sync_in_progress = False
+            with self._sync_lock:
+                StoredDict.dump(self._file, self._cache, title=self._title)
+                self.sync_in_progress = False
 
         thred = threading.Thread(target=sync_agent)
         thred.start()
@@ -188,10 +192,10 @@ class StoredDict(collections.abc.MutableMapping):
 
     def flush(self):
         """Force a write of the dictionary to disk"""
-        if not self.sync_in_progress:
+        with self._sync_lock:
+            self._sync_deadline = time.time()
             StoredDict.dump(self._file, self._cache, title=self._title)
-        self._sync_deadline = time.time()
-        self.sync_in_progress = False
+            self.sync_in_progress = False
 
     def popitem(self):
         """
