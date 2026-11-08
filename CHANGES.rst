@@ -20,10 +20,19 @@ History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
+..
+   1.8.0
+   ******
+
+   Release expected by 2026-11-30.
+
+   Enhancements
+   ------------
+
 1.7.14
 ******
 
-Release expected by 2026-11-30.
+Released 2026-11-08.
 
 Enhancements
 ------------
