@@ -38,6 +38,8 @@ describe future plans.
    -----------
 
    * Optimize ``lineup2()`` tests with pure-Python movable and detector fixtures. (:issue:`1047`)
+   * Use locked Pixi environments for CI testing and dependency updates. (:issue:`1209`)
+
 
 1.7.13
 ******
