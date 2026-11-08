@@ -20,26 +20,25 @@ History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
-..
-   1.7.14
-   ******
+1.7.14
+******
 
-   Release expected by 2026-11-30.
+Release expected by 2026-11-30.
 
-   Enhancements
-   ------------
+Enhancements
+------------
 
-   Fixes
-   -----
+Fixes
+-----
 
-   * Make ``PVPositionerSoftDoneWithStop.stop()`` use the current readback value. (:issue:`1161`)
+* Make ``PVPositionerSoftDoneWithStop.stop()`` use the current readback value. (:issue:`1161`)
 
-   Maintenance
-   -----------
+Maintenance
+-----------
 
-   * Optimize ``lineup2()`` tests with pure-Python movable and detector fixtures. (:issue:`1047`)
-   * Reduce scaler preset_time in alignment tests for faster CI execution.
-   * Use locked Pixi environments for CI testing and dependency updates. (:issue:`1209`)
+* Optimize ``lineup2()`` tests with pure-Python movable and detector fixtures. (:issue:`1047`)
+* Reduce scaler preset_time in alignment tests for faster CI execution.
+* Use locked Pixi environments for CI testing and dependency updates. (:issue:`1209`)
 
 
 1.7.13
