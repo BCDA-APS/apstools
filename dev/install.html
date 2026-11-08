@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="_static/documentation_options.js?v=4573efca"></script>
+    <script src="_static/documentation_options.js?v=c56bc7d6"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -57,7 +57,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API" href="api/index.html" />
+    <link rel="next" title="Maintain CI With Pixi" href="ci_pixi.html" />
     <link rel="prev" title="apstools" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
@@ -172,6 +172,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="ci_pixi.html">
+    Maintain CI With Pixi
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="api/index.html">
     API
   </a>
@@ -191,20 +198,30 @@
   </a>
 </li>
 
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="changes.html">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="changes.html">
     Change History
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="license.html">
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="license.html">
     License
   </a>
 </li>
 
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -303,6 +320,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#" aria-current="page">
     Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ci_pixi.html">
+    Maintain CI With Pixi
   </a>
 </li>
 
@@ -495,7 +519,8 @@ GitHub repository listed above.  Install from the source directory using
 tests from inside the main repository folder:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>git<span class="w"> </span>clone<span class="w"> </span>http://github.com/BCDA-APS/apstools
 <span class="linenos">2</span><span class="nb">cd</span><span class="w"> </span>apstools
-<span class="linenos">3</span>pixi<span class="w"> </span>run<span class="w"> </span>--environment<span class="w"> </span>all<span class="w"> </span>pytest
+<span class="linenos">3</span>pixi<span class="w"> </span>install<span class="w"> </span>--locked<span class="w"> </span>-e<span class="w"> </span>py313
+<span class="linenos">4</span>pixi<span class="w"> </span>run<span class="w"> </span>--locked<span class="w"> </span>-e<span class="w"> </span>py313<span class="w"> </span>pytest
 </pre></div>
 </div>
 </section>
@@ -521,11 +546,11 @@ tests from inside the main repository folder:</p>
       </div>
     </a>
     <a class="right-next"
-       href="api/index.html"
+       href="ci_pixi.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API</p>
+        <p class="prev-next-title">Maintain CI With Pixi</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
