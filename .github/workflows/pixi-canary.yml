@@ -69,9 +69,9 @@ jobs:
           docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
           docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
           docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
-          caget gp:UPTIME
-          caget gp:gp:float1
-          caget ad:cam1:Acquire_RBV
+          pixi run -e "${{ matrix.pixi-environment }}" caget gp:UPTIME
+          pixi run -e "${{ matrix.pixi-environment }}" caget gp:gp:float1
+          pixi run -e "${{ matrix.pixi-environment }}" caget ad:cam1:Acquire_RBV
 
       - name: Confirm EPICS IOC is available via PyEpics
         run: |
