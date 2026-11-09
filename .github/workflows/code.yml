@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Pixi
-        uses: prefix-dev/setup-pixi@v0.11.2
+        uses: prefix-dev/setup-pixi@v0.11.3
         with:
           pixi-version: v0.83.0
           environments: py313
@@ -67,7 +67,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Pixi
-        uses: prefix-dev/setup-pixi@v0.11.2
+        uses: prefix-dev/setup-pixi@v0.11.3
         with:
           pixi-version: v0.83.0
           environments: ${{ matrix.pixi-environment }}
