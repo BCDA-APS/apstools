@@ -41,8 +41,5 @@ jobs:
       - name: Update latest dependencies
         run: pixi update -e "${{ matrix.pixi-environment }}"
 
-      - name: Activate latest environment
-        run: pixi shell-hook -e "${{ matrix.pixi-environment }}" >> "$GITHUB_ENV"
-
       - name: Run tests
         run: pixi run -e "${{ matrix.pixi-environment }}" test
