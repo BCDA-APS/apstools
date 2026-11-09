@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: prefix-dev/setup-pixi@v0.11.2
+      - uses: prefix-dev/setup-pixi@v0.11.3
         with:
           pixi-version: v0.83.0
           run-install: false
@@ -30,7 +30,7 @@ jobs:
           pixi update --json | pixi exec pixi-diff-to-markdown > diff.md
 
       - name: Create lockfile update pull request
-        uses: peter-evans/create-pull-request@v8.1.1
+        uses: peter-evans/create-pull-request@v8.1.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "CI: update Pixi lockfile"
