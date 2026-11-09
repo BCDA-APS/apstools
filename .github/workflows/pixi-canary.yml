@@ -37,13 +37,9 @@ jobs:
           pixi-version: v0.83.0
           environments: ${{ matrix.pixi-environment }}
           cache: false
-          run-install: false
 
       - name: Update latest dependencies
         run: pixi update -e "${{ matrix.pixi-environment }}"
-
-      - name: Install latest environment
-        run: pixi install -e "${{ matrix.pixi-environment }}"
 
       - name: Activate latest environment
         run: pixi shell-hook -e "${{ matrix.pixi-environment }}" >> "$GITHUB_ENV"
