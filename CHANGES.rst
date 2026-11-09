@@ -29,6 +29,11 @@ describe future plans.
    Enhancements
    ------------
 
+   Maintenance
+   -----------
+
+   * Run the latest-dependencies canary with EPICS IOC verification. (:issue:`1209`)
+
 1.7.14
 ******
 

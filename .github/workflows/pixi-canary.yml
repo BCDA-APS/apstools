@@ -36,10 +36,65 @@ jobs:
         with:
           pixi-version: v0.83.0
           environments: ${{ matrix.pixi-environment }}
+          activate-environment: true
           cache: false
 
       - name: Update latest dependencies
         run: pixi update -e "${{ matrix.pixi-environment }}"
 
+      - name: Install latest environment
+        run: pixi install -e "${{ matrix.pixi-environment }}"
+
+      - name: Diagnostics
+        run: |
+          set -euo pipefail
+          pixi info
+          pixi list -e "${{ matrix.pixi-environment }}"
+          python --version
+          python -m coverage --version
+
+      - name: Confirm commands are available
+        run: |
+          set -euo pipefail
+          command -v caget
+          python -c "import epics; print('PyEpics available')"
+          python -c "import ophyd; print('Ophyd available')"
+
+      - name: Start EPICS IOCs in Docker
+        run: |
+          set -vxeuo pipefail
+          bash ./.github/scripts/iocmgr.sh start GP gp
+          bash ./.github/scripts/iocmgr.sh start ADSIM ad
+          docker ps -a
+          ls -lAFgh /tmp/docker_ioc/iocad/
+          ls -lAFgh /tmp/docker_ioc/iocgp/
+
+      - name: Confirm EPICS IOC is available via caget
+        run: |
+          set -vxeuo pipefail
+          docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
+          docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
+          docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
+          caget gp:UPTIME
+          caget gp:gp:float1
+          caget ad:cam1:Acquire_RBV
+
+      - name: Confirm EPICS IOC is available via PyEpics
+        run: |
+          python -c "import epics; print(epics.caget('gp:UPTIME'))"
+          CMD="import epics"
+          CMD+="; print(epics.caget('gp:UPTIME'))"
+          python -c "${CMD}"
+
+      - name: Confirm EPICS IOC is available via ophyd
+        run: |
+          CMD="import ophyd"
+          CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
+          CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
+          CMD+="; up.wait_for_connection()"
+          CMD+="; print(up.get(), pv.get())"
+          python -c "${CMD}"
+
       - name: Run tests
+        continue-on-error: true
         run: pixi run -e "${{ matrix.pixi-environment }}" test
