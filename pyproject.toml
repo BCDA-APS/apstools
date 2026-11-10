@@ -199,6 +199,23 @@ requires-pixi = ">=0.83.0"
 addopts = [
     "--import-mode=importlib",
 ]
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    # External upstream dependencies: narrow, message/category-specific filters only.
+    # Each filter is documented with the original issue number.
+    "ignore:Using or importing the ABCs from:DeprecationWarning",  # Issue #520
+    "ignore:.*imp module is deprecated in favour of importlib:DeprecationWarning",  # Issue #520
+    "ignore:.*will be removed in a future release.:DeprecationWarning",  # Historical upstream
+    "ignore:.*DataFrame is highly fragmented.*:Warning",  # Issue #570, databroker fragmentation
+    "ignore:.*Broker.insert may be removed.*:PendingDeprecationWarning",  # Databroker deprecation
+    "ignore:.*distutils Version classes are deprecated.*:DeprecationWarning",  # Distutils end-of-life
+    "ignore:.*PIMS image_reader.py could not find scikit-image.*:RuntimeWarning",  # PIMS optional dependency
+    "ignore:.*zone attribute is specific to pytz.*:Warning",  # pytz zone semantics
+    "ignore:.*currentThread.*use current_thread.*:DeprecationWarning",  # Python 3.x transition
+    "ignore:.*bulk_events.*event_page.*:UserWarning",  # Issue #646, Bluesky API transition
+    "ignore:.*Trio.*custom handler.*:Warning",  # Trio/Bluesky interaction
+    "ignore:.*ssl.*PROTOCOL_TLSv1_2.*:DeprecationWarning",  # OpenSSL deprecation
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

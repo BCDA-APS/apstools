@@ -106,6 +106,28 @@ Write tests using `@pytest.mark.parametrize` with `parms, context` parameters:
 - Test files do not need `@deprecated` / `@versionadded` / `@versionchanged` tags.
 - All new code changes must include tests providing complete coverage of the new or changed code paths.
 
+## Warning Filters and Global Ignores
+
+Do not add new `filterwarnings` entries to `pyproject.toml` unless the warning:
+1. Originates from an external upstream dependency (not apstools code)
+2. Cannot be fixed or worked around on the repository side
+3. Has no viable alternative (e.g., cannot upgrade the dependency)
+
+Each global filter entry must:
+- Include explicit message and category patterns (no bare wildcards)
+- Be documented with a comment linking the original issue number or upstream source
+- Be reviewed and approved as part of a PR
+
+Repository-owned warnings (deprecations, parameter changes, test code) must be:
+- Fixed at their source or
+- Explicitly expected in tests using `pytest.warns(Category, match=...)`
+
+**EPICS Connection Retry Exception:** EPICS connection retry warnings
+(see `apstools/tests/__init__.py:82`) are operational infrastructure signals emitted
+by the test harness when ephemeral network timeouts occur. These are retained as-is
+for visibility. If CI noise becomes excessive, aggregate retry occurrences and fail
+or report separately, rather than suppress the warnings globally.
+
 ## Before Every Commit
 
 - Run `ruff check .` from the repo root (matching what CI runs) and fix any errors before committing.

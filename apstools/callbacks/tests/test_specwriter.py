@@ -116,7 +116,7 @@ def test_issue_1134_append_to_header_only_spec_file(tempdir: pytest.fixture):
     assert sdf.getScanNumbers() == ["1"]
 
 
-@pytest.mark.parametrize("run", catalog_test_runs())
+@pytest.mark.parametrize("run", list(catalog_test_runs()))
 def test_issue_1084_from_catalog(
     run,
     tempdir: pytest.fixture,

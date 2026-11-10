@@ -64,7 +64,7 @@ def ok_sample_data():
                 yield data
 
 
-@pytest.mark.parametrize("data", ok_sample_data())
+@pytest.mark.parametrize("data", list(ok_sample_data()))
 def test_xy_statistics(data):
     assert DATA_PATH.exists()
     assert data is not None
