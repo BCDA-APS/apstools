@@ -416,14 +416,12 @@ class ListRuns:
     @deprecated(version="1.6.14")
     def to_dataframe(self):
         """**Deprecated**: Output as pandas DataFrame object"""
-        warnings.warn("'ListRuns.to_dataframe()' method is deprecated.")
         dd = self.parse_runs()
         return TableStyle.pandas.value(dd, columns=self.keys)
 
     @deprecated(version="1.6.14")
     def to_table(self, fmt=None):
         """**Deprecated**: Output as pyRestTable object."""
-        warnings.warn("'ListRuns.to_table()' method is deprecated.")
         dd = self.parse_runs()
         return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
 
@@ -559,12 +557,18 @@ def listruns(
         # fmt: off
         warnings.warn(
             f"Use 'table_style={choice}' instead of"
-            f" deprecated option 'tablefmt=\"{tablefmt}\"'."
+            f" deprecated option 'tablefmt=\"{tablefmt}\"'.",
+            DeprecationWarning,
+            stacklevel=2,
         )
         # fmt: on
 
     if printing is not None:
-        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
+        warnings.warn(
+            f"Keyword argument 'printing={printing}' is deprecated.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     return table_style.value(lr.parse_runs())
 

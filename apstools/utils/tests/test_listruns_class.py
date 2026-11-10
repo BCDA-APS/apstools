@@ -299,7 +299,8 @@ def test_ListRuns_timefmt(lr):
 def test_ListRuns_to_dataframe(lr):
     # Pandas DataFrame
     lr.keys = None
-    out = lr.to_dataframe()
+    with pytest.warns(DeprecationWarning, match="deprecated.*to_dataframe"):
+        out = lr.to_dataframe()
     assert out is not None
     assert lr.keys is not None
     assert len(lr.keys) == 4
@@ -312,7 +313,8 @@ def test_ListRuns_to_dataframe(lr):
 def test_ListRuns_to_table(lr):
     # reST table as multiline string
     lr.keys = None
-    out = lr.to_table()
+    with pytest.warns(DeprecationWarning, match="deprecated.*to_table"):
+        out = lr.to_table()
     assert out is not None
     assert lr.keys is not None
     assert len(lr.keys) == 4
@@ -351,7 +353,11 @@ def test_ListRuns_until(lr):
     ],
 )
 def test_listruns_tablefmt(tablefmt, table_style, structure, cat):
-    lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style)
+    if tablefmt is not None:
+        with pytest.warns(DeprecationWarning, match="deprecated option"):
+            lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style)
+    else:
+        lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style)
     assert isinstance(lr, structure)
 # fmt: on
 
