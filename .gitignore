@@ -9,8 +9,8 @@ dev_*.*
 # local note-taking
 _notes*.md
 
-# local note-taking
-_notes*.md
+# local working notes (working style preference per AGENTS.md)
+.nogit_*.md
 
 # unit test coverage reports
 .coverage*
