@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
@@ -40,10 +40,10 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=d703e291"></script>
+    <script src="../../../_static/documentation_options.js?v=01cb6036"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/utils/list_runs';</script>
     <script>
@@ -894,7 +894,6 @@
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""**Deprecated**: Output as pandas DataFrame object"""</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"'ListRuns.to_dataframe()' method is deprecated."</span><span class="p">)</span>
         <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pandas</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span></div>
 
@@ -904,7 +903,6 @@
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">"1.6.14"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""**Deprecated**: Output as pyRestTable object."""</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"'ListRuns.to_table()' method is deprecated."</span><span class="p">)</span>
         <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">dd</span><span class="o">=</span><span class="n">dd</span><span class="p">)</span><span class="o">.</span><span class="n">reST</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span> <span class="ow">or</span> <span class="s2">"simple"</span><span class="p">)</span></div>
 </div>
@@ -1044,12 +1042,18 @@
         <span class="c1"># fmt: off</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Use 'table_style=</span><span class="si">{</span><span class="n">choice</span><span class="si">}</span><span class="s2">' instead of"</span>
-            <span class="sa">f</span><span class="s2">" deprecated option 'tablefmt=</span><span class="se">\"</span><span class="si">{</span><span class="n">tablefmt</span><span class="si">}</span><span class="se">\"</span><span class="s2">'."</span>
+            <span class="sa">f</span><span class="s2">" deprecated option 'tablefmt=</span><span class="se">\"</span><span class="si">{</span><span class="n">tablefmt</span><span class="si">}</span><span class="se">\"</span><span class="s2">'."</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># fmt: on</span>
 
     <span class="k">if</span> <span class="n">printing</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Keyword argument 'printing=</span><span class="si">{</span><span class="n">printing</span><span class="si">}</span><span class="s2">' is deprecated."</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Keyword argument 'printing=</span><span class="si">{</span><span class="n">printing</span><span class="si">}</span><span class="s2">' is deprecated."</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">table_style</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">())</span></div>
 
