@@ -1,0 +1,400 @@
+sscan
+=====
+
+.. py:module:: apstools.synApps.sscan
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.sscan``
+
+   Ophyd support for the EPICS synApps sscan record
+
+   see:  https://epics.anl.gov/bcda/synApps/sscan/SscanRecord.html
+
+   EXAMPLE::
+
+       import apstools.synApps
+       scans = apstools.synApps.SscanDevice("xxx:", name="scans")
+       scans.select_channels()     # only the channels configured in EPICS
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~SscanRecord
+       ~SscanDevice
+
+   Private Structures
+
+   .. autosummary::
+
+       ~sscanPositioner
+       ~sscanDetector
+       ~sscanTrigger
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: SscanDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sscan.SscanDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of sscan records: ``$(P):scan$(N)``
+
+   .. index:: Ophyd Device; synApps SscanDevice
+
+   .. autosummary::
+
+       ~reset
+       ~select_channels
+
+
+
+   .. py:attribute:: abort_scans
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: resume_delay
+
+
+   .. py:attribute:: scan1
+
+
+   .. py:attribute:: scan2
+
+
+   .. py:attribute:: scan3
+
+
+   .. py:attribute:: scan4
+
+
+   .. py:attribute:: scanH
+
+
+   .. py:attribute:: scan_dimension
+
+
+   .. py:attribute:: scan_pause
+
+
+   .. py:method:: select_channels()
+
+      Select only the scans that are configured in EPICS
+
+
+
+.. py:class:: SscanRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sscan.SscanRecord``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps sscan record: used as ``$(P):scan(N)``
+
+   .. index:: Ophyd Device; synApps SscanRecord
+
+   .. autosummary::
+
+       ~defined_in_EPICS
+       ~reset
+       ~select_channels
+
+
+
+   .. py:attribute:: a1cd
+
+
+   .. py:attribute:: a1nv
+
+
+   .. py:attribute:: a1pv
+
+
+   .. py:attribute:: acqm
+
+
+   .. py:attribute:: acqt
+
+
+   .. py:attribute:: alert_flag
+
+
+   .. py:attribute:: alert_message
+
+
+   .. py:attribute:: ascd
+
+
+   .. py:attribute:: aspv
+
+
+   .. py:attribute:: atime
+
+
+   .. py:attribute:: awct
+
+
+   .. py:attribute:: bscd
+
+
+   .. py:attribute:: bspv
+
+
+   .. py:attribute:: bswait
+
+
+   .. py:attribute:: cmnd
+
+
+   .. py:attribute:: copyto
+
+
+   .. py:attribute:: current_point
+
+
+   .. py:attribute:: data_ready
+
+
+   .. py:attribute:: data_state
+
+
+   .. py:property:: defined_in_EPICS
+
+      True if will be used in EPICS
+
+
+
+   .. py:attribute:: desc
+
+
+   .. py:attribute:: detector_delay
+
+
+   .. py:attribute:: detectors
+
+
+   .. py:attribute:: execute_scan
+
+
+   .. py:attribute:: maximum_number_points
+
+
+   .. py:attribute:: number_points
+
+
+   .. py:attribute:: pasm
+
+
+   .. py:attribute:: positioner_delay
+
+
+   .. py:attribute:: positioners
+
+
+   .. py:attribute:: reference_detector
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: scan_busy
+
+
+   .. py:attribute:: scan_phase
+
+
+   .. py:method:: select_channels()
+
+      Select channels that are configured in EPICS
+
+
+
+   .. py:method:: set(value, **kwargs)
+
+      interface to use bps.mv()
+
+
+
+   .. py:attribute:: triggers
+
+
+   .. py:attribute:: wait
+
+
+   .. py:attribute:: wcnt
+
+
+.. py:class:: sscanDetector(prefix, num, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sscan.sscanDetector``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   detector of an EPICS sscan record
+
+   .. index:: Ophyd Device; synApps sscanDetector
+
+   .. autosummary::
+
+       ~defined_in_EPICS
+       ~reset
+
+
+
+   .. py:attribute:: array
+
+
+   .. py:attribute:: current_value
+
+
+   .. py:property:: defined_in_EPICS
+
+      True if defined in EPICS
+
+
+
+   .. py:attribute:: input_pv
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: sscanPositioner(prefix, num, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sscan.sscanPositioner``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   positioner of an EPICS sscan record
+
+   .. index:: Ophyd Device; synApps sscanPositioner
+
+   .. autosummary::
+
+       ~defined_in_EPICS
+       ~reset
+
+
+
+   .. py:attribute:: abs_rel
+
+
+   .. py:attribute:: array
+
+
+   .. py:attribute:: center
+
+
+   .. py:property:: defined_in_EPICS
+
+      True if defined in EPICS
+
+
+
+   .. py:attribute:: end
+
+
+   .. py:attribute:: mode
+
+
+   .. py:attribute:: readback_pv
+
+
+   .. py:attribute:: readback_value
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: setpoint_pv
+
+
+   .. py:attribute:: setpoint_value
+
+
+   .. py:attribute:: start
+
+
+   .. py:attribute:: step_size
+
+
+   .. py:attribute:: units
+
+
+   .. py:attribute:: width
+
+
+.. py:class:: sscanTrigger(prefix, num, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.sscan.sscanTrigger``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   detector trigger of an EPICS sscan record
+
+   .. index:: Ophyd Device; synApps sscanTrigger
+
+   .. autosummary::
+
+       ~reset
+
+
+   .. py:property:: defined_in_EPICS
+
+      True if defined in EPICS
+
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: trigger_pv
+
+
+   .. py:attribute:: trigger_value
+
+

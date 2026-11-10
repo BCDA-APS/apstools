@@ -1,0 +1,214 @@
+luascript
+=========
+
+.. py:module:: apstools.synApps.luascript
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.luascript``
+
+   Ophyd support for the EPICS synApps luascript record
+
+   EXAMPLES::
+
+       import apstools.synApps
+       scripts = apstools.synApps.UserScriptsDevice("xxx:", name="scripts")
+       scripts.reset()
+
+   .. autosummary::
+
+       ~UserScriptsDevice
+       ~LuascriptRecord
+       ~LuascriptRecordNumberInput
+       ~LuascriptRecordStringInput
+
+   :see: https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: INPUT_LETTERS_LIST
+
+.. py:class:: LuascriptRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.luascript.LuascriptRecord``
+
+
+   Bases: :py:obj:`apstools.synApps._common.EpicsRecordDeviceCommonAll`
+
+
+   EPICS synApps luascript record: used as ``$(P):userScript$(N)``
+
+   .. index:: Ophyd Device; synApps LuascriptRecord
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: code
+
+
+   .. py:attribute:: error_message
+
+
+   .. py:attribute:: hints
+
+
+   .. py:attribute:: inputs
+
+
+   .. py:attribute:: number_value
+
+
+   .. py:attribute:: output_execute_option
+
+
+   .. py:attribute:: output_link
+
+
+   .. py:attribute:: precision
+
+
+   .. py:attribute:: read_attrs
+
+
+   .. py:attribute:: reload_script
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: string_value
+
+
+.. py:class:: LuascriptRecordNumberInput(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.luascript.LuascriptRecordNumberInput``
+
+
+   Bases: :py:obj:`_LuascriptRecordInputBase`
+
+
+   number input of a synApps luascript record: A-J
+
+   .. index:: Ophyd Device; synApps LuascriptRecordNumberInput
+
+
+   .. py:attribute:: description
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: pv_link
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: LuascriptRecordStringInput(prefix, letter, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.luascript.LuascriptRecordStringInput``
+
+
+   Bases: :py:obj:`_LuascriptRecordInputBase`
+
+
+   string input of a synApps luascript record: AA-JJ
+
+   .. index:: Ophyd Device; synApps LuascriptRecordStringInput
+
+
+   .. py:attribute:: description
+
+
+   .. py:attribute:: input_value
+
+
+   .. py:attribute:: pv_link
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+.. py:class:: UserScriptsDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.luascript.UserScriptsDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps XXX IOC setup of user lua scripts: ``$(P):userScript$(N)``
+
+   .. index:: Ophyd Device; synApps UserScriptsDevice
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: enable
+
+
+   .. py:method:: reset()
+
+      set all fields to default values
+
+
+
+   .. py:attribute:: script0
+
+
+   .. py:attribute:: script1
+
+
+   .. py:attribute:: script2
+
+
+   .. py:attribute:: script3
+
+
+   .. py:attribute:: script4
+
+
+   .. py:attribute:: script5
+
+
+   .. py:attribute:: script6
+
+
+   .. py:attribute:: script7
+
+
+   .. py:attribute:: script8
+
+
+   .. py:attribute:: script9
+
+
