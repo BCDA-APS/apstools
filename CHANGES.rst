@@ -38,7 +38,7 @@ describe future plans.
 1.7.15
 ******
 
-Release expected by 2026-11-30.
+Released 2026-11-10.
 
 Enhancements
 ------------
