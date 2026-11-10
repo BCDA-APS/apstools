@@ -132,6 +132,62 @@ def test_insert_new_section(parms, context):
     [
         pytest.param(
             dict(
+                version_str="1.7.13",
+                expected="1.7.14",
+            ),
+            does_not_raise(),
+            id="bump-patch-version",
+        ),
+        pytest.param(
+            dict(
+                version_str="1.8.0",
+                expected="1.8.1",
+            ),
+            does_not_raise(),
+            id="bump-patch-from-minor-release",
+        ),
+    ],
+)
+def test_next_micro_version(parms, context):
+    with context:
+        result = release.next_micro_version(parms["version_str"])
+        assert result == parms["expected"]
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(
+                release_date="2026-11-03",
+                days_ahead=30,
+                expected="2026-12-03",
+            ),
+            does_not_raise(),
+            id="30-days-ahead-from-release",
+        ),
+        pytest.param(
+            dict(
+                release_date="2026-11-03",
+                days_ahead=1,
+                expected="2026-11-04",
+            ),
+            does_not_raise(),
+            id="1-day-ahead-from-release",
+        ),
+    ],
+)
+def test_next_milestone_date(parms, context):
+    with context:
+        result = release.next_milestone_date(parms["release_date"], days_ahead=parms["days_ahead"])
+        assert result == parms["expected"]
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(
                 rc_tag="1.7.10rc2",
                 changes_text=CHANGES_SAMPLE,
                 expected_message="Would preserve next section for: 1.7.11",
@@ -151,4 +207,35 @@ def test_cmd_final_dry_run_preserves_existing_next_section(parms, context, monke
         release.cmd_final(dry_run=True)
 
         output = capsys.readouterr().out
+        assert parms["expected_message"] in output
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(
+                rc_tag="1.7.10rc1",
+                changes_text=CHANGES_SAMPLE.replace(
+                    "..\n   1.7.11\n   ******\n\n   Release expected by 2026-06-01.\n\n   Enhancements\n   ------------\n\n   Fixes\n   -----\n\n   Maintenance\n   -----------\n\n",
+                    "",
+                ),
+                expected_message="Would not create a new upcoming section",
+            ),
+            does_not_raise(),
+            id="dry-run-auto-generates-next-section-when-missing",
+        ),
+    ],
+)
+def test_cmd_final_dry_run_generates_next_section_when_missing(parms, context, monkeypatch, capsys):
+    with context:
+        monkeypatch.setattr(release, "assert_clean", lambda: None)
+        monkeypatch.setattr(release, "assert_main", lambda: None)
+        monkeypatch.setattr(release, "latest_rc_tag", lambda: parms["rc_tag"])
+        monkeypatch.setattr(release, "read_changes", lambda: parms["changes_text"])
+
+        release.cmd_final(dry_run=True)
+
+        output = capsys.readouterr().out
+        # When no next section exists, the dry-run should indicate no existing next section to preserve
         assert parms["expected_message"] in output

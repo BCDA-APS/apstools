@@ -203,6 +203,29 @@ def uncomment_release_section(text, version_str, release_date):
     return new_text
 
 
+def next_micro_version(version_str):
+    """Bump the micro (patch) version.  E.g., '1.7.13' → '1.7.14'."""
+    v = Version(version_str)
+    return f"{v.major}.{v.minor}.{v.micro + 1}"
+
+
+def next_milestone_date(release_date_str, days_ahead=30):
+    """Calculate milestone date 30 days after release.
+
+    Args:
+        release_date_str: YYYY-MM-DD format (e.g., '2026-11-03')
+        days_ahead: days to add (default 30)
+
+    Returns:
+        Milestone date as YYYY-MM-DD string
+    """
+    from datetime import datetime, timedelta
+
+    release_date = datetime.strptime(release_date_str, "%Y-%m-%d")
+    milestone = release_date + timedelta(days=days_ahead)
+    return milestone.strftime("%Y-%m-%d")
+
+
 def new_commented_section(next_version, milestone_date):
     """Return RST text for a new commented-out upcoming release section."""
     stars = "*" * len(next_version)
@@ -339,8 +362,14 @@ def cmd_final(dry_run=False):
     text = uncomment_release_section(text, final_version, today)
 
     # 2. Preserve any later commented-out upcoming section already present.
+    # If none exists, create one for the next micro version.
     if next_section is not None:
         text = insert_new_section(text, next_section)
+    else:
+        next_ver = next_micro_version(final_version)
+        next_milestone = next_milestone_date(today)
+        new_section = new_commented_section(next_ver, next_milestone)
+        text = insert_new_section(text, new_section)
     CHANGES.write_text(text, encoding="utf-8")
     print(f"Updated {CHANGES.name}")
 

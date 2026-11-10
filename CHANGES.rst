@@ -29,6 +29,11 @@ describe future plans.
    Enhancements
    ------------
 
+   Fixes
+   -----
+
+   * Fix release process to auto-generate next upcoming section in CHANGES.rst. (:issue:`1203`)
+
    Maintenance
    -----------
 
@@ -59,7 +64,7 @@ Maintenance
 1.7.13
 ******
 
-Release expected by 2026-11-10.
+Released 2026-11-03.
 
 Fixes for reported bugs.
 
