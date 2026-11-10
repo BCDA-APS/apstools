@@ -220,7 +220,7 @@ def test_cmd_final_dry_run_preserves_existing_next_section(parms, context, monke
                     "..\n   1.7.11\n   ******\n\n   Release expected by 2026-06-01.\n\n   Enhancements\n   ------------\n\n   Fixes\n   -----\n\n   Maintenance\n   -----------\n\n",
                     "",
                 ),
-                expected_message="Would not create a new upcoming section",
+                expected_message="Would auto-generate new section for: 1.7.11",
             ),
             does_not_raise(),
             id="dry-run-auto-generates-next-section-when-missing",
@@ -237,5 +237,5 @@ def test_cmd_final_dry_run_generates_next_section_when_missing(parms, context, m
         release.cmd_final(dry_run=True)
 
         output = capsys.readouterr().out
-        # When no next section exists, the dry-run should indicate no existing next section to preserve
+        # When no next section exists, the dry-run should indicate it will auto-generate the next version
         assert parms["expected_message"] in output

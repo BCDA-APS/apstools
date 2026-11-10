@@ -350,10 +350,11 @@ def cmd_final(dry_run=False):
     next_section = next_upcoming_section(text)
     if dry_run:
         print(f"Would release: {final_tag}")
-        if next_section is None:
-            print("Would not create a new upcoming section.")
-        else:
+        if next_section is not None:
             print(f"Would preserve next section for: {upcoming_version(next_section)}")
+        else:
+            next_ver = next_micro_version(final_version)
+            print(f"Would auto-generate new section for: {next_ver}")
         print("(dry run — no changes made)")
         return
 
