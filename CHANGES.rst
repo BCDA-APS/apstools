@@ -21,10 +21,10 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.15
+   1.7.16
    ******
 
-   Release expected by 2026-11-30.
+   Release expected by 2026-12-10.
 
    Enhancements
    ------------
@@ -32,13 +32,27 @@ describe future plans.
    Fixes
    -----
 
-   * Fix release process to auto-generate next upcoming section in CHANGES.rst. (:issue:`1203`)
-
    Maintenance
    -----------
 
-   * Clean up test warnings. (:issue:`1041`)
-   * Run the latest-dependencies canary with EPICS IOC verification. (:issue:`1209`)
+1.7.15
+******
+
+Release expected by 2026-11-30.
+
+Enhancements
+------------
+
+Fixes
+-----
+
+* Fix release process to auto-generate next upcoming section in CHANGES.rst. (:issue:`1203`)
+
+Maintenance
+-----------
+
+* Clean up test warnings. (:issue:`1041`)
+* Run the latest-dependencies canary with EPICS IOC verification. (:issue:`1209`)
 
 1.7.14
 ******
