@@ -32,6 +32,7 @@ describe future plans.
    Maintenance
    -----------
 
+   * Clean up test warnings. (:issue:`1041`)
    * Run the latest-dependencies canary with EPICS IOC verification. (:issue:`1209`)
 
 1.7.14
